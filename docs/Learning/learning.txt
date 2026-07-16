@@ -1,0 +1,6 @@
+16/07/26
+
+.what is semantic tags? 
+.Tags which are used for suggesting the use of that particular part.
+.what is nav ?
+.nav is used for the link representation. it stand for the navigation which means this is used for the navigating from one page to another page . this contain the link of the other pages.
