@@ -1,0 +1,90 @@
+/* Reset*/
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Body*/
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+}
+/*Header*/
+
+header{
+    background-color: #1e293b;
+    color:white;
+    padding: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+/*main-layout*/
+main{
+    display:flex;
+    
+}
+/*Sidbar */
+aside{
+    width: 250px;
+    background-color:#ffffff;
+    min-height: 100vh;
+    padding:20px;
+    border-right: 1px solid #ddd;
+  
+}
+
+/*Dashboard*/
+.dashboard{
+    flex:1;
+    padding: 25px;
+    
+    
+}
+
+/*Navigation*/
+nav ul{
+    display: flex;
+    flex-direction: column;
+    
+}
+nav li{
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition:0.3s;
+}
+
+nav li:hover{
+    background-color: #e2e8f0;
+}
+
+.welcome-card,
+.task-card,
+.progress-card,
+.notes-card,
+.contest-card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+
+}
+
+footer{
+    background-color: #1e293b;
+    color: white;
+    text-align: center;
+    padding: 15px;
+
+}
+
