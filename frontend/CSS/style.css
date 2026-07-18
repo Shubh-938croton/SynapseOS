@@ -47,6 +47,41 @@ header h1{
 #theme-toggle:hover{
     background: #1d4ed8;
 }
+body.dark-mode{
+    background:#0f172a;
+    color:#f1f5f9;
+}
+body.dark-mode header{
+    background:#020617;
+}
+body.dark-mode aside{
+    background:#1e293b;
+    border-right:1px solid #334155;
+}
+body.dark-mode nav li{
+    color:white;
+}
+
+body.dark-mode nav li:hover{
+    background:#2563eb;
+}
+body.dark-mode .card,
+body.dark-mode .welcome-card,
+body.dark-mode .task-card,
+body.dark-mode .notes-card,
+body.dark-mode .progress-card,
+body.dark-mode .contest-card{
+
+    background:#1e293b;
+    color:white;
+
+}
+body.dark-mode .dashboard{
+    background:#0f172a;
+}
+body.dark-mode footer{
+    background:#020617;
+}
 
 
 /*main-layout*/
