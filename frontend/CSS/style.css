@@ -33,6 +33,21 @@ header h1{
     font-weight: bold;
 }
 
+#theme-toggle{
+    background:#2563eb;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor:pointer;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+#theme-toggle:hover{
+    background: #1d4ed8;
+}
+
 
 /*main-layout*/
 main{
