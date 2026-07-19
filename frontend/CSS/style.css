@@ -44,6 +44,13 @@ header h1{
     font-weight: bold;
 }
 
+.header-right img{
+    width: 40px;
+    height: 40px;
+    border-radius:50%;
+    cursor:pointer;
+}
+
 .logo{
     display:flex;
     align-items:center;
@@ -124,7 +131,7 @@ aside{
 /*Dashboard*/
 .dashboard{
     flex:1;
-    padding: 30px;
+    padding: 40px;
     background:#f4f6f9;
     
     
@@ -209,6 +216,43 @@ progress{
     border-radius:15px;
     padding:20px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.task-input{
+    display:flex;
+    gap:10px;
+    margin:20px 0;
+}
+
+.task-input input{
+    flex:1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+}
+.task-input button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding: 12px 20px;
+    border-radius:8px;
+    cursor: pointer;
+}
+
+.task-input button:hover{
+    background: #1d4ed8;
+}
+#taskList{
+    list-style: none;
+}
+
+.task{
+    background:#f8fafc;
+    padding:12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
 }
 
 footer{
