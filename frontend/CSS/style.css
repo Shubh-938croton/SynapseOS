@@ -44,6 +44,17 @@ header h1{
     font-weight: bold;
 }
 
+.logo{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+}
+
+logo.img{
+    width:45px;
+    height: 45px;
+}
+
 #theme-toggle{
     background:#2563eb;
     color: white;
@@ -119,6 +130,12 @@ aside{
     
 }
 
+.dashboard-grid{
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:20px;
+}
+
 /*Navigation*/
 nav ul{
     display: flex;
@@ -140,6 +157,8 @@ nav li:hover{
     color:white;
     transform:translateX(5px);
 }
+
+/* card */
 
 .welcome-card,
 .task-card,
@@ -164,6 +183,19 @@ nav li:hover{
     color:#666;
 }
 
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: .3s;
+}
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,.15);
+}
+
 progress{
     width: 100%;
     height: 20px;
@@ -185,5 +217,11 @@ footer{
     text-align: center;
     padding: 25px;
 
+}
+
+.active{
+    background: #2563eb;
+    color: white;
+    font-weight:bold;
 }
 
