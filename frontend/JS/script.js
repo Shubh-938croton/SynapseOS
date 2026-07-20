@@ -12,13 +12,33 @@ themeButton.addEventListener("click", function () {
 });
 
 
-// for the taking task 
-
-const taskInput=document.getElementById("taskInput");
-const addTaskBtn=document.getElementById("addTaskBtn");
-const taskList=document.getElementById("taskList");
 
 
-addTaskBtn.addEventListener("click",function(){
-    alert("Button Clicked:");
+// Task Section
+
+const taskInput = document.getElementById("taskInput");
+const addTaskBtn = document.getElementById("addTaskBtn");
+const taskList = document.getElementById("taskList");
+
+addTaskBtn.addEventListener("click", function () {
+
+    const taskText = taskInput.value;
+
+    if(taskText === ""){
+        alert("Please enter a task.");
+        return;
+    }
+
+    const li = document.createElement("li");
+
+    li.textContent = taskText;
+
+    li.classList.add("task");
+
+    taskList.appendChild(li);
+
+    taskInput.value = "";
+
 });
+
+
