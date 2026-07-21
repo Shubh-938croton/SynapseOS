@@ -249,10 +249,12 @@ progress{
 }
 
 .task{
-    background:#f8fafc;
-    padding:12px;
-    margin-bottom: 10px;
+    background: #ffffff;
+    color: #1e293b;
+    padding: 12px 15px;
+    margin-top: 10px;
     border-radius: 8px;
+    list-style: none;
 }
 
 footer{
@@ -267,5 +269,9 @@ footer{
     background: #2563eb;
     color: white;
     font-weight:bold;
+}
+.dark-mode.task{
+    background: #334155;
+    color: white;
 }
 

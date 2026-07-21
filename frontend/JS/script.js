@@ -22,7 +22,7 @@ const taskList = document.getElementById("taskList");
 
 addTaskBtn.addEventListener("click", function () {
 
-    const taskText = taskInput.value;
+    const taskText = taskInput.value.trim();
 
     if(taskText === ""){
         alert("Please enter a task.");
