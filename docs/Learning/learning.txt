@@ -14,3 +14,22 @@ addEventListener() → Respond to user actions.
 createElement() → Create new HTML elements.
 appendChild() → Insert elements into the page.
 classList.add() → Apply CSS classes dynamically.
+
+
+
+Stage	  JavaScript Concept	         SynapseOS Feature
+1	      Variables (let, const)	     Store tasks
+2	      Functions	                     Add Task
+3	      DOM Selection	                 Select buttons and inputs
+4	      Events	                     Button click
+5	      Strings	                     Validate input
+6	      DOM Creation	                 Create task cards
+7	      Arrays	                     Store multiple tasks
+8	      Objects	                     Represent a task
+9	      Loops	                         Display all tasks
+10	      Conditionals	                 Completed vs Pending
+11	      Local Storage	                 Save tasks
+12	      Modules	                     Organize code
+13	      Async JavaScript	             Fetch contests
+14	      APIs	                         YouTube, Codeforces, GitHub
+15	      ES6+	                         Modern JavaScript

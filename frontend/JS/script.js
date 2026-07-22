@@ -31,7 +31,16 @@ addTaskBtn.addEventListener("click", function () {
 
     const li = document.createElement("li");
 
-    li.textContent = taskText;
+  
+
+   const completeBtn=document.createElement("li");
+
+   const taskSpan = document.createElement("span");
+   taskSpan.textContent=taskText;
+   
+   const completeBtn=document.createElement("button");
+   completeBtn.textContent="✔";
+   
 
     li.classList.add("task");
 
