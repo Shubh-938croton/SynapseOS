@@ -85,6 +85,15 @@ This tracks the last time the row was modified.
 Stores only the date.
 
 
+What is an Index?
+
+Think of a database table as a book.
+
+Suppose you have a 1000-page book.
+
+You want to find the topic "Binary Search".
+
+
 
 
 
