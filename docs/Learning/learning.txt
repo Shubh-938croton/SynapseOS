@@ -80,6 +80,11 @@ ON UPDATE CURRENT_TIMESTAMP
 This tracks the last time the row was modified.
 
 
+# event_date DATE NOT NULL
+
+Stores only the date.
+
+
 
 
 

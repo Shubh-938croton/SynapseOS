@@ -8,9 +8,7 @@ CREATE TABLE notes (
 
     content LONGTEXT NOT NULL,
 
-    is_pinned BOOLEAN DEFAULT FALSE,
-    is_favorite BOOLEAN DEFAULT FALSE,
-    tags VARCHAR(255),
+    is_pinned BOOLEAN DEFAULT FALSE,    
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
