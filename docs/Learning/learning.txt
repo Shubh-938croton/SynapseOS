@@ -33,3 +33,54 @@ Stage	  JavaScript Concept	         SynapseOS Feature
 13	      Async JavaScript	             Fetch contests
 14	      APIs	                         YouTube, Codeforces, GitHub
 15	      ES6+	                         Modern JavaScript
+
+
+
+
+# CHARACTER SET utf8mb4
+"Which characters can this database store?"
+
+What is a character set?
+
+A character set is a collection of supported characters.
+
+Why utf8mb4?
+
+It supports:
+
+English
+Hindi
+Japanese
+Chinese
+Arabic
+Emojis 😊🚀❤️
+Almost every modern language
+
+
+# COLLATE utf8mb4_unicode_ci
+This controls how MySQL compares and sorts text.
+
+There are two related concepts:
+
+Character Set → What characters can be stored.
+Collation → How those characters are compared and ordered.
+
+
+# profile_picture VARCHAR(255):
+This stores the path or URL to the user's profile image.
+
+
+# bio TEXT,
+This stores a longer description about the user.
+
+
+# updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ON UPDATE CURRENT_TIMESTAMP
+
+This tracks the last time the row was modified.
+
+
+
+
+
+
