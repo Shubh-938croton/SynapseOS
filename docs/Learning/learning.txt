@@ -1,4 +1,4 @@
-16/07/26
+
 
 .what is semantic tags? 
 .Tags which are used for suggesting the use of that particular part.
@@ -92,6 +92,14 @@ Think of a database table as a book.
 Suppose you have a 1000-page book.
 
 You want to find the topic "Binary Search".
+
+
+
+ON tasks(user_id)
+
+This means
+
+Create the index on the user_id column of the tasks table.
 
 
 
