@@ -103,6 +103,92 @@ Create the index on the user_id column of the tasks table.
 
 
 
+ # config/
+Stores configuration files.
+database.js
+
+Its only job is connecting Node.js to MySQL.
+
+# controllers/
+Controllers receive the request from the frontend.
+
+
+# services/
+Contains the business logic.
+
+# models/
+Communicates with the database.
+
+
+# routes/
+Defines the API endpoints
+
+
+middleware/
+Runs before the controller.
+Examples:
+
+JWT Authentication
+Error Handling
+Request Logging
+Input Validation
+
+
+utils/
+Helper functions.
+Examples:
+
+dateFormatter.js
+
+generateToken.js
+
+validators.js
+
+
+
+app.js vs server.js
+This confuses almost everyone at first.
+app.js
+
+Contains the Express application.
+Think of it as the blueprint of your application.
+
+
+server.js
+
+Starts the application.
+Think of it as the engine start button.
+
+Why separate them?
+
+Suppose later you want to:
+
+Write automated tests
+Deploy to Render
+Deploy to Railway
+Use Docker
+Keeping app.js and server.js separate makes all of those easier. It's a common industry practice.
+
+
+
+# What is an API?
+
+API stands for:
+
+Application Programming Interface
+
+That's the full form, but it doesn't explain much.
+
+A simpler way to think about it is:
+
+An API is a messenger between two applications.
+
+It takes a request from one application, passes it to another, and returns the response.
+
+
+
+
+
 
 
 
