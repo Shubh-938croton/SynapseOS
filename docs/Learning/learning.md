@@ -233,3 +233,43 @@ refactor: reorganize backend folder structure
 docs: update project README
 style: improve dashboard UI
 
+
+
+
+# What JSON is
+Objects vs Arrays
+res.send() vs res.json()
+Why APIs return JSON
+
+
+GET /api/tasks
+
+which returns:
+
+[
+  {
+    "id": 1,
+    "title": "Learn Express",
+    "completed": false
+  }
+]
+
+
+# Why is this better?
+
+Imagine you find a bug where tasks aren't being saved.
+
+Where will you look?
+
+URL problem? → routes/
+Logic problem? → controllers/
+SQL problem? → models/
+Connection problem? → config/db.js
+
+You immediately know where to debug.
+
+
+# const router = express.Router();
+
+creates a mini application dedicated to one feature.
+

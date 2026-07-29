@@ -1,8 +1,7 @@
-const app=require("./app") // ./--> means looking in same folder.
+const app = require("./app");
 
-const PORT =5000;
+const PORT = 5000;
 
-app.listen(PORT,function(){
-    console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, () => {
+    console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
-
