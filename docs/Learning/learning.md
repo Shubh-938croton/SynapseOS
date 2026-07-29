@@ -198,3 +198,38 @@ what is app.js?
 ![alt text](image-1.png)
 
 
+# What is express()?
+
+Notice the parentheses:
+
+express()
+
+When you see parentheses after something:
+
+something()
+
+it usually means calling a function.
+
+So express is actually a function.
+
+
+# What is this function?
+function () {
+    console.log(`Server is running on port ${PORT}`);
+}
+
+This is called a callback function.
+
+A callback is a function that runs after another operation completes.
+
+commit like this 
+
+feat: add task API routes
+feat: connect MySQL database
+feat: implement task creation endpoint
+feat: add user authentication
+fix: resolve database connection issue
+refactor: reorganize backend folder structure
+docs: update project README
+style: improve dashboard UI
+
