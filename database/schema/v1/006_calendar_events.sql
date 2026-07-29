@@ -17,6 +17,6 @@ CREATE TABLE calendar_events(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY(user_id)
-        REFERECES users(user_id)
+        REFERENCES users(user_id)
         ON DELETE CASCADE
 );
