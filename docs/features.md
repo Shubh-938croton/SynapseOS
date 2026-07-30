@@ -58,3 +58,23 @@
 - Study Planner
 - Note Summarizer
 - Quiz Generator
+
+
+
+# Features
+
+## Completed
+
+- User Management
+- Subject Management
+- Task API
+
+## In Progress
+
+- CRUD Tasks
+
+## Planned
+
+- AI Study Recommendation
+- Calendar
+- Analytics
