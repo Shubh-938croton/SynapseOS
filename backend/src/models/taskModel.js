@@ -1,19 +1,20 @@
-const tasks = [
-    {
-        id: 1,
-        title: "Complete Express Setup",
-        completed: true
-    },
-    {
-        id: 2,
-        title: "Learn Express Routing",
-        completed: false
-    },
-    {
-        id: 3,
-        title: "Connect MySQL Database",
-        completed: false
-    }
-];
+const db = require("../config/database");
 
-module.exports = tasks;
+// Get all tasks
+const getAllTasks = (callback) => {
+
+    const query = "SELECT * FROM tasks";
+
+    db.query(query, (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, results);
+    });
+};
+
+module.exports = {
+    getAllTasks
+};
