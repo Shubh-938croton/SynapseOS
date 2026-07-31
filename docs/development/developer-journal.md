@@ -637,3 +637,32 @@ Frontend             ░░░░░░░░░░ 0%
 AI Module            ░░░░░░░░░░ 0%
 
 Deployment           ░░░░░░░░░░ 0%n
+
+
+
+## Day 5 (31/07/2026)
+
+### Objective
+Implement POST /api/tasks.
+
+### Completed
+- Added createTask() model
+- Added createTask() controller
+- Added POST route
+- Tested API using Postman
+- Successfully inserted tasks into MySQL
+
+### Learned
+- req.body
+- express.json()
+- Parameterized SQL queries
+- HTTP 201 Created
+
+### Problems Faced
+TypeError: argument handler must be a function
+
+Reason:
+createTask was not exported correctly from taskController.js.
+
+Solution:
+Exported createTask in module.exports.

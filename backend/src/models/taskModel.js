@@ -1,6 +1,8 @@
 const db = require("../config/database");
 
-// Get all tasks
+// =========================
+// Get All Tasks
+// =========================
 const getAllTasks = (callback) => {
 
     const query = "SELECT * FROM tasks";
@@ -12,11 +14,14 @@ const getAllTasks = (callback) => {
         }
 
         callback(null, results);
+
     });
+
 };
 
-
-// Create a new task
+// =========================
+// Create Task
+// =========================
 const createTask = (task, callback) => {
 
     const query = `
@@ -54,11 +59,77 @@ const createTask = (task, callback) => {
 
         }
     );
+
+};
+
+// =========================
+// Get Task By ID
+// =========================
+const getTaskById = (id, callback) => {
+
+    const query = `
+        SELECT *
+        FROM tasks
+        WHERE task_id = ?
+    `;
+
+    db.query(query, [id], (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, results);
+
+    });
+
 };
 
 
-// Export all functions
+const updateTask = (id, task, callback) => {
+
+    const query = `
+        UPDATE tasks
+        SET
+            subject_id = ?,
+            title = ?,
+            description = ?,
+            priority = ?,
+            status = ?,
+            due_date = ?
+        WHERE task_id = ?
+    `;
+
+    db.query(
+        query,
+        [
+            task.subject_id,
+            task.title,
+            task.description,
+            task.priority,
+            task.status,
+            task.due_date,
+            id
+        ],
+        (err, result) => {
+
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, result);
+
+        }
+    );
+
+};
+
+// =========================
+// Export
+// =========================
 module.exports = {
     getAllTasks,
-    createTask
+    createTask,
+    getTaskById,
+    updateTask
 };

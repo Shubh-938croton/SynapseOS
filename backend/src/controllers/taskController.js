@@ -39,7 +39,33 @@ const createTask = (req, res) => {
 
 };
 
+const getTaskById = (req, res) => {
+
+    const id = req.params.id;
+
+    taskModel.getTaskById(id, (err, results) => {
+
+        if (err) {
+            return res.status(500).json({
+                message: "Failed to fetch task",
+                error: err.message
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({
+                message: "Task not found"
+            });
+        }
+
+        res.status(200).json(results[0]);
+
+    });
+
+};
+
 module.exports = {
     getAllTasks,
-    createTask
+    createTask,
+    getTaskById
 };
