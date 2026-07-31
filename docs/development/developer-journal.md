@@ -666,3 +666,213 @@ createTask was not exported correctly from taskController.js.
 
 Solution:
 Exported createTask in module.exports.
+
+
+# 📅 Development Journal — 31/07/2026
+
+## 🎯 Objective
+
+Continue backend development of SynapseOS by implementing the Task CRUD APIs, testing endpoints using Postman, debugging backend issues, and strengthening understanding of Express.js MVC architecture.
+
+---
+
+## ✅ Work Completed
+
+### 1. Implemented GET Task by ID API
+
+Implemented the following endpoint:
+
+GET /api/tasks/:id
+
+#### Components Completed
+
+- Model (`getTaskById`)
+- Controller (`getTaskById`)
+- Route Configuration
+- Postman Testing
+
+SQL Query Used
+
+```sql
+SELECT *
+FROM tasks
+WHERE task_id = ?;
+```
+
+Successfully retrieved a task using its unique ID.
+
+---
+
+### 2. Successfully Tested APIs
+
+Verified the following endpoints using Postman.
+
+| Method | Endpoint | Status |
+|---------|----------|--------|
+| GET | /api/tasks | ✅ Working |
+| GET | /api/tasks/:id | ✅ Working |
+| POST | /api/tasks | ✅ Working |
+
+Verified all database changes using MySQL Workbench.
+
+---
+
+### 3. Debugging Session
+
+Today's work involved solving several backend issues.
+
+#### Error 1 — Route Not Found
+
+Received:
+
+```
+Cannot GET /api/tasks/1
+```
+
+Cause:
+- Incorrect API request / routing verification.
+
+Solution:
+- Verified Express routing.
+- Verified app.js route registration.
+- Restarted server after saving files.
+- Tested using correct Postman configuration.
+
+---
+
+#### Error 2 — Incorrect Postman Request
+
+Mistakenly entered
+
+```
+GET http://localhost:5000/api/tasks/1
+```
+
+inside the URL field.
+
+Solution:
+
+Selected **GET** from the request method and entered only
+
+```
+http://localhost:5000/api/tasks/1
+```
+
+inside the URL.
+
+---
+
+#### Error 3 — ERR_HTTP_HEADERS_SENT
+
+Received:
+
+```
+Cannot set headers after they are sent to the client
+```
+
+Cause:
+
+Incorrect structure inside `taskModel.js`.
+
+The `createTask()` function was closed too early, causing part of the INSERT query to be placed inside `getTaskById()`.
+
+This resulted in callbacks being executed incorrectly and Express attempting to send multiple responses.
+
+Solution:
+
+- Refactored taskModel.js
+- Properly separated each model function
+- Fixed misplaced braces
+- Ensured each callback executes exactly once
+
+---
+
+### 4. JavaScript Concepts Learned
+
+Learned about JavaScript function scope.
+
+Functions declared inside another function cannot be exported or accessed outside that function.
+
+Example:
+
+```javascript
+const createTask = () => {
+
+    const getTaskById = () => {
+
+    };
+
+};
+```
+
+Understanding function scope helped identify why `getTaskById` was not accessible earlier.
+
+---
+
+### 5. MVC Architecture Reinforcement
+
+Current request flow:
+
+Client
+↓
+Route
+↓
+Controller
+↓
+Model
+↓
+Database
+
+This reinforced the responsibility of each backend layer and simplified debugging.
+
+---
+
+## 📚 Concepts Learned
+
+- Route Parameters (`req.params`)
+- SQL SELECT with WHERE clause
+- REST API Design
+- Express Routing
+- Callback Flow
+- JavaScript Function Scope
+- Express Error Handling
+- API Testing using Postman
+- Backend Debugging Methodology
+
+---
+
+## 🛠 Current Project Progress
+
+Backend Setup
+
+✅ Express Server
+✅ MySQL Connection
+✅ MVC Folder Structure
+
+Task Module
+
+✅ GET /api/tasks
+✅ GET /api/tasks/:id
+✅ POST /api/tasks
+🟡 PUT /api/tasks/:id (Next)
+⬜ DELETE /api/tasks/:id
+
+---
+
+## 💡 Key Takeaways
+
+- Always test APIs after implementation.
+- Read stack traces carefully before changing code.
+- Keep model, controller, and routes separated.
+- Use Postman to verify every endpoint.
+- JavaScript scope and callback flow are critical in backend development.
+
+---
+
+## 📅 Next Session Goals
+
+- Implement PUT /api/tasks/:id
+- Test Update API
+- Implement DELETE /api/tasks/:id
+- Complete Task CRUD module
+- Merge feature branch after successful testing
