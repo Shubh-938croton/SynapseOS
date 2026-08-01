@@ -143,3 +143,13 @@ Target:
 - [ ] Frontend Deployment
 - [ ] CI/CD Pipeline
 - [ ] Docker Support
+
+
+
+## Subjects Module ✅
+
+- [x] Create Subject
+- [x] Get All Subjects
+- [x] Get Subject By ID
+- [x] Update Subject
+- [x] Delete Subject

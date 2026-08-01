@@ -180,9 +180,50 @@ const updateSubject = (req, res) => {
 
 };
 
+// Delete Subject
+const deleteSubject = (req, res) => {
+
+    try {
+
+        const userId = req.user.user_id;
+        const subjectId = req.params.id;
+
+        subjectModel.deleteSubject(userId, subjectId, (err, result) => {
+
+            if (err) {
+                return res.status(500).json({
+                    message: "Database error",
+                    error: err.message
+                });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({
+                    message: "Subject not found"
+                });
+            }
+
+            return res.status(200).json({
+                message: "Subject deleted successfully"
+            });
+
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     createSubject,
     getAllSubjects,
     getSubjectById,
-    updateSubject
+    updateSubject,
+    deleteSubject
 };

@@ -12,5 +12,7 @@ router.get("/", verifyToken, subjectController.getAllSubjects);
 router.get("/:id", verifyToken, subjectController.getSubjectById);
 // update the subject 
 router.put("/:id", verifyToken, subjectController.updateSubject);
+// delete the subject 
+router.delete("/:id", verifyToken, subjectController.deleteSubject);
 
 module.exports = router;

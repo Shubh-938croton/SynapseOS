@@ -1002,3 +1002,25 @@ Task Module
 - MVC architecture
 - User profile management
 - Route protection
+
+
+
+## Subjects Module
+
+### Completed
+- Created Subject Model
+- Created Subject Controller
+- Added Subject Routes
+- Implemented Create Subject API
+- Implemented Get All Subjects API
+- Implemented Get Subject By ID API
+- Implemented Update Subject API
+- Implemented Delete Subject API
+
+### Concepts Learned
+- JWT based ownership
+- CRUD Operations
+- Route Protection
+- MVC Architecture
+- Database Queries
+- Secure Resource Access

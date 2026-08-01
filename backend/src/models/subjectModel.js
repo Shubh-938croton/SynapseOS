@@ -114,9 +114,31 @@ const updateSubject = (userId, subjectId, subject, callback) => {
 
 };
 
+// Delete Subject
+const deleteSubject = (userId, subjectId, callback) => {
+
+    const query = `
+        DELETE FROM subjects
+        WHERE subject_id = ?
+        AND user_id = ?
+    `;
+
+    db.query(query, [subjectId, userId], (err, result) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, result);
+
+    });
+
+};
+
 module.exports = {
     createSubject,
     getAllSubjects,
     getSubjectById,
-    updateSubject
+    updateSubject,
+    deleteSubject
 };
