@@ -47,3 +47,26 @@ Target:
 - Delete Task API
 - CRUD testing
 - Merge feature branch into `main`
+
+
+
+
+## ✅ Milestone 2 — Task Management Module (Completed)
+
+### CRUD APIs
+
+- [x] GET /api/tasks
+- [x] GET /api/tasks/:id
+- [x] POST /api/tasks
+- [x] PUT /api/tasks/:id
+- [x] DELETE /api/tasks/:id
+
+### Concepts Learned
+
+- MVC Architecture
+- REST API Design
+- Express Routing
+- CRUD Operations
+- SQL (SELECT, INSERT, UPDATE, DELETE)
+- Postman Testing
+- Backend Debugging
