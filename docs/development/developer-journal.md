@@ -923,3 +923,24 @@ Task Module
 
 ### Pending
 - Fix JWT verification issue causing token rejection.
+
+
+
+// resolved the error.
+## Day 6 - Authentication & Task Security
+
+### Completed
+- Implemented JWT Authentication
+- Added authentication middleware
+- Protected task routes
+- Integrated authenticated user into task creation
+- Removed user_id from client requests
+- Used req.user.user_id from JWT
+- Tested secure task creation
+
+### Concepts Learned
+- JWT Authentication
+- Express Middleware
+- Authorization Header
+- Secure API Design
+- Using authenticated user context

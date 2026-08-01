@@ -73,12 +73,13 @@ Target:
 
 
 ## Authentication Module
-
 - [x] User Registration
-- [x] Password Hashing
-- [x] Duplicate Validation
-- [x] Login API
-- [x] JWT Token Generation
-- [x] Authentication Middleware
-- [ ] Resolve JWT verification issue
-- [ ] Complete Protected Route Testing
+- [x] Login
+- [x] JWT Authentication
+- [x] Route Protection
+
+## Task Module
+- [x] Create Task
+- [x] Get All Tasks
+- [x] Get Task By ID
+- [x] Secure Task Creation using JWT

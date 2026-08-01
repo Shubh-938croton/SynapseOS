@@ -20,17 +20,39 @@ const getAllTasks = (req, res) => {
 
 const createTask = (req, res) => {
 
-    const task = req.body;
+    // Get user_id from the JWT
+    const user_id = req.user.user_id;
+
+    // Get remaining fields from the request body
+    const {
+        subject_id,
+        title,
+        description,
+        priority,
+        status,
+        due_date
+    } = req.body;
+
+    const task = {
+        user_id,
+        subject_id,
+        title,
+        description,
+        priority,
+        status,
+        due_date
+    };
 
     taskModel.createTask(task, (err, result) => {
 
         if (err) {
             return res.status(500).json({
-                message: "Failed to create task"
+                message: "Failed to create task",
+                error: err.message
             });
         }
 
-        res.status(201).json({
+        return res.status(201).json({
             message: "Task created successfully",
             taskId: result.insertId
         });
