@@ -70,3 +70,13 @@ Target:
 - SQL (SELECT, INSERT, UPDATE, DELETE)
 - Postman Testing
 - Backend Debugging
+
+
+## 🚧 Authentication Module
+
+- [x] User Registration
+- [x] Password Hashing (bcrypt)
+- [ ] Duplicate Email Validation
+- [ ] Login API
+- [ ] JWT Authentication
+- [ ] Protected Routes
