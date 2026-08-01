@@ -64,8 +64,67 @@ const getTaskById = (req, res) => {
 
 };
 
+
+
+const updateTask = (req, res) => {
+
+    const id = req.params.id;
+    const task = req.body;
+
+    taskModel.updateTask(id, task, (err, result) => {
+
+        if (err) {
+            return res.status(500).json({
+                message: "Failed to update task",
+                error: err.message
+            });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                message: "Task not found"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Task updated successfully"
+        });
+
+    });
+
+};
+
+const deleteTask = (req, res) => {
+
+    const id = req.params.id;
+
+    taskModel.deleteTask(id, (err, result) => {
+
+        if (err) {
+            return res.status(500).json({
+                message: "Failed to delete task",
+                error: err.message
+            });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                message: "Task not found"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Task deleted successfully"
+        });
+
+    });
+
+};
+
 module.exports = {
     getAllTasks,
     createTask,
-    getTaskById
+    getTaskById,
+    updateTask,
+    deleteTask
 };

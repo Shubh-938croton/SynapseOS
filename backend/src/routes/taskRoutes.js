@@ -10,11 +10,11 @@ router.get("/:id", taskController.getTaskById);
 // Create
 router.post("/", taskController.createTask);
 
-// Update
-// router.put("/:id", taskController.updateTask);
+//Update
+router.put("/:id", taskController.updateTask);
 
 // // Delete
-// router.delete("/:id", taskController.deleteTask);
+router.delete("/:id", taskController.deleteTask);
 console.log("Task Routes Loaded");
 
 module.exports = router;
