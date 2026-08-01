@@ -1,20 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
+
 const taskController = require("../controllers/taskController");
+const verifyToken = require("../middleware/authMiddleware");
 
 // Read
-router.get("/", taskController.getAllTasks);
-router.get("/:id", taskController.getTaskById);
+router.get("/",verifyToken, taskController.getAllTasks);
+router.get("/:id",verifyToken, taskController.getTaskById);
 
 // Create
-router.post("/", taskController.createTask);
+router.post("/",verifyToken, taskController.createTask);
 
 //Update
-router.put("/:id", taskController.updateTask);
+router.put("/:id",verifyToken, taskController.updateTask);
 
 // // Delete
-router.delete("/:id", taskController.deleteTask);
+router.delete("/:id",verifyToken, taskController.deleteTask);
 console.log("Task Routes Loaded");
 
 module.exports = router;
