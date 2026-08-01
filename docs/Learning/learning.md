@@ -273,3 +273,29 @@ You immediately know where to debug.
 
 creates a mini application dedicated to one feature.
 
+
+
+// for git use 
+# Switch to main
+git checkout main
+
+# Get latest changes
+git pull origin main
+
+# Create a new feature branch
+git checkout -b feature/module-name
+
+# Work on the feature...
+
+# Commit changes
+git add .
+git commit -m "feat(module): implement ..."
+
+# Push feature branch
+git push -u origin feature/module-name
+
+# Merge into main when finished
+git checkout main
+git merge feature/module-name
+git push origin main
+
