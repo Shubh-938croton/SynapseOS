@@ -876,3 +876,28 @@ Task Module
 - Implement DELETE /api/tasks/:id
 - Complete Task CRUD module
 - Merge feature branch after successful testing
+
+
+
+## Day 6 - Authentication Module (Part 1)
+
+### Completed
+- Created Authentication Module
+- Installed bcrypt and jsonwebtoken
+- Implemented User Registration API
+- Password hashing using bcrypt
+- Added duplicate email validation
+- Added duplicate username validation
+- Tested registration successfully using Postman
+
+### Concepts Learned
+- Authentication flow
+- Password hashing
+- HTTP Status Codes (201, 409, 500)
+- MVC architecture for authentication
+- Express request lifecycle
+- ERR_HTTP_HEADERS_SENT debugging
+
+### Challenges Faced
+- Duplicate registration logic caused ERR_HTTP_HEADERS_SENT.
+- Learned that every request must send exactly one response.

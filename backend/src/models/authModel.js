@@ -34,6 +34,27 @@ const registerUser = (user, callback) => {
 
 };
 
+const findUserByEmailOrUsername = (email, username, callback) => {
+
+    const query = `
+        SELECT *
+        FROM users
+        WHERE email = ? OR username = ?
+    `;
+
+    db.query(query, [email, username], (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, results);
+
+    });
+
+};
+
 module.exports = {
-    registerUser
+    registerUser,
+    findUserByEmailOrUsername
 };
