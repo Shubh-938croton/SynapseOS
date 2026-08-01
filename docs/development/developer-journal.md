@@ -944,3 +944,61 @@ Task Module
 - Authorization Header
 - Secure API Design
 - Using authenticated user context
+
+
+
+
+
+## Date: 02 August 2026
+
+### Module: User Profile
+
+### Objectives
+- Build secure User Profile APIs
+- Integrate JWT authentication
+- Allow users to manage their own profile
+- Implement secure password change functionality
+
+### Work Completed
+
+#### Get Profile API
+- Created `userModel.js`
+- Implemented `getUserProfile()`
+- Retrieved authenticated user's profile using JWT
+- Excluded sensitive fields like `password_hash`
+
+#### Update Profile API
+- Added profile update functionality
+- Implemented duplicate username/email validation
+- Updated profile information securely
+- Used authenticated user ID from JWT instead of request body
+
+#### Change Password API
+- Added `findUserById()`
+- Added `updatePassword()`
+- Verified current password using bcrypt
+- Hashed new password before storing
+- Successfully updated password in database
+
+### Security Improvements
+- Removed dependency on client-provided `user_id`
+- Used `req.user.user_id` from JWT
+- Protected all profile routes using authentication middleware
+- Prevented duplicate usernames and emails
+- Stored only hashed passwords
+
+### Testing
+- Tested Get Profile API
+- Tested Update Profile API
+- Tested Change Password API
+- Verified login with new password
+- Verified old password is rejected
+
+### Concepts Learned
+- JWT based authentication
+- Secure API development
+- Password hashing with bcrypt
+- Password verification
+- MVC architecture
+- User profile management
+- Route protection
