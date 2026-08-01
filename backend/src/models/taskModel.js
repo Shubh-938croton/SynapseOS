@@ -124,6 +124,26 @@ const updateTask = (id, task, callback) => {
 
 };
 
+
+const deleteTask = (id, callback) => {
+
+    const query = `
+        DELETE FROM tasks
+        WHERE task_id = ?
+    `;
+
+    db.query(query, [id], (err, result) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, result);
+
+    });
+
+};
+
 // =========================
 // Export
 // =========================
@@ -131,5 +151,6 @@ module.exports = {
     getAllTasks,
     createTask,
     getTaskById,
-    updateTask
+    updateTask,
+    deleteTask
 };
