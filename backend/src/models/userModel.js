@@ -82,8 +82,55 @@ const updateProfile = (userId, userData, callback) => {
 
 };
 
+// Find user by ID
+const findUserById = (userId, callback) => {
+
+    const query = `
+        SELECT
+            user_id,
+            password_hash
+        FROM users
+        WHERE user_id = ?
+    `;
+
+    db.query(query, [userId], (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, results);
+
+    });
+
+};
+
+
+// Update user password
+const updatePassword = (userId, passwordHash, callback) => {
+
+    const query = `
+        UPDATE users
+        SET password_hash = ?
+        WHERE user_id = ?
+    `;
+
+    db.query(query, [passwordHash, userId], (err, result) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, result);
+
+    });
+
+};
+
 module.exports = {
     getUserProfile,
     findUserByEmailOrUsernameForUpdate,
-    updateProfile
+    updateProfile,
+    findUserById,
+    updatePassword
 };

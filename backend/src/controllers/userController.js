@@ -1,4 +1,5 @@
 const userModel = require("../models/userModel");
+const bcrypt = require("bcrypt");
 
 // Get logged-in user's profile
 const getUserProfile = (req, res) => {
@@ -121,7 +122,86 @@ const updateProfile = (req, res) => {
 
 };
 
+// change password 
+const changePassword = async (req, res) => {
+
+    try {
+
+        const userId = req.user.user_id;
+
+        const {
+            current_password,
+            new_password
+        } = req.body;
+
+        // Find user
+        userModel.findUserById(userId, async (err, users) => {
+
+            if (err) {
+                return res.status(500).json({
+                    message: "Database error",
+                    error: err.message
+                });
+            }
+
+            if (users.length === 0) {
+                return res.status(404).json({
+                    message: "User not found"
+                });
+            }
+
+            const user = users[0];
+
+            // Verify current password
+            const isMatch = await bcrypt.compare(
+                current_password,
+                user.password_hash
+            );
+
+            if (!isMatch) {
+                return res.status(401).json({
+                    message: "Current password is incorrect"
+                });
+            }
+
+            // Hash new password
+            const passwordHash = await bcrypt.hash(new_password, 10);
+
+            // Update password
+            userModel.updatePassword(
+                userId,
+                passwordHash,
+                (err, result) => {
+
+                    if (err) {
+                        return res.status(500).json({
+                            message: "Failed to update password",
+                            error: err.message
+                        });
+                    }
+
+                    return res.status(200).json({
+                        message: "Password changed successfully"
+                    });
+
+                }
+            );
+
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     getUserProfile,
-    updateProfile
+    updateProfile,
+    changePassword
 };
