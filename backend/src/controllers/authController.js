@@ -74,6 +74,65 @@ const registerUser = async (req, res) => {
 
 };
 
+// to chech the login credential 
+const loginUser = async (req, res) => {
+
+    try {
+
+        const { email, password } = req.body;
+
+        authModel.findUserByEmail(email, async (err, users) => {
+
+            if (err) {
+                return res.status(500).json({
+                    message: "Database error",
+                    error: err.message
+                });
+            }
+
+            // User not found
+            if (users.length === 0) {
+                return res.status(404).json({
+                    message: "User not found"
+                });
+            }
+
+            const user = users[0];
+
+            // Compare entered password with hashed password
+            const isMatch = await bcrypt.compare(password, user.password_hash);
+
+            if (!isMatch) {
+                return res.status(401).json({
+                    message: "Invalid password"
+                });
+            }
+
+            // Login successful
+            return res.status(200).json({
+                message: "Login successful",
+                user: {
+                    user_id: user.user_id,
+                    full_name: user.full_name,
+                    username: user.username,
+                    email: user.email
+                }
+            });
+
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser
 };

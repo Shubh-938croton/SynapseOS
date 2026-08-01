@@ -54,7 +54,29 @@ const findUserByEmailOrUsername = (email, username, callback) => {
 
 };
 
+
+const findUserByEmail = (email, callback) => {
+
+    const query = `
+        SELECT *
+        FROM users
+        WHERE email = ?
+    `;
+
+    db.query(query, [email], (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, results);
+
+    });
+
+};
+
 module.exports = {
     registerUser,
-    findUserByEmailOrUsername
+    findUserByEmailOrUsername,
+    findUserByEmail
 };
