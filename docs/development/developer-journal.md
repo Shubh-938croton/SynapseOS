@@ -901,3 +901,25 @@ Task Module
 ### Challenges Faced
 - Duplicate registration logic caused ERR_HTTP_HEADERS_SENT.
 - Learned that every request must send exactly one response.
+
+
+
+## Day 6 - JWT Authentication
+
+### Completed
+- Implemented JWT token generation
+- Added login API with bcrypt verification
+- Created authentication middleware
+- Protected task routes using middleware
+- Tested authentication flow
+
+### Concepts Learned
+- JSON Web Tokens (JWT)
+- jwt.sign()
+- jwt.verify()
+- Bearer Token authentication
+- Express middleware
+- Route protection
+
+### Pending
+- Fix JWT verification issue causing token rejection.

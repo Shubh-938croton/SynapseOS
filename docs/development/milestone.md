@@ -72,13 +72,13 @@ Target:
 - Backend Debugging
 
 
-## 🔐 Authentication Module
+## Authentication Module
 
 - [x] User Registration
-- [x] Password Hashing (bcrypt)
-- [x] Duplicate Email Validation
-- [x] Duplicate Username Validation
-- [ ] Login API
-- [ ] JWT Token Generation
-- [ ] Authentication Middleware
-- [ ] Protected Routes
+- [x] Password Hashing
+- [x] Duplicate Validation
+- [x] Login API
+- [x] JWT Token Generation
+- [x] Authentication Middleware
+- [ ] Resolve JWT verification issue
+- [ ] Complete Protected Route Testing
