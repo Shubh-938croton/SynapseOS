@@ -8,6 +8,7 @@ const userRoutes = require("./routes/userRoutes");
 const subjectRoutes = require("./routes/subjectRoutes");
 const noteRoutes = require("./routes/noteRoutes");
 const calendarRoutes = require("./routes/calendarRoutes");
+const goalRoutes = require("./routes/goalRoutes");
 
 app.use(express.json());
 
@@ -17,5 +18,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/notes", noteRoutes);
 app.use("/api/calendar", calendarRoutes);
+app.use("/api/goals", goalRoutes);
 
 module.exports = app;

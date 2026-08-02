@@ -12,7 +12,7 @@ CREATE TABLE goals (
 
     target_date DATE,
 
-    progress_percentage INT DEFAULT 0,
+    progress_percentage INT DEFAULT 0 CHECK (progress_percentage BETWEEN 0 AND 100),
 
     status ENUM(
         'Not Started',
