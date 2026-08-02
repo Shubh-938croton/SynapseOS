@@ -8,7 +8,7 @@ CREATE TABLE calendar_events(
     description TEXT ,
 
     event_date DATE NOT NULL,
-    start_date TIME,
+    start_time TIME,
     end_time TIME,
     reminder_minutes INT DEFAULT 30,
 
