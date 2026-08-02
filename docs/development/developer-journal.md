@@ -1024,3 +1024,36 @@ Task Module
 - MVC Architecture
 - Database Queries
 - Secure Resource Access
+
+
+## ✅ Completed Backend Modules
+
+- Authentication
+  - Register User
+  - Login User (JWT)
+  - Protected Routes
+
+- User Profile
+  - Get Profile
+  - Update Profile
+
+- Subjects
+  - Create Subject
+  - Get All Subjects
+  - Get Subject By ID
+  - Update Subject
+  - Delete Subject
+
+- Tasks
+  - Create Task
+  - Get All Tasks
+  - Get Task By ID
+  - Update Task
+  - Delete Task
+
+- Notes
+  - Create Note
+  - Get All Notes
+  - Get Note By ID
+  - Update Note
+  - Delete Note

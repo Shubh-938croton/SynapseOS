@@ -153,3 +153,18 @@ Target:
 - [x] Get Subject By ID
 - [x] Update Subject
 - [x] Delete Subject
+
+
+## Backend Progress
+
+- [x] Authentication
+- [x] User Profile
+- [x] Subjects CRUD
+- [x] Tasks CRUD
+- [x] Notes CRUD
+- [ ] Calendar
+- [ ] Goals
+- [ ] Study Sessions
+- [ ] Pomodoro
+- [ ] Dashboard Analytics
+- [ ] AI Recommendation Engine

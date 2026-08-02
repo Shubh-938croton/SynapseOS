@@ -1,7 +1,7 @@
 USE synapseos;
 
 CREATE TABLE notes (
-    node_id INT AUTO_INCREMENT PRIMARY KEY ,
+    note_id INT AUTO_INCREMENT PRIMARY KEY ,
     user_id INT NOT NULL,
     subject_id INT NOT NULL,
     title VARCHAR(200) NOT NULL,
