@@ -1074,3 +1074,64 @@ Task Module
 - [ ] Pomodoro
 - [ ] Dashboard Analytics
 - [ ] AI Recommendation Engine
+
+
+
+
+## 🎯 Goals Module
+
+The Goals module allows users to set, track, and manage their study goals.
+
+### Features
+
+- Create Goal
+- View All Goals
+- View Goal By ID
+- Update Goal
+- Delete Goal
+- Track Progress Percentage
+- Goal Status Management
+- JWT Authentication
+- User-specific Data Isolation
+
+### API Endpoints
+
+POST /api/goals
+
+GET /api/goals
+
+GET /api/goals/:id
+
+PUT /api/goals/:id
+
+DELETE /api/goals/:id
+
+---
+
+## 📖 Study Sessions Module
+
+The Study Sessions module enables users to record and manage their study activities.
+
+### Features
+
+- Create Study Session
+- View All Study Sessions
+- View Study Session By ID
+- Update Study Session
+- Delete Study Session
+- Automatic Duration Calculation
+- Session Notes
+- JWT Authentication
+- User-specific Data Isolation
+
+### API Endpoints
+
+POST /api/study-sessions
+
+GET /api/study-sessions
+
+GET /api/study-sessions/:id
+
+PUT /api/study-sessions/:id
+
+DELETE /api/study-sessions/:id

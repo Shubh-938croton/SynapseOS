@@ -141,3 +141,78 @@ Users (1)
    │
    │
    └──────── Calendar Events (∞)
+
+
+
+
+
+
+
+   # Goals Table
+
+Table Name : goals
+
+Purpose
+
+Stores long-term study goals.
+
+Columns
+
+- goal_id
+- user_id
+- title
+- description
+- target_date
+- progress_percentage
+- status
+- created_at
+- updated_at
+
+Relationship
+
+users
+    │
+    └──────< goals
+
+Features
+
+- Progress Tracking
+- Goal Status
+- User Isolation
+
+=====================================================
+
+# Study Sessions Table
+
+Table Name : study_sessions
+
+Purpose
+
+Stores every study session completed by a user.
+
+Columns
+
+- session_id
+- user_id
+- subject_id
+- topic
+- start_time
+- end_time
+- duration_minutes
+- session_notes
+- created_at
+
+Relationship
+
+users
+    │
+    ├──────< study_sessions >────── subjects
+    │
+    └──────< goals
+
+Features
+
+- Subject-wise Study Tracking
+- Automatic Duration Calculation
+- Session Notes
+- User Isolation

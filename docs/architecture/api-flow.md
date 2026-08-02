@@ -147,3 +147,200 @@ MySQL Database
 
 JSON Response
 
+
+
+
+
+
+
+
+# Goals API Flow
+
+Create Goal
+
+Client
+    ↓
+POST /api/goals
+    ↓
+JWT Authentication
+    ↓
+Goal Controller
+    ↓
+Goal Model
+    ↓
+MySQL
+    ↓
+Success Response
+
+-----------------------------------------------------
+
+Get All Goals
+
+Client
+    ↓
+GET /api/goals
+    ↓
+JWT Authentication
+    ↓
+Goal Controller
+    ↓
+Goal Model
+    ↓
+Database
+    ↓
+Response
+
+-----------------------------------------------------
+
+Get Goal By ID
+
+Client
+    ↓
+GET /api/goals/:id
+    ↓
+JWT Authentication
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
+-----------------------------------------------------
+
+Update Goal
+
+Client
+    ↓
+PUT /api/goals/:id
+    ↓
+JWT Authentication
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
+-----------------------------------------------------
+
+Delete Goal
+
+Client
+    ↓
+DELETE /api/goals/:id
+    ↓
+JWT Authentication
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
+=====================================================
+
+# Study Sessions API Flow
+
+Create Study Session
+
+Client
+    ↓
+POST /api/study-sessions
+    ↓
+JWT Authentication
+    ↓
+Calculate Duration
+    ↓
+Validation
+    ↓
+Controller
+    ↓
+Model
+    ↓
+MySQL
+    ↓
+Success Response
+
+-----------------------------------------------------
+
+Get All Study Sessions
+
+Client
+    ↓
+GET /api/study-sessions
+    ↓
+JWT Authentication
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
+-----------------------------------------------------
+
+Get Study Session By ID
+
+Client
+    ↓
+GET /api/study-sessions/:id
+    ↓
+JWT Authentication
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
+-----------------------------------------------------
+
+Update Study Session
+
+Client
+    ↓
+PUT /api/study-sessions/:id
+    ↓
+JWT Authentication
+    ↓
+Calculate Duration
+    ↓
+Validation
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
+-----------------------------------------------------
+
+Delete Study Session
+
+Client
+    ↓
+DELETE /api/study-sessions/:id
+    ↓
+JWT Authentication
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+

@@ -268,6 +268,78 @@ Status
 
 ✅ Fixed
 
+# Goals Module
+
+Problem
+
+Users could modify another user's goals.
+
+Solution
+
+Added
+
+WHERE goal_id = ?
+AND user_id = ?
+
+------------------------------------------------
+
+Problem
+
+Progress percentage could exceed 100%.
+
+Solution
+
+Added validation.
+
+------------------------------------------------
+
+Protected all Goal APIs using JWT Authentication.
+
+====================================================
+
+# Study Sessions Module
+
+Problem
+
+Users could manually send incorrect duration.
+
+Solution
+
+Duration is now calculated automatically.
+
+------------------------------------------------
+
+Problem
+
+Negative duration possible.
+
+Solution
+
+Validation added.
+
+Response
+
+400 Bad Request
+
+"End time must be after start time"
+
+------------------------------------------------
+
+Problem
+
+Users could access another user's sessions.
+
+Solution
+
+Added
+
+WHERE session_id = ?
+AND user_id = ?
+
+------------------------------------------------
+
+Protected all Study Session APIs using JWT Authentication.
+
 
 
 
