@@ -9,6 +9,7 @@ const subjectRoutes = require("./routes/subjectRoutes");
 const noteRoutes = require("./routes/noteRoutes");
 const calendarRoutes = require("./routes/calendarRoutes");
 const goalRoutes = require("./routes/goalRoutes");
+const studySessionRoutes = require("./routes/studySessionRoutes");
 
 app.use(express.json());
 
@@ -19,5 +20,6 @@ app.use("/api/subjects", subjectRoutes);
 app.use("/api/notes", noteRoutes);
 app.use("/api/calendar", calendarRoutes);
 app.use("/api/goals", goalRoutes);
+app.use("/api/study-sessions", studySessionRoutes);
 
 module.exports = app;
