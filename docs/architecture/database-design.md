@@ -117,3 +117,27 @@ Tasks    Notes
 - Username must be unique.
 - Passwords are stored using bcrypt hashing.
 - JWT authentication protects all private APIs.
+
+
+
+## Calendar Events Table
+
+| Column | Type |
+|---------|------|
+| event_id | INT (PK) |
+| user_id | INT (FK) |
+| title | VARCHAR(200) |
+| description | TEXT |
+| event_date | DATE |
+| start_time | TIME |
+| end_time | TIME |
+| reminder_minutes | INT |
+| status | ENUM |
+| created_at | TIMESTAMP |
+
+Relationship
+
+Users (1)
+   │
+   │
+   └──────── Calendar Events (∞)

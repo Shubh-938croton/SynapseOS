@@ -119,3 +119,31 @@ Database
 ↓
 Persistent Storage
 
+
+## Calendar Request Flow
+Client
+
+↓
+
+JWT Authentication
+
+↓
+
+Calendar Routes
+
+↓
+
+Calendar Controller
+
+↓
+
+Calendar Model
+
+↓
+
+MySQL Database
+
+↓
+
+JSON Response
+

@@ -1057,3 +1057,20 @@ Task Module
   - Get Note By ID
   - Update Note
   - Delete Note
+
+
+
+
+  ## Backend Progress
+
+- [x] Authentication
+- [x] User Profile
+- [x] Subjects
+- [x] Tasks
+- [x] Notes
+- [x] Calendar
+- [ ] Goals
+- [ ] Study Sessions
+- [ ] Pomodoro
+- [ ] Dashboard Analytics
+- [ ] AI Recommendation Engine

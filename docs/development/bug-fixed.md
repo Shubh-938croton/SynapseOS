@@ -210,6 +210,66 @@ Status
 
 
 
+## Bug #9
+
+Issue
+
+Unknown column 'start_time'
+
+Reason
+
+Database schema and model were inconsistent.
+
+Solution
+
+Renamed the database column and synchronized the model with the schema.
+
+Status
+
+✅ Fixed
+
+
+
+## Bug #10
+
+Issue
+
+Cannot find module '../config/db'
+
+Reason
+
+Configuration file was named `database.js` instead of `db.js`.
+
+Solution
+
+Updated all imports to use `database.js`.
+
+Status
+
+✅ Fixed
+
+
+
+## Bug #11
+
+Issue
+
+Unknown column 'event_type'
+
+Reason
+
+The database schema used `status` instead of `event_type`, while the model still referenced `event_type`.
+
+Solution
+
+Updated the model and controller to match the database schema.
+
+Status
+
+✅ Fixed
+
+
+
 
 
 

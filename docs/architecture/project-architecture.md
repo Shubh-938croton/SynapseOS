@@ -364,3 +364,29 @@ Future capabilities include:
 - Smart Scheduling
 - Performance Prediction
 - Intelligent Dashboard
+
+
+
+Client
+   │
+   ▼
+Express Routes
+   │
+   ▼
+JWT Middleware
+   │
+   ▼
+Controllers
+   │
+   ├── Authentication
+   ├── User
+   ├── Subject
+   ├── Task
+   ├── Note
+   └── Calendar
+   │
+   ▼
+Models
+   │
+   ▼
+MySQL
