@@ -1172,3 +1172,35 @@ GET /api/pomodoro/:id
 PUT /api/pomodoro/:id
 
 DELETE /api/pomodoro/:id
+
+
+
+
+
+## 📊 Dashboard Analytics Module
+
+The Dashboard Analytics module provides a consolidated overview of the user's productivity by aggregating data from all modules.
+
+### Features
+
+- Dashboard Summary API
+- Total Subjects
+- Total Tasks
+- Completed Tasks
+- Pending Tasks
+- Total Notes
+- Total Goals
+- Completed Goals
+- Total Study Sessions
+- Total Study Hours
+- Total Pomodoro Sessions
+- Total Pomodoro Hours
+- JWT Protected API
+
+### Endpoint
+
+GET /api/dashboard/summary
+
+### Purpose
+
+This endpoint serves as the homepage data source and provides a complete productivity snapshot for the authenticated user.

@@ -398,6 +398,38 @@ Protected all Pomodoro APIs using JWT Authentication.
 
 
 
+# Dashboard Module Fixes
+
+Problem
+
+Dashboard statistics required multiple database queries.
+
+Solution
+
+Implemented a single optimized SQL query using subqueries to retrieve all summary metrics.
+
+--------------------------------------------------------
+
+Problem
+
+Dashboard should only display the logged-in user's data.
+
+Solution
+
+Applied user_id filtering to every aggregated query.
+
+--------------------------------------------------------
+
+Problem
+
+SUM() returned NULL when no study or pomodoro sessions existed.
+
+Solution
+
+Used IFNULL() to return 0 instead of NULL.
+
+
+
 
 
 

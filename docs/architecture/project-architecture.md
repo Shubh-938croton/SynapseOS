@@ -485,3 +485,35 @@ src/
 │
 ├── app.js
 └── server.js
+
+
+
+
+controllers
+
+├── dashboardController.js
+
+models
+
+├── dashboardModel.js
+
+routes
+
+├── dashboardRoutes.js
+
+
+Dashboard Module
+
+Responsible for generating analytics and productivity summaries by aggregating data across all modules.
+
+Current APIs
+
+- Dashboard Summary
+
+Upcoming APIs
+
+- Subject Analytics
+- Weekly Analytics
+- Goal Analytics
+- Pomodoro Analytics
+- Productivity Score

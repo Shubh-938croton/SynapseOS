@@ -449,3 +449,81 @@ Database
     ↓
 Response
 
+
+
+
+# Dashboard Summary API Flow
+
+---------------------------------------------------------
+
+Client
+
+↓
+
+GET /api/dashboard/summary
+
+↓
+
+JWT Authentication
+
+↓
+
+dashboardController.getDashboardSummary()
+
+↓
+
+dashboardModel.getDashboardSummary()
+
+↓
+
+MySQL Database
+
+↓
+
+Collect Statistics
+
+• Subjects
+
+• Tasks
+
+• Notes
+
+• Goals
+
+• Study Sessions
+
+• Pomodoro Sessions
+
+↓
+
+Return Dashboard Summary
+
+↓
+
+JSON Response
+
+
+## Dashboard
+
+### Dashboard Summary
+
+GET /api/dashboard/summary
+
+Authentication
+
+Bearer Token Required
+
+Response
+
+- Total Subjects
+- Total Tasks
+- Completed Tasks
+- Pending Tasks
+- Total Notes
+- Total Goals
+- Completed Goals
+- Total Study Sessions
+- Total Study Hours
+- Total Pomodoro Sessions
+- Total Pomodoro Hours
+

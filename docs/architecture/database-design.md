@@ -258,3 +258,38 @@ Features
 - Automatic duration calculation
 - Break time recording
 - User-specific data
+
+
+## Dashboard Analytics
+
+The Dashboard module does not store data in a separate table.
+
+Instead, it aggregates information from existing tables.
+
+Data Sources
+
+- users
+- subjects
+- tasks
+- notes
+- goals
+- study_sessions
+- pomodoro_sessions
+
+Aggregated Metrics
+
+- Total Subjects
+- Total Tasks
+- Completed Tasks
+- Pending Tasks
+- Total Notes
+- Total Goals
+- Completed Goals
+- Total Study Sessions
+- Total Study Hours
+- Total Pomodoro Sessions
+- Total Pomodoro Hours
+
+Purpose
+
+Provide a real-time overview of the user's productivity without duplicating data.
