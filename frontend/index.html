@@ -2,105 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SynapseOS</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <title>frontend</title>
   </head>
   <body>
-    <!--Header-->
-    <header>
-      <h1>🧠 SynapseOS</h1>
-
-      <div class="header-right">
-        <button id="theme-toggle">🌙 Dark Mode</button>
-        <button>🔔</button>
-        <img src="assets/profile.png" alt="Profile" />
-      </div>
-    </header>
-
-    <!--Main container-->
-    <main>
-      <!--sidebar-->
-      <aside>
-        <nav>
-          <ul>
-            <li class="active">Dashboard</li>
-            
-            <li>Task</li>
-            <li>Notes</li>
-            <li>Calendar</li>
-            <li>Progress</li>
-            <li>Contest</li>
-            <li>Pomodoro</li>
-            <li>Analytics</li>
-            <li>Settings</li>
-          </ul>
-        </nav>
-      </aside>
-      <!--Main Content-->
-
-      <section>
-        <h2>Welcome to SynapseOS</h2>
-        <p>Your personal productivity operating system.</p>
-      </section>
-
-      <section class="dashboard">
-        <section class="card welcome-card">
-          <h2>Good Morning , Shubh</h2>
-          <p>Monday, 20 July 2026</p>
-          <h3>Today's Goal</h3>
-          <p>Finish HTML Structure</p>
-          <h3>Progress</h3>
-          <p>65% Completed</p>
-          <progress value="65" max="100"></progress>
-        </section>
-        <div class="dashboard-grid">
-
-
-          <section class="card task-card">
-
-            <h2>Today's Tasks</h2>
-           <div class="task-input"> <input type="text"
-            id="taskInput"
-            placeholder="Enter your task">
-
-         <button id="addTaskBtn">
-            Add
-            </button>
-            </div>
-
-            
-                <ul id="taskList"></ul>
-            
-          </section>
-
-
-          <section class="card progress-card">
-            <h3>Progress</h3>
-            <p>Your daily progress appear here.</p>
-          </section>
-
-
-          <section class="card notes-card">
-            <h3>Quick-notes</h3>
-            <p>Create your first notes.</p>
-          </section>
-
-
-          <section class="card contest-card">
-            <h3>Upcomming contest</h3>
-            <p>No upcomming contest</p>
-          </section>
-
-
-        </div>
-      </section>
-    </main>
-    <!--Footer-->
-    <footer>
-      <p>© 2026 SynapseOS | Built with ❤️ by Shubh Kamal</p>
-    </footer>
-
-    <script src="js/script.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
