@@ -1135,3 +1135,40 @@ GET /api/study-sessions/:id
 PUT /api/study-sessions/:id
 
 DELETE /api/study-sessions/:id
+
+
+
+
+## 🍅 Pomodoro Sessions Module
+
+The Pomodoro Sessions module helps users record focused study sessions using the Pomodoro Technique.
+
+### Features
+
+- Create Pomodoro Session
+- View All Pomodoro Sessions
+- View Pomodoro Session By ID
+- Update Pomodoro Session
+- Delete Pomodoro Session
+- Automatic Focus Duration Calculation
+- Subject-wise Pomodoro Tracking
+- Task-wise Pomodoro Tracking
+- Break Time Tracking
+- JWT Authentication
+- User-specific Data Isolation
+
+### Database Table
+
+pomodoro_sessions
+
+### API Endpoints
+
+POST /api/pomodoro
+
+GET /api/pomodoro
+
+GET /api/pomodoro/:id
+
+PUT /api/pomodoro/:id
+
+DELETE /api/pomodoro/:id

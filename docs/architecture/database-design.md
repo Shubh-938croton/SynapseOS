@@ -216,3 +216,45 @@ Features
 - Automatic Duration Calculation
 - Session Notes
 - User Isolation
+
+
+
+
+## Pomodoro Sessions Table
+
+Table Name
+
+pomodoro_sessions
+
+Purpose
+
+Stores every completed Pomodoro focus session.
+
+Columns
+
+- session_id (Primary Key)
+- user_id (Foreign Key)
+- subject_id (Foreign Key)
+- task_id (Foreign Key)
+- duration_minutes
+- break_minutes
+- session_status
+- started_at
+- ended_at
+- created_at
+
+Relationships
+
+users
+   │
+   ├──────< pomodoro_sessions >────── subjects
+   │
+   └──────< pomodoro_sessions >────── tasks
+
+Features
+
+- Subject-wise focus tracking
+- Task-wise focus tracking
+- Automatic duration calculation
+- Break time recording
+- User-specific data

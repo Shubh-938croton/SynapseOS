@@ -438,3 +438,50 @@ src/
 │
 ├── app.js
 └── server.js
+
+
+
+
+Backend
+
+src/
+
+├── config
+│
+├── controllers
+│   ├── authController.js
+│   ├── userController.js
+│   ├── subjectController.js
+│   ├── taskController.js
+│   ├── noteController.js
+│   ├── calendarController.js
+│   ├── goalController.js
+│   ├── studySessionController.js
+│   └── pomodoroController.js
+│
+├── middleware
+│
+├── models
+│   ├── authModel.js
+│   ├── userModel.js
+│   ├── subjectModel.js
+│   ├── taskModel.js
+│   ├── noteModel.js
+│   ├── calendarModel.js
+│   ├── goalModel.js
+│   ├── studySessionModel.js
+│   └── pomodoroModel.js
+│
+├── routes
+│   ├── authRoutes.js
+│   ├── userRoutes.js
+│   ├── subjectRoutes.js
+│   ├── taskRoutes.js
+│   ├── noteRoutes.js
+│   ├── calendarRoutes.js
+│   ├── goalRoutes.js
+│   ├── studySessionRoutes.js
+│   └── pomodoroRoutes.js
+│
+├── app.js
+└── server.js

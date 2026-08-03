@@ -343,6 +343,62 @@ Protected all Study Session APIs using JWT Authentication.
 
 
 
+# Pomodoro Module Fixes
+
+Problem
+
+Users could manually send incorrect focus duration.
+
+Solution
+
+Focus duration is automatically calculated using:
+
+ended_at - started_at
+
+--------------------------------------------------------
+
+Problem
+
+Negative duration could be stored.
+
+Solution
+
+Added validation:
+
+End time must be after start time.
+
+--------------------------------------------------------
+
+Problem
+
+Negative break duration.
+
+Solution
+
+Added validation:
+
+Break minutes cannot be negative.
+
+--------------------------------------------------------
+
+Problem
+
+Users could access another user's Pomodoro sessions.
+
+Solution
+
+Every CRUD operation uses
+
+WHERE session_id = ?
+AND user_id = ?
+
+--------------------------------------------------------
+
+Protected all Pomodoro APIs using JWT Authentication.
+
+
+
+
 
 
 

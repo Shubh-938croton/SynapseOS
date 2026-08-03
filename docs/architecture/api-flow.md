@@ -344,3 +344,108 @@ Database
     ↓
 Response
 
+
+
+
+# Pomodoro Sessions API Flow
+
+---------------------------------------------------------
+
+Create Pomodoro Session
+
+Client
+    ↓
+POST /api/pomodoro
+    ↓
+JWT Authentication
+    ↓
+Extract Request Body
+    ↓
+Calculate duration automatically
+    ↓
+Validate session data
+    ↓
+pomodoroController.createPomodoroSession()
+    ↓
+pomodoroModel.createPomodoroSession()
+    ↓
+MySQL Database
+    ↓
+Success Response
+
+---------------------------------------------------------
+
+Get All Pomodoro Sessions
+
+Client
+    ↓
+GET /api/pomodoro
+    ↓
+JWT Authentication
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
+---------------------------------------------------------
+
+Get Pomodoro Session By ID
+
+Client
+    ↓
+GET /api/pomodoro/:id
+    ↓
+JWT Authentication
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
+---------------------------------------------------------
+
+Update Pomodoro Session
+
+Client
+    ↓
+PUT /api/pomodoro/:id
+    ↓
+JWT Authentication
+    ↓
+Automatic Duration Calculation
+    ↓
+Validation
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
+---------------------------------------------------------
+
+Delete Pomodoro Session
+
+Client
+    ↓
+DELETE /api/pomodoro/:id
+    ↓
+JWT Authentication
+    ↓
+Controller
+    ↓
+Model
+    ↓
+Database
+    ↓
+Response
+
