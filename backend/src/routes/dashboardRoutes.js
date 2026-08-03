@@ -11,4 +11,15 @@ router.get(
     dashboardController.getDashboardSummary
 );
 
+
+// =======================================
+// Subject Analytics
+// =======================================
+
+router.get(
+    "/subject-analysis",
+    verifyToken,
+    dashboardController.getSubjectAnalytics
+);
+
 module.exports = router;

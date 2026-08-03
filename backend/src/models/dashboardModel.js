@@ -104,6 +104,83 @@ const getDashboardSummary = (userId, callback) => {
 
 };
 
+
+// =======================================
+// Subject Analytics
+// =======================================
+
+const getSubjectAnalytics = (userId, callback) => {
+
+    const query = `
+
+SELECT
+
+    s.subject_id,
+    s.subject_name,
+
+    IFNULL(st.study_sessions, 0) AS study_sessions,
+    IFNULL(st.study_hours, 0) AS study_hours,
+
+    IFNULL(pm.pomodoro_sessions, 0) AS pomodoro_sessions,
+    IFNULL(pm.pomodoro_hours, 0) AS pomodoro_hours
+
+FROM subjects s
+
+LEFT JOIN (
+
+    SELECT
+
+        subject_id,
+
+        COUNT(*) AS study_sessions,
+
+        ROUND(SUM(duration_minutes)/60,2) AS study_hours
+
+    FROM study_sessions
+
+    GROUP BY subject_id
+
+) st
+
+ON s.subject_id = st.subject_id
+
+LEFT JOIN (
+
+    SELECT
+
+        subject_id,
+
+        COUNT(*) AS pomodoro_sessions,
+
+        ROUND(SUM(duration_minutes)/60,2) AS pomodoro_hours
+
+    FROM pomodoro_sessions
+
+    GROUP BY subject_id
+
+) pm
+
+ON s.subject_id = pm.subject_id
+
+WHERE s.user_id = ?
+
+ORDER BY study_hours DESC;
+
+`;
+
+    db.query(query, [userId], (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, results);
+
+    });
+
+};
+
 module.exports = {
-    getDashboardSummary
+    getDashboardSummary,
+    getSubjectAnalytics
 };
