@@ -300,9 +300,79 @@ WHERE user_id = ?;
 
 };
 
+
+
+// =======================================
+// Pomodoro Analytics
+// =======================================
+
+const getPomodoroAnalytics = (userId, callback) => {
+
+    const query = `
+
+    SELECT
+
+        COUNT(*) AS total_sessions,
+
+        IFNULL(
+            SUM(
+                CASE
+                    WHEN session_status = 'Completed'
+                    THEN 1
+                    ELSE 0
+                END
+            ),
+            0
+        ) AS completed_sessions,
+
+        IFNULL(
+            SUM(
+                CASE
+                    WHEN session_status = 'Interrupted'
+                    THEN 1
+                    ELSE 0
+                END
+            ),
+            0
+        ) AS interrupted_sessions,
+
+        IFNULL(
+            ROUND(SUM(duration_minutes) / 60, 2),
+            0
+        ) AS total_focus_hours,
+
+        IFNULL(
+            ROUND(AVG(duration_minutes), 2),
+            0
+        ) AS average_session_duration,
+
+        IFNULL(
+            MAX(duration_minutes),
+            0
+        ) AS longest_session
+
+    FROM pomodoro_sessions
+
+    WHERE user_id = ?;
+
+    `;
+
+    db.query(query, [userId], (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, results[0]);
+
+    });
+
+};
+
 module.exports = {
     getDashboardSummary,
     getSubjectAnalytics,
     getWeeklyAnalytics,
-    getGoalAnalytics
+    getGoalAnalytics,
+    getPomodoroAnalytics
 };

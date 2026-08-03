@@ -378,3 +378,36 @@ Uses SQL aggregate functions:
 - IFNULL()
 
 The backend ensures zero values are returned instead of NULL for users without goals.
+
+
+
+## Pomodoro Analytics
+
+Purpose
+
+Provides aggregated statistics about Pomodoro sessions.
+
+Data Source
+
+- pomodoro_sessions
+
+Aggregated Metrics
+
+- Total Sessions
+- Completed Sessions
+- Interrupted Sessions
+- Total Focus Hours
+- Average Session Duration
+- Longest Session
+
+Implementation
+
+Uses SQL aggregate functions:
+
+- COUNT()
+- SUM(CASE WHEN ...)
+- SUM()
+- AVG()
+- MAX()
+- ROUND()
+- IFNULL()

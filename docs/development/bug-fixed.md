@@ -524,6 +524,28 @@ Result
 
 
 
+# Pomodoro Analytics Fixes
+
+Problem
+
+Aggregate functions returned NULL when no Pomodoro sessions existed.
+
+Solution
+
+Used IFNULL() around SUM(), AVG(), and MAX().
+
+--------------------------------------------------------
+
+Problem
+
+Multiple SQL queries would have been required.
+
+Solution
+
+Used conditional aggregation with SUM(CASE WHEN ...) to retrieve all statistics in one optimized query.
+
+
+
 
 
 

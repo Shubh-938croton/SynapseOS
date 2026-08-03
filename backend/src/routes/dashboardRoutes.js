@@ -43,4 +43,15 @@ router.get(
     dashboardController.getGoalAnalytics
 );
 
+
+// =======================================
+// Pomodoro Analytics
+// =======================================
+
+router.get(
+    "/pomodoro",
+    verifyToken,
+    dashboardController.getPomodoroAnalytics
+);
+
 module.exports = router;

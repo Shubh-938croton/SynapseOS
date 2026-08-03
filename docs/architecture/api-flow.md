@@ -672,3 +672,37 @@ Aggregate Data
 ↓
 
 Return JSON Response
+
+
+
+# Pomodoro Analytics API Flow
+
+Client
+
+↓
+
+GET /api/dashboard/pomodoro
+
+↓
+
+JWT Authentication
+
+↓
+
+dashboardController.getPomodoroAnalytics()
+
+↓
+
+dashboardModel.getPomodoroAnalytics()
+
+↓
+
+pomodoro_sessions
+
+↓
+
+Aggregate Statistics
+
+↓
+
+Return JSON Response
