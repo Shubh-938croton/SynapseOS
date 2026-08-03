@@ -631,3 +631,44 @@ Sunday
 ↓
 
 Return JSON Response
+
+
+# Goal Analytics API Flow
+
+---------------------------------------------------------
+
+Client
+
+↓
+
+GET /api/dashboard/goals
+
+↓
+
+JWT Authentication
+
+↓
+
+dashboardController.getGoalAnalytics()
+
+↓
+
+dashboardModel.getGoalAnalytics()
+
+↓
+
+goals
+
+↓
+
+Aggregate Data
+
+• COUNT()
+
+• SUM(CASE WHEN)
+
+• AVG()
+
+↓
+
+Return JSON Response

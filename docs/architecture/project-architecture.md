@@ -551,3 +551,22 @@ Upcoming
 • Pomodoro Analytics
 
 • Productivity Score
+
+
+
+
+Dashboard Analytics
+
+✔ Dashboard Summary
+
+✔ Subject Analytics
+
+✔ Weekly Analytics
+
+✔ Goal Analytics
+
+Upcoming
+
+• Pomodoro Analytics
+
+• Productivity Score

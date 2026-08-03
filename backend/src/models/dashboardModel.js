@@ -244,8 +244,65 @@ ORDER BY
 
 };
 
+// =======================================
+// Goal Analytics
+// =======================================
+
+const getGoalAnalytics = (userId, callback) => {
+
+    const query = `
+
+    SELECT
+
+COUNT(*) AS total_goals,
+
+IFNULL(SUM(
+CASE
+WHEN status='Completed'
+THEN 1
+ELSE 0
+END
+),0) AS completed_goals,
+
+IFNULL(SUM(
+CASE
+WHEN status='In Progress'
+THEN 1
+ELSE 0
+END
+),0) AS in_progress_goals,
+
+IFNULL(SUM(
+CASE
+WHEN status='Not Started'
+THEN 1
+ELSE 0
+END
+),0) AS not_started_goals,
+
+IFNULL(ROUND(AVG(progress_percentage),2),0) AS average_progress
+
+FROM goals
+
+WHERE user_id = ?;
+
+    `;
+
+    db.query(query, [userId], (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, results[0]);
+
+    });
+
+};
+
 module.exports = {
     getDashboardSummary,
     getSubjectAnalytics,
-    getWeeklyAnalytics
+    getWeeklyAnalytics,
+    getGoalAnalytics
 };

@@ -347,3 +347,34 @@ Uses SQL aggregation with
 - COUNT()
 
 The backend ensures all seven days are returned even if no study sessions exist for a particular day.
+
+
+## Goal Analytics
+
+Purpose
+
+Provides statistics related to goal completion and user progress.
+
+Data Source
+
+- goals
+
+Aggregated Metrics
+
+- Total Goals
+- Completed Goals
+- In Progress Goals
+- Not Started Goals
+- Average Progress Percentage
+
+Implementation
+
+Uses SQL aggregate functions:
+
+- COUNT()
+- SUM(CASE WHEN ...)
+- AVG()
+- ROUND()
+- IFNULL()
+
+The backend ensures zero values are returned instead of NULL for users without goals.

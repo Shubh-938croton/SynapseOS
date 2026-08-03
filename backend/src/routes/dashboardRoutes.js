@@ -33,4 +33,14 @@ router.get(
     dashboardController.getWeeklyAnalytics
 );
 
+// =======================================
+// Goal Analytics
+// =======================================
+
+router.get(
+    "/goals",
+    verifyToken,
+    dashboardController.getGoalAnalytics
+);
+
 module.exports = router;

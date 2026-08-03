@@ -493,6 +493,37 @@ Ordered results using WEEKDAY(start_time) to ensure chronological Monday-Sunday 
 
 
 
+# Goal Analytics Fixes
+
+Problem
+
+SUM() and AVG() returned NULL when the user had no goals.
+
+Solution
+
+Wrapped aggregate functions using IFNULL() to return zero values.
+
+--------------------------------------------------------
+
+Problem
+
+Goal statistics required multiple SQL queries.
+
+Solution
+
+Implemented conditional aggregation using SUM(CASE WHEN ...) to retrieve all statistics in a single optimized query.
+
+--------------------------------------------------------
+
+Result
+
+- Accurate goal statistics
+- Zero values instead of NULL
+- Single optimized SQL query
+- Production-ready analytics
+
+
+
 
 
 
