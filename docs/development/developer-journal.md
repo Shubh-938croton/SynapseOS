@@ -1204,3 +1204,47 @@ GET /api/dashboard/summary
 ### Purpose
 
 This endpoint serves as the homepage data source and provides a complete productivity snapshot for the authenticated user.
+
+
+
+
+### Subject Analytics
+
+GET /api/dashboard/subject-analysis
+
+Authentication
+
+Bearer Token Required
+
+Description
+
+Returns subject-wise study and pomodoro statistics for the authenticated user.
+
+Response
+
+- Subject ID
+- Subject Name
+- Total Study Sessions
+- Total Study Hours
+- Total Pomodoro Sessions
+- Total Pomodoro Hours
+
+
+## Weekly Analytics Module
+
+The Weekly Analytics module provides a day-wise summary of the user's study activity.
+
+Current Features
+
+- Study Sessions per Day
+- Study Hours per Day
+- Monday to Sunday Ordering
+- Zero-filled Missing Days
+- JWT Authentication
+
+Future Enhancements
+
+- Weekly Study Target
+- Weekly Consistency Score
+- Longest Study Streak
+- Weekly AI Insights

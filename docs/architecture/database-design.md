@@ -293,3 +293,57 @@ Aggregated Metrics
 Purpose
 
 Provide a real-time overview of the user's productivity without duplicating data.
+
+
+
+## Subject Analytics
+
+Purpose
+
+Provides subject-wise productivity statistics.
+
+Data Sources
+
+- subjects
+- study_sessions
+- pomodoro_sessions
+
+Aggregated Metrics
+
+- Total Study Sessions
+- Total Study Hours
+- Total Pomodoro Sessions
+- Total Pomodoro Hours
+
+Implementation
+
+Uses aggregated subqueries with LEFT JOIN to avoid duplicate rows and ensure accurate calculations.
+
+
+
+## Weekly Analytics
+
+Purpose
+
+Provides day-wise study activity statistics for visualization and productivity tracking.
+
+Data Source
+
+- study_sessions
+
+Aggregated Metrics
+
+- Study Sessions per Day
+- Study Hours per Day
+
+Implementation
+
+Uses SQL aggregation with
+
+- DAYNAME()
+- WEEKDAY()
+- GROUP BY
+- SUM()
+- COUNT()
+
+The backend ensures all seven days are returned even if no study sessions exist for a particular day.

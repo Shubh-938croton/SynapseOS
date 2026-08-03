@@ -203,3 +203,19 @@ Upcoming Features
 - Pomodoro Analytics
 - Productivity Score
 - AI Recommendation Engine
+
+
+
+## Dashboard Analytics Progress
+
+✅ Dashboard Summary
+
+✅ Subject Analytics
+
+✅ Weekly Analytics
+
+⬜ Goal Analytics
+
+⬜ Pomodoro Analytics
+
+⬜ Productivity Score

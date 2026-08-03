@@ -180,7 +180,72 @@ ORDER BY study_hours DESC;
 
 };
 
+// =======================================
+// Weekly Analytics
+// =======================================
+
+const getWeeklyAnalytics = (userId, callback) => {
+
+    const query = `
+
+SELECT
+    DAYNAME(start_time) AS day,
+    WEEKDAY(start_time) AS day_order,
+
+    COUNT(*) AS study_sessions,
+
+    ROUND(SUM(duration_minutes)/60,2) AS study_hours
+
+FROM study_sessions
+
+WHERE user_id = ?
+
+GROUP BY
+    DAYNAME(start_time),
+    WEEKDAY(start_time)
+
+ORDER BY
+    day_order;
+
+`;
+
+    db.query(query, [userId], (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        // Return all seven days even if there is no data
+        const week = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+        ];
+
+        const analytics = week.map(day => {
+
+            const record = results.find(r => r.day === day);
+
+            return {
+                day,
+                study_sessions: record ? record.study_sessions : 0,
+                study_hours: record ? Number(record.study_hours) : 0
+            };
+
+        });
+
+        callback(null, analytics);
+
+    });
+
+};
+
 module.exports = {
     getDashboardSummary,
-    getSubjectAnalytics
+    getSubjectAnalytics,
+    getWeeklyAnalytics
 };

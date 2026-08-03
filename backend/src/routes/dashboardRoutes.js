@@ -22,4 +22,15 @@ router.get(
     dashboardController.getSubjectAnalytics
 );
 
+
+// =======================================
+// Weekly Analytics
+// =======================================
+
+router.get(
+    "/weekly",
+    verifyToken,
+    dashboardController.getWeeklyAnalytics
+);
+
 module.exports = router;

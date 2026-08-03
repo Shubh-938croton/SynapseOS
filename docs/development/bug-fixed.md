@@ -431,6 +431,69 @@ Used IFNULL() to return 0 instead of NULL.
 
 
 
+# Subject Analytics Fixes
+
+Problem
+
+Joining study_sessions and pomodoro_sessions directly produced duplicate rows, causing incorrect aggregate values.
+
+Solution
+
+Replaced direct joins with aggregated subqueries using GROUP BY before joining.
+
+--------------------------------------------------------
+
+Problem
+
+SUM(DISTINCT duration_minutes) produced incorrect totals when multiple sessions had the same duration.
+
+Solution
+
+Removed DISTINCT and aggregated each table independently before joining.
+
+--------------------------------------------------------
+
+Result
+
+- Accurate study hours
+- Accurate pomodoro hours
+- Better performance
+- Production-ready SQL
+
+
+# Weekly Analytics Fixes
+
+Problem
+
+ONLY_FULL_GROUP_BY generated an error while ordering grouped data.
+
+Solution
+
+Grouped using both DAYNAME(start_time) and WEEKDAY(start_time).
+
+--------------------------------------------------------
+
+Problem
+
+SQL returned only days that contained study sessions.
+
+Solution
+
+Created a complete Monday-to-Sunday array in the backend and inserted zero values for missing days.
+
+--------------------------------------------------------
+
+Problem
+
+Weekly data was returned in alphabetical order.
+
+Solution
+
+Ordered results using WEEKDAY(start_time) to ensure chronological Monday-Sunday ordering.
+
+
+
+
 
 
 

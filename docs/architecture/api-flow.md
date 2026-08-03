@@ -527,3 +527,107 @@ Response
 - Total Pomodoro Sessions
 - Total Pomodoro Hours
 
+
+
+
+
+# Subject Analytics API Flow
+
+Client
+
+↓
+
+GET /api/dashboard/subject-analysis
+
+↓
+
+JWT Authentication
+
+↓
+
+dashboardController.getSubjectAnalytics()
+
+↓
+
+dashboardModel.getSubjectAnalytics()
+
+↓
+
+subjects
+
+↓
+
+study_sessions (Aggregated)
+
+↓
+
+pomodoro_sessions (Aggregated)
+
+↓
+
+Combine Results
+
+↓
+
+Return JSON
+
+
+# Weekly Analytics API Flow
+
+---------------------------------------------------------
+
+Client
+
+↓
+
+GET /api/dashboard/weekly
+
+↓
+
+JWT Authentication
+
+↓
+
+dashboardController.getWeeklyAnalytics()
+
+↓
+
+dashboardModel.getWeeklyAnalytics()
+
+↓
+
+study_sessions
+
+↓
+
+Aggregate Data
+
+• DAYNAME()
+
+• WEEKDAY()
+
+• COUNT()
+
+• SUM()
+
+↓
+
+Generate Complete Week
+
+Monday
+
+Tuesday
+
+Wednesday
+
+Thursday
+
+Friday
+
+Saturday
+
+Sunday
+
+↓
+
+Return JSON Response
