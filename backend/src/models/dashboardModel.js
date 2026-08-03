@@ -369,10 +369,220 @@ const getPomodoroAnalytics = (userId, callback) => {
 
 };
 
+// =======================================
+// Productivity Score
+// =======================================
+
+const getProductivityScore = (userId, callback) => {
+
+    const query = `
+
+    SELECT
+
+        /* Goal Progress */
+
+        (
+            SELECT IFNULL(AVG(progress_percentage),0)
+            FROM goals
+            WHERE user_id = ?
+        ) AS avg_goal_progress,
+
+        /* Study Hours */
+
+        (
+            SELECT IFNULL(SUM(duration_minutes),0)
+            FROM study_sessions
+            WHERE user_id = ?
+        ) AS total_study_minutes,
+
+        /* Completed Pomodoro */
+
+        (
+            SELECT COUNT(*)
+            FROM pomodoro_sessions
+            WHERE user_id = ?
+            AND session_status='Completed'
+        ) AS completed_pomodoros,
+
+        /* Tasks */
+
+        (
+            SELECT COUNT(*)
+            FROM tasks
+            WHERE user_id = ?
+        ) AS total_tasks,
+
+        (
+            SELECT COUNT(*)
+            FROM tasks
+            WHERE user_id = ?
+            AND status='Completed'
+        ) AS completed_tasks;
+
+    `;
+
+    db.query(
+        query,
+        [
+            userId,
+            userId,
+            userId,
+            userId,
+            userId
+        ],
+        (err, results) => {
+
+            if (err) {
+                return callback(err, null);
+            }
+
+            const data = results[0];
+
+            // -------------------------
+            // Goal Score (30)
+            // -------------------------
+
+            const goalScore =
+                (data.avg_goal_progress / 100) * 30;
+
+            // -------------------------
+            // Study Score (30)
+            // 30 study hours = full marks
+            // -------------------------
+
+            const studyHours =
+                data.total_study_minutes / 60;
+
+            const studyScore =
+                Math.min(studyHours, 30);
+
+            // -------------------------
+            // Pomodoro Score (20)
+            // 40 completed sessions = full marks
+            // -------------------------
+
+            const pomodoroScore =
+                Math.min(
+                    (data.completed_pomodoros / 40) * 20,
+                    20
+                );
+
+            // -------------------------
+            // Task Score (20)
+            // -------------------------
+
+            let taskScore = 0;
+
+            if (data.total_tasks > 0) {
+
+                taskScore =
+                    (data.completed_tasks /
+                        data.total_tasks) * 20;
+
+            }
+
+            // -------------------------
+            // Final Score
+            // -------------------------
+
+            const score = Math.round(
+
+                goalScore +
+
+                studyScore +
+
+                pomodoroScore +
+
+                taskScore
+
+            );
+
+            // -------------------------
+            // Grade
+            // -------------------------
+
+            let grade;
+            let message;
+
+            if (score >= 90) {
+
+                grade = "A+";
+                message = "Outstanding productivity!";
+
+            }
+
+            else if (score >= 80) {
+
+                grade = "A";
+                message = "Excellent productivity!";
+
+            }
+
+            else if (score >= 70) {
+
+                grade = "B";
+                message = "Good work. Keep improving.";
+
+            }
+
+            else if (score >= 60) {
+
+                grade = "C";
+                message = "Average productivity.";
+
+            }
+
+            else if (score >= 40) {
+
+                grade = "D";
+                message = "Low productivity.";
+
+            }
+
+            else {
+
+                grade = "F";
+                message = "Productivity needs immediate attention.";
+
+            }
+
+            callback(null, {
+
+                score,
+
+                grade,
+
+                message,
+
+                breakdown: {
+
+                    goal_score:
+                        Number(goalScore.toFixed(2)),
+
+                    study_score:
+                        Number(studyScore.toFixed(2)),
+
+                    pomodoro_score:
+                        Number(pomodoroScore.toFixed(2)),
+
+                    task_score:
+                        Number(taskScore.toFixed(2))
+
+                }
+
+            });
+
+        }
+
+    );
+
+};
+
 module.exports = {
     getDashboardSummary,
     getSubjectAnalytics,
     getWeeklyAnalytics,
     getGoalAnalytics,
-    getPomodoroAnalytics
+    getPomodoroAnalytics,
+    getProductivityScore
 };

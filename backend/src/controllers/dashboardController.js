@@ -188,10 +188,48 @@ const getPomodoroAnalytics = (req, res) => {
 
 };
 
+// =======================================
+// Productivity Score
+// =======================================
+
+const getProductivityScore = (req, res) => {
+
+    try {
+
+        const userId = req.user.user_id;
+
+        dashboardModel.getProductivityScore(userId, (err, productivity) => {
+
+            if (err) {
+                return res.status(500).json({
+                    message: "Database error",
+                    error: err.message
+                });
+            }
+
+            return res.status(200).json({
+                message: "Productivity score calculated successfully",
+                productivity
+            });
+
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     getDashboardSummary,
     getSubjectAnalytics,
     getWeeklyAnalytics,
     getGoalAnalytics,
-    getPomodoroAnalytics
+    getPomodoroAnalytics,
+    getProductivityScore
 };

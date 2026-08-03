@@ -586,3 +586,18 @@ Upcoming
 ✅ Pomodoro Analytics
 
 ⬜ Productivity Score
+
+
+Dashboard Module
+
+├── Dashboard Summary
+
+├── Subject Analytics
+
+├── Weekly Analytics
+
+├── Goal Analytics
+
+├── Pomodoro Analytics
+
+└── Productivity Score

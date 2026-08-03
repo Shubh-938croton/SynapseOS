@@ -1248,3 +1248,32 @@ Future Enhancements
 - Weekly Consistency Score
 - Longest Study Streak
 - Weekly AI Insights
+
+
+
+# Completed Backend Features
+
+Authentication
+
+- Register
+- Login
+- JWT Authentication
+
+CRUD Modules
+
+- Subjects
+- Tasks
+- Notes
+- Calendar
+- Goals
+- Study Sessions
+- Pomodoro Sessions
+
+Dashboard Analytics
+
+- Dashboard Summary
+- Subject Analytics
+- Weekly Analytics
+- Goal Analytics
+- Pomodoro Analytics
+- Productivity Score

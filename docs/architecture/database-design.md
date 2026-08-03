@@ -411,3 +411,40 @@ Uses SQL aggregate functions:
 - MAX()
 - ROUND()
 - IFNULL()
+
+
+# Productivity Score
+
+Purpose
+
+Calculates an overall productivity score using multiple productivity metrics.
+
+Data Sources
+
+- goals
+- study_sessions
+- pomodoro_sessions
+- tasks
+
+Calculated Metrics
+
+- Goal Progress
+- Study Hours
+- Completed Pomodoro Sessions
+- Task Completion
+
+Output
+
+- Productivity Score
+- Grade
+- Recommendation Message
+
+Implementation
+
+Uses
+
+- COUNT()
+- SUM()
+- AVG()
+- CASE WHEN
+- IFNULL()

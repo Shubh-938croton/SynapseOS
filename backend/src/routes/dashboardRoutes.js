@@ -54,4 +54,15 @@ router.get(
     dashboardController.getPomodoroAnalytics
 );
 
+
+// =======================================
+// Productivity Score
+// =======================================
+
+router.get(
+    "/productivity",
+    verifyToken,
+    dashboardController.getProductivityScore
+);
+
 module.exports = router;

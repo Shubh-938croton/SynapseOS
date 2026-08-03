@@ -706,3 +706,61 @@ Aggregate Statistics
 ↓
 
 Return JSON Response
+
+
+
+# Productivity Score API Flow
+
+Client
+
+↓
+
+GET /api/dashboard/productivity
+
+↓
+
+JWT Authentication
+
+↓
+
+Dashboard Controller
+
+↓
+
+Dashboard Model
+
+↓
+
+Goals
+
+↓
+
+Study Sessions
+
+↓
+
+Pomodoro Sessions
+
+↓
+
+Tasks
+
+↓
+
+Business Logic
+
+↓
+
+Calculate Productivity Score
+
+↓
+
+Assign Grade
+
+↓
+
+Generate Recommendation Message
+
+↓
+
+Return JSON Response
