@@ -11,6 +11,7 @@ const calendarRoutes = require("./routes/calendarRoutes");
 const goalRoutes = require("./routes/goalRoutes");
 const studySessionRoutes = require("./routes/studySessionRoutes");
 const pomodoroRoutes = require("./routes/pomodoroRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 app.use(express.json());
 
@@ -23,5 +24,6 @@ app.use("/api/calendar", calendarRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/study-sessions", studySessionRoutes);
 app.use("/api/pomodoro", pomodoroRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 module.exports = app;
