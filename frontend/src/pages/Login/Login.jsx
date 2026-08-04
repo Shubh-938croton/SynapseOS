@@ -14,6 +14,8 @@ function Login() {
 
     e.preventDefault();
 
+    console.log("1. Login Started");
+
     try {
 
         const response = await loginUser({
@@ -21,19 +23,27 @@ function Login() {
             password
         });
 
-        console.log("Login Response:", response);
+        console.log("2. API Success");
+        console.log(response);
 
         localStorage.setItem("token", response.token);
-        localStorage.setItem("user", JSON.stringify(response.user));
 
-        console.log("Token Saved");
+        console.log("3. Token Saved");
 
-        console.log("Navigating...");
+        localStorage.setItem(
+            "user",
+            JSON.stringify(response.user)
+        );
+
+        console.log("4. User Saved");
 
         navigate("/dashboard");
 
+        console.log("5. Navigation Called");
+
     } catch (error) {
 
+        console.log("Login Error");
         console.log(error);
 
     }
