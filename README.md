@@ -157,7 +157,28 @@ This project is being built to:
 
 ## 📌 Status
 
-🚧 Currently under active development.
+## Current Progress
+
+### Backend
+
+✅ Authentication System
+
+✅ REST APIs
+
+✅ Dashboard Analytics APIs
+
+✅ JWT Authentication
+
+### Frontend
+
+✅ React + Vite Setup
+
+✅ Authentication
+
+✅ Protected Routes
+
+🚧 Dashboard UI (In Progress)
+
 
 ---
 
