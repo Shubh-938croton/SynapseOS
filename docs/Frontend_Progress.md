@@ -171,4 +171,56 @@ Frontend Development
 - [ ] Deployment
 
 
+frontend/
+│
+├── src/
+│   ├── components/
+│   │   ├── Layout/
+│   │   ├── Navbar/
+│   │   ├── Sidebar/
+│   │   ├── SummaryCard/
+│   │   └── ProtectedRoute.jsx
+│   │
+│   ├── pages/
+│   │   ├── Login/
+│   │   ├── Register/
+│   │   └── Dashboard/
+│   │
+│   ├── routes/
+│   ├── services/
+│   │   ├── api.js
+│   │   ├── authService.js
+│   │   └── dashboardService.js
+│   │
+│   ├── App.jsx
+│   └── main.jsx
+
+
+
+# Development Log
+
+## 5 August 2026
+
+### Completed
+
+- Created reusable SummaryCard component
+- Connected Dashboard frontend with backend
+- Configured Axios interceptor for JWT
+- Implemented Dashboard Summary API integration
+- Displayed live dashboard statistics
+
+### Issues Faced
+
+- Incorrect folder naming (Summarycards)
+- Missing Dashboard.css
+- Missing Authorization header
+- Import path issues
+
+### Lessons Learned
+
+- React folder naming must match imports exactly.
+- Axios interceptors simplify authenticated API requests.
+- Protected APIs require JWT in Authorization header.
+
+
 

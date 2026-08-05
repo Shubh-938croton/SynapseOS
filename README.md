@@ -182,6 +182,17 @@ This project is being built to:
 
 ---
 
+
+## Completed Milestones
+
+- ✅ User Authentication
+- ✅ Protected Routes
+- ✅ Dashboard Layout
+- ✅ Sidebar
+- ✅ Navbar
+- ✅ Dashboard Summary Cards
+- ✅ Frontend connected to Backend Dashboard API
+
 ## 📄 License
 
 This project is licensed under the MIT License.
