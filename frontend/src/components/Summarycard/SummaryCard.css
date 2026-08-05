@@ -1,0 +1,64 @@
+.summary-card{
+    background:#ffffff;
+    border-radius:16px;
+    padding:24px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+    transition:.3s;
+}
+
+.summary-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+
+}
+
+.summary-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:28px;
+
+}
+
+.summary-card h3{
+
+    margin:0;
+
+    color:#64748b;
+
+    font-size:16px;
+
+    font-weight:500;
+
+}
+
+.summary-card h2{
+
+    margin-top:8px;
+
+    font-size:34px;
+
+    color:#0f172a;
+
+}
