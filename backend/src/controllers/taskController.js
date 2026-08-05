@@ -3,7 +3,9 @@ const taskModel = require("../models/taskModel");
 // Get all tasks
 const getAllTasks = (req, res) => {
 
-    taskModel.getAllTasks((err, tasks) => {
+    const user_id = req.user.user_id;
+
+    taskModel.getAllTasks(user_id, (err, tasks) => {
 
         if (err) {
             return res.status(500).json({

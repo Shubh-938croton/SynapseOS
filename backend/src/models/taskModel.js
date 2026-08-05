@@ -3,11 +3,16 @@ const db = require("../config/database");
 // =========================
 // Get All Tasks
 // =========================
-const getAllTasks = (callback) => {
+const getAllTasks = (user_id, callback) => {
 
-    const query = "SELECT * FROM tasks";
+    const query = `
+        SELECT *
+        FROM tasks
+        WHERE user_id = ?
+        ORDER BY due_date ASC
+    `;
 
-    db.query(query, (err, results) => {
+    db.query(query, [user_id], (err, results) => {
 
         if (err) {
             return callback(err, null);

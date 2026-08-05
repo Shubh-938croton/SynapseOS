@@ -4,6 +4,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Tasks from "../pages/Tasks/Tasks";
 
 function AppRoutes() {
     return (
@@ -31,6 +32,15 @@ function AppRoutes() {
                         <ProtectedRoute>
                             <Dashboard />
                         </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/tasks"
+                    element={
+                    <ProtectedRoute>
+                        <Tasks />
+                    </ProtectedRoute>
                     }
                 />
 
