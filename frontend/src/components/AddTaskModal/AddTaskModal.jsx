@@ -1,6 +1,58 @@
+import { useState } from "react";
 import "./AddTaskModal.css";
+import { createTask } from "../../services/taskService";
 
-function AddTaskModal({ isOpen, onClose }) {
+function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
+
+    const [formData, setFormData] = useState({
+
+    subject_id: "",
+    title: "",
+    description: "",
+    priority: "Medium",
+    status: "Pending",
+    due_date: ""
+
+});
+
+const handleChange = (e) => {
+
+    setFormData({
+
+        ...formData,
+        [e.target.name]: e.target.value
+
+    });
+
+};
+
+const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+        await createTask(formData);
+
+        alert("Task created successfully!");
+
+        if (onTaskCreated) {
+
+            onTaskCreated();
+
+        }
+
+        onClose();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Failed to create task");
+
+    }
+
+};
 
     if (!isOpen) return null;
 
@@ -20,18 +72,28 @@ function AddTaskModal({ isOpen, onClose }) {
 
                 </div>
 
-                <form>
+                <form onSubmit={handleSubmit}>
 
                     <input
-                        type="text"
-                        placeholder="Task Title"
-                    />
+    type="text"
+    name="title"
+    placeholder="Task Title"
+    value={formData.title}
+    onChange={handleChange}
+/>
 
                     <textarea
-                        placeholder="Description"
-                    />
+    name="description"
+    placeholder="Description"
+    value={formData.description}
+    onChange={handleChange}
+/>
 
-                    <select>
+                    <select
+    name="priority"
+    value={formData.priority}
+    onChange={handleChange}
+>
 
                         <option>High</option>
                         <option>Medium</option>
@@ -39,7 +101,12 @@ function AddTaskModal({ isOpen, onClose }) {
 
                     </select>
 
-                    <input type="date"/>
+                    <input
+    type="date"
+    name="due_date"
+    value={formData.due_date}
+    onChange={handleChange}
+/>
 
                     <button type="submit">
 
