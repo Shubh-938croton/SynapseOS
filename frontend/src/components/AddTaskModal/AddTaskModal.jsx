@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import "./AddTaskModal.css";
-import { createTask, updateTask } from "../../services/taskService";
+
+import {
+    createTask,
+    updateTask
+} from "../../services/taskService";
+
+import {
+    getAllSubjects
+} from "../../services/subjectService";
 
 function AddTaskModal({
     isOpen,
@@ -8,6 +16,8 @@ function AddTaskModal({
     onTaskCreated,
     taskToEdit
 }) {
+
+    const [subjects, setSubjects] = useState([]);
 
     const [formData, setFormData] = useState({
         subject_id: "",
@@ -18,12 +28,46 @@ function AddTaskModal({
         due_date: ""
     });
 
-    // Prefill form when editing
+    // -----------------------------
+    // Fetch Subjects
+    // -----------------------------
+    useEffect(() => {
+
+        async function fetchSubjects() {
+
+            try {
+
+                const response = await getAllSubjects();
+
+                // if controller returns { count, subjects }
+                if (response.subjects) {
+                    setSubjects(response.subjects);
+                }
+                else {
+                    setSubjects(response);
+                }
+
+            } catch (error) {
+
+                console.error("Failed to fetch subjects", error);
+
+            }
+
+        }
+
+        fetchSubjects();
+
+    }, []);
+
+    // -----------------------------
+    // Prefill while editing
+    // -----------------------------
     useEffect(() => {
 
         if (taskToEdit) {
 
             setFormData({
+
                 subject_id: taskToEdit.subject_id || "",
                 title: taskToEdit.title || "",
                 description: taskToEdit.description || "",
@@ -32,32 +76,44 @@ function AddTaskModal({
                 due_date: taskToEdit.due_date
                     ? taskToEdit.due_date.substring(0, 10)
                     : ""
+
             });
 
-        } else {
+        }
+        else {
 
             setFormData({
+
                 subject_id: "",
                 title: "",
                 description: "",
                 priority: "Medium",
                 status: "Pending",
                 due_date: ""
+
             });
 
         }
 
     }, [taskToEdit]);
 
+    // -----------------------------
+    // Handle Change
+    // -----------------------------
     const handleChange = (e) => {
 
         setFormData({
+
             ...formData,
             [e.target.name]: e.target.value
+
         });
 
     };
 
+    // -----------------------------
+    // Handle Submit
+    // -----------------------------
     const handleSubmit = async (e) => {
 
         e.preventDefault();
@@ -66,11 +122,15 @@ function AddTaskModal({
 
             if (taskToEdit) {
 
-                await updateTask(taskToEdit.task_id, formData);
+                await updateTask(
+                    taskToEdit.task_id,
+                    formData
+                );
 
                 alert("Task updated successfully!");
 
-            } else {
+            }
+            else {
 
                 await createTask(formData);
 
@@ -84,17 +144,18 @@ function AddTaskModal({
 
             onClose();
 
-        } catch (error) {
+        }
+        catch (error) {
 
-        console.log("========== ERROR ==========");
-        console.log(error);
-        console.log(error.response);
-        console.log(error.response?.data);
-        console.log("===========================");
+            console.log("=========== ERROR ===========");
+            console.log(error);
+            console.log(error.response);
+            console.log(error.response?.data);
+            console.log("=============================");
 
-        alert("Operation failed");
+            alert("Operation failed");
 
-    }
+        }
 
     };
 
@@ -109,7 +170,11 @@ function AddTaskModal({
                 <div className="modal-header">
 
                     <h2>
-                        {taskToEdit ? "Edit Task" : "Create New Task"}
+
+                        {taskToEdit
+                            ? "Edit Task"
+                            : "Create New Task"}
+
                     </h2>
 
                     <button
@@ -126,6 +191,46 @@ function AddTaskModal({
                     className="task-form"
                 >
 
+                    {/* Subject */}
+
+                    <div className="form-group">
+
+                        <label>Subject</label>
+
+                        <select
+                            name="subject_id"
+                            value={formData.subject_id}
+                            onChange={handleChange}
+                            required
+                        >
+
+                            <option value="">
+                                Select Subject
+                            </option>
+
+                            {
+
+                                subjects.map(subject => (
+
+                                    <option
+                                        key={subject.subject_id}
+                                        value={subject.subject_id}
+                                    >
+
+                                        {subject.subject_name}
+
+                                    </option>
+
+                                ))
+
+                            }
+
+                        </select>
+
+                    </div>
+
+                    {/* Title */}
+
                     <div className="form-group">
 
                         <label>Task Title</label>
@@ -141,6 +246,8 @@ function AddTaskModal({
 
                     </div>
 
+                    {/* Description */}
+
                     <div className="form-group">
 
                         <label>Description</label>
@@ -155,6 +262,8 @@ function AddTaskModal({
 
                     </div>
 
+                    {/* Priority + Due Date */}
+
                     <div className="form-row">
 
                         <div className="form-group">
@@ -167,11 +276,17 @@ function AddTaskModal({
                                 onChange={handleChange}
                             >
 
-                                <option value="High">🔴 High</option>
+                                <option value="High">
+                                    🔴 High
+                                </option>
 
-                                <option value="Medium">🟡 Medium</option>
+                                <option value="Medium">
+                                    🟡 Medium
+                                </option>
 
-                                <option value="Low">🟢 Low</option>
+                                <option value="Low">
+                                    🟢 Low
+                                </option>
 
                             </select>
 
@@ -192,6 +307,8 @@ function AddTaskModal({
 
                     </div>
 
+                    {/* Buttons */}
+
                     <div className="modal-buttons">
 
                         <button
@@ -199,9 +316,7 @@ function AddTaskModal({
                             className="cancel-btn"
                             onClick={onClose}
                         >
-
                             Cancel
-
                         </button>
 
                         <button
@@ -209,7 +324,13 @@ function AddTaskModal({
                             className="create-btn"
                         >
 
-                            {taskToEdit ? "Update Task" : "Create Task"}
+                            {
+
+                                taskToEdit
+                                    ? "Update Task"
+                                    : "Create Task"
+
+                            }
 
                         </button>
 
