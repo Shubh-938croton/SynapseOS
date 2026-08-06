@@ -1,63 +1,119 @@
-<DashboardLayout>
+import { useEffect, useState } from "react";
 
-    <div className="tasks-page">
+import DashboardLayout from "../../components/Layout/DashboardLayout";
+import TaskCard from "../../components/TaskCard/TaskCard";
+import AddTaskModal from "../../components/AddTaskModal/AddTaskModal";
 
-        <div className="tasks-header">
+import { getAllTasks } from "../../services/taskService";
 
-            <h1>My Tasks</h1>
+import "./Tasks.css";
 
-            <button className="add-task-btn">
-                + Add Task
-            </button>
+function Tasks() {
 
-        </div>
+    const [tasks, setTasks] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-        <div className="task-toolbar">
+    useEffect(() => {
 
-            <input
-                type="text"
-                placeholder="🔍 Search tasks..."
-                className="search-box"
-            />
+        async function fetchTasks() {
 
-            <select className="filter">
+            try {
 
-                <option>All Priorities</option>
-                <option>High</option>
-                <option>Medium</option>
-                <option>Low</option>
+                const data = await getAllTasks();
 
-            </select>
+                console.log(data);
 
-            <select className="filter">
+                setTasks(data);
 
-                <option>All Status</option>
-                <option>Pending</option>
-                <option>Completed</option>
+            } catch (error) {
 
-            </select>
+                console.error("Error fetching tasks:", error);
 
-        </div>
+            }
 
-        {
-            tasks.length === 0 ? (
-
-                <h3>No Tasks Found</h3>
-
-            ) : (
-
-                tasks.map(task => (
-
-                    <TaskCard
-                        key={task.task_id}
-                        task={task}
-                    />
-
-                ))
-
-            )
         }
 
-    </div>
+        fetchTasks();
 
-</DashboardLayout>
+    }, []);
+
+    return (
+
+        <DashboardLayout>
+
+            <div className="tasks-page">
+
+                <div className="tasks-header">
+
+                    <h1>My Tasks</h1>
+
+                    <button
+                        className="add-task-btn"
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        + Add Task
+                    </button>
+
+                </div>
+
+                <div className="task-toolbar">
+
+                    <input
+                        type="text"
+                        placeholder="🔍 Search tasks..."
+                        className="search-box"
+                    />
+
+                    <select className="filter">
+
+                        <option>All Priorities</option>
+                        <option>High</option>
+                        <option>Medium</option>
+                        <option>Low</option>
+
+                    </select>
+
+                    <select className="filter">
+
+                        <option>All Status</option>
+                        <option>Pending</option>
+                        <option>Completed</option>
+
+                    </select>
+
+                </div>
+
+                {
+                    tasks.length === 0 ? (
+
+                        <h3>No Tasks Found</h3>
+
+                    ) : (
+
+                        tasks.map((task) => (
+
+                            <TaskCard
+                                key={task.task_id}
+                                task={task}
+                            />
+
+                        ))
+
+                    )
+                }
+
+            </div>
+
+            <AddTaskModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
+
+        </DashboardLayout>
+
+    );
+
+}
+
+export default Tasks;
+
