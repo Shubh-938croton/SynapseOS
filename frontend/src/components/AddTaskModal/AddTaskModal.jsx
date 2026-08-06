@@ -5,59 +5,47 @@ import { createTask } from "../../services/taskService";
 function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
 
     const [formData, setFormData] = useState({
-
-    subject_id: "",
-    title: "",
-    description: "",
-    priority: "Medium",
-    status: "Pending",
-    due_date: ""
-
-});
-
-const handleChange = (e) => {
-
-    setFormData({
-
-        ...formData,
-        [e.target.name]: e.target.value
-
+        subject_id: "",
+        title: "",
+        description: "",
+        priority: "Medium",
+        status: "Pending",
+        due_date: ""
     });
 
-};
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
 
-const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    e.preventDefault();
+        try {
 
-    try {
+            await createTask(formData);
 
-        await createTask(formData);
+            alert("Task created successfully!");
 
-        alert("Task created successfully!");
+            if (onTaskCreated) {
+                onTaskCreated();
+            }
 
-        if (onTaskCreated) {
+            onClose();
 
-            onTaskCreated();
+        } catch (error) {
+
+            console.error(error);
+            alert("Failed to create task");
 
         }
-
-        onClose();
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert("Failed to create task");
-
-    }
-
-};
+    };
 
     if (!isOpen) return null;
 
     return (
-
         <div className="modal-overlay">
 
             <div className="modal">
@@ -66,62 +54,104 @@ const handleSubmit = async (e) => {
 
                     <h2>Create New Task</h2>
 
-                    <button onClick={onClose}>
-                        ✕
-                    </button>
+                    <button
+    type="button"
+    onClick={onClose}
+>
+    ✕
+</button>
 
                 </div>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="task-form">
 
-                    <input
-    type="text"
-    name="title"
-    placeholder="Task Title"
-    value={formData.title}
-    onChange={handleChange}
-/>
+                    <div className="form-group">
 
-                    <textarea
-    name="description"
-    placeholder="Description"
-    value={formData.description}
-    onChange={handleChange}
-/>
+                        <label>Task Title</label>
 
-                    <select
-    name="priority"
-    value={formData.priority}
-    onChange={handleChange}
->
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Enter task title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            required
+                        />
 
-                        <option>High</option>
-                        <option>Medium</option>
-                        <option>Low</option>
+                    </div>
 
-                    </select>
+                    <div className="form-group">
 
-                    <input
-    type="date"
-    name="due_date"
-    value={formData.due_date}
-    onChange={handleChange}
-/>
+                        <label>Description</label>
 
-                    <button type="submit">
+                        <textarea
+                            name="description"
+                            placeholder="Describe your task..."
+                            value={formData.description}
+                            onChange={handleChange}
+                            rows="4"
+                        />
 
-                        Create Task
+                    </div>
 
-                    </button>
+                    <div className="form-row">
+
+                        <div className="form-group">
+
+                            <label>Priority</label>
+
+                            <select
+                                name="priority"
+                                value={formData.priority}
+                                onChange={handleChange}
+                            >
+                                <option value="High">🔴 High</option>
+                                <option value="Medium">🟡 Medium</option>
+                                <option value="Low">🟢 Low</option>
+                            </select>
+
+                        </div>
+
+                        <div className="form-group">
+
+                            <label>Due Date</label>
+
+                            <input
+                                type="date"
+                                name="due_date"
+                                value={formData.due_date}
+                                onChange={handleChange}
+                            />
+
+                        </div>
+
+                    </div>
+
+                    <div className="modal-buttons">
+
+                        <button
+                            type="button"
+                            className="cancel-btn"
+                            onClick={onClose}
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            className="create-btn"
+                        >
+                            Create Task
+                        </button>
+
+                    </div>
 
                 </form>
 
             </div>
 
         </div>
-
     );
-
 }
 
 export default AddTaskModal;

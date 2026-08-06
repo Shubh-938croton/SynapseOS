@@ -1,32 +1,46 @@
+/* ===========================
+   Overlay
+=========================== */
+
 .modal-overlay{
-
     position:fixed;
-
     inset:0;
-
     background:rgba(0,0,0,.45);
-
+    backdrop-filter:blur(6px);
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
-    z-index:999;
-
+    z-index:1000;
+    padding:20px;
 }
+
+/* ===========================
+   Modal
+=========================== */
 
 .modal{
 
-    width:500px;
+    width:100%;
+    max-width:650px;
 
-    background:white;
+    background:#ffffff;
 
-    border-radius:16px;
+    border-radius:22px;
 
-    padding:25px;
+    padding:38px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.25);
+
+    animation:popup .25s ease;
+
+    box-sizing:border-box;
 
 }
+
+/* ===========================
+   Header
+=========================== */
 
 .modal-header{
 
@@ -36,53 +50,186 @@
 
     align-items:center;
 
-    margin-bottom:20px;
+    margin-bottom:30px;
+
+}
+
+.modal-header h2{
+
+    margin:0;
+
+    font-size:30px;
+
+    color:#2563eb;
+
+    font-weight:700;
 
 }
 
 .modal-header button{
 
-    border:none;
-
     background:none;
 
-    font-size:22px;
+    border:none;
+
+    font-size:30px;
 
     cursor:pointer;
 
+    color:#666;
+
+    transition:.2s;
+
 }
 
-.modal form{
+.modal-header button:hover{
+
+    color:#ef4444;
+
+    transform:rotate(90deg);
+
+}
+
+/* ===========================
+   Form
+=========================== */
+
+.task-form{
 
     display:flex;
 
     flex-direction:column;
 
-    gap:15px;
+    gap:22px;
 
 }
 
-.modal input,
-.modal textarea,
-.modal select{
+/* ===========================
+   Form Group
+=========================== */
 
-    padding:12px;
+.form-group{
 
-    border-radius:10px;
+    display:flex;
 
-    border:1px solid #ddd;
+    flex-direction:column;
+
+    gap:8px;
 
 }
 
-.modal textarea{
+.form-group label{
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#555;
+
+}
+
+/* ===========================
+   Inputs
+=========================== */
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:14px 16px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.25s;
+
+    background:white;
+
+}
+
+.form-group textarea{
 
     resize:none;
 
-    height:120px;
+    min-height:140px;
 
 }
 
-.modal button[type="submit"]{
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.15);
+
+}
+
+/* ===========================
+   Priority + Date
+=========================== */
+
+.form-row{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+.modal-buttons{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:14px;
+
+    margin-top:10px;
+
+}
+
+.cancel-btn{
+
+    background:white;
+
+    border:1px solid #d1d5db;
+
+    color:#444;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.cancel-btn:hover{
+
+    background:#f3f4f6;
+
+}
+
+.create-btn{
 
     background:#2563eb;
 
@@ -90,10 +237,79 @@
 
     border:none;
 
-    padding:12px;
+    padding:12px 24px;
 
     border-radius:10px;
 
     cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.create-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(37,99,235,.35);
+
+}
+
+/* ===========================
+   Animation
+=========================== */
+
+@keyframes popup{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-30px) scale(.95);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0) scale(1);
+
+    }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media (max-width:768px){
+
+    .modal{
+
+        padding:24px;
+
+    }
+
+    .form-row{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .modal-buttons{
+
+        flex-direction:column;
+
+    }
+
+    .cancel-btn,
+    .create-btn{
+
+        width:100%;
+
+    }
 
 }
