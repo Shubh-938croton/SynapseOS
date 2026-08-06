@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./AddTaskModal.css";
-import { createTask } from "../../services/taskService";
+import { createTask, updateTask } from "../../services/taskService";
 
-function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
+function AddTaskModal({
+    isOpen,
+    onClose,
+    onTaskCreated,
+    taskToEdit
+}) {
 
     const [formData, setFormData] = useState({
         subject_id: "",
@@ -13,21 +18,65 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
         due_date: ""
     });
 
+    // Prefill form when editing
+    useEffect(() => {
+
+        if (taskToEdit) {
+
+            setFormData({
+                subject_id: taskToEdit.subject_id || "",
+                title: taskToEdit.title || "",
+                description: taskToEdit.description || "",
+                priority: taskToEdit.priority || "Medium",
+                status: taskToEdit.status || "Pending",
+                due_date: taskToEdit.due_date
+                    ? taskToEdit.due_date.substring(0, 10)
+                    : ""
+            });
+
+        } else {
+
+            setFormData({
+                subject_id: "",
+                title: "",
+                description: "",
+                priority: "Medium",
+                status: "Pending",
+                due_date: ""
+            });
+
+        }
+
+    }, [taskToEdit]);
+
     const handleChange = (e) => {
+
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
+
     };
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
 
         try {
 
-            await createTask(formData);
+            if (taskToEdit) {
 
-            alert("Task created successfully!");
+                await updateTask(taskToEdit.task_id, formData);
+
+                alert("Task updated successfully!");
+
+            } else {
+
+                await createTask(formData);
+
+                alert("Task created successfully!");
+
+            }
 
             if (onTaskCreated) {
                 onTaskCreated();
@@ -37,33 +86,45 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
 
         } catch (error) {
 
-            console.error(error);
-            alert("Failed to create task");
+        console.log("========== ERROR ==========");
+        console.log(error);
+        console.log(error.response);
+        console.log(error.response?.data);
+        console.log("===========================");
 
-        }
+        alert("Operation failed");
+
+    }
+
     };
 
     if (!isOpen) return null;
 
     return (
+
         <div className="modal-overlay">
 
             <div className="modal">
 
                 <div className="modal-header">
 
-                    <h2>Create New Task</h2>
+                    <h2>
+                        {taskToEdit ? "Edit Task" : "Create New Task"}
+                    </h2>
 
                     <button
-    type="button"
-    onClick={onClose}
->
-    ✕
-</button>
+                        type="button"
+                        onClick={onClose}
+                    >
+                        ✕
+                    </button>
 
                 </div>
 
-                <form onSubmit={handleSubmit} className="task-form">
+                <form
+                    onSubmit={handleSubmit}
+                    className="task-form"
+                >
 
                     <div className="form-group">
 
@@ -87,9 +148,9 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
                         <textarea
                             name="description"
                             placeholder="Describe your task..."
+                            rows="4"
                             value={formData.description}
                             onChange={handleChange}
-                            rows="4"
                         />
 
                     </div>
@@ -105,9 +166,13 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
                                 value={formData.priority}
                                 onChange={handleChange}
                             >
+
                                 <option value="High">🔴 High</option>
+
                                 <option value="Medium">🟡 Medium</option>
+
                                 <option value="Low">🟢 Low</option>
+
                             </select>
 
                         </div>
@@ -134,14 +199,18 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
                             className="cancel-btn"
                             onClick={onClose}
                         >
+
                             Cancel
+
                         </button>
 
                         <button
                             type="submit"
                             className="create-btn"
                         >
-                            Create Task
+
+                            {taskToEdit ? "Update Task" : "Create Task"}
+
                         </button>
 
                     </div>
@@ -151,7 +220,9 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
             </div>
 
         </div>
+
     );
+
 }
 
 export default AddTaskModal;

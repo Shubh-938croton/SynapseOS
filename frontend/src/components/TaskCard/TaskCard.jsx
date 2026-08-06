@@ -1,4 +1,5 @@
 import "./TaskCard.css";
+
 import {
     FaCalendarAlt,
     FaEdit,
@@ -6,7 +7,7 @@ import {
     FaCheckCircle
 } from "react-icons/fa";
 
-function TaskCard({ task }) {
+function TaskCard({ task, onEdit }) {
 
     return (
 
@@ -52,7 +53,10 @@ function TaskCard({ task }) {
 
             <div className="task-actions">
 
-                <button className="edit-btn">
+                <button
+                    className="edit-btn"
+                    onClick={() => onEdit(task)}
+                >
 
                     <FaEdit />
 
@@ -69,9 +73,9 @@ function TaskCard({ task }) {
                 </button>
 
                 <button
-    className="complete-btn"
-    disabled={task.status === "Completed"}
->
+                    className="complete-btn"
+                    disabled={task.status === "Completed"}
+                >
 
                     <FaCheckCircle />
 

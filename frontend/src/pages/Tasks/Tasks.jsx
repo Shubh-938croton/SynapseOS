@@ -12,26 +12,25 @@ function Tasks() {
 
     const [tasks, setTasks] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [taskToEdit, setTaskToEdit] = useState(null);
 
-    useEffect(() => {
+    const fetchTasks = async () => {
 
-        async function fetchTasks() {
+        try {
 
-            try {
+            const data = await getAllTasks();
 
-                const data = await getAllTasks();
+            setTasks(data);
 
-                console.log(data);
+        } catch (error) {
 
-                setTasks(data);
-
-            } catch (error) {
-
-                console.error("Error fetching tasks:", error);
-
-            }
+            console.error("Error fetching tasks:", error);
 
         }
+
+    };
+
+    useEffect(() => {
 
         fetchTasks();
 
@@ -49,7 +48,12 @@ function Tasks() {
 
                     <button
                         className="add-task-btn"
-                        onClick={() => setIsModalOpen(true)}
+                        onClick={() => {
+
+                            setTaskToEdit(null);
+                            setIsModalOpen(true);
+
+                        }}
                     >
                         + Add Task
                     </button>
@@ -84,6 +88,7 @@ function Tasks() {
                 </div>
 
                 {
+
                     tasks.length === 0 ? (
 
                         <h3>No Tasks Found</h3>
@@ -95,18 +100,32 @@ function Tasks() {
                             <TaskCard
                                 key={task.task_id}
                                 task={task}
+                                onEdit={(task) => {
+
+                                    setTaskToEdit(task);
+                                    setIsModalOpen(true);
+
+                                }}
                             />
 
                         ))
 
                     )
+
                 }
 
             </div>
 
             <AddTaskModal
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                onClose={() => {
+
+                    setIsModalOpen(false);
+                    setTaskToEdit(null);
+
+                }}
+                taskToEdit={taskToEdit}
+                onTaskCreated={fetchTasks}
             />
 
         </DashboardLayout>
@@ -116,4 +135,3 @@ function Tasks() {
 }
 
 export default Tasks;
-
