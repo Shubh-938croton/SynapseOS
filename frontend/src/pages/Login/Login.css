@@ -1,0 +1,515 @@
+/* ===========================================
+   LOGIN PAGE
+=========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.login-page{
+    min-height:100vh;
+    display:flex;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#edf4ff 0%,#dfeeff 100%);
+    font-family:"Poppins",sans-serif;
+}
+
+/* ===========================================
+   BACKGROUND BLOBS
+=========================================== */
+
+.login-page::before{
+    content:"";
+    position:absolute;
+    width:420px;
+    height:420px;
+    border-radius:50%;
+    background:rgba(37,99,235,.18);
+    top:-140px;
+    left:-120px;
+    filter:blur(90px);
+}
+
+.login-page::after{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    background:rgba(139,92,246,.18);
+    bottom:-120px;
+    right:-80px;
+    filter:blur(90px);
+}
+
+/* ===========================================
+   LEFT SIDE
+=========================================== */
+
+.login-left{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:70px;
+    position:relative;
+    z-index:2;
+    perspective:1200px;
+}
+
+.logo{
+    font-size:58px;
+    font-weight:800;
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+.login-left h2{
+    font-size:34px;
+    color:#1e293b;
+    margin-bottom:15px;
+}
+
+.login-left p{
+    color:#64748b;
+    font-size:18px;
+    line-height:1.7;
+    max-width:480px;
+    text-align:center;
+}
+
+/* Floating Wrapper */
+
+.brain-wrapper{
+    margin-top:30px;
+    animation:brainFloat 5s ease-in-out infinite;
+}
+
+/* Rotating Brain */
+
+.brain-image{
+    width:360px;
+    max-width:100%;
+    animation:brainRotate 18s linear infinite;
+    filter:drop-shadow(0 20px 40px rgba(37,99,235,.25));
+}
+
+/* ===========================================
+   RIGHT SIDE
+=========================================== */
+
+.login-right{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:60px;
+    z-index:2;
+}
+
+/* ===========================================
+   LOGIN CARD
+=========================================== */
+
+.login-card{
+
+    width:430px;
+
+    background:rgba(255,255,255,.82);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.35);
+
+    border-radius:24px;
+
+    padding:40px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.15);
+
+    animation:slideUp .8s ease;
+
+}
+
+.login-card h2{
+
+    font-size:34px;
+
+    color:#1e293b;
+
+    margin-bottom:8px;
+
+}
+
+.login-card p{
+
+    color:#64748b;
+
+    margin-bottom:28px;
+
+}
+
+.login-card form{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/* ===========================================
+   INPUTS
+=========================================== */
+
+.login-card input{
+
+    width:100%;
+
+    padding:16px 18px;
+
+    margin-bottom:18px;
+
+    border-radius:14px;
+
+    border:1px solid #dbe4f0;
+
+    background:white;
+
+    font-size:16px;
+
+    transition:.3s;
+
+}
+
+.login-card input:focus{
+
+    outline:none;
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.15);
+
+}
+
+/* ===========================================
+   REMEMBER / FORGOT
+=========================================== */
+
+.login-options{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+    font-size:14px;
+
+}
+
+.login-options label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#475569;
+
+}
+
+.login-options input{
+
+    width:auto;
+
+    margin:0;
+
+}
+
+.login-options a{
+
+    color:#2563eb;
+
+    text-decoration:none;
+
+    font-weight:500;
+
+}
+
+.login-options a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* ===========================================
+   LOGIN BUTTON
+=========================================== */
+
+.login-btn{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.login-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 12px 30px rgba(37,99,235,.35);
+
+}
+
+/* ===========================================
+   DIVIDER
+=========================================== */
+
+.divider{
+
+    display:flex;
+
+    align-items:center;
+
+    margin:25px 0;
+
+}
+
+.divider::before,
+.divider::after{
+
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:#d1d5db;
+
+}
+
+.divider span{
+
+    padding:0 15px;
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+/* ===========================================
+   GOOGLE BUTTON
+=========================================== */
+
+.google-btn{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:15px;
+
+    background:white;
+
+    color:#1e293b;
+
+    border:1px solid #d1d5db;
+
+    border-radius:14px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.google-btn img{
+
+    width:22px;
+
+    height:22px;
+
+}
+
+.google-btn:hover{
+
+    border-color:#2563eb;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 25px rgba(37,99,235,.15);
+
+}
+
+/* ===========================================
+   SIGNUP
+=========================================== */
+
+.signup-link{
+
+    margin-top:24px;
+
+    text-align:center;
+
+    color:#64748b;
+
+    font-size:15px;
+
+}
+
+.signup-link span{
+
+    color:#2563eb;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    margin-left:5px;
+
+}
+
+.signup-link span:hover{
+
+    text-decoration:underline;
+
+}
+
+/* ===========================================
+   ANIMATIONS
+=========================================== */
+
+@keyframes brainFloat{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-20px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+@keyframes brainRotate{
+
+    from{
+        transform:rotateY(0deg);
+    }
+
+    to{
+        transform:rotateY(360deg);
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===========================================
+   RESPONSIVE
+=========================================== */
+
+@media(max-width:900px){
+
+.login-page{
+
+    flex-direction:column;
+
+}
+
+.login-left{
+
+    padding:40px 25px;
+
+}
+
+.login-right{
+
+    padding:30px 25px;
+
+}
+
+.logo{
+
+    font-size:44px;
+
+}
+
+.login-left h2{
+
+    font-size:28px;
+
+}
+
+.brain-image{
+
+    width:250px;
+
+}
+
+.login-card{
+
+    width:100%;
+
+    max-width:420px;
+
+}
+
+}

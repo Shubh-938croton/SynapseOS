@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/authService";
 import "./Login.css";
+import hero from "../../assets/hero.png";
 
 function Login() {
 
@@ -10,79 +11,174 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    // 👇 handleLogin goes HERE
     const handleLogin = async (e) => {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    console.log("1. Login Started");
+        try {
 
-    try {
+            const response = await loginUser({
+                email,
+                password
+            });
 
-        const response = await loginUser({
-            email,
-            password
-        });
+            localStorage.setItem("token", response.token);
 
-        console.log("2. API Success");
-        console.log(response);
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.user)
+            );
 
-        localStorage.setItem("token", response.token);
+            navigate("/dashboard");
 
-        console.log("3. Token Saved");
+        } catch (error) {
 
-        localStorage.setItem(
-            "user",
-            JSON.stringify(response.user)
-        );
+            console.log(error);
+            alert("Invalid Email or Password");
 
-        console.log("4. User Saved");
+        }
 
-        navigate("/dashboard");
+    };
 
-        console.log("5. Navigation Called");
-
-    } catch (error) {
-
-        console.log("Login Error");
-        console.log(error);
-
-    }
-
-};
-
-    // 👇 return comes AFTER handleLogin
     return (
 
-        <form onSubmit={handleLogin}>
+        <div className="login-page">
 
-            <h1>Login</h1>
+            {/* LEFT SIDE */}
 
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
+            <div className="login-left">
 
-            <br /><br />
+                <h1 className="logo">
+                    SynapseOS
+                </h1>
 
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+                <h2>
+                    AI Powered Productivity
+                </h2>
 
-            <br /><br />
+                <p>
+                    Organize your studies, manage tasks,
+                    build habits and let AI guide your
+                    productivity journey.
+                </p>
 
-            <button type="submit">
-                Login
-            </button>
+                <div className="brain-wrapper">
 
-        </form>
+                    <img
+                        src={hero}
+                        alt="AI Brain"
+                        className="brain-image"
+                    />
+
+                </div>
+
+            </div>
+
+            {/* RIGHT SIDE */}
+
+            <div className="login-right">
+
+                <div className="login-card">
+
+                    <h2>
+                        Welcome Back 👋
+                    </h2>
+
+                    <p>
+                        Login to continue to SynapseOS
+                    </p>
+
+                    <form onSubmit={handleLogin}>
+
+                        <input
+                            type="email"
+                            placeholder="Email Address"
+                            value={email}
+                            onChange={(e) =>
+                                setEmail(e.target.value)
+                            }
+                            required
+                        />
+
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) =>
+                                setPassword(e.target.value)
+                            }
+                            required
+                        />
+
+                        <div className="login-options">
+
+                            <label>
+
+                                <input type="checkbox" />
+
+                                Remember me
+
+                            </label>
+
+                            <a href="#">
+                                Forgot Password?
+                            </a>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="login-btn"
+                        >
+                            Sign In
+                        </button>
+
+                    </form>
+
+                    <div className="divider">
+
+                        <span>
+                            OR
+                        </span>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        className="google-btn"
+                    >
+
+                        <img
+                            src="https://www.svgrepo.com/show/475656/google-color.svg"
+                            alt="Google"
+                        />
+
+                        Continue with Google
+
+                    </button>
+
+                    <div className="signup-link">
+
+                        Don't have an account?
+
+                        <span
+                            onClick={() =>
+                                navigate("/register")
+                            }
+                        >
+                            Sign Up
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     );
+
 }
 
 export default Login;
