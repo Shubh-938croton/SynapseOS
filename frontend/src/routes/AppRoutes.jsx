@@ -5,12 +5,16 @@ import Register from "../pages/Register/Register";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Tasks from "../pages/Tasks/Tasks";
+import Notes from "../pages/Notes/Notes";
+import NoteCard from "../../components/NoteCard/NoteCard";
 
 function AppRoutes() {
     return (
         <BrowserRouter>
+
             <Routes>
 
+                {/* Login */}
                 <Route
                     path="/"
                     element={<Login />}
@@ -21,11 +25,13 @@ function AppRoutes() {
                     element={<Login />}
                 />
 
+                {/* Register */}
                 <Route
                     path="/register"
                     element={<Register />}
                 />
 
+                {/* Dashboard */}
                 <Route
                     path="/dashboard"
                     element={
@@ -35,16 +41,28 @@ function AppRoutes() {
                     }
                 />
 
+                {/* Tasks */}
                 <Route
                     path="/tasks"
                     element={
-                    <ProtectedRoute>
-                        <Tasks />
-                    </ProtectedRoute>
+                        <ProtectedRoute>
+                            <Tasks />
+                        </ProtectedRoute>
+                    }
+                />
+
+                {/* Notes */}
+                <Route
+                    path="/notes"
+                    element={
+                        <ProtectedRoute>
+                            <Notes />
+                        </ProtectedRoute>
                     }
                 />
 
             </Routes>
+
         </BrowserRouter>
     );
 }

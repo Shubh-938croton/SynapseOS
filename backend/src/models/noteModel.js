@@ -1,6 +1,9 @@
 const db = require("../config/database");
 
-// Create Note
+// =========================
+// CREATE NOTE
+// =========================
+
 const createNote = (note, callback) => {
 
     const query = `
@@ -9,9 +12,10 @@ const createNote = (note, callback) => {
             user_id,
             subject_id,
             title,
-            content
+            content,
+            is_pinned
         )
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -20,7 +24,8 @@ const createNote = (note, callback) => {
             note.user_id,
             note.subject_id,
             note.title,
-            note.content
+            note.content,
+            note.is_pinned || false
         ],
         (err, result) => {
 
@@ -35,7 +40,11 @@ const createNote = (note, callback) => {
 
 };
 
-// Check if subject belongs to logged-in user
+
+// =========================
+// CHECK SUBJECT OWNERSHIP
+// =========================
+
 const findSubjectById = (userId, subjectId, callback) => {
 
     const query = `
@@ -45,80 +54,103 @@ const findSubjectById = (userId, subjectId, callback) => {
         AND user_id = ?
     `;
 
-    db.query(query, [subjectId, userId], (err, results) => {
+    db.query(
+        query,
+        [subjectId, userId],
+        (err, results) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, results);
+
         }
-
-        callback(null, results);
-
-    });
+    );
 
 };
 
 
-// Get all notes of logged-in user
+// =========================
+// GET ALL NOTES
+// =========================
+
 const getAllNotes = (userId, callback) => {
 
     const query = `
         SELECT
             n.note_id,
+            n.user_id,
+            n.subject_id,
             n.title,
             n.content,
+            n.is_pinned,
             n.created_at,
-            s.subject_name
+            n.updated_at
         FROM notes n
-        INNER JOIN subjects s
-            ON n.subject_id = s.subject_id
         WHERE n.user_id = ?
-        ORDER BY n.created_at DESC
+        ORDER BY n.is_pinned DESC, n.updated_at DESC
     `;
 
-    db.query(query, [userId], (err, results) => {
+    db.query(
+        query,
+        [userId],
+        (err, results) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, results);
+
         }
-
-        callback(null, results);
-
-    });
+    );
 
 };
 
-// Get Note By ID
+
+// =========================
+// GET NOTE BY ID
+// =========================
+
 const getNoteById = (userId, noteId, callback) => {
 
     const query = `
         SELECT
             n.note_id,
+            n.user_id,
+            n.subject_id,
             n.title,
             n.content,
+            n.is_pinned,
             n.created_at,
-            n.updated_at,
-            s.subject_name
+            n.updated_at
         FROM notes n
-        INNER JOIN subjects s
-            ON n.subject_id = s.subject_id
-        WHERE
-            n.note_id = ?
-            AND n.user_id = ?
+        WHERE n.note_id = ?
+        AND n.user_id = ?
     `;
 
-    db.query(query, [noteId, userId], (err, results) => {
+    db.query(
+        query,
+        [noteId, userId],
+        (err, results) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, results);
+
         }
-
-        callback(null, results);
-
-    });
+    );
 
 };
 
-// Update Note
+
+// =========================
+// UPDATE NOTE
+// =========================
+
 const updateNote = (userId, noteId, note, callback) => {
 
     const query = `
@@ -128,9 +160,8 @@ const updateNote = (userId, noteId, note, callback) => {
             title = ?,
             content = ?,
             is_pinned = ?
-        WHERE
-            note_id = ?
-            AND user_id = ?
+        WHERE note_id = ?
+        AND user_id = ?
     `;
 
     db.query(
@@ -139,7 +170,7 @@ const updateNote = (userId, noteId, note, callback) => {
             note.subject_id,
             note.title,
             note.content,
-            note.is_pinned,
+            note.is_pinned || false,
             noteId,
             userId
         ],
@@ -157,7 +188,10 @@ const updateNote = (userId, noteId, note, callback) => {
 };
 
 
-// Delete Note
+// =========================
+// DELETE NOTE
+// =========================
+
 const deleteNote = (userId, noteId, callback) => {
 
     const query = `
@@ -166,17 +200,26 @@ const deleteNote = (userId, noteId, callback) => {
         AND user_id = ?
     `;
 
-    db.query(query, [noteId, userId], (err, result) => {
+    db.query(
+        query,
+        [noteId, userId],
+        (err, result) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, result);
+
         }
-
-        callback(null, result);
-
-    });
+    );
 
 };
+
+
+// =========================
+// EXPORT
+// =========================
 
 module.exports = {
     createNote,
