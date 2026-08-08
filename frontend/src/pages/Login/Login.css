@@ -1,515 +1,974 @@
-/* ===========================================
-   LOGIN PAGE
-=========================================== */
+/* =========================================================
+   SYNAPSEOS LOGIN PAGE
+   ========================================================= */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.login-page{
-    min-height:100vh;
-    display:flex;
-    position:relative;
-    overflow:hidden;
-    background:linear-gradient(135deg,#edf4ff 0%,#dfeeff 100%);
-    font-family:"Poppins",sans-serif;
+.login-page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        #edf4ff 0%,
+        #dfeeff 50%,
+        #eef2ff 100%
+    );
+    font-family: "Poppins", "Segoe UI", Arial, sans-serif;
 }
 
-/* ===========================================
-   BACKGROUND BLOBS
-=========================================== */
 
-.login-page::before{
-    content:"";
-    position:absolute;
-    width:420px;
-    height:420px;
-    border-radius:50%;
-    background:rgba(37,99,235,.18);
-    top:-140px;
-    left:-120px;
-    filter:blur(90px);
+/* =========================================================
+   BACKGROUND ORBS
+   ========================================================= */
+
+.background-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(80px);
+    z-index: 0;
 }
 
-.login-page::after{
-    content:"";
-    position:absolute;
-    width:350px;
-    height:350px;
-    border-radius:50%;
-    background:rgba(139,92,246,.18);
-    bottom:-120px;
-    right:-80px;
-    filter:blur(90px);
+.orb-one {
+    width: 420px;
+    height: 420px;
+    top: -180px;
+    left: -120px;
+    background: rgba(37, 99, 235, 0.18);
 }
 
-/* ===========================================
+.orb-two {
+    width: 350px;
+    height: 350px;
+    bottom: -150px;
+    right: -100px;
+    background: rgba(139, 92, 246, 0.18);
+}
+
+.orb-three {
+    width: 250px;
+    height: 250px;
+    top: 40%;
+    left: 45%;
+    background: rgba(59, 130, 246, 0.08);
+}
+
+
+/* =========================================================
    LEFT SIDE
-=========================================== */
+   ========================================================= */
 
-.login-left{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    padding:70px;
-    position:relative;
-    z-index:2;
-    perspective:1200px;
+.login-left {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 60px;
+
+    position: relative;
+    z-index: 2;
+
+    perspective: 1200px;
+
+    animation: fadeLeft 0.8s ease forwards;
 }
 
-.logo{
-    font-size:58px;
-    font-weight:800;
-    color:#2563eb;
-    margin-bottom:10px;
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.brand-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
-.login-left h2{
-    font-size:34px;
-    color:#1e293b;
-    margin-bottom:15px;
+.logo {
+    font-size: 58px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -2px;
+
+    color: #2563eb;
+
+    margin-bottom: 18px;
+
+    text-shadow:
+        0 8px 25px rgba(37, 99, 235, 0.15);
 }
 
-.login-left p{
-    color:#64748b;
-    font-size:18px;
-    line-height:1.7;
-    max-width:480px;
-    text-align:center;
+.login-left h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    font-weight: 700;
+
+    color: #1e293b;
+
+    margin-bottom: 16px;
 }
 
-/* Floating Wrapper */
+.login-left p {
+    max-width: 500px;
 
-.brain-wrapper{
-    margin-top:30px;
-    animation:brainFloat 5s ease-in-out infinite;
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 17px;
+    line-height: 1.7;
 }
 
-/* Rotating Brain */
 
-.brain-image{
-    width:360px;
-    max-width:100%;
-    animation:brainRotate 18s linear infinite;
-    filter:drop-shadow(0 20px 40px rgba(37,99,235,.25));
+/* =========================================================
+   BRAIN
+   ========================================================= */
+
+.brain-wrapper {
+    position: relative;
+
+    width: 390px;
+    height: 330px;
+
+    margin-top: 25px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    animation: brainFloat 5s ease-in-out infinite;
 }
 
-/* ===========================================
+
+/* Glow behind brain */
+
+.brain-glow {
+    position: absolute;
+
+    width: 230px;
+    height: 230px;
+
+    border-radius: 50%;
+
+    background: rgba(37, 99, 235, 0.18);
+
+    filter: blur(45px);
+
+    animation: glowPulse 4s ease-in-out infinite;
+}
+
+
+/* Brain image */
+
+.brain-image {
+    position: relative;
+    z-index: 2;
+
+    width: 360px;
+    max-width: 100%;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 20px 40px rgba(37, 99, 235, 0.25)
+        );
+
+    animation:
+        brainRotate 18s linear infinite;
+}
+
+
+/* Small tagline */
+
+.product-tagline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: -5px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    letter-spacing: 0.5px;
+}
+
+.product-tagline span:nth-child(even) {
+    color: #2563eb;
+}
+
+
+/* =========================================================
    RIGHT SIDE
-=========================================== */
+   ========================================================= */
 
-.login-right{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:60px;
-    z-index:2;
+.login-right {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px;
+
+    position: relative;
+    z-index: 2;
 }
 
-/* ===========================================
+
+/* =========================================================
    LOGIN CARD
-=========================================== */
+   ========================================================= */
 
-.login-card{
+.login-card {
+    width: 450px;
+    max-width: 100%;
 
-    width:430px;
+    padding: 42px;
 
-    background:rgba(255,255,255,.82);
+    background: rgba(255, 255, 255, 0.84);
 
-    backdrop-filter:blur(18px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 
-    border:1px solid rgba(255,255,255,.35);
+    border: 1px solid rgba(255, 255, 255, 0.6);
 
-    border-radius:24px;
+    border-radius: 26px;
 
-    padding:40px;
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, 0.14),
+        0 5px 20px rgba(37, 99, 235, 0.08);
 
-    box-shadow:0 20px 60px rgba(0,0,0,.15);
-
-    animation:slideUp .8s ease;
-
+    animation: slideUp 0.8s ease forwards;
 }
 
-.login-card h2{
 
-    font-size:34px;
+/* =========================================================
+   LOGIN HEADING
+   ========================================================= */
 
-    color:#1e293b;
-
-    margin-bottom:8px;
-
+.login-heading {
+    margin-bottom: 30px;
 }
 
-.login-card p{
+.login-heading h2 {
+    font-size: 34px;
+    line-height: 1.2;
 
-    color:#64748b;
+    color: #1e293b;
 
-    margin-bottom:28px;
-
+    margin-bottom: 8px;
 }
 
-.login-card form{
+.login-heading p {
+    color: #64748b;
 
-    display:flex;
+    font-size: 15px;
 
-    flex-direction:column;
-
+    margin: 0;
 }
 
-/* ===========================================
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   INPUT GROUP
+   ========================================================= */
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    margin-bottom: 8px;
+
+    color: #334155;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
    INPUTS
-=========================================== */
+   ========================================================= */
 
-.login-card input{
+.login-card input[type="email"],
+.login-card input[type="password"],
+.login-card input[type="text"] {
+    width: 100%;
 
-    width:100%;
+    padding: 15px 17px;
 
-    padding:16px 18px;
+    border: 1px solid #dbe4f0;
 
-    margin-bottom:18px;
+    border-radius: 13px;
 
-    border-radius:14px;
+    background: rgba(255, 255, 255, 0.95);
 
-    border:1px solid #dbe4f0;
+    color: #1e293b;
 
-    background:white;
+    font-size: 15px;
 
-    font-size:16px;
-
-    transition:.3s;
-
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
 }
 
-.login-card input:focus{
-
-    outline:none;
-
-    border-color:#2563eb;
-
-    box-shadow:0 0 0 4px rgba(37,99,235,.15);
-
+.login-card input::placeholder {
+    color: #94a3b8;
 }
 
-/* ===========================================
+.login-card input[type="email"]:focus,
+.login-card input[type="password"]:focus,
+.login-card input[type="text"]:focus {
+    outline: none;
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, 0.11);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   PASSWORD
+   ========================================================= */
+
+.password-wrapper {
+    position: relative;
+
+    width: 100%;
+}
+
+.password-wrapper input {
+    padding-right: 55px !important;
+    margin-bottom: 0 !important;
+}
+
+.password-toggle {
+    position: absolute;
+
+    top: 50%;
+    right: 13px;
+
+    transform: translateY(-50%);
+
+    width: 36px !important;
+    height: 36px;
+
+    padding: 0 !important;
+
+    border: none !important;
+
+    background: transparent !important;
+
+    color: #64748b !important;
+
+    font-size: 17px !important;
+
+    cursor: pointer;
+
+    box-shadow: none !important;
+
+    transition: transform 0.2s ease;
+}
+
+.password-toggle:hover {
+    transform: translateY(-50%) scale(1.08);
+
+    box-shadow: none !important;
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+   ========================================================= */
+
+.login-error {
+    padding: 11px 13px;
+
+    margin-bottom: 17px;
+
+    border-radius: 10px;
+
+    background: rgba(239, 68, 68, 0.08);
+
+    border: 1px solid rgba(239, 68, 68, 0.18);
+
+    color: #dc2626;
+
+    font-size: 13px;
+    line-height: 1.4;
+
+    animation: errorShake 0.35s ease;
+}
+
+
+/* =========================================================
    REMEMBER / FORGOT
-=========================================== */
+   ========================================================= */
 
-.login-options{
+.login-options {
+    display: flex;
 
-    display:flex;
+    justify-content: space-between;
+    align-items: center;
 
-    justify-content:space-between;
+    gap: 15px;
 
-    align-items:center;
+    margin: 4px 0 20px;
 
-    margin-bottom:20px;
-
-    font-size:14px;
-
+    font-size: 13px;
 }
 
-.login-options label{
+.remember-label {
+    display: flex;
 
-    display:flex;
+    align-items: center;
 
-    align-items:center;
+    gap: 8px;
 
-    gap:8px;
+    color: #475569;
 
-    color:#475569;
-
+    cursor: pointer;
 }
 
-.login-options input{
+.remember-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
 
-    width:auto;
+    margin: 0;
 
-    margin:0;
+    accent-color: #2563eb;
 
+    cursor: pointer;
 }
 
-.login-options a{
+.login-options a {
+    color: #2563eb;
 
-    color:#2563eb;
+    text-decoration: none;
 
-    text-decoration:none;
+    font-weight: 600;
 
-    font-weight:500;
-
+    transition: color 0.2s ease;
 }
 
-.login-options a:hover{
+.login-options a:hover {
+    color: #1d4ed8;
 
-    text-decoration:underline;
-
+    text-decoration: underline;
 }
 
-/* ===========================================
-   LOGIN BUTTON
-=========================================== */
 
-.login-btn{
+/* =========================================================
+   SIGN IN BUTTON
+   ========================================================= */
 
-    width:100%;
+.login-btn {
+    width: 100%;
 
-    padding:16px;
+    min-height: 52px;
 
-    border:none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    border-radius:14px;
+    gap: 10px;
 
-    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    padding: 14px 18px;
 
-    color:white;
+    border: none;
 
-    font-size:18px;
+    border-radius: 13px;
 
-    font-weight:600;
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #4f46e5
+    );
 
-    cursor:pointer;
+    color: #ffffff;
 
-    transition:.3s;
+    font-size: 16px;
+    font-weight: 600;
 
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.22);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        opacity 0.25s ease;
 }
 
-.login-btn:hover{
+.login-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
 
-    transform:translateY(-3px);
-
-    box-shadow:0 12px 30px rgba(37,99,235,.35);
-
+    box-shadow:
+        0 12px 28px rgba(37, 99, 235, 0.32);
 }
 
-/* ===========================================
+.login-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.login-btn:disabled {
+    opacity: 0.7;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   LOADING SPINNER
+   ========================================================= */
+
+.loading-spinner {
+    width: 18px;
+    height: 18px;
+
+    border: 2px solid rgba(255, 255, 255, 0.35);
+
+    border-top-color: #ffffff;
+
+    border-radius: 50%;
+
+    animation: spinner 0.7s linear infinite;
+}
+
+
+/* =========================================================
    DIVIDER
-=========================================== */
+   ========================================================= */
 
-.divider{
+.divider {
+    display: flex;
 
-    display:flex;
+    align-items: center;
 
-    align-items:center;
+    gap: 14px;
 
-    margin:25px 0;
-
+    margin: 25px 0;
 }
 
-.divider::before,
-.divider::after{
+.divider span {
+    flex: 1;
 
-    content:"";
+    height: 1px;
 
-    flex:1;
-
-    height:1px;
-
-    background:#d1d5db;
-
+    background: #dbe1ea;
 }
 
-.divider span{
+.divider p {
+    margin: 0;
 
-    padding:0 15px;
+    color: #94a3b8;
 
-    color:#64748b;
+    font-size: 12px;
+    font-weight: 600;
 
-    font-size:14px;
-
+    letter-spacing: 1px;
 }
 
-/* ===========================================
+
+/* =========================================================
    GOOGLE BUTTON
-=========================================== */
+   ========================================================= */
 
-.google-btn{
+.google-btn {
+    width: 100%;
 
-    width:100%;
+    min-height: 52px;
 
-    display:flex;
+    display: flex;
 
-    justify-content:center;
+    justify-content: center;
+    align-items: center;
 
-    align-items:center;
+    gap: 11px;
 
-    gap:12px;
+    padding: 14px;
 
-    padding:15px;
+    border: 1px solid #d1d5db;
 
-    background:white;
+    border-radius: 13px;
 
-    color:#1e293b;
+    background: #ffffff;
 
-    border:1px solid #d1d5db;
+    color: #1e293b;
 
-    border-radius:14px;
+    font-size: 15px;
+    font-weight: 600;
 
-    font-size:16px;
+    cursor: pointer;
 
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-
+    transition:
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
 }
 
-.google-btn img{
+.google-btn img {
+    width: 21px;
+    height: 21px;
 
-    width:22px;
-
-    height:22px;
-
+    flex-shrink: 0;
 }
 
-.google-btn:hover{
+.google-btn:hover {
+    background: #ffffff;
 
-    border-color:#2563eb;
+    color: #1e293b;
 
-    transform:translateY(-2px);
+    border-color: #2563eb;
 
-    box-shadow:0 10px 25px rgba(37,99,235,.15);
+    transform: translateY(-2px);
 
+    box-shadow:
+        0 8px 22px rgba(37, 99, 235, 0.13);
 }
 
-/* ===========================================
-   SIGNUP
-=========================================== */
-
-.signup-link{
-
-    margin-top:24px;
-
-    text-align:center;
-
-    color:#64748b;
-
-    font-size:15px;
-
+.google-btn:active {
+    transform: translateY(0);
 }
 
-.signup-link span{
 
-    color:#2563eb;
+/* =========================================================
+   SIGN UP
+   ========================================================= */
 
-    font-weight:600;
+.signup-link {
+    display: flex;
 
-    cursor:pointer;
+    justify-content: center;
+    align-items: center;
 
-    margin-left:5px;
+    gap: 5px;
 
+    margin-top: 24px;
+
+    color: #64748b;
+
+    font-size: 14px;
 }
 
-.signup-link span:hover{
-
-    text-decoration:underline;
-
+.signup-link span {
+    color: #64748b;
 }
 
-/* ===========================================
+.signup-link button {
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #2563eb;
+
+    font-family: inherit;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.signup-link button:hover {
+    color: #1d4ed8;
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   SECURITY MESSAGE
+   ========================================================= */
+
+.security-message {
+    margin-top: 22px;
+
+    text-align: center;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
    ANIMATIONS
-=========================================== */
+   ========================================================= */
 
-@keyframes brainFloat{
-
-    0%{
-        transform:translateY(0px);
+@keyframes brainFloat {
+    0% {
+        transform: translateY(0);
     }
 
-    50%{
-        transform:translateY(-20px);
+    50% {
+        transform: translateY(-18px);
     }
 
-    100%{
-        transform:translateY(0px);
+    100% {
+        transform: translateY(0);
     }
-
 }
 
-@keyframes brainRotate{
-
-    from{
-        transform:rotateY(0deg);
+@keyframes brainRotate {
+    from {
+        transform: rotateY(0deg);
     }
 
-    to{
-        transform:rotateY(360deg);
+    to {
+        transform: rotateY(360deg);
     }
-
 }
 
-@keyframes slideUp{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(40px);
-
+@keyframes glowPulse {
+    0% {
+        opacity: 0.45;
+        transform: scale(0.9);
     }
 
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
     }
 
+    100% {
+        opacity: 0.45;
+        transform: scale(0.9);
+    }
 }
 
-/* ===========================================
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes errorShake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    50% {
+        transform: translateX(4px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* =========================================================
    RESPONSIVE
-=========================================== */
+   ========================================================= */
 
-@media(max-width:900px){
+@media (max-width: 950px) {
 
-.login-page{
+    .login-page {
+        flex-direction: column;
 
-    flex-direction:column;
+        overflow-y: auto;
+    }
 
+    .login-left {
+        flex: none;
+
+        min-height: 480px;
+
+        padding: 45px 25px 20px;
+    }
+
+    .login-right {
+        flex: none;
+
+        padding: 20px 25px 50px;
+    }
+
+    .logo {
+        font-size: 46px;
+    }
+
+    .login-left h2 {
+        font-size: 28px;
+    }
+
+    .login-left p {
+        font-size: 15px;
+
+        max-width: 500px;
+    }
+
+    .brain-wrapper {
+        width: 300px;
+        height: 240px;
+
+        margin-top: 15px;
+    }
+
+    .brain-image {
+        width: 270px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 450px;
+
+        padding: 32px;
+    }
 }
 
-.login-left{
 
-    padding:40px 25px;
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
 
+@media (max-width: 500px) {
+
+    .login-left {
+        min-height: 400px;
+
+        padding: 35px 20px 10px;
+    }
+
+    .login-right {
+        padding: 15px 18px 40px;
+    }
+
+    .logo {
+        font-size: 38px;
+    }
+
+    .login-left h2 {
+        font-size: 23px;
+    }
+
+    .login-left p {
+        font-size: 14px;
+    }
+
+    .brain-wrapper {
+        width: 240px;
+        height: 190px;
+    }
+
+    .brain-image {
+        width: 220px;
+    }
+
+    .product-tagline {
+        font-size: 12px;
+    }
+
+    .login-card {
+        padding: 25px 20px;
+
+        border-radius: 20px;
+    }
+
+    .login-heading h2 {
+        font-size: 27px;
+    }
+
+    .login-options {
+        font-size: 12px;
+    }
+
+    .google-btn,
+    .login-btn {
+        min-height: 50px;
+    }
 }
 
-.login-right{
 
-    padding:30px 25px;
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
 
-}
+@media (prefers-reduced-motion: reduce) {
 
-.logo{
-
-    font-size:44px;
-
-}
-
-.login-left h2{
-
-    font-size:28px;
-
-}
-
-.brain-image{
-
-    width:250px;
-
-}
-
-.login-card{
-
-    width:100%;
-
-    max-width:420px;
-
-}
-
+    .brain-wrapper,
+    .brain-image,
+    .brain-glow,
+    .login-card,
+    .login-left {
+        animation: none;
+    }
 }
