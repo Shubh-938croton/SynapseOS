@@ -4,84 +4,216 @@ import {
     FaCalendarAlt,
     FaEdit,
     FaTrash,
-    FaCheckCircle
+    FaCheckCircle,
+    FaClock
 } from "react-icons/fa";
 
-function TaskCard({ task, onEdit }) {
+import { deleteTask, updateTask } from "../../services/taskService";
+
+function TaskCard({ task, onEdit, onTaskChanged }) {
+
+    const formattedDate = task.due_date
+        ? new Date(task.due_date).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        })
+        : "No due date";
+
+    const priority = task.priority?.toLowerCase() || "medium";
+    const status = task.status?.toLowerCase() || "pending";
+
+    // =========================
+    // DELETE TASK
+    // =========================
+
+    const handleDelete = async () => {
+
+        const confirmDelete = window.confirm(
+            `Are you sure you want to delete "${task.title}"?`
+        );
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+
+            await deleteTask(task.task_id);
+
+            alert("Task deleted successfully");
+
+            if (onTaskChanged) {
+                onTaskChanged();
+            }
+
+        } catch (error) {
+
+            console.error("Delete task error:", error);
+
+            alert(
+                error.response?.data?.message ||
+                "Failed to delete task"
+            );
+
+        }
+
+    };
+
+
+    // =========================
+    // COMPLETE TASK
+    // =========================
+
+const handleComplete = async () => {
+
+    try {
+
+        await updateTask(task.task_id, {
+            status: "Completed"
+        });
+
+        alert("Task completed successfully");
+
+        if (onTaskChanged) {
+            onTaskChanged();
+        }
+
+    } catch (error) {
+
+        console.error("Complete task error:", error);
+
+        alert(
+            error.response?.data?.message ||
+            "Failed to complete task"
+        );
+
+    }
+
+};
+
 
     return (
 
         <div className="task-card">
 
+            {/* =========================
+                HEADER
+            ========================= */}
+
             <div className="task-header">
 
-                <div>
+                <div className="task-title-section">
 
-                    <h2>{task.title}</h2>
+                    <h2>
+                        {task.title}
+                    </h2>
 
-                    <p>{task.description}</p>
+                    <p>
+                        {task.description || "No description provided."}
+                    </p>
 
                 </div>
 
-                <span
-                    className={`priority ${task.priority.toLowerCase()}`}
-                >
+
+                <span className={`priority ${priority}`}>
+
                     {task.priority}
+
                 </span>
 
             </div>
 
+
+            {/* =========================
+                META
+            ========================= */}
+
             <div className="task-meta">
 
-                <div>
+                <div className="due-date">
 
                     <FaCalendarAlt />
 
                     <span>
-                        {new Date(task.due_date).toLocaleDateString()}
+                        {formattedDate}
                     </span>
 
                 </div>
 
-                <span
-                    className={`status ${task.status.toLowerCase()}`}
-                >
-                    {task.status}
-                </span>
+
+                <div className="task-status">
+
+                    <FaClock />
+
+                    <span className={`status ${status}`}>
+
+                        {task.status}
+
+                    </span>
+
+                </div>
 
             </div>
 
+
+            {/* =========================
+                ACTIONS
+            ========================= */}
+
             <div className="task-actions">
 
+                {/* EDIT */}
+
                 <button
-                    className="edit-btn"
+                    type="button"
+                    className="task-action edit-btn"
                     onClick={() => onEdit(task)}
                 >
 
                     <FaEdit />
 
-                    Edit
+                    <span>
+                        Edit
+                    </span>
 
                 </button>
 
-                <button className="delete-btn">
+
+                {/* DELETE */}
+
+                <button
+                    type="button"
+                    className="task-action delete-btn"
+                    onClick={handleDelete}
+                >
 
                     <FaTrash />
 
-                    Delete
+                    <span>
+                        Delete
+                    </span>
 
                 </button>
+
+
+                {/* COMPLETE */}
 
                 <button
-                    className="complete-btn"
-                    disabled={task.status === "Completed"}
-                >
+    type="button"
+    className="task-action complete-btn"
+    disabled={task.status === "Completed"}
+    onClick={handleComplete}
+>
+    <FaCheckCircle />
 
-                    <FaCheckCircle />
-
-                    Complete
-
-                </button>
+    <span>
+        {task.status === "Completed"
+            ? "Completed"
+            : "Complete"
+        }
+    </span>
+</button>
 
             </div>
 

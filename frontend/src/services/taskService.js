@@ -1,8 +1,10 @@
 import api from "./api";
 
-// Get All Tasks
-export const getAllTasks = async () => {
+// ==========================================
+// GET ALL TASKS
+// ==========================================
 
+export const getAllTasks = async () => {
     const token = localStorage.getItem("token");
 
     const response = await api.get("/tasks", {
@@ -14,9 +16,12 @@ export const getAllTasks = async () => {
     return response.data;
 };
 
-// Create Task
-export const createTask = async (taskData) => {
 
+// ==========================================
+// CREATE TASK
+// ==========================================
+
+export const createTask = async (taskData) => {
     const token = localStorage.getItem("token");
 
     const response = await api.post("/tasks", taskData, {
@@ -28,30 +33,43 @@ export const createTask = async (taskData) => {
     return response.data;
 };
 
-// Update Task
-export const updateTask = async (id, taskData) => {
 
+// ==========================================
+// UPDATE TASK
+// ==========================================
+
+export const updateTask = async (id, taskData) => {
     const token = localStorage.getItem("token");
 
-    const response = await api.put(`/tasks/${id}`, taskData, {
-        headers: {
-            Authorization: `Bearer ${token}`
+    const response = await api.put(
+        `/tasks/${id}`,
+        taskData,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }
-    });
+    );
 
     return response.data;
 };
 
-// Delete Task
-export const deleteTask = async (id) => {
 
+// ==========================================
+// DELETE TASK
+// ==========================================
+
+export const deleteTask = async (id) => {
     const token = localStorage.getItem("token");
 
-    const response = await api.delete(`/tasks/${id}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
+    const response = await api.delete(
+        `/tasks/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }
-    });
+    );
 
     return response.data;
 };
