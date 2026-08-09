@@ -234,25 +234,17 @@
 
 
 .note-content p {
-
     margin: 0;
-
     color: #475569;
-
     font-size: 14px;
-
     line-height: 1.7;
 
     display: -webkit-box;
-
     -webkit-line-clamp: 4;
-
     -webkit-box-orient: vertical;
 
     overflow: hidden;
-
     white-space: pre-wrap;
-
 }
 
 

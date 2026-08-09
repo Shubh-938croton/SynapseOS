@@ -1,0 +1,333 @@
+/* =========================================================
+   ADD NOTE MODAL
+   ========================================================= */
+
+.note-modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    backdrop-filter: blur(5px);
+
+    z-index: 9999;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.note-modal {
+    width: 100%;
+    max-width: 560px;
+
+    background: #ffffff;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, 0.2);
+
+    overflow: hidden;
+
+    animation: noteModalAppear 0.25s ease;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.note-modal-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding: 24px 26px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.note-modal-header h2 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.note-modal-header p {
+    margin: 6px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+.note-modal-close {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #f1f5f9;
+
+    color: #64748b;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.note-modal-close:hover {
+    background: #fee2e2;
+
+    color: #ef4444;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.note-modal-form {
+    padding: 26px;
+}
+
+.note-form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+.note-form-group label {
+    color: #334155;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.note-form-group input,
+.note-form-group select,
+.note-form-group textarea {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #dbe4f0;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    color: #1e293b;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.note-form-group input:focus,
+.note-form-group select:focus,
+.note-form-group textarea:focus {
+    background: #ffffff;
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.note-form-group textarea {
+    min-height: 170px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+.note-form-group input::placeholder,
+.note-form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.note-modal-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+   CANCEL
+   ========================================================= */
+
+.note-cancel-btn {
+    padding: 12px 20px;
+
+    border: 1px solid #dbe4f0;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #475569;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.note-cancel-btn:hover {
+    background: #f8fafc;
+}
+
+
+/* =========================================================
+   SAVE
+   ========================================================= */
+
+.note-save-btn {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 12px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #4f46e5
+    );
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.note-save-btn:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.note-save-btn:disabled,
+.note-cancel-btn:disabled,
+.note-modal-close:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes noteModalAppear {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(15px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .note-modal {
+        border-radius: 16px;
+    }
+
+    .note-modal-header {
+        padding: 20px;
+    }
+
+    .note-modal-form {
+        padding: 20px;
+    }
+
+    .note-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .note-cancel-btn,
+    .note-save-btn {
+        width: 100%;
+    }
+
+}

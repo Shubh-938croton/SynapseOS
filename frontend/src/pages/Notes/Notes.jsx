@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
 import DashboardLayout from "../../components/Layout/DashboardLayout";
-import NoteCard from "../../components/NoteCard/NoteCard";
+import NoteCard from "../../components/NotesCard/NoteCard";
+import AddNoteModal from "../../components/AddNoteModal/AddNoteModal";
+
 
 import {
     getAllNotes,
@@ -16,6 +18,7 @@ function Notes() {
     const [notes, setNotes] = useState([]);
 
     const [loading, setLoading] = useState(true);
+    const [showAddNoteModal, setShowAddNoteModal] = useState(false);
 
     // =========================
     // FETCH NOTES
@@ -161,159 +164,156 @@ function Notes() {
 
     return (
 
-        <DashboardLayout>
+    <DashboardLayout>
 
-            <div className="notes-page">
+        <div className="notes-page">
 
-                {/* =========================
-                    HEADER
-                ========================= */}
+            {/* =========================
+                HEADER
+            ========================= */}
 
-                <div className="notes-header">
+            <div className="notes-header">
 
-                    <div>
+                <div>
 
-                        <h1>
-                            My Notes
-                        </h1>
+                    <h1>
+                        My Notes
+                    </h1>
 
-                        <p>
-                            Organize your ideas, knowledge and study notes.
-                        </p>
+                    <p>
+                        Organize your ideas, knowledge and study notes.
+                    </p>
 
+                </div>
+
+
+                <button
+                    className="add-note-btn"
+                    onClick={() => setShowAddNoteModal(true)}
+                >
+                    + Add Note
+                </button>
+
+            </div>
+
+
+            {/* =========================
+                SEARCH / TOOLBAR
+            ========================= */}
+
+            <div className="notes-toolbar">
+
+                <input
+                    type="text"
+                    placeholder="🔍 Search notes..."
+                    className="notes-search"
+                />
+
+                <select className="notes-filter">
+
+                    <option value="all">
+                        All Notes
+                    </option>
+
+                    <option value="pinned">
+                        Pinned
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            {/* =========================
+                LOADING
+            ========================= */}
+
+            {loading && (
+
+                <div className="notes-loading">
+
+                    <p>
+                        Loading notes...
+                    </p>
+
+                </div>
+
+            )}
+
+
+            {/* =========================
+                EMPTY STATE
+            ========================= */}
+
+            {!loading && notes.length === 0 && (
+
+                <div className="empty-notes">
+
+                    <div className="empty-notes-icon">
+                        📝
                     </div>
 
+                    <h2>
+                        No notes yet
+                    </h2>
+
+                    <p>
+                        Create your first note and start
+                        organizing your knowledge.
+                    </p>
 
                     <button
                         className="add-note-btn"
-                        onClick={() => {
-
-                            console.log("Add note clicked");
-
-                            // Modal will be added next
-
-                        }}
+                        onClick={() => setShowAddNoteModal(true)}
                     >
-
-                        + Add Note
-
+                        + Create Note
                     </button>
 
                 </div>
 
-
-                {/* =========================
-                    SEARCH / TOOLBAR
-                ========================= */}
-
-                <div className="notes-toolbar">
-
-                    <input
-                        type="text"
-                        placeholder="🔍 Search notes..."
-                        className="notes-search"
-                    />
+            )}
 
 
-                    <select className="notes-filter">
+            {/* =========================
+                NOTES LIST
+            ========================= */}
 
-                        <option value="all">
-                            All Notes
-                        </option>
+            {!loading && notes.length > 0 && (
 
-                        <option value="pinned">
-                            Pinned
-                        </option>
+                <div className="notes-list">
 
-                    </select>
+                    {notes.map((note) => (
+
+                        <NoteCard
+                            key={note.note_id}
+                            note={note}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                            onTogglePin={handleTogglePin}
+                        />
+
+                    ))}
 
                 </div>
 
+            )}
 
-                {/* =========================
-                    LOADING
-                ========================= */}
-
-                {loading && (
-
-                    <div className="notes-loading">
-
-                        <p>
-                            Loading notes...
-                        </p>
-
-                    </div>
-
-                )}
+        </div>
 
 
-                {/* =========================
-                    EMPTY STATE
-                ========================= */}
+        {/* =========================
+            ADD NOTE MODAL
+        ========================= */}
 
-                {!loading && notes.length === 0 && (
+        <AddNoteModal
+            isOpen={showAddNoteModal}
+            onClose={() => setShowAddNoteModal(false)}
+            onNoteCreated={fetchNotes}
+        />
 
-                    <div className="empty-notes">
+    </DashboardLayout>
 
-                        <div className="empty-notes-icon">
-                            📝
-                        </div>
-
-                        <h2>
-                            No notes yet
-                        </h2>
-
-                        <p>
-                            Create your first note and start
-                            organizing your knowledge.
-                        </p>
-
-                        <button
-                            className="add-note-btn"
-                            onClick={() => {
-                                console.log("Create first note");
-                            }}
-                        >
-                            + Create Note
-                        </button>
-
-                    </div>
-
-                )}
-
-
-                {/* =========================
-                    NOTES LIST
-                ========================= */}
-
-                {!loading && notes.length > 0 && (
-
-                    <div className="notes-list">
-
-                        {notes.map((note) => (
-
-                            <NoteCard
-                                key={note.note_id}
-                                note={note}
-
-                                onEdit={handleEdit}
-
-                                onDelete={handleDelete}
-
-                                onTogglePin={handleTogglePin}
-                            />
-
-                        ))}
-
-                    </div>
-
-                )}
-
-            </div>
-
-        </DashboardLayout>
-
-    );
+);
 
 }
 

@@ -6,7 +6,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Tasks from "../pages/Tasks/Tasks";
 import Notes from "../pages/Notes/Notes";
-import NoteCard from "../../components/NoteCard/NoteCard";
+
 
 function AppRoutes() {
     return (

@@ -28,7 +28,7 @@ function NoteCard({
 
             {/* PIN INDICATOR */}
 
-            {note.is_pinned && (
+            {Boolean(note.is_pinned) && (
                 <div className="pinned-badge">
                     <FaThumbtack />
                     <span>Pinned</span>
