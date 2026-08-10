@@ -4,7 +4,7 @@ import {
     FaEdit,
     FaTrash,
     FaThumbtack,
-    FaRegClock
+    FaClock
 } from "react-icons/fa";
 
 function NoteCard({
@@ -14,27 +14,9 @@ function NoteCard({
     onTogglePin
 }) {
 
-    const formattedDate = note.created_at
-        ? new Date(note.created_at).toLocaleDateString("en-IN", {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-        })
-        : "Unknown date";
-
     return (
 
         <div className={`note-card ${note.is_pinned ? "pinned" : ""}`}>
-
-            {/* PIN INDICATOR */}
-
-            {Boolean(note.is_pinned) && (
-                <div className="pinned-badge">
-                    <FaThumbtack />
-                    <span>Pinned</span>
-                </div>
-            )}
-
 
             {/* HEADER */}
 
@@ -46,18 +28,20 @@ function NoteCard({
                         {note.title}
                     </h2>
 
-                    {note.subject_name && (
-                        <span className="note-subject">
-                            {note.subject_name}
-                        </span>
-                    )}
+                    <span className="note-subject">
+                        {note.subject_name}
+                    </span>
 
                 </div>
 
 
+                {/* PIN */}
+
                 <button
                     type="button"
-                    className={`pin-btn ${note.is_pinned ? "active" : ""}`}
+                    className={`pin-btn ${
+                        note.is_pinned ? "active" : ""
+                    }`}
                     onClick={() => onTogglePin(note)}
                     title={
                         note.is_pinned
@@ -78,7 +62,7 @@ function NoteCard({
             <div className="note-content">
 
                 <p>
-                    {note.content || "No content available."}
+                    {note.content}
                 </p>
 
             </div>
@@ -88,20 +72,22 @@ function NoteCard({
 
             <div className="note-card-footer">
 
-                <div className="note-date">
+                <span className="note-date">
 
-                    <FaRegClock />
+                    <FaClock />
 
-                    <span>
-                        {formattedDate}
-                    </span>
+                    {new Date(
+                        note.updated_at || note.created_at
+                    ).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                    })}
 
-                </div>
+                </span>
 
 
                 <div className="note-actions">
-
-                    {/* EDIT */}
 
                     <button
                         type="button"
@@ -111,14 +97,10 @@ function NoteCard({
 
                         <FaEdit />
 
-                        <span>
-                            Edit
-                        </span>
+                        Edit
 
                     </button>
 
-
-                    {/* DELETE */}
 
                     <button
                         type="button"
@@ -128,9 +110,7 @@ function NoteCard({
 
                         <FaTrash />
 
-                        <span>
-                            Delete
-                        </span>
+                        Delete
 
                     </button>
 
@@ -141,6 +121,7 @@ function NoteCard({
         </div>
 
     );
+
 }
 
 export default NoteCard;

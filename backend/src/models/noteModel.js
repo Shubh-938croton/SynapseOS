@@ -77,22 +77,23 @@ const findSubjectById = (userId, subjectId, callback) => {
 
 const getAllNotes = (userId, callback) => {
 
-    const query = `
-        SELECT
-            n.note_id,
-            n.subject_id,
-            n.title,
-            n.content,
-            n.is_pinned,
-            n.created_at,
-            n.updated_at,
-            s.subject_name
-        FROM notes n
-        INNER JOIN subjects s
-            ON n.subject_id = s.subject_id
-        WHERE n.user_id = ?
-        ORDER BY n.is_pinned DESC, n.created_at DESC
-    `;
+   const query = `
+    SELECT
+        n.note_id,
+        n.user_id,
+        n.subject_id,
+        n.title,
+        n.content,
+        n.is_pinned,
+        n.created_at,
+        n.updated_at,
+        s.subject_name
+    FROM notes n
+    INNER JOIN subjects s
+        ON n.subject_id = s.subject_id
+    WHERE n.user_id = ?
+    ORDER BY n.is_pinned DESC, n.created_at DESC
+`;
 
     db.query(query, [userId], (err, results) => {
 
