@@ -6,7 +6,10 @@ import {
     updateNote
 } from "../../services/noteService";
 
+import { getAllSubjects } from "../../services/subjectService";
+
 import "./AddNoteModal.css";
+
 
 function AddNoteModal({
     isOpen,
@@ -18,135 +21,273 @@ function AddNoteModal({
     const [title, setTitle] = useState("");
     const [subjectId, setSubjectId] = useState("");
     const [content, setContent] = useState("");
+    const [isPinned, setIsPinned] = useState(false);
+
+    const [subjects, setSubjects] = useState([]);
 
     const [loading, setLoading] = useState(false);
+    const [subjectsLoading, setSubjectsLoading] =
+        useState(false);
 
-    // Reset form whenever modal opens
+
+    // =====================================================
+    // LOAD SUBJECTS + SET FORM DATA
+    // =====================================================
+
     useEffect(() => {
 
-    if (!isOpen) {
-        return;
-    }
-
-    if (noteToEdit) {
-
-        setTitle(noteToEdit.title || "");
-        setSubjectId(
-            noteToEdit.subject_id
-                ? String(noteToEdit.subject_id)
-                : ""
-        );
-        setContent(noteToEdit.content || "");
-
-    } else {
-
-        setTitle("");
-        setSubjectId("");
-        setContent("");
-
-    }
-
-}, [isOpen, noteToEdit]);
+        if (!isOpen) {
+            return;
+        }
 
 
-    // Don't render anything when closed
+        const loadModalData = async () => {
+
+            try {
+
+                setSubjectsLoading(true);
+
+
+                // =========================
+                // FETCH SUBJECTS
+                // =========================
+
+                const subjectList =
+                    await getAllSubjects();
+
+                setSubjects(subjectList || []);
+
+
+                // =========================
+                // EDIT MODE
+                // =========================
+
+                if (noteToEdit) {
+
+                    setTitle(
+                        noteToEdit.title || ""
+                    );
+
+                    setSubjectId(
+                        noteToEdit.subject_id
+                            ? String(noteToEdit.subject_id)
+                            : ""
+                    );
+
+                    setContent(
+                        noteToEdit.content || ""
+                    );
+
+                    setIsPinned(
+                        Boolean(noteToEdit.is_pinned)
+                    );
+
+                }
+
+
+                // =========================
+                // CREATE MODE
+                // =========================
+
+                else {
+
+                    setTitle("");
+                    setSubjectId("");
+                    setContent("");
+                    setIsPinned(false);
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading note modal:",
+                    error
+                );
+
+                alert(
+                    error.response?.data?.message ||
+                    "Failed to load subjects"
+                );
+
+            } finally {
+
+                setSubjectsLoading(false);
+
+            }
+
+        };
+
+
+        loadModalData();
+
+    }, [isOpen, noteToEdit]);
+
+
+    // =====================================================
+    // DON'T RENDER WHEN CLOSED
+    // =====================================================
+
     if (!isOpen) {
         return null;
     }
 
 
+    // =====================================================
+    // SUBMIT
+    // =====================================================
+
     const handleSubmit = async (e) => {
 
-    e.preventDefault();
-
-    if (!title.trim()) {
-        alert("Please enter a note title.");
-        return;
-    }
-
-    if (!subjectId) {
-        alert("Please select a subject.");
-        return;
-    }
-
-    if (!content.trim()) {
-        alert("Please enter some note content.");
-        return;
-    }
-
-    try {
-
-        setLoading(true);
-
-        const noteData = {
-            subject_id: Number(subjectId),
-            title: title.trim(),
-            content: content.trim()
-        };
+        e.preventDefault();
 
 
-        if (noteToEdit) {
+        // =========================
+        // VALIDATION
+        // =========================
 
-            // =========================
-            // UPDATE NOTE
-            // =========================
+        if (!title.trim()) {
 
-            await updateNote(
-                noteToEdit.note_id,
-                {
-                    ...noteData,
-                    is_pinned: noteToEdit.is_pinned || false
-                }
+            alert(
+                "Please enter a note title."
             );
 
-            alert("Note updated successfully");
+            return;
 
-        } else {
+        }
 
-            // =========================
+
+        if (!subjectId) {
+
+            alert(
+                "Please select a subject."
+            );
+
+            return;
+
+        }
+
+
+        if (!content.trim()) {
+
+            alert(
+                "Please enter some note content."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            setLoading(true);
+
+
+            // =================================================
+            // EDIT NOTE
+            // =================================================
+
+            if (noteToEdit) {
+
+                await updateNote(
+                    noteToEdit.note_id,
+                    {
+                        subject_id:
+                            Number(subjectId),
+
+                        title:
+                            title.trim(),
+
+                        content:
+                            content.trim(),
+
+                        is_pinned:
+                            isPinned
+                    }
+                );
+
+
+                alert(
+                    "Note updated successfully"
+                );
+
+            }
+
+
+            // =================================================
             // CREATE NOTE
-            // =========================
+            // =================================================
 
-            await createNote(noteData);
+            else {
 
-            alert("Note created successfully");
+                await createNote({
+
+                    subject_id:
+                        Number(subjectId),
+
+                    title:
+                        title.trim(),
+
+                    content:
+                        content.trim()
+
+                });
+
+
+                alert(
+                    "Note created successfully"
+                );
+
+            }
+
+
+            // =================================================
+            // REFRESH NOTES PAGE
+            // =================================================
+
+            if (onNoteCreated) {
+
+                await onNoteCreated();
+
+            }
+
+
+            // =================================================
+            // CLOSE MODAL
+            // =================================================
+
+            onClose();
+
+
+        } catch (error) {
+
+            console.error(
+                "Save note error:",
+                error
+            );
+
+            alert(
+                error.response?.data?.message ||
+                (
+                    noteToEdit
+                        ? "Failed to update note"
+                        : "Failed to create note"
+                )
+            );
+
+        } finally {
+
+            setLoading(false);
 
         }
 
-
-        // Refresh Notes page
-        if (onNoteCreated) {
-            await onNoteCreated();
-        }
+    };
 
 
-        // Close modal
-        onClose();
-
-    } catch (error) {
-
-        console.error(
-            noteToEdit
-                ? "Update note error:"
-                : "Create note error:",
-            error
-        );
-
-        alert(
-            error.response?.data?.message ||
-            noteToEdit
-                ? "Failed to update note"
-                : "Failed to create note"
-        );
-
-    } finally {
-
-        setLoading(false);
-
-    }
-
-};
-
+    // =====================================================
+    // RENDER
+    // =====================================================
 
     return (
 
@@ -157,25 +298,37 @@ function AddNoteModal({
 
             <div
                 className="note-modal"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) =>
+                    e.stopPropagation()
+                }
             >
 
-                {/* HEADER */}
+
+                {/* =================================================
+                    HEADER
+                ================================================= */}
 
                 <div className="note-modal-header">
 
                     <div>
 
                         <h2>
-    {noteToEdit ? "Edit Note" : "Create New Note"}
-</h2>
 
-<p>
-    {noteToEdit
-        ? "Update your note and save your changes."
-        : "Save your ideas and study notes."
-    }
-</p>
+                            {noteToEdit
+                                ? "Edit Note"
+                                : "Create New Note"
+                            }
+
+                        </h2>
+
+                        <p>
+
+                            {noteToEdit
+                                ? "Update your note details."
+                                : "Save your ideas and study notes."
+                            }
+
+                        </p>
 
                     </div>
 
@@ -194,14 +347,19 @@ function AddNoteModal({
                 </div>
 
 
-                {/* FORM */}
+                {/* =================================================
+                    FORM
+                ================================================= */}
 
                 <form
                     className="note-modal-form"
                     onSubmit={handleSubmit}
                 >
 
-                    {/* TITLE */}
+
+                    {/* =================================================
+                        TITLE
+                    ================================================= */}
 
                     <div className="note-form-group">
 
@@ -214,7 +372,9 @@ function AddNoteModal({
                             placeholder="Enter note title"
                             value={title}
                             onChange={(e) =>
-                                setTitle(e.target.value)
+                                setTitle(
+                                    e.target.value
+                                )
                             }
                             disabled={loading}
                             autoFocus
@@ -223,7 +383,9 @@ function AddNoteModal({
                     </div>
 
 
-                    {/* SUBJECT */}
+                    {/* =================================================
+                        SUBJECT
+                    ================================================= */}
 
                     <div className="note-form-group">
 
@@ -231,36 +393,77 @@ function AddNoteModal({
                             Subject
                         </label>
 
+
                         <select
                             value={subjectId}
                             onChange={(e) =>
-                                setSubjectId(e.target.value)
+                                setSubjectId(
+                                    e.target.value
+                                )
                             }
-                            disabled={loading}
+                            disabled={
+                                loading ||
+                                subjectsLoading
+                            }
                         >
 
                             <option value="">
-                                Select a subject
+
+                                {subjectsLoading
+                                    ? "Loading subjects..."
+                                    : "Select a subject"
+                                }
+
                             </option>
 
-                            {/* 
-                                Temporary option.
 
-                                We will replace this with
-                                dynamic subjects from the
-                                database next.
-                            */}
+                            {!subjectsLoading &&
+                                subjects.map(
+                                    (subject) => (
 
-                            <option value="7">
-                                Operating System
-                            </option>
+                                        <option
+                                            key={
+                                                subject.subject_id
+                                            }
+                                            value={
+                                                subject.subject_id
+                                            }
+                                        >
+
+                                            {
+                                                subject.subject_name
+                                            }
+
+                                        </option>
+
+                                    )
+                                )
+                            }
 
                         </select>
+
+
+                        {/* NO SUBJECTS */}
+
+                        {!subjectsLoading &&
+                            subjects.length === 0 && (
+
+                                <small className="no-subjects-message">
+
+                                    No subjects available.
+                                    Create a subject first.
+
+                                </small>
+
+                            )
+                        }
 
                     </div>
 
 
-                    {/* CONTENT */}
+                    {/* =================================================
+                        CONTENT
+                    ================================================= */}
 
                     <div className="note-form-group">
 
@@ -272,7 +475,9 @@ function AddNoteModal({
                             placeholder="Write your note here..."
                             value={content}
                             onChange={(e) =>
-                                setContent(e.target.value)
+                                setContent(
+                                    e.target.value
+                                )
                             }
                             disabled={loading}
                             rows="8"
@@ -281,9 +486,42 @@ function AddNoteModal({
                     </div>
 
 
-                    {/* ACTIONS */}
+                    {/* =================================================
+                        PIN
+                    ================================================= */}
+
+                    {noteToEdit && (
+
+                        <div className="note-pin-option">
+
+                            <label>
+
+                                <input
+                                    type="checkbox"
+                                    checked={isPinned}
+                                    onChange={(e) =>
+                                        setIsPinned(
+                                            e.target.checked
+                                        )
+                                    }
+                                    disabled={loading}
+                                />
+
+                                Pin this note
+
+                            </label>
+
+                        </div>
+
+                    )}
+
+
+                    {/* =================================================
+                        ACTIONS
+                    ================================================= */}
 
                     <div className="note-modal-actions">
+
 
                         <button
                             type="button"
@@ -300,15 +538,27 @@ function AddNoteModal({
                         <button
                             type="submit"
                             className="note-save-btn"
-                            disabled={loading}
+                            disabled={
+                                loading ||
+                                subjectsLoading ||
+                                subjects.length === 0
+                            }
                         >
 
                             <FaSave />
 
                             {loading
-    ? (noteToEdit ? "Updating..." : "Creating...")
-    : (noteToEdit ? "Update Note" : "Create Note")
-}
+                                ? (
+                                    noteToEdit
+                                        ? "Updating..."
+                                        : "Creating..."
+                                )
+                                : (
+                                    noteToEdit
+                                        ? "Update Note"
+                                        : "Create Note"
+                                )
+                            }
 
                         </button>
 
@@ -323,5 +573,6 @@ function AddNoteModal({
     );
 
 }
+
 
 export default AddNoteModal;
