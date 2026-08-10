@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import { FaTimes, FaSave } from "react-icons/fa";
 
-import { createNote } from "../../services/noteService";
+import {
+    createNote,
+    updateNote
+} from "../../services/noteService";
 
 import "./AddNoteModal.css";
 
-function AddNoteModal({ isOpen, onClose, onNoteCreated }) {
+function AddNoteModal({
+    isOpen,
+    onClose,
+    onNoteCreated,
+    noteToEdit
+}) {
 
     const [title, setTitle] = useState("");
     const [subjectId, setSubjectId] = useState("");
@@ -16,15 +24,29 @@ function AddNoteModal({ isOpen, onClose, onNoteCreated }) {
     // Reset form whenever modal opens
     useEffect(() => {
 
-        if (isOpen) {
+    if (!isOpen) {
+        return;
+    }
 
-            setTitle("");
-            setSubjectId("");
-            setContent("");
+    if (noteToEdit) {
 
-        }
+        setTitle(noteToEdit.title || "");
+        setSubjectId(
+            noteToEdit.subject_id
+                ? String(noteToEdit.subject_id)
+                : ""
+        );
+        setContent(noteToEdit.content || "");
 
-    }, [isOpen]);
+    } else {
+
+        setTitle("");
+        setSubjectId("");
+        setContent("");
+
+    }
+
+}, [isOpen, noteToEdit]);
 
 
     // Don't render anything when closed
@@ -35,74 +57,95 @@ function AddNoteModal({ isOpen, onClose, onNoteCreated }) {
 
     const handleSubmit = async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        if (!title.trim()) {
+    if (!title.trim()) {
+        alert("Please enter a note title.");
+        return;
+    }
 
-            alert("Please enter a note title.");
-            return;
+    if (!subjectId) {
+        alert("Please select a subject.");
+        return;
+    }
 
-        }
+    if (!content.trim()) {
+        alert("Please enter some note content.");
+        return;
+    }
 
-        if (!subjectId) {
+    try {
 
-            alert("Please select a subject.");
-            return;
+        setLoading(true);
 
-        }
-
-        if (!content.trim()) {
-
-            alert("Please enter some note content.");
-            return;
-
-        }
+        const noteData = {
+            subject_id: Number(subjectId),
+            title: title.trim(),
+            content: content.trim()
+        };
 
 
-        try {
+        if (noteToEdit) {
 
-            setLoading(true);
+            // =========================
+            // UPDATE NOTE
+            // =========================
 
-            await createNote({
+            await updateNote(
+                noteToEdit.note_id,
+                {
+                    ...noteData,
+                    is_pinned: noteToEdit.is_pinned || false
+                }
+            );
 
-                subject_id: Number(subjectId),
+            alert("Note updated successfully");
 
-                title: title.trim(),
+        } else {
 
-                content: content.trim()
+            // =========================
+            // CREATE NOTE
+            // =========================
 
-            });
-
+            await createNote(noteData);
 
             alert("Note created successfully");
 
-
-            // Refresh Notes page
-            if (onNoteCreated) {
-                await onNoteCreated();
-            }
-
-
-            // Close modal
-            onClose();
-
-
-        } catch (error) {
-
-            console.error("Create note error:", error);
-
-            alert(
-                error.response?.data?.message ||
-                "Failed to create note"
-            );
-
-        } finally {
-
-            setLoading(false);
-
         }
 
-    };
+
+        // Refresh Notes page
+        if (onNoteCreated) {
+            await onNoteCreated();
+        }
+
+
+        // Close modal
+        onClose();
+
+    } catch (error) {
+
+        console.error(
+            noteToEdit
+                ? "Update note error:"
+                : "Create note error:",
+            error
+        );
+
+        alert(
+            error.response?.data?.message ||
+            noteToEdit
+                ? "Failed to update note"
+                : "Failed to create note"
+        );
+
+    } finally {
+
+        setLoading(false);
+
+    }
+
+};
 
 
     return (
@@ -124,12 +167,15 @@ function AddNoteModal({ isOpen, onClose, onNoteCreated }) {
                     <div>
 
                         <h2>
-                            Create New Note
-                        </h2>
+    {noteToEdit ? "Edit Note" : "Create New Note"}
+</h2>
 
-                        <p>
-                            Save your ideas and study notes.
-                        </p>
+<p>
+    {noteToEdit
+        ? "Update your note and save your changes."
+        : "Save your ideas and study notes."
+    }
+</p>
 
                     </div>
 
@@ -260,9 +306,9 @@ function AddNoteModal({ isOpen, onClose, onNoteCreated }) {
                             <FaSave />
 
                             {loading
-                                ? "Creating..."
-                                : "Create Note"
-                            }
+    ? (noteToEdit ? "Updating..." : "Creating...")
+    : (noteToEdit ? "Update Note" : "Create Note")
+}
 
                         </button>
 

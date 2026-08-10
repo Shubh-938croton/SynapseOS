@@ -19,6 +19,7 @@ function Notes() {
 
     const [loading, setLoading] = useState(true);
     const [showAddNoteModal, setShowAddNoteModal] = useState(false);
+    const [noteToEdit, setNoteToEdit] = useState(null);
 
     // =========================
     // FETCH NOTES
@@ -78,14 +79,10 @@ function Notes() {
 
     const handleEdit = (note) => {
 
-        console.log("Edit note:", note);
+    setNoteToEdit(note);
+    setShowAddNoteModal(true);
 
-        /*
-            We will connect this to
-            Add/Edit Note Modal next.
-        */
-
-    };
+};
 
 
     // =========================
@@ -305,11 +302,15 @@ function Notes() {
             ADD NOTE MODAL
         ========================= */}
 
-        <AddNoteModal
-            isOpen={showAddNoteModal}
-            onClose={() => setShowAddNoteModal(false)}
-            onNoteCreated={fetchNotes}
-        />
+       <AddNoteModal
+    isOpen={showAddNoteModal}
+    onClose={() => {
+        setShowAddNoteModal(false);
+        setNoteToEdit(null);
+    }}
+    onNoteCreated={fetchNotes}
+    noteToEdit={noteToEdit}
+/>
 
     </DashboardLayout>
 
