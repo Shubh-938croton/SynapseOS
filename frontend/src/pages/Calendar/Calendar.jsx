@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 
+import AddEventModal
+    from "../../components/AddEventModal/AddEventModal";
+    
+
 import {
     getAllEvents
 } from "../../services/calendarService";
@@ -15,7 +19,7 @@ function Calendar() {
 
 
     // =========================
-    // STATE
+    // CURRENT DATE
     // =========================
 
     const [currentDate, setCurrentDate] = useState(
@@ -27,26 +31,21 @@ function Calendar() {
     );
 
 
+    // =========================
+    // EVENTS
+    // =========================
+
     const [events, setEvents] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
 
     // =========================
-    // MONTH / YEAR
+    // ADD EVENT MODAL
     // =========================
 
-    const month = currentDate.getMonth();
-
-    const year = currentDate.getFullYear();
-
-
-    const monthName = currentDate.toLocaleDateString(
-        "en-IN",
-        {
-            month: "long"
-        }
-    );
+    const [showAddEventModal, setShowAddEventModal] =
+        useState(false);
 
 
     // =========================
@@ -59,9 +58,9 @@ function Calendar() {
 
             setLoading(true);
 
-            const data = await getAllEvents();
+            const response = await getAllEvents();
 
-            setEvents(data || []);
+            setEvents(response || []);
 
         } catch (error) {
 
@@ -93,6 +92,21 @@ function Calendar() {
         fetchEvents();
 
     }, []);
+
+
+    // =========================
+    // MONTH / YEAR
+    // =========================
+
+    const month = currentDate.getMonth();
+
+    const year = currentDate.getFullYear();
+
+
+    const monthName =
+        currentDate.toLocaleDateString("en-IN", {
+            month: "long"
+        });
 
 
     // =========================
@@ -190,51 +204,14 @@ function Calendar() {
         }
 
 
-        const dateString = `${year}-${String(
-            month + 1
-        ).padStart(2, "0")}-${String(day).padStart(
-            2,
-            "0"
-        )}`;
+        const dateString =
+            `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
 
         return events.filter(
             (event) =>
                 event.event_date?.split("T")[0] ===
                 dateString
-        );
-
-    };
-
-
-    // =========================
-    // FORMAT TIME
-    // =========================
-
-    const formatTime = (time) => {
-
-        if (!time) {
-            return "";
-        }
-
-
-        const [hours, minutes] = time
-            .split(":")
-            .map(Number);
-
-
-        const date = new Date();
-
-        date.setHours(hours);
-        date.setMinutes(minutes);
-
-
-        return date.toLocaleTimeString(
-            "en-IN",
-            {
-                hour: "numeric",
-                minute: "2-digit"
-            }
         );
 
     };
@@ -248,7 +225,6 @@ function Calendar() {
 
 
     // Empty cells before first day
-
     for (
         let i = 0;
         i < firstDayOfMonth;
@@ -261,7 +237,6 @@ function Calendar() {
 
 
     // Actual days
-
     for (
         let day = 1;
         day <= daysInMonth;
@@ -281,6 +256,21 @@ function Calendar() {
 
         <DashboardLayout>
 
+            {/* =========================
+                ADD EVENT MODAL
+            ========================= */}
+
+            <AddEventModal
+                isOpen={showAddEventModal}
+
+                onClose={() =>
+                    setShowAddEventModal(false)
+                }
+
+                onEventCreated={fetchEvents}
+            />
+
+
             <div className="calendar-page">
 
 
@@ -297,18 +287,24 @@ function Calendar() {
                         </h1>
 
                         <p>
-                            Plan your tasks, events and important activities.
+                            Plan your tasks, events and
+                            important activities.
                         </p>
 
                     </div>
 
 
                     <button
+                        type="button"
                         className="add-event-btn"
                         onClick={() => {
+
                             console.log(
                                 "Add event clicked"
                             );
+
+                            setShowAddEventModal(true);
+
                         }}
                     >
 
@@ -319,7 +315,6 @@ function Calendar() {
                 </div>
 
 
-
                 {/* =========================
                     CALENDAR CARD
                 ========================= */}
@@ -328,7 +323,7 @@ function Calendar() {
 
 
                     {/* =========================
-                        TOOLBAR
+                        CALENDAR TOOLBAR
                     ========================= */}
 
                     <div className="calendar-toolbar">
@@ -337,41 +332,62 @@ function Calendar() {
                         <div className="calendar-navigation">
 
                             <button
+                                type="button"
                                 onClick={
                                     handlePreviousMonth
                                 }
                             >
+
                                 ‹
+
                             </button>
 
 
                             <button
+                                type="button"
                                 onClick={
                                     handleNextMonth
                                 }
                             >
+
                                 ›
+
                             </button>
 
                         </div>
 
 
                         <h2>
-
                             {monthName} {year}
-
                         </h2>
 
 
                         <button
+                            type="button"
                             className="today-btn"
                             onClick={handleToday}
                         >
+
                             Today
+
                         </button>
 
                     </div>
 
+
+                    {/* =========================
+                        LOADING
+                    ========================= */}
+
+                    {loading && (
+
+                        <div className="calendar-loading">
+
+                            Loading events...
+
+                        </div>
+
+                    )}
 
 
                     {/* =========================
@@ -391,21 +407,17 @@ function Calendar() {
                     </div>
 
 
-
                     {/* =========================
                         CALENDAR GRID
                     ========================= */}
 
                     <div className="calendar-grid">
 
-
                         {calendarDays.map(
                             (day, index) => {
 
                                 const dayEvents =
-                                    getEventsForDay(
-                                        day
-                                    );
+                                    getEventsForDay(day);
 
 
                                 return (
@@ -420,64 +432,41 @@ function Calendar() {
                                         }`}
                                     >
 
-
                                         {day && (
 
                                             <>
 
-                                                <span className="day-number">
+                                                {/* DAY NUMBER */}
 
+                                                <span
+                                                    className="day-number"
+                                                >
                                                     {day}
-
                                                 </span>
-
 
 
                                                 {/* EVENTS */}
 
-                                                <div className="day-events">
-
+                                                <div
+                                                    className="day-events"
+                                                >
 
                                                     {dayEvents.map(
-                                                        (
-                                                            event
-                                                        ) => (
+                                                        (event) => (
 
                                                             <div
                                                                 key={
                                                                     event.event_id
                                                                 }
                                                                 className="calendar-event"
-                                                                title={
-                                                                    event.description ||
-                                                                    event.title
-                                                                }
                                                             >
 
-                                                                <strong>
-                                                                    {
-                                                                        event.title
-                                                                    }
-                                                                </strong>
-
-
-                                                                {event.start_time && (
-
-                                                                    <span>
-
-                                                                        {formatTime(
-                                                                            event.start_time
-                                                                        )}
-
-                                                                    </span>
-
-                                                                )}
+                                                                {event.title}
 
                                                             </div>
 
                                                         )
                                                     )}
-
 
                                                 </div>
 
@@ -492,28 +481,9 @@ function Calendar() {
                             }
                         )}
 
-
                     </div>
-
 
                 </div>
-
-
-
-                {/* =========================
-                    LOADING
-                ========================= */}
-
-                {loading && (
-
-                    <div className="calendar-loading">
-
-                        Loading events...
-
-                    </div>
-
-                )}
-
 
             </div>
 

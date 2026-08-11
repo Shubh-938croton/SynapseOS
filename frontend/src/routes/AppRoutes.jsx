@@ -6,7 +6,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Tasks from "../pages/Tasks/Tasks";
 import Notes from "../pages/Notes/Notes";
-
+import Calendar from "../pages/Calendar/Calendar";
 
 function AppRoutes() {
     return (
@@ -57,6 +57,16 @@ function AppRoutes() {
                     element={
                         <ProtectedRoute>
                             <Notes />
+                        </ProtectedRoute>
+                    }
+                />
+
+                {/* Calendar */}
+                <Route
+                    path="/calendar"
+                    element={
+                        <ProtectedRoute>
+                            <Calendar />
                         </ProtectedRoute>
                     }
                 />

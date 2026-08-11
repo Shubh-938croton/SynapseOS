@@ -1,6 +1,10 @@
 const db = require("../config/database");
 
-// Create Event
+
+// =====================================================
+// CREATE EVENT
+// =====================================================
+
 const createEvent = (event, callback) => {
 
     const query = `
@@ -44,52 +48,99 @@ const createEvent = (event, callback) => {
 };
 
 
-// Get All Events
+// =====================================================
+// GET ALL EVENTS
+// =====================================================
+
 const getAllEvents = (userId, callback) => {
 
     const query = `
-        SELECT *
+        SELECT
+            event_id,
+            title,
+            description,
+            event_date,
+            start_time,
+            end_time,
+            reminder_minutes,
+            status,
+            created_at
         FROM calendar_events
         WHERE user_id = ?
         ORDER BY event_date ASC, start_time ASC
     `;
 
-    db.query(query, [userId], (err, results) => {
+    db.query(
+        query,
+        [userId],
+        (err, results) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, results);
+
         }
-
-        callback(null, results);
-
-    });
+    );
 
 };
 
-// Get Event By ID
-const getEventById = (userId, eventId, callback) => {
+
+// =====================================================
+// GET EVENT BY ID
+// =====================================================
+
+const getEventById = (
+    userId,
+    eventId,
+    callback
+) => {
 
     const query = `
-        SELECT *
+        SELECT
+            event_id,
+            title,
+            description,
+            event_date,
+            start_time,
+            end_time,
+            reminder_minutes,
+            status,
+            created_at
         FROM calendar_events
-        WHERE event_id = ?
-        AND user_id = ?
+        WHERE
+            event_id = ?
+            AND user_id = ?
     `;
 
-    db.query(query, [eventId, userId], (err, results) => {
+    db.query(
+        query,
+        [eventId, userId],
+        (err, results) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, results);
+
         }
-
-        callback(null, results);
-
-    });
+    );
 
 };
 
-// Update Event
-const updateEvent = (event, callback) => {
+
+// =====================================================
+// UPDATE EVENT
+// =====================================================
+
+const updateEvent = (
+    userId,
+    eventId,
+    event,
+    callback
+) => {
 
     const query = `
         UPDATE calendar_events
@@ -101,8 +152,9 @@ const updateEvent = (event, callback) => {
             end_time = ?,
             reminder_minutes = ?,
             status = ?
-        WHERE event_id = ?
-        AND user_id = ?
+        WHERE
+            event_id = ?
+            AND user_id = ?
     `;
 
     db.query(
@@ -115,8 +167,8 @@ const updateEvent = (event, callback) => {
             event.end_time,
             event.reminder_minutes,
             event.status,
-            event.event_id,
-            event.user_id
+            eventId,
+            userId
         ],
         (err, result) => {
 
@@ -128,28 +180,43 @@ const updateEvent = (event, callback) => {
 
         }
     );
+
 };
 
-// Delete Event
-const deleteEvent = (userId, eventId, callback) => {
+
+// =====================================================
+// DELETE EVENT
+// =====================================================
+
+const deleteEvent = (
+    userId,
+    eventId,
+    callback
+) => {
 
     const query = `
         DELETE FROM calendar_events
-        WHERE event_id = ?
-        AND user_id = ?
+        WHERE
+            event_id = ?
+            AND user_id = ?
     `;
 
-    db.query(query, [eventId, userId], (err, result) => {
+    db.query(
+        query,
+        [eventId, userId],
+        (err, result) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, result);
+
         }
-
-        callback(null, result);
-
-    });
+    );
 
 };
+
 
 module.exports = {
     createEvent,

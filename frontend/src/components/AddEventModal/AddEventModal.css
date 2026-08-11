@@ -1,0 +1,442 @@
+/* =========================================================
+   SYNAPSEOS - ADD EVENT MODAL
+   ========================================================= */
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.event-modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    backdrop-filter: blur(4px);
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.event-modal {
+    width: 100%;
+    max-width: 620px;
+
+    max-height: 90vh;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    overflow-y: auto;
+
+    box-shadow:
+        0 20px 60px rgba(15, 23, 42, 0.22);
+
+    animation: eventModalAppear 0.2s ease;
+}
+
+
+@keyframes eventModalAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.event-modal-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 24px 26px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+
+.event-modal-header h2 {
+
+    margin: 0 0 5px;
+
+    color: #0f172a;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+
+.event-modal-header p {
+
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+.event-modal-close {
+
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.event-modal-close:hover {
+
+    background: #f1f5f9;
+
+    color: #0f172a;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.event-modal-form {
+
+    padding: 24px 26px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
+
+.event-form-group {
+
+    margin-bottom: 18px;
+}
+
+
+.event-form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.event-form-group input,
+.event-form-group textarea,
+.event-form-group select {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 11px 13px;
+
+    border: 1px solid #dbe3ee;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    color: #0f172a;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.event-form-group input {
+
+    height: 44px;
+}
+
+
+.event-form-group textarea {
+
+    min-height: 100px;
+
+    resize: vertical;
+}
+
+
+.event-form-group select {
+
+    height: 44px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   INPUT FOCUS
+   ========================================================= */
+
+.event-form-group input:focus,
+.event-form-group textarea:focus,
+.event-form-group select:focus {
+
+    border-color: #6366f1;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.event-modal-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 24px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #f1f5f9;
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+   ========================================================= */
+
+.event-cancel-btn {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 10px 16px;
+
+    border: 1px solid #dbe3ee;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.event-cancel-btn:hover {
+
+    background: #f8fafc;
+
+    border-color: #cbd5e1;
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+   ========================================================= */
+
+.event-save-btn {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 10px 18px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #4f46e5;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.event-save-btn:hover {
+
+    background: #4338ca;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+
+.event-save-btn:disabled {
+
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .event-modal-overlay {
+
+        padding: 12px;
+
+    }
+
+
+    .event-modal {
+
+        max-width: 100%;
+
+        max-height: 94vh;
+
+        border-radius: 14px;
+
+    }
+
+
+    .event-modal-header {
+
+        padding: 20px;
+
+    }
+
+
+    .event-modal-form {
+
+        padding: 20px;
+
+    }
+
+
+    .event-modal-actions {
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+
+    }
+
+
+    .event-cancel-btn,
+    .event-save-btn {
+
+        width: 100%;
+
+    }
+
+}
