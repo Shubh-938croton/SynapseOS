@@ -57,9 +57,10 @@ const getAllEvents = (userId, callback) => {
     const query = `
         SELECT
             event_id,
+            user_id,
             title,
             description,
-            event_date,
+            DATE_FORMAT(event_date, '%Y-%m-%d') AS event_date,
             start_time,
             end_time,
             reminder_minutes,
@@ -70,20 +71,15 @@ const getAllEvents = (userId, callback) => {
         ORDER BY event_date ASC, start_time ASC
     `;
 
-    db.query(
-        query,
-        [userId],
-        (err, results) => {
+    db.query(query, [userId], (err, results) => {
 
-            if (err) {
-                return callback(err, null);
-            }
-
-            callback(null, results);
-
+        if (err) {
+            return callback(err, null);
         }
-    );
 
+        callback(null, results);
+
+    });
 };
 
 
@@ -91,43 +87,34 @@ const getAllEvents = (userId, callback) => {
 // GET EVENT BY ID
 // =====================================================
 
-const getEventById = (
-    userId,
-    eventId,
-    callback
-) => {
+const getEventById = (userId, eventId, callback) => {
 
     const query = `
         SELECT
             event_id,
+            user_id,
             title,
             description,
-            event_date,
+            DATE_FORMAT(event_date, '%Y-%m-%d') AS event_date,
             start_time,
             end_time,
             reminder_minutes,
             status,
             created_at
         FROM calendar_events
-        WHERE
-            event_id = ?
-            AND user_id = ?
+        WHERE event_id = ?
+        AND user_id = ?
     `;
 
-    db.query(
-        query,
-        [eventId, userId],
-        (err, results) => {
+    db.query(query, [eventId, userId], (err, results) => {
 
-            if (err) {
-                return callback(err, null);
-            }
-
-            callback(null, results);
-
+        if (err) {
+            return callback(err, null);
         }
-    );
 
+        callback(null, results);
+
+    });
 };
 
 

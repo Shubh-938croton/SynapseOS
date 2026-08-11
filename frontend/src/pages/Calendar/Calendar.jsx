@@ -199,22 +199,30 @@ function Calendar() {
 
     const getEventsForDay = (day) => {
 
-        if (!day) {
-            return [];
-        }
+    if (!day) {
+        return [];
+    }
 
+    const dateString =
+        `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
-        const dateString =
-            `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    console.log("Calendar cell:", dateString);
 
+    console.table(
+    events.map((event) => ({
+        id: event.event_id,
+        title: event.title,
+        event_date: event.event_date
+    }))
+);
 
-        return events.filter(
-            (event) =>
-                event.event_date?.split("T")[0] ===
-                dateString
-        );
+    return events.filter(
+        (event) =>
+            event.event_date?.split("T")[0] ===
+            dateString
+    );
 
-    };
+};
 
 
     // =========================
