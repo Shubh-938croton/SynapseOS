@@ -1,801 +1,523 @@
-# Developer Journal
+# 🚀 SynapseOS --- Developer Journal
 
----
+**Developer:** Shubh Kamal\
+**Project:** SynapseOS\
+**Project Start:** July 2026\
+**Current Focus:** Full-stack productivity platform with a React
+frontend, Node/Express backend, MySQL database, authentication,
+productivity modules, analytics, and future AI features.
 
-## Milestone 1
+------------------------------------------------------------------------
 
-### Objective
+# 1. Project Overview
 
-Create backend architecture.
+SynapseOS is a productivity and study-management platform designed to
+bring a student's tasks, notes, goals, calendar, study sessions,
+Pomodoro sessions, contests, analytics, and personalized insights into
+one application.
 
-### Completed
+## Technology Stack
 
-✔ Express Server
+### Frontend
 
-✔ Routes
+-   React
+-   JavaScript
+-   HTML/CSS
+-   Vite
+-   React Icons
 
-✔ Controllers
+### Backend
 
-✔ Models
+-   Node.js
+-   Express.js
+-   REST APIs
+-   JWT authentication
+-   bcrypt
 
-### Learned
+### Database
 
-MVC Architecture
+-   MySQL
+-   MySQL Workbench
+-   mysql2
 
-Browser
+### Development Tools
 
-↓
+-   VS Code
+-   Postman
+-   Git
+-   GitHub
+-   Git Bash
+-   PowerShell
 
-Routes
+------------------------------------------------------------------------
 
-↓
+# 2. Core Architecture
 
+SynapseOS follows a layered MVC-style backend architecture.
+
+``` text
+React Frontend
+      ↓
+REST API
+      ↓
+Express Routes
+      ↓
 Controllers
-
-↓
-
+      ↓
 Models
+      ↓
+MySQL Database
+```
 
-↓
+Authentication adds another layer:
 
-Database
+``` text
+Client
+  ↓
+JWT Bearer Token
+  ↓
+Authentication Middleware
+  ↓
+Controller
+  ↓
+Model
+  ↓
+MySQL
+```
 
-### Problems
+The main architectural rule learned throughout development is
+**Separation of Concerns**:
 
-Problem
+-   Routes handle endpoints.
+-   Controllers handle request/response logic.
+-   Models handle database communication and SQL.
+-   Middleware handles cross-cutting concerns such as authentication.
+-   Frontend services communicate with backend APIs.
+-   React components handle UI and user interaction.
 
-Cannot find module taskController
+------------------------------------------------------------------------
 
-Reason
-
-Wrong filename
-
-Solution
-
-Renamed file.
-
-### Interview Notes
-
-Why MVC?
-
-MVC separates responsibilities.
-
-
-# 🚀 SynapseOS Developer Journal
-
-Developer: Shubh Kamal
-
-Project: SynapseOS
-
-Start Date: July 2026
-
-Tech Stack:
-- Node.js
-- Express.js
-- MySQL
-- JavaScript
-- Git & GitHub
-
----
-
-# Day 1 (27/07/2026)
+# 3. Day 1 --- Backend Architecture
 
 ## Objective
 
-Set up the backend architecture for SynapseOS.
+Set up the initial backend architecture for SynapseOS.
 
 ## Completed
 
-- Created backend folder structure.
-- Initialized Node.js project.
-- Installed dependencies:
-  - express
-  - mysql2
-  - dotenv
-  - cors
-  - nodemon
-- Created Express server.
-- Created app.js and server.js.
-- Created MVC folder structure.
+-   Created backend folder structure.
+-   Initialized Node.js project.
+-   Installed:
+    -   express
+    -   mysql2
+    -   dotenv
+    -   cors
+    -   nodemon
+-   Created `app.js`.
+-   Created `server.js`.
+-   Created MVC folders.
 
-```
+``` text
 backend/
-│
-├── src/
-│   ├── config/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   ├── services/
-│   ├── utils/
-│   ├── app.js
-│   └── server.js
+└── src/
+    ├── config/
+    ├── controllers/
+    ├── models/
+    ├── routes/
+    ├── middleware/
+    ├── services/
+    ├── utils/
+    ├── app.js
+    └── server.js
 ```
 
 ## Learned
 
-### MVC Architecture
+### MVC
 
+``` text
 Browser
-
-↓
-
+   ↓
 Routes
-
-↓
-
+   ↓
 Controllers
-
-↓
-
+   ↓
 Models
-
-↓
-
+   ↓
 Database
+```
 
-Each layer should have a single responsibility.
+Each layer has a single responsibility.
 
-## Problems Faced
-
-### Problem
+## Problem
 
 Node could not find controller files.
 
-### Reason
+### Cause
 
-Controller filenames and import names did not match.
+The controller filename and import path did not match.
 
 ### Solution
 
-Renamed controller files correctly.
+Corrected the controller filename/import.
 
-## Interview Notes
+## Interview Note
 
-Q: Why use MVC?
+**Why MVC?**
 
-Answer:
+MVC separates application logic into independent layers. This improves
+maintainability, debugging, testing, and scalability.
 
-MVC separates application logic into independent layers.
+------------------------------------------------------------------------
 
-- Routes handle URLs.
-- Controllers process requests.
-- Models communicate with the database.
-
-This improves maintainability and scalability.
-
----
-
-# Day 2 (28/07/2026)
+# 4. Day 2 --- MySQL Connection
 
 ## Objective
 
-Connect Express backend with MySQL.
+Connect the Express backend to MySQL.
 
 ## Completed
 
-- Installed mysql2.
-- Created database.js.
-- Connected Node.js with MySQL.
-- Created .env file.
-- Stored database credentials securely.
+-   Installed `mysql2`.
+-   Created `database.js`.
+-   Connected Node.js to MySQL.
+-   Created `.env`.
+-   Moved database credentials into environment variables.
 
 ## Learned
 
-Never hardcode credentials.
+Never hardcode database credentials.
 
-Instead use
+Use:
 
-process.env
+``` javascript
+process.env.DB_HOST
+process.env.DB_USER
+process.env.DB_PASSWORD
+process.env.DB_NAME
+```
 
-to improve security.
-
-## Problems Faced
-
-### Problem
+## Problem
 
 Database connection failed.
 
-### Reason
+### Cause
 
 Incorrect MySQL credentials.
 
 ### Solution
 
-Verified username and password.
+Verified and corrected the credentials.
 
-Successfully connected backend with MySQL.
+## Security Lesson
 
-## Interview Notes
+Sensitive values such as database passwords should never be committed to
+GitHub.
 
-Q: Why use .env?
+------------------------------------------------------------------------
 
-Answer
-
-Sensitive information like database passwords should never be pushed to GitHub.
-
-Environment variables improve security and portability.
-
----
-
-# Day 3 (29/07/2026)
+# 5. Day 3 --- Database Design
 
 ## Objective
 
-Design SynapseOS database.
+Design the SynapseOS relational database.
 
-## Completed
+## Database
 
-Created database
-
+``` text
 synapseos
+```
 
-Created tables
+## Main Tables
 
-- users
-- subjects
-- tasks
-- goals
-- progress
-- calendar_events
-- notes
-- settings
-- pomodoro_sessions
-- contests
+-   users
+-   subjects
+-   tasks
+-   goals
+-   progress
+-   calendar_events
+-   notes
+-   settings
+-   pomodoro_sessions
+-   contests
 
-Established relationships using foreign keys.
+Relationships were established using foreign keys.
+
+Example:
+
+``` text
+User
+ ↓
+Subjects
+ ↓
+Tasks
+```
 
 ## Learned
 
-Relational databases maintain relationships using foreign keys.
+Foreign keys maintain **referential integrity**.
 
-One user
+## Problem --- Empty Tables
 
-↓
+Tables existed in MySQL Workbench but contained no data.
 
-Many subjects
+### Cause
 
-↓
-
-Many tasks
-
-## Problems Faced
-
-### Problem
-
-Tables appeared in Workbench but contained no data.
-
-### Reason
-
-Schema was created but no INSERT statements had been executed.
+The schema had been created, but no `INSERT` statements had been
+executed.
 
 ### Solution
 
 Inserted sample records.
 
----
-
-### Problem
-
-Error 1452
+## Problem --- Error 1452
 
 Foreign key constraint failed.
 
-### Reason
+### Cause
 
-Task referenced subject_id that did not exist.
+A task referenced a `subject_id` that did not exist.
 
 ### Solution
 
-Inserted parent table (subjects) before child table (tasks).
+Inserted the parent record in `subjects` before inserting the child
+record in `tasks`.
 
-## Interview Notes
+## Interview Note
 
-Q: Why use foreign keys?
+Foreign keys prevent invalid references and maintain consistency between
+related tables.
 
-Answer
+------------------------------------------------------------------------
 
-Foreign keys maintain referential integrity.
-
-They prevent invalid references from being inserted into the database.
-
----
-
-# Day 4 (30/07/2026)
+# 6. Day 4 --- GET Tasks API
 
 ## Objective
 
-Replace hardcoded task data with MySQL.
+Replace hardcoded task data with MySQL data.
 
 ## Completed
 
-Created GET API
+Implemented:
 
+``` text
 GET /api/tasks
+```
 
-Successfully connected
+Request flow:
 
+``` text
 Browser
-
-↓
-
+   ↓
 Express
-
-↓
-
-Controller
-
-↓
-
-Model
-
-↓
-
-MySQL
-
-↓
-
-JSON Response
-
-Inserted sample data into
-
-users
-
-subjects
-
-tasks
-
-Configured
-
-database.js
-
-using environment variables.
-
-Successfully tested API.
-
-http://localhost:5000/api/tasks
-
-returned JSON from MySQL.
-
-## Learned
-
-The controller should never contain SQL.
-
-SQL belongs inside models.
-
-Controllers only
-
-- receive requests
-- call models
-- send responses
-
-## Problems Faced
-
-### Problem
-
-Server crashed.
-
-Reason
-
-package.json contained
-
-"main":"index.js"
-
-while the project used
-
-server.js
-
-Solution
-
-Updated package.json.
-
----
-
-### Problem
-
-Access denied for user root.
-
-Reason
-
-Incorrect DB_PASSWORD.
-
-Solution
-
-Updated .env.
-
----
-
-### Problem
-
-Browser returned hardcoded tasks.
-
-Reason
-
-Controller still referenced hardcoded array.
-
-Solution
-
-Created taskModel.js.
-
-Moved SQL queries into model.
-
-Connected controller with model.
-
-## Interview Notes
-
-Q: Explain the request flow.
-
-Answer
-
-Browser
-
-↓
-
-Express Server
-
-↓
-
+   ↓
 Route
-
-↓
-
+   ↓
 Controller
-
-↓
-
+   ↓
 Model
-
-↓
-
+   ↓
 MySQL
-
-↓
-
-Controller
-
-↓
-
+   ↓
+JSON Response
+   ↓
 Browser
+```
 
----
+## Important Design Decision
 
-Q: Why keep SQL inside Models?
+SQL was moved out of controllers and into models.
 
-Answer
+Controllers should:
 
-Models are responsible for communicating with databases.
+1.  Receive requests.
+2.  Call models.
+3.  Send responses.
 
-Keeping SQL out of controllers follows Separation of Concerns and improves maintainability.
+Models should:
 
----
+1.  Communicate with the database.
+2.  Execute SQL queries.
+3.  Return database results.
 
-# Current Project Status
+## Problems Solved
 
-Backend
+### Server Crash
 
-✅ Express Server
+`package.json` pointed to:
 
-✅ MySQL Connection
+``` text
+index.js
+```
 
-✅ MVC Architecture
+while the project used:
 
-✅ Environment Variables
+``` text
+server.js
+```
 
-✅ Users Table
+Corrected the project configuration.
 
-✅ Subjects Table
+### MySQL Access Denied
 
-✅ Tasks Table
+Incorrect `DB_PASSWORD` was corrected in `.env`.
 
-✅ GET /api/tasks
+### Browser Still Showing Hardcoded Tasks
 
-Database
-
-✅ Schema Designed
-
-✅ Relationships Created
-
-✅ Sample Data Inserted
-
-Git
-
-✅ GitHub Repository
-
-✅ Regular Commits
-
----
-
-# Skills Learned
-
-Node.js
-
-✔ Modules
-
-✔ package.json
-
-✔ npm
-
-✔ Environment Variables
-
-Express
-
-✔ Routing
-
-✔ Controllers
-
-✔ Middleware
-
-✔ JSON APIs
-
-Database
-
-✔ MySQL
-
-✔ SQL
-
-✔ Foreign Keys
-
-✔ Relationships
-
-✔ CRUD (Read Completed)
-
-Git
-
-✔ Commits
-
-✔ Branches
-
-✔ GitHub
-
-Architecture
-
-✔ MVC
-
-✔ Layered Architecture
-
-✔ REST API
-
----
-
-# Next Goals
-
-Task Module
-
-⬜ POST /api/tasks
-
-⬜ GET /api/tasks/:id
-
-⬜ PUT /api/tasks/:id
-
-⬜ DELETE /api/tasks/:id
-
-Authentication
-
-⬜ Register
-
-⬜ Login
-
-⬜ JWT
-
-Frontend
-
-⬜ React
-
-⬜ Dashboard
-
-⬜ Task Management
-
-AI Module
-
-⬜ Student Performance Analysis
-
-⬜ Productivity Recommendation
-
-⬜ Personalized Insights
-
-Deployment
-
-⬜ Backend
-
-⬜ Database
-
-⬜ Frontend
-
-⬜ Azure AI Integration
-
----
-
-# Biggest Lessons
-
-1. Always separate responsibilities.
-
-2. Never hardcode credentials.
-
-3. Keep SQL inside models.
-
-4. Debug one layer at a time.
-
-5. Build one complete feature before starting another.
-
----
-
-# Total Progress
-
-Backend Setup        ██████████ 100%
-
-Database             ██████████ 100%
-
-GET API              ██████████ 100%
-
-CRUD                 ██░░░░░░░░ 25%
-
-Authentication       ░░░░░░░░░░ 0%
-
-Frontend             ░░░░░░░░░░ 0%
-
-AI Module            ░░░░░░░░░░ 0%
-
-Deployment           ░░░░░░░░░░ 0%n
-
-
-
-## Day 5 (31/07/2026)
-
-### Objective
-Implement POST /api/tasks.
-
-### Completed
-- Added createTask() model
-- Added createTask() controller
-- Added POST route
-- Tested API using Postman
-- Successfully inserted tasks into MySQL
-
-### Learned
-- req.body
-- express.json()
-- Parameterized SQL queries
-- HTTP 201 Created
-
-### Problems Faced
-TypeError: argument handler must be a function
-
-Reason:
-createTask was not exported correctly from taskController.js.
+The controller was still using a hardcoded array.
 
 Solution:
-Exported createTask in module.exports.
 
+-   Created `taskModel.js`.
+-   Moved SQL into the model.
+-   Connected controller → model → database.
 
-# 📅 Development Journal — 31/07/2026
+------------------------------------------------------------------------
 
-## 🎯 Objective
+# 7. Day 5 --- Task CRUD Development
 
-Continue backend development of SynapseOS by implementing the Task CRUD APIs, testing endpoints using Postman, debugging backend issues, and strengthening understanding of Express.js MVC architecture.
+## Objective
 
----
+Build the Task CRUD APIs.
 
-## ✅ Work Completed
+## Completed
 
-### 1. Implemented GET Task by ID API
+### Create Task
 
-Implemented the following endpoint:
+``` text
+POST /api/tasks
+```
 
+Implemented:
+
+-   `createTask()` model
+-   `createTask()` controller
+-   POST route
+-   Postman testing
+-   MySQL insertion
+
+## Concepts Learned
+
+-   `req.body`
+-   `express.json()`
+-   Parameterized SQL queries
+-   HTTP `201 Created`
+
+## Problem
+
+``` text
+TypeError: argument handler must be a function
+```
+
+### Cause
+
+`createTask` was not exported correctly.
+
+### Solution
+
+Corrected `module.exports`.
+
+------------------------------------------------------------------------
+
+# 8. GET Task by ID
+
+Implemented:
+
+``` text
 GET /api/tasks/:id
+```
 
-#### Components Completed
+Components:
 
-- Model (`getTaskById`)
-- Controller (`getTaskById`)
-- Route Configuration
-- Postman Testing
+-   `getTaskById()` model
+-   `getTaskById()` controller
+-   Route configuration
+-   Postman testing
 
-SQL Query Used
+SQL:
 
-```sql
+``` sql
 SELECT *
 FROM tasks
 WHERE task_id = ?;
 ```
 
-Successfully retrieved a task using its unique ID.
+## API Verification
 
----
+  Method   Endpoint           Status
+  -------- ------------------ ------------
+  GET      `/api/tasks`       ✅ Working
+  GET      `/api/tasks/:id`   ✅ Working
+  POST     `/api/tasks`       ✅ Working
 
-### 2. Successfully Tested APIs
+------------------------------------------------------------------------
 
-Verified the following endpoints using Postman.
+# 9. Backend Debugging Lessons
 
-| Method | Endpoint | Status |
-|---------|----------|--------|
-| GET | /api/tasks | ✅ Working |
-| GET | /api/tasks/:id | ✅ Working |
-| POST | /api/tasks | ✅ Working |
+## Error --- Cannot GET
 
-Verified all database changes using MySQL Workbench.
-
----
-
-### 3. Debugging Session
-
-Today's work involved solving several backend issues.
-
-#### Error 1 — Route Not Found
-
-Received:
-
-```
+``` text
 Cannot GET /api/tasks/1
 ```
 
-Cause:
-- Incorrect API request / routing verification.
+### Solution
 
-Solution:
-- Verified Express routing.
-- Verified app.js route registration.
-- Restarted server after saving files.
-- Tested using correct Postman configuration.
+Verified:
 
----
+-   HTTP method
+-   URL
+-   Express route registration
+-   `app.js`
+-   Server restart
+-   Postman configuration
 
-#### Error 2 — Incorrect Postman Request
+## Postman Mistake
 
-Mistakenly entered
+The following was mistakenly entered into the URL field:
 
-```
+``` text
 GET http://localhost:5000/api/tasks/1
 ```
 
-inside the URL field.
+Correct usage:
 
-Solution:
+-   Method: `GET`
+-   URL:
 
-Selected **GET** from the request method and entered only
-
-```
+``` text
 http://localhost:5000/api/tasks/1
 ```
 
-inside the URL.
+## Error --- ERR_HTTP_HEADERS_SENT
 
----
-
-#### Error 3 — ERR_HTTP_HEADERS_SENT
-
-Received:
-
-```
+``` text
 Cannot set headers after they are sent to the client
 ```
 
-Cause:
+### Cause
 
-Incorrect structure inside `taskModel.js`.
+`taskModel.js` had incorrect function/bracket structure. Part of the
+INSERT logic was accidentally placed inside another model function.
 
-The `createTask()` function was closed too early, causing part of the INSERT query to be placed inside `getTaskById()`.
+### Solution
 
-This resulted in callbacks being executed incorrectly and Express attempting to send multiple responses.
+-   Refactored `taskModel.js`.
+-   Corrected braces.
+-   Separated model functions.
+-   Ensured each request sends exactly one response.
 
-Solution:
+------------------------------------------------------------------------
 
-- Refactored taskModel.js
-- Properly separated each model function
-- Fixed misplaced braces
-- Ensured each callback executes exactly once
+# 10. JavaScript Concepts Learned
 
----
+A major debugging lesson was JavaScript function scope.
 
-### 4. JavaScript Concepts Learned
-
-Learned about JavaScript function scope.
-
-Functions declared inside another function cannot be exported or accessed outside that function.
+Functions declared inside another function are not available outside
+that function.
 
 Example:
 
-```javascript
+``` javascript
 const createTask = () => {
 
     const getTaskById = () => {
@@ -805,475 +527,1207 @@ const createTask = () => {
 };
 ```
 
-Understanding function scope helped identify why `getTaskById` was not accessible earlier.
+`getTaskById` cannot be exported from outside the scope in which it was
+declared.
 
----
+This helped identify backend bugs caused by incorrect function
+structure.
 
-### 5. MVC Architecture Reinforcement
+------------------------------------------------------------------------
 
-Current request flow:
+# 11. Authentication Module
 
+## Registration
+
+Implemented:
+
+-   User registration
+-   bcrypt password hashing
+-   Duplicate email validation
+-   Duplicate username validation
+-   Postman testing
+
+## JWT Authentication
+
+Implemented:
+
+-   JWT token generation
+-   Login API
+-   bcrypt password verification
+-   Authentication middleware
+-   Bearer-token authentication
+-   Protected routes
+
+Core concepts:
+
+``` text
+Register
+   ↓
+Hash Password
+   ↓
+Store User
+```
+
+Login:
+
+``` text
+Credentials
+   ↓
+Find User
+   ↓
+bcrypt.compare()
+   ↓
+JWT Generation
+   ↓
 Client
-↓
-Route
-↓
-Controller
-↓
-Model
-↓
-Database
+```
 
-This reinforced the responsibility of each backend layer and simplified debugging.
+Protected request:
 
----
+``` text
+Authorization: Bearer <token>
+```
 
-## 📚 Concepts Learned
+## Security Improvement
 
-- Route Parameters (`req.params`)
-- SQL SELECT with WHERE clause
-- REST API Design
-- Express Routing
-- Callback Flow
-- JavaScript Function Scope
-- Express Error Handling
-- API Testing using Postman
-- Backend Debugging Methodology
+Task creation no longer depends on a client-provided `user_id`.
 
----
+Instead:
 
-## 🛠 Current Project Progress
+``` javascript
+req.user.user_id
+```
 
-Backend Setup
+is taken from the authenticated JWT.
 
-✅ Express Server
-✅ MySQL Connection
-✅ MVC Folder Structure
+This prevents users from simply changing the user ID in the request body
+to access another user's data.
 
-Task Module
+------------------------------------------------------------------------
 
-✅ GET /api/tasks
-✅ GET /api/tasks/:id
-✅ POST /api/tasks
-🟡 PUT /api/tasks/:id (Next)
-⬜ DELETE /api/tasks/:id
+# 12. User Profile Module
 
----
+## Objective
 
-## 💡 Key Takeaways
+Build secure profile-management APIs.
 
-- Always test APIs after implementation.
-- Read stack traces carefully before changing code.
-- Keep model, controller, and routes separated.
-- Use Postman to verify every endpoint.
-- JavaScript scope and callback flow are critical in backend development.
+## Completed
 
----
+### Get Profile
 
-## 📅 Next Session Goals
+-   Created `userModel.js`.
+-   Implemented profile retrieval.
+-   Used authenticated user ID from JWT.
+-   Excluded sensitive fields such as `password_hash`.
 
-- Implement PUT /api/tasks/:id
-- Test Update API
-- Implement DELETE /api/tasks/:id
-- Complete Task CRUD module
-- Merge feature branch after successful testing
+### Update Profile
 
+Implemented:
 
+-   Profile updates
+-   Duplicate username validation
+-   Duplicate email validation
+-   JWT-based user identification
 
-## Day 6 - Authentication Module (Part 1)
+### Change Password
 
-### Completed
-- Created Authentication Module
-- Installed bcrypt and jsonwebtoken
-- Implemented User Registration API
-- Password hashing using bcrypt
-- Added duplicate email validation
-- Added duplicate username validation
-- Tested registration successfully using Postman
+Implemented:
 
-### Concepts Learned
-- Authentication flow
-- Password hashing
-- HTTP Status Codes (201, 409, 500)
-- MVC architecture for authentication
-- Express request lifecycle
-- ERR_HTTP_HEADERS_SENT debugging
+-   `findUserById()`
+-   `updatePassword()`
+-   Current-password verification using bcrypt
+-   New-password hashing
+-   Password update
 
-### Challenges Faced
-- Duplicate registration logic caused ERR_HTTP_HEADERS_SENT.
-- Learned that every request must send exactly one response.
+## Security Improvements
 
+-   Do not trust `user_id` from the client.
+-   Use `req.user.user_id`.
+-   Protect profile routes.
+-   Store hashed passwords.
+-   Prevent duplicate usernames/emails.
 
+------------------------------------------------------------------------
 
-## Day 6 - JWT Authentication
+# 13. Subjects Module
 
-### Completed
-- Implemented JWT token generation
-- Added login API with bcrypt verification
-- Created authentication middleware
-- Protected task routes using middleware
-- Tested authentication flow
+Implemented complete Subject CRUD.
 
-### Concepts Learned
-- JSON Web Tokens (JWT)
-- jwt.sign()
-- jwt.verify()
-- Bearer Token authentication
-- Express middleware
-- Route protection
-
-### Pending
-- Fix JWT verification issue causing token rejection.
-
-
-
-// resolved the error.
-## Day 6 - Authentication & Task Security
-
-### Completed
-- Implemented JWT Authentication
-- Added authentication middleware
-- Protected task routes
-- Integrated authenticated user into task creation
-- Removed user_id from client requests
-- Used req.user.user_id from JWT
-- Tested secure task creation
-
-### Concepts Learned
-- JWT Authentication
-- Express Middleware
-- Authorization Header
-- Secure API Design
-- Using authenticated user context
-
-
-
-
-
-## Date: 02 August 2026
-
-### Module: User Profile
-
-### Objectives
-- Build secure User Profile APIs
-- Integrate JWT authentication
-- Allow users to manage their own profile
-- Implement secure password change functionality
-
-### Work Completed
-
-#### Get Profile API
-- Created `userModel.js`
-- Implemented `getUserProfile()`
-- Retrieved authenticated user's profile using JWT
-- Excluded sensitive fields like `password_hash`
-
-#### Update Profile API
-- Added profile update functionality
-- Implemented duplicate username/email validation
-- Updated profile information securely
-- Used authenticated user ID from JWT instead of request body
-
-#### Change Password API
-- Added `findUserById()`
-- Added `updatePassword()`
-- Verified current password using bcrypt
-- Hashed new password before storing
-- Successfully updated password in database
-
-### Security Improvements
-- Removed dependency on client-provided `user_id`
-- Used `req.user.user_id` from JWT
-- Protected all profile routes using authentication middleware
-- Prevented duplicate usernames and emails
-- Stored only hashed passwords
+## Completed
 
-### Testing
-- Tested Get Profile API
-- Tested Update Profile API
-- Tested Change Password API
-- Verified login with new password
-- Verified old password is rejected
-
-### Concepts Learned
-- JWT based authentication
-- Secure API development
-- Password hashing with bcrypt
-- Password verification
-- MVC architecture
-- User profile management
-- Route protection
+-   Create Subject
+-   Get All Subjects
+-   Get Subject By ID
+-   Update Subject
+-   Delete Subject
 
+## Concepts Learned
 
+-   JWT ownership
+-   CRUD operations
+-   Route protection
+-   MVC architecture
+-   Database queries
+-   Secure resource access
 
-## Subjects Module
+------------------------------------------------------------------------
 
-### Completed
-- Created Subject Model
-- Created Subject Controller
-- Added Subject Routes
-- Implemented Create Subject API
-- Implemented Get All Subjects API
-- Implemented Get Subject By ID API
-- Implemented Update Subject API
-- Implemented Delete Subject API
+# 14. Notes Module
 
-### Concepts Learned
-- JWT based ownership
-- CRUD Operations
-- Route Protection
-- MVC Architecture
-- Database Queries
-- Secure Resource Access
+Implemented complete Notes CRUD.
 
+## Completed
 
-## ✅ Completed Backend Modules
+-   Create Note
+-   Get All Notes
+-   Get Note By ID
+-   Update Note
+-   Delete Note
 
-- Authentication
-  - Register User
-  - Login User (JWT)
-  - Protected Routes
+This follows the same MVC + JWT ownership pattern used by the other
+modules.
 
-- User Profile
-  - Get Profile
-  - Update Profile
+------------------------------------------------------------------------
 
-- Subjects
-  - Create Subject
-  - Get All Subjects
-  - Get Subject By ID
-  - Update Subject
-  - Delete Subject
+# 15. Calendar Module --- Backend
 
-- Tasks
-  - Create Task
-  - Get All Tasks
-  - Get Task By ID
-  - Update Task
-  - Delete Task
+The Calendar module was implemented as a complete CRUD feature.
 
-- Notes
-  - Create Note
-  - Get All Notes
-  - Get Note By ID
-  - Update Note
-  - Delete Note
+## Core Data
 
+Calendar events contain:
 
+-   Event title
+-   Description
+-   Event date
+-   Start time
+-   End time
+-   Reminder
+-   Status
+-   Event ID
+-   User ownership
+
+## Backend Operations
+
+``` text
+POST   /api/calendar
+GET    /api/calendar
+GET    /api/calendar/:id
+PUT    /api/calendar/:id
+DELETE /api/calendar/:id
+```
 
+The frontend communicates with these endpoints through
+`calendarService.js`.
 
-  ## Backend Progress
+------------------------------------------------------------------------
+
+# 16. Calendar Module --- Frontend
+
+## Objective
+
+Connect the React calendar UI to the database and make calendar events
+fully interactive.
+
+The calendar now:
+
+-   Displays the current month.
+-   Supports previous/next month navigation.
+-   Supports a Today button.
+-   Fetches events from the backend.
+-   Displays events inside calendar cells.
+-   Supports adding events.
+-   Supports editing events.
+-   Supports deleting events.
 
-- [x] Authentication
-- [x] User Profile
-- [x] Subjects
-- [x] Tasks
-- [x] Notes
-- [x] Calendar
-- [ ] Goals
-- [ ] Study Sessions
-- [ ] Pomodoro
-- [ ] Dashboard Analytics
-- [ ] AI Recommendation Engine
+The completed calendar UI displays events directly inside the correct
+day cells.
 
+Example:
 
+``` text
+August 2026
 
+             11
+       ┌──────────────────────┐
+       │ Updated Operating    │
+       │ Systems Lab           │
+       │ 11:00 - 21:04        │
+       │ Edit   Delete         │
+       └──────────────────────┘
+```
 
-## 🎯 Goals Module
+------------------------------------------------------------------------
 
-The Goals module allows users to set, track, and manage their study goals.
+# 17. Calendar Frontend --- Add Event
 
-### Features
+Created:
 
-- Create Goal
-- View All Goals
-- View Goal By ID
-- Update Goal
-- Delete Goal
-- Track Progress Percentage
-- Goal Status Management
-- JWT Authentication
-- User-specific Data Isolation
+``` text
+AddEventModal.jsx
+AddEventModal.css
+```
 
-### API Endpoints
+## Add Event Form
 
-POST /api/goals
+Fields:
 
-GET /api/goals
+-   Event Title
+-   Description
+-   Event Date
+-   Start Time
+-   End Time
+-   Reminder
+-   Status
 
-GET /api/goals/:id
+## Frontend Flow
 
-PUT /api/goals/:id
+``` text
+User clicks "+ Add Event"
+        ↓
+AddEventModal opens
+        ↓
+User fills form
+        ↓
+Validation
+        ↓
+calendarService.createEvent()
+        ↓
+POST /api/calendar
+        ↓
+Backend
+        ↓
+MySQL
+        ↓
+fetchEvents()
+        ↓
+Calendar updates
+```
 
-DELETE /api/goals/:id
+## Validation Added
 
----
+-   Event title required.
+-   Event date required.
+-   End time must be later than start time.
 
-## 📖 Study Sessions Module
+## Debugging
 
-The Study Sessions module enables users to record and manage their study activities.
+Initially, clicking the button only produced a console message.
 
-### Features
+The issue was traced through:
 
-- Create Study Session
-- View All Study Sessions
-- View Study Session By ID
-- Update Study Session
-- Delete Study Session
-- Automatic Duration Calculation
-- Session Notes
-- JWT Authentication
-- User-specific Data Isolation
+``` text
+Button
+ ↓
+Modal state
+ ↓
+Modal component
+ ↓
+Form submit
+ ↓
+API service
+```
 
-### API Endpoints
+The frontend connection was corrected.
 
-POST /api/study-sessions
+------------------------------------------------------------------------
 
-GET /api/study-sessions
+# 18. Calendar CSS Debugging
 
-GET /api/study-sessions/:id
+The Add Event modal initially appeared as unstyled browser-default HTML.
 
-PUT /api/study-sessions/:id
+Symptoms:
 
-DELETE /api/study-sessions/:id
+-   Default browser fonts
+-   Default input styling
+-   Default buttons
+-   No modal layout
+-   No overlay styling
 
+### Cause
 
+The modal CSS was not correctly connected/imported.
 
+### Solution
 
-## 🍅 Pomodoro Sessions Module
+Connected:
 
-The Pomodoro Sessions module helps users record focused study sessions using the Pomodoro Technique.
+``` javascript
+import "./AddEventModal.css";
+```
 
-### Features
+and verified the CSS file path.
 
-- Create Pomodoro Session
-- View All Pomodoro Sessions
-- View Pomodoro Session By ID
-- Update Pomodoro Session
-- Delete Pomodoro Session
-- Automatic Focus Duration Calculation
-- Subject-wise Pomodoro Tracking
-- Task-wise Pomodoro Tracking
-- Break Time Tracking
-- JWT Authentication
-- User-specific Data Isolation
+The modal then displayed with the intended UI styling.
 
-### Database Table
+------------------------------------------------------------------------
 
-pomodoro_sessions
+# 19. Calendar Date Bug
 
-### API Endpoints
+## Problem
 
-POST /api/pomodoro
+An event selected for date `20` appeared on date `19`.
 
-GET /api/pomodoro
+This was caused by JavaScript date parsing/timezone conversion.
 
-GET /api/pomodoro/:id
+A value such as:
 
-PUT /api/pomodoro/:id
+``` text
+2026-08-20T18:30:00.000Z
+```
 
-DELETE /api/pomodoro/:id
+could be converted into a local date that appeared as the previous
+calendar day.
 
+## Solution
 
+Dates are now treated as date strings instead of converting them through
+`new Date()` unnecessarily.
 
+Calendar matching uses:
 
+``` javascript
+const dateString =
+    `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
-## 📊 Dashboard Analytics Module
+return events.filter(
+    (event) =>
+        event.event_date?.split("T")[0] === dateString
+);
+```
 
-The Dashboard Analytics module provides a consolidated overview of the user's productivity by aggregating data from all modules.
+For editing an event, the date field uses:
 
-### Features
+``` javascript
+String(event.event_date).substring(0, 10)
+```
 
-- Dashboard Summary API
-- Total Subjects
-- Total Tasks
-- Completed Tasks
-- Pending Tasks
-- Total Notes
-- Total Goals
-- Completed Goals
-- Total Study Sessions
-- Total Study Hours
-- Total Pomodoro Sessions
-- Total Pomodoro Hours
-- JWT Protected API
+This preserves:
 
-### Endpoint
+``` text
+2026-08-20
+```
 
+instead of allowing timezone conversion to change it to:
+
+``` text
+2026-08-19
+```
+
+## Lesson
+
+For calendar-only date fields, avoid unnecessary JavaScript `Date`
+conversion when the database already provides the correct `YYYY-MM-DD`
+portion.
+
+------------------------------------------------------------------------
+
+# 20. Calendar Event Display
+
+The React calendar creates a list of calendar days and checks which
+backend events belong to each day.
+
+Conceptually:
+
+``` text
+Calendar Cell
+     ↓
+Build YYYY-MM-DD
+     ↓
+Compare with event.event_date
+     ↓
+Matching events
+     ↓
+Render event inside cell
+```
+
+This successfully connected the backend event data to the calendar grid.
+
+The browser console was used extensively to verify:
+
+``` text
+Calendar cell: 2026-08-20
+Events from backend: Array(...)
+```
+
+This confirmed that:
+
+1.  Events were arriving from the backend.
+2.  Calendar cells were generating correct date strings.
+3.  The remaining issue was date matching/timezone handling rather than
+    API connectivity.
+
+------------------------------------------------------------------------
+
+# 21. Calendar Edit Event
+
+Created:
+
+``` text
+EditEventModal.jsx
+EditEventModal.css
+```
+
+## Edit Flow
+
+``` text
+User clicks Edit
+        ↓
+Selected event stored in state
+        ↓
+EditEventModal opens
+        ↓
+Existing event data loaded
+        ↓
+User changes fields
+        ↓
+Validation
+        ↓
+updateEvent()
+        ↓
+PUT /api/calendar/:id
+        ↓
+fetchEvents()
+        ↓
+Calendar refreshes
+```
+
+## Existing Data Loaded Into Form
+
+-   Title
+-   Description
+-   Date
+-   Start time
+-   End time
+-   Reminder
+-   Status
+
+## Important Date Handling
+
+The edit modal preserves the date using:
+
+``` javascript
+String(event.event_date).substring(0, 10)
+```
+
+This prevents the previously discovered timezone bug.
+
+## Edit Validation
+
+-   Event must exist.
+-   Title required.
+-   Date required.
+-   End time must be later than start time.
+
+## UI
+
+The edit modal was initially unstyled.
+
+After adding the correct CSS, the modal became visually consistent with
+the Add Event modal.
+
+------------------------------------------------------------------------
+
+# 22. Calendar Delete Event
+
+Implemented delete functionality.
+
+## Delete Flow
+
+``` text
+User clicks Delete
+        ↓
+Confirmation dialog
+        ↓
+deleteEvent(event.event_id)
+        ↓
+DELETE /api/calendar/:id
+        ↓
+Backend deletes record
+        ↓
+fetchEvents()
+        ↓
+Calendar refreshes
+```
+
+A confirmation is shown before deletion:
+
+``` text
+Are you sure you want to delete "Event Title"?
+```
+
+This prevents accidental deletion.
+
+------------------------------------------------------------------------
+
+# 23. Calendar Service
+
+The frontend service layer now contains:
+
+``` javascript
+getAllEvents()
+getEventById(eventId)
+createEvent(eventData)
+updateEvent(eventId, eventData)
+deleteEvent(eventId)
+```
+
+The service communicates with:
+
+``` text
+/api/calendar
+```
+
+and keeps API logic out of React components.
+
+This is another example of separation of concerns.
+
+------------------------------------------------------------------------
+
+# 24. Calendar Testing
+
+The calendar was tested through several stages.
+
+## Test 1 --- Add Event
+
+Verified that:
+
+-   Modal opens.
+-   Form accepts input.
+-   POST request reaches backend.
+-   Event is inserted into MySQL.
+-   Calendar refreshes.
+
+## Test 2 --- Event Display
+
+Verified that backend events appear inside the correct calendar cells.
+
+## Test 3 --- Date Accuracy
+
+Found and fixed the `20 → 19` timezone bug.
+
+## Test 4 --- Edit Event
+
+Verified that:
+
+-   Edit button opens the correct event.
+-   Existing values are loaded.
+-   Changes are sent to backend.
+-   Calendar refreshes after update.
+
+## Test 5 --- Delete Event
+
+Verified that:
+
+-   Delete button works.
+-   Confirmation appears.
+-   Event is deleted.
+-   Calendar refreshes.
+
+------------------------------------------------------------------------
+
+# 25. Git Workflow
+
+Git and GitHub are being used throughout development.
+
+General workflow:
+
+``` bash
+git status
+git add .
+git commit -m "meaningful message"
+git push
+```
+
+The project is being committed feature-by-feature instead of making one
+huge commit at the end.
+
+Examples of feature-level milestones include:
+
+-   Backend setup
+-   Database work
+-   Task APIs
+-   Authentication
+-   User profile
+-   Subjects
+-   Notes
+-   Calendar
+-   Add Event
+-   Calendar event display
+-   Edit Event
+-   Delete Event
+
+## Git Lesson
+
+Commit after a complete, tested feature rather than after every tiny
+code change.
+
+------------------------------------------------------------------------
+
+# 26. Current Backend Modules
+
+## Authentication
+
+-   Register
+-   Login
+-   JWT authentication
+-   Protected routes
+
+## User Profile
+
+-   Get profile
+-   Update profile
+-   Change password
+
+## Subjects
+
+-   Create
+-   Read
+-   Update
+-   Delete
+
+## Tasks
+
+-   Create
+-   Read all
+-   Read by ID
+-   Update
+-   Delete
+
+## Notes
+
+-   Create
+-   Read all
+-   Read by ID
+-   Update
+-   Delete
+
+## Calendar
+
+-   Create event
+-   Read events
+-   Read event by ID
+-   Update event
+-   Delete event
+
+## Goals
+
+-   Create Goal
+-   Get All Goals
+-   Get Goal By ID
+-   Update Goal
+-   Delete Goal
+-   Track progress percentage
+-   Goal status
+-   JWT ownership
+
+## Study Sessions
+
+-   Create Study Session
+-   Get All Study Sessions
+-   Get Study Session By ID
+-   Update Study Session
+-   Delete Study Session
+-   Automatic duration calculation
+-   Session notes
+-   JWT ownership
+
+## Pomodoro
+
+-   Create Pomodoro Session
+-   Get All Pomodoro Sessions
+-   Get Pomodoro Session By ID
+-   Update Pomodoro Session
+-   Delete Pomodoro Session
+-   Focus-duration calculation
+-   Subject-wise tracking
+-   Task-wise tracking
+-   Break tracking
+-   JWT ownership
+
+------------------------------------------------------------------------
+
+# 27. Dashboard Analytics
+
+The backend contains a dashboard summary system.
+
+## Summary Endpoint
+
+``` text
 GET /api/dashboard/summary
+```
 
-### Purpose
+The dashboard aggregates:
 
-This endpoint serves as the homepage data source and provides a complete productivity snapshot for the authenticated user.
+-   Total subjects
+-   Total tasks
+-   Completed tasks
+-   Pending tasks
+-   Total notes
+-   Total goals
+-   Completed goals
+-   Total study sessions
+-   Total study hours
+-   Total Pomodoro sessions
+-   Total Pomodoro hours
 
+## Subject Analytics
 
-
-
-### Subject Analytics
-
+``` text
 GET /api/dashboard/subject-analysis
+```
 
-Authentication
+Provides:
 
-Bearer Token Required
+-   Subject ID
+-   Subject name
+-   Total study sessions
+-   Total study hours
+-   Total Pomodoro sessions
+-   Total Pomodoro hours
 
-Description
+## Weekly Analytics
 
-Returns subject-wise study and pomodoro statistics for the authenticated user.
+The weekly analytics system provides:
 
-Response
+-   Study sessions per day
+-   Study hours per day
+-   Monday--Sunday ordering
+-   Zero-filled missing days
 
-- Subject ID
-- Subject Name
-- Total Study Sessions
-- Total Study Hours
-- Total Pomodoro Sessions
-- Total Pomodoro Hours
+Future enhancements:
 
+-   Weekly study target
+-   Weekly consistency score
+-   Longest study streak
+-   Weekly AI insights
 
-## Weekly Analytics Module
+------------------------------------------------------------------------
 
-The Weekly Analytics module provides a day-wise summary of the user's study activity.
+# 28. Database Modules
 
-Current Features
+The database currently includes the core entities required by SynapseOS:
 
-- Study Sessions per Day
-- Study Hours per Day
-- Monday to Sunday Ordering
-- Zero-filled Missing Days
-- JWT Authentication
+``` text
+users
+subjects
+tasks
+goals
+progress
+calendar_events
+notes
+settings
+pomodoro_sessions
+contests
+```
 
-Future Enhancements
+The database is relational and uses foreign keys to enforce
+relationships.
 
-- Weekly Study Target
-- Weekly Consistency Score
-- Longest Study Streak
-- Weekly AI Insights
+------------------------------------------------------------------------
 
+# 29. Major Problems Solved
 
+## Problem 1 --- Wrong Controller Filename
 
-# Completed Backend Features
+**Cause:** Import path did not match filename.\
+**Solution:** Corrected filename/import.
 
-Authentication
+## Problem 2 --- MySQL Connection Failure
 
-- Register
-- Login
-- JWT Authentication
+**Cause:** Incorrect credentials.\
+**Solution:** Corrected `.env`.
 
-CRUD Modules
+## Problem 3 --- Foreign Key Error 1452
 
-- Subjects
-- Tasks
-- Notes
-- Calendar
-- Goals
-- Study Sessions
-- Pomodoro Sessions
+**Cause:** Child record referenced a nonexistent parent.\
+**Solution:** Inserted parent records first.
 
-Dashboard Analytics
+## Problem 4 --- Hardcoded Task Data
 
-- Dashboard Summary
-- Subject Analytics
-- Weekly Analytics
-- Goal Analytics
-- Pomodoro Analytics
-- Productivity Score
+**Cause:** Controller still returned an array.\
+**Solution:** Connected controller to model and MySQL.
+
+## Problem 5 --- Handler Must Be a Function
+
+**Cause:** Incorrect export.\
+**Solution:** Corrected `module.exports`.
+
+## Problem 6 --- ERR_HTTP_HEADERS_SENT
+
+**Cause:** Incorrect function/bracket structure and multiple response
+paths.\
+**Solution:** Refactored model/controller logic so every request sends
+one response.
+
+## Problem 7 --- JWT Verification Issue
+
+**Cause:** Token verification/configuration issue during authentication
+development.\
+**Solution:** Debugged and resolved the JWT flow.
+
+## Problem 8 --- React Add Event Did Nothing
+
+**Cause:** Frontend interaction was not correctly connected to modal
+state/API flow.\
+**Solution:** Connected the Add Event button → modal → service →
+backend.
+
+## Problem 9 --- Add Event Modal Had No CSS
+
+**Cause:** CSS import/path issue.\
+**Solution:** Corrected the stylesheet connection.
+
+## Problem 10 --- Calendar Date Shifted by One Day
+
+**Cause:** UTC/local timezone conversion.\
+**Solution:** Compared date strings directly and used `substring(0, 10)`
+for form initialization.
+
+## Problem 11 --- Edit Modal Had No Styling
+
+**Cause:** Edit modal CSS was missing/not connected.
+
+**Solution:** Added and connected `EditEventModal.css`.
+
+------------------------------------------------------------------------
+
+# 30. Important Development Lessons
+
+## 1. Separate Responsibilities
+
+Do not put everything inside one file.
+
+``` text
+Component → Service → API → Controller → Model → Database
+```
+
+## 2. Debug One Layer at a Time
+
+When something fails:
+
+``` text
+Frontend?
+   ↓
+Service?
+   ↓
+API?
+   ↓
+Route?
+   ↓
+Controller?
+   ↓
+Model?
+   ↓
+Database?
+```
+
+Do not randomly modify multiple files.
+
+## 3. Read Error Messages Carefully
+
+Stack traces often reveal:
+
+-   exact file
+-   exact line
+-   exact import
+-   exact missing module
+-   exact function causing the problem
+
+## 4. SQL Belongs in Models
+
+Controllers should not contain database queries.
+
+## 5. Never Trust Client-Supplied Ownership
+
+Use:
+
+``` javascript
+req.user.user_id
+```
+
+from the JWT instead of trusting:
+
+``` javascript
+req.body.user_id
+```
+
+## 6. Dates Are Tricky
+
+Database dates and JavaScript `Date` objects can interact badly with UTC
+conversion.
+
+For date-only calendar values, preserve:
+
+``` text
+YYYY-MM-DD
+```
+
+instead of unnecessarily converting them into `Date` objects.
+
+## 7. Build Complete Features
+
+A better development strategy is:
+
+``` text
+Backend
+ ↓
+API
+ ↓
+Frontend service
+ ↓
+Frontend UI
+ ↓
+Testing
+ ↓
+Git commit
+```
+
+instead of starting many incomplete modules.
+
+------------------------------------------------------------------------
+
+# 31. Current Project Status
+
+## Backend
+
+  Module                     Status
+  -------------------------- ----------------
+  Express Server             ✅ Complete
+  MySQL Connection           ✅ Complete
+  MVC Architecture           ✅ Complete
+  Environment Variables      ✅ Complete
+  Authentication             ✅ Complete
+  User Profile               ✅ Complete
+  Subjects                   ✅ Complete
+  Tasks                      ✅ Complete
+  Notes                      ✅ Complete
+  Calendar Backend           ✅ Complete
+  Goals                      ✅ Implemented
+  Study Sessions             ✅ Implemented
+  Pomodoro                   ✅ Implemented
+  Dashboard Analytics        ✅ Implemented
+  AI Recommendation Engine   ⬜ Pending
+
+## Frontend
+
+  Feature                  Status
+  ------------------------ -------------
+  React Application        ✅ Started
+  Dashboard Layout         ✅ In use
+  Calendar UI              ✅ Complete
+  Add Event Modal          ✅ Complete
+  Event Display            ✅ Complete
+  Edit Event Modal         ✅ Complete
+  Delete Event             ✅ Complete
+  Calendar Navigation      ✅ Complete
+  Today Button             ✅ Complete
+  Calendar Date Bug        ✅ Fixed
+  Calendar Styling         ✅ Complete
+  Frontend Documentation   🟡 Next
+
+------------------------------------------------------------------------
+
+# 32. Calendar Feature --- Final State
+
+The calendar currently supports the complete event lifecycle:
+
+``` text
+CREATE
+  ↓
+POST /api/calendar
+  ↓
+MySQL
+  ↓
+DISPLAY
+  ↓
+React Calendar Grid
+  ↓
+EDIT
+  ↓
+PUT /api/calendar/:id
+  ↓
+DISPLAY UPDATED EVENT
+  ↓
+DELETE
+  ↓
+DELETE /api/calendar/:id
+  ↓
+REFRESH CALENDAR
+```
+
+The calendar is therefore no longer a static frontend component. It is
+connected to the backend and database.
+
+------------------------------------------------------------------------
+
+# 33. Next Development Priorities
+
+## Immediate
+
+1.  Update frontend documentation.
+2.  Clean up temporary `console.log()` statements.
+3.  Improve calendar event styling.
+4.  Add better event status styling.
+5.  Improve delete confirmation UI.
+6.  Test calendar after page refresh.
+7.  Test calendar across month navigation.
+8.  Test multiple events on the same day.
+
+## Frontend Expansion
+
+Next modules can be connected using the same pattern:
+
+``` text
+React Component
+     ↓
+Service
+     ↓
+REST API
+     ↓
+Controller
+     ↓
+Model
+     ↓
+MySQL
+```
+
+Recommended order:
+
+1.  Tasks frontend
+2.  Notes frontend
+3.  Subjects frontend
+4.  Goals frontend
+5.  Study Sessions frontend
+6.  Pomodoro frontend
+7.  Dashboard Analytics frontend
+
+## Later
+
+-   Contest integration
+-   Advanced analytics
+-   Productivity score visualization
+-   AI recommendation engine
+-   Personalized insights
+-   Deployment
+-   Azure AI integration
+
+------------------------------------------------------------------------
+
+# 34. Interview Preparation Notes
+
+## Explain SynapseOS in One Answer
+
+> SynapseOS is a full-stack productivity and study-management platform
+> built using React, Node.js, Express, and MySQL. The backend follows an
+> MVC architecture and exposes REST APIs for modules such as
+> authentication, tasks, notes, subjects, calendar events, goals, study
+> sessions, Pomodoro sessions, and analytics. JWT is used for
+> authentication and bcrypt is used for password hashing. The React
+> frontend communicates with the backend through service modules.
+
+## Explain MVC
+
+> Routes define endpoints, controllers handle request and response
+> logic, models communicate with the database, and middleware handles
+> cross-cutting concerns such as authentication.
+
+## Explain JWT
+
+> After successful login, the server signs a JWT containing the
+> authenticated user's identity. The client sends the token in the
+> Authorization header, and middleware verifies it before allowing
+> access to protected routes.
+
+## Explain Calendar Architecture
+
+> The React calendar fetches events through a frontend service. The
+> service calls the REST API, the controller calls the calendar model,
+> the model queries MySQL, and the resulting events are rendered into
+> calendar cells by matching the `YYYY-MM-DD` date portion.
+
+## Explain the Date Bug
+
+> The event date was being affected by UTC-to-local timezone conversion.
+> Because the calendar only needed a date rather than an instant in
+> time, I stopped converting the date through JavaScript's `Date` object
+> and compared the `YYYY-MM-DD` string directly.
+
+------------------------------------------------------------------------
+
+# 35. Final Development Philosophy
+
+The most important lessons from building SynapseOS so far are:
+
+1.  **Understand the architecture instead of only copying code.**
+2.  **Debug systematically.**
+3.  **Keep SQL inside models.**
+4.  **Keep API calls inside service files.**
+5.  **Do not trust client-provided ownership information.**
+6.  **Test every feature before committing.**
+7.  **Use Git to preserve stable milestones.**
+8.  **Treat bugs as part of the learning process.**
+9.  **Build one complete feature at a time.**
+10. **Document what was learned, not just what was coded.**
+
+------------------------------------------------------------------------
+
+# 36. Current Milestone
+
+## 🎯 Milestone: Calendar Feature Complete
+
+### Completed
+
+-   [x] Calendar page
+-   [x] Month navigation
+-   [x] Today button
+-   [x] Fetch events from backend
+-   [x] Display events in calendar grid
+-   [x] Add Event
+-   [x] Add Event validation
+-   [x] Add Event API integration
+-   [x] Edit Event
+-   [x] Edit Event validation
+-   [x] Edit Event API integration
+-   [x] Delete Event
+-   [x] Delete confirmation
+-   [x] Calendar refresh after create/update/delete
+-   [x] Date timezone bug fixed
+-   [x] Add Event modal styling
+-   [x] Edit Event modal styling
+-   [x] Git commits for completed milestones
+
+### Current Focus
+
+**Move from Calendar implementation to frontend documentation and then
+continue integrating the remaining SynapseOS modules.**
+
+------------------------------------------------------------------------
+
+# 📌 End of Current Journal
+
+SynapseOS has progressed from a basic Express/MySQL backend into a
+multi-module full-stack application with authentication, database-backed
+CRUD features, analytics, and a working interactive calendar.
+
+The Calendar module is the latest fully integrated frontend feature and
+serves as a strong example of the complete SynapseOS architecture:
+
+``` text
+React UI
+   ↓
+Frontend Service
+   ↓
+REST API
+   ↓
+Express Route
+   ↓
+Controller
+   ↓
+Model
+   ↓
+MySQL
+```
+
+**Next milestone: Frontend module documentation and continued
+integration of the remaining productivity features.**
