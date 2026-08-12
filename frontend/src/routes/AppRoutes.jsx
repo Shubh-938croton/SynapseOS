@@ -4,17 +4,25 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
+
 import Tasks from "../pages/Tasks/Tasks";
 import Notes from "../pages/Notes/Notes";
 import Calendar from "../pages/Calendar/Calendar";
+import Goals from "../pages/Goals/Goals";
+
 
 function AppRoutes() {
+
     return (
+
         <BrowserRouter>
 
             <Routes>
 
-                {/* Login */}
+                {/* =========================
+                    LOGIN
+                ========================= */}
+
                 <Route
                     path="/"
                     element={<Login />}
@@ -25,13 +33,21 @@ function AppRoutes() {
                     element={<Login />}
                 />
 
-                {/* Register */}
+
+                {/* =========================
+                    REGISTER
+                ========================= */}
+
                 <Route
                     path="/register"
                     element={<Register />}
                 />
 
-                {/* Dashboard */}
+
+                {/* =========================
+                    DASHBOARD
+                ========================= */}
+
                 <Route
                     path="/dashboard"
                     element={
@@ -41,7 +57,11 @@ function AppRoutes() {
                     }
                 />
 
-                {/* Tasks */}
+
+                {/* =========================
+                    TASKS
+                ========================= */}
+
                 <Route
                     path="/tasks"
                     element={
@@ -51,7 +71,11 @@ function AppRoutes() {
                     }
                 />
 
-                {/* Notes */}
+
+                {/* =========================
+                    NOTES
+                ========================= */}
+
                 <Route
                     path="/notes"
                     element={
@@ -61,7 +85,11 @@ function AppRoutes() {
                     }
                 />
 
-                {/* Calendar */}
+
+                {/* =========================
+                    CALENDAR
+                ========================= */}
+
                 <Route
                     path="/calendar"
                     element={
@@ -71,10 +99,27 @@ function AppRoutes() {
                     }
                 />
 
+
+                {/* =========================
+                    GOALS
+                ========================= */}
+
+                <Route
+                    path="/goals"
+                    element={
+                        <ProtectedRoute>
+                            <Goals />
+                        </ProtectedRoute>
+                    }
+                />
+
             </Routes>
 
         </BrowserRouter>
+
     );
+
 }
+
 
 export default AppRoutes;
