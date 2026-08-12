@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { FaTimes, FaSave } from "react-icons/fa";
 
-import { createEvent } from "../../services/calendarService";
+import { updateEvent } from "../../services/calendarService";
 
-import "./AddEventModal.css";
+import "./EditEventModal.css";
 
 
-function AddEventModal({
-    isOpen,
+function EditEventModal({
+    event,
     onClose,
-    onEventCreated
+    onUpdated
 }) {
 
     // =========================
@@ -22,45 +22,92 @@ function AddEventModal({
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
 
-    const [reminderMinutes, setReminderMinutes] = useState(30);
+    const [reminderMinutes, setReminderMinutes] =
+        useState(30);
 
-    const [status, setStatus] = useState("Upcoming");
+    const [status, setStatus] =
+        useState("Upcoming");
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] =
+        useState(false);
 
 
     // =========================
-    // RESET FORM
+    // LOAD EVENT DATA
     // =========================
 
     useEffect(() => {
 
-        if (isOpen) {
-
-            setTitle("");
-            setDescription("");
-            setEventDate("");
-            setStartTime("");
-            setEndTime("");
-
-            setReminderMinutes(30);
-
-            setStatus("Upcoming");
-
-            setLoading(false);
-
+        if (!event) {
+            return;
         }
 
-    }, [isOpen]);
+        console.log(
+            "Editing event:",
+            event
+        );
+
+
+        setTitle(
+            event.title || ""
+        );
+
+        setDescription(
+            event.description || ""
+        );
+
+
+        // IMPORTANT:
+        // Keep only YYYY-MM-DD.
+        // This prevents the timezone bug
+        // where 20 becomes 19.
+
+        setEventDate(
+            event.event_date
+                ? String(event.event_date).substring(0, 10)
+                : ""
+        );
+
+
+        setStartTime(
+            event.start_time
+                ? String(event.start_time).substring(0, 5)
+                : ""
+        );
+
+
+        setEndTime(
+            event.end_time
+                ? String(event.end_time).substring(0, 5)
+                : ""
+        );
+
+
+        setReminderMinutes(
+            event.reminder_minutes ?? 30
+        );
+
+
+        setStatus(
+            event.status || "Upcoming"
+        );
+
+    }, [event]);
 
 
     // =========================
-    // DON'T RENDER WHEN CLOSED
+    // HANDLE CLOSE
     // =========================
 
-    if (!isOpen) {
-        return null;
-    }
+    const handleClose = () => {
+
+        if (loading) {
+            return;
+        }
+
+        onClose();
+
+    };
 
 
     // =========================
@@ -73,12 +120,29 @@ function AddEventModal({
 
 
         // =========================
+        // CHECK EVENT
+        // =========================
+
+        if (!event) {
+
+            alert(
+                "No event selected."
+            );
+
+            return;
+
+        }
+
+
+        // =========================
         // VALIDATION
         // =========================
 
         if (!title.trim()) {
 
-            alert("Please enter an event title.");
+            alert(
+                "Please enter an event title."
+            );
 
             return;
 
@@ -87,7 +151,9 @@ function AddEventModal({
 
         if (!eventDate) {
 
-            alert("Please select an event date.");
+            alert(
+                "Please select an event date."
+            );
 
             return;
 
@@ -115,17 +181,19 @@ function AddEventModal({
 
 
             // =========================
-            // CREATE EVENT
+            // UPDATED EVENT DATA
             // =========================
 
             const eventData = {
 
-                title: title.trim(),
+                title:
+                    title.trim(),
 
                 description:
                     description.trim() || null,
 
-                event_date: eventDate,
+                event_date:
+                    eventDate,
 
                 start_time:
                     startTime || null,
@@ -136,37 +204,48 @@ function AddEventModal({
                 reminder_minutes:
                     Number(reminderMinutes),
 
-                status: status
+                status:
+                    status
 
             };
 
 
             console.log(
-                "Creating event:",
+                "Updating event:",
+                event.event_id,
                 eventData
             );
 
 
-            await createEvent(eventData);
+            // =========================
+            // UPDATE EVENT
+            // =========================
+
+            await updateEvent(
+                event.event_id,
+                eventData
+            );
+
+
+            console.log(
+                "Event updated successfully"
+            );
 
 
             // =========================
-            // SUCCESS
+            // REFRESH CALENDAR
             // =========================
 
-            console.log("Event created successfully");
+            if (onUpdated) {
 
-
-            // Refresh calendar events
-
-            if (onEventCreated) {
-
-                await onEventCreated();
+                await onUpdated();
 
             }
 
 
-            // Close modal
+            // =========================
+            // CLOSE MODAL
+            // =========================
 
             onClose();
 
@@ -174,7 +253,7 @@ function AddEventModal({
         } catch (error) {
 
             console.error(
-                "Create event error:",
+                "Update event error:",
                 error
             );
 
@@ -185,7 +264,7 @@ function AddEventModal({
 
                 error.response?.data?.error ||
 
-                "Failed to create event"
+                "Failed to update event."
 
             );
 
@@ -199,37 +278,50 @@ function AddEventModal({
 
 
     // =========================
+    // DON'T RENDER
+    // =========================
+
+    if (!event) {
+
+        return null;
+
+    }
+
+
+    // =========================
     // RENDER
     // =========================
 
     return (
 
         <div
-            className="event-modal-overlay"
-            onClick={onClose}
+            className="edit-event-overlay"
+            onClick={handleClose}
         >
 
+
             <div
-                className="event-modal"
+                className="edit-event-modal"
                 onClick={(e) =>
                     e.stopPropagation()
                 }
             >
 
+
                 {/* =========================
                     HEADER
                 ========================= */}
 
-                <div className="event-modal-header">
+                <div className="edit-event-header">
 
                     <div>
 
                         <h2>
-                            Create New Event
+                            Edit Event
                         </h2>
 
                         <p>
-                            Add an event to your calendar.
+                            Update your calendar event.
                         </p>
 
                     </div>
@@ -237,10 +329,9 @@ function AddEventModal({
 
                     <button
                         type="button"
-                        className="event-modal-close"
-                        onClick={onClose}
+                        className="edit-event-close"
+                        onClick={handleClose}
                         disabled={loading}
-                        title="Close"
                     >
 
                         <FaTimes />
@@ -255,15 +346,16 @@ function AddEventModal({
                 ========================= */}
 
                 <form
-                    className="event-modal-form"
+                    className="edit-event-form"
                     onSubmit={handleSubmit}
                 >
+
 
                     {/* =========================
                         TITLE
                     ========================= */}
 
-                    <div className="event-form-group">
+                    <div className="edit-form-group">
 
                         <label>
                             Event Title
@@ -271,15 +363,14 @@ function AddEventModal({
 
                         <input
                             type="text"
-                            placeholder="Enter event title"
                             value={title}
                             onChange={(e) =>
                                 setTitle(
                                     e.target.value
                                 )
                             }
+                            placeholder="Enter event title"
                             disabled={loading}
-                            autoFocus
                         />
 
                     </div>
@@ -289,32 +380,32 @@ function AddEventModal({
                         DESCRIPTION
                     ========================= */}
 
-                    <div className="event-form-group">
+                    <div className="edit-form-group">
 
                         <label>
                             Description
                         </label>
 
                         <textarea
-                            placeholder="Add event description..."
                             value={description}
                             onChange={(e) =>
                                 setDescription(
                                     e.target.value
                                 )
                             }
-                            disabled={loading}
+                            placeholder="Add event description..."
                             rows="4"
+                            disabled={loading}
                         />
 
                     </div>
 
 
                     {/* =========================
-                        EVENT DATE
+                        DATE
                     ========================= */}
 
-                    <div className="event-form-group">
+                    <div className="edit-form-group">
 
                         <label>
                             Event Date
@@ -338,7 +429,7 @@ function AddEventModal({
                         START TIME
                     ========================= */}
 
-                    <div className="event-form-group">
+                    <div className="edit-form-group">
 
                         <label>
                             Start Time
@@ -362,7 +453,7 @@ function AddEventModal({
                         END TIME
                     ========================= */}
 
-                    <div className="event-form-group">
+                    <div className="edit-form-group">
 
                         <label>
                             End Time
@@ -386,7 +477,7 @@ function AddEventModal({
                         REMINDER
                     ========================= */}
 
-                    <div className="event-form-group">
+                    <div className="edit-form-group">
 
                         <label>
                             Reminder
@@ -439,7 +530,7 @@ function AddEventModal({
                         STATUS
                     ========================= */}
 
-                    <div className="event-form-group">
+                    <div className="edit-form-group">
 
                         <label>
                             Status
@@ -476,12 +567,12 @@ function AddEventModal({
                         ACTIONS
                     ========================= */}
 
-                    <div className="event-modal-actions">
+                    <div className="edit-event-actions">
 
                         <button
                             type="button"
-                            className="event-cancel-btn"
-                            onClick={onClose}
+                            className="edit-cancel-btn"
+                            onClick={handleClose}
                             disabled={loading}
                         >
 
@@ -492,20 +583,21 @@ function AddEventModal({
 
                         <button
                             type="submit"
-                            className="event-save-btn"
+                            className="edit-save-btn"
                             disabled={loading}
                         >
 
                             <FaSave />
 
                             {loading
-                                ? "Creating..."
-                                : "Create Event"
+                                ? "Saving..."
+                                : "Save Changes"
                             }
 
                         </button>
 
                     </div>
+
 
                 </form>
 
@@ -518,4 +610,4 @@ function AddEventModal({
 }
 
 
-export default AddEventModal;
+export default EditEventModal;

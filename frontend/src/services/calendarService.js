@@ -1,5 +1,6 @@
 import api from "./api";
 
+
 // =========================
 // GET ALL EVENTS
 // =========================
@@ -8,7 +9,7 @@ export const getAllEvents = async () => {
 
     const response = await api.get("/calendar");
 
-    return response.data.events || [];
+    return response.data.events;
 
 };
 
@@ -19,7 +20,8 @@ export const getAllEvents = async () => {
 
 export const getEventById = async (eventId) => {
 
-    const response = await api.get(`/calendar/${eventId}`);
+    const response =
+        await api.get(`/calendar/${eventId}`);
 
     return response.data.event;
 
@@ -32,10 +34,8 @@ export const getEventById = async (eventId) => {
 
 export const createEvent = async (eventData) => {
 
-    const response = await api.post(
-        "/calendar",
-        eventData
-    );
+    const response =
+        await api.post("/calendar", eventData);
 
     return response.data;
 
@@ -51,10 +51,11 @@ export const updateEvent = async (
     eventData
 ) => {
 
-    const response = await api.put(
-        `/calendar/${eventId}`,
-        eventData
-    );
+    const response =
+        await api.put(
+            `/calendar/${eventId}`,
+            eventData
+        );
 
     return response.data;
 
@@ -67,9 +68,10 @@ export const updateEvent = async (
 
 export const deleteEvent = async (eventId) => {
 
-    const response = await api.delete(
-        `/calendar/${eventId}`
-    );
+    const response =
+        await api.delete(
+            `/calendar/${eventId}`
+        );
 
     return response.data;
 

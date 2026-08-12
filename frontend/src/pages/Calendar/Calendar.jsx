@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react";
 
-import DashboardLayout from "../../components/Layout/DashboardLayout";
+import DashboardLayout
+    from "../../components/Layout/DashboardLayout";
 
 import AddEventModal
     from "../../components/AddEventModal/AddEventModal";
-    
+
+import EditEventModal
+    from "../../components/EditEventModal/EditEventModal";
 
 import {
-    getAllEvents
+    getAllEvents,
+    deleteEvent
 } from "../../services/calendarService";
 
 import "./Calendar.css";
 
 
 function Calendar() {
+
+    // =========================
+    // TODAY
+    // =========================
 
     const today = new Date();
 
@@ -49,6 +57,14 @@ function Calendar() {
 
 
     // =========================
+    // EDIT EVENT
+    // =========================
+
+    const [eventToEdit, setEventToEdit] =
+        useState(null);
+
+
+    // =========================
     // FETCH EVENTS
     // =========================
 
@@ -59,6 +75,11 @@ function Calendar() {
             setLoading(true);
 
             const response = await getAllEvents();
+
+            console.log(
+                "Calendar events:",
+                response
+            );
 
             setEvents(response || []);
 
@@ -95,36 +116,112 @@ function Calendar() {
 
 
     // =========================
+    // EDIT EVENT
+    // =========================
+
+    const handleEditEvent = (event) => {
+
+        console.log(
+            "Editing event:",
+            event
+        );
+
+        setEventToEdit(event);
+
+    };
+
+
+    // =========================
+    // DELETE EVENT
+    // =========================
+
+    const handleDeleteEvent = async (event) => {
+
+        const confirmed = window.confirm(
+            `Are you sure you want to delete "${event.title}"?`
+        );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        try {
+
+            await deleteEvent(
+                event.event_id
+            );
+
+
+            console.log(
+                "Event deleted successfully"
+            );
+
+
+            // Refresh calendar
+
+            await fetchEvents();
+
+
+        } catch (error) {
+
+            console.error(
+                "Delete event error:",
+                error
+            );
+
+
+            alert(
+                error.response?.data?.message ||
+                "Failed to delete event."
+            );
+
+        }
+
+    };
+
+
+    // =========================
     // MONTH / YEAR
     // =========================
 
-    const month = currentDate.getMonth();
+    const month =
+        currentDate.getMonth();
 
-    const year = currentDate.getFullYear();
+    const year =
+        currentDate.getFullYear();
 
 
     const monthName =
-        currentDate.toLocaleDateString("en-IN", {
-            month: "long"
-        });
+        currentDate.toLocaleDateString(
+            "en-IN",
+            {
+                month: "long"
+            }
+        );
 
 
     // =========================
     // DAYS IN MONTH
     // =========================
 
-    const firstDayOfMonth = new Date(
-        year,
-        month,
-        1
-    ).getDay();
+    const firstDayOfMonth =
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
 
 
-    const daysInMonth = new Date(
-        year,
-        month + 1,
-        0
-    ).getDate();
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
 
 
     // =========================
@@ -194,35 +291,70 @@ function Calendar() {
 
 
     // =========================
-    // GET EVENTS FOR DATE
+    // GET EVENTS FOR DAY
     // =========================
 
     const getEventsForDay = (day) => {
 
-    if (!day) {
-        return [];
-    }
+        if (!day) {
 
-    const dateString =
-        `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            return [];
 
-    console.log("Calendar cell:", dateString);
+        }
 
-    console.table(
-    events.map((event) => ({
-        id: event.event_id,
-        title: event.title,
-        event_date: event.event_date
-    }))
-);
 
-    return events.filter(
-        (event) =>
-            event.event_date?.split("T")[0] ===
-            dateString
-    );
+        /*
+         * Create the calendar date manually.
+         *
+         * Example:
+         * 20 August 2026
+         *
+         * becomes:
+         * 2026-08-20
+         */
 
-};
+        const dateString =
+            `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+
+        return events.filter(
+            (event) => {
+
+                if (!event.event_date) {
+
+                    return false;
+
+                }
+
+
+                /*
+                 * IMPORTANT:
+                 *
+                 * Do NOT use:
+                 *
+                 * new Date(event.event_date)
+                 *
+                 * because MySQL DATE values can
+                 * shift by one day because of timezone
+                 * conversion.
+                 *
+                 * We compare the YYYY-MM-DD portion
+                 * directly.
+                 */
+
+                const eventDate =
+                    String(event.event_date)
+                        .substring(0, 10);
+
+
+                return (
+                    eventDate === dateString
+                );
+
+            }
+        );
+
+    };
 
 
     // =========================
@@ -233,6 +365,7 @@ function Calendar() {
 
 
     // Empty cells before first day
+
     for (
         let i = 0;
         i < firstDayOfMonth;
@@ -245,6 +378,7 @@ function Calendar() {
 
 
     // Actual days
+
     for (
         let day = 1;
         day <= daysInMonth;
@@ -264,20 +398,52 @@ function Calendar() {
 
         <DashboardLayout>
 
+
             {/* =========================
                 ADD EVENT MODAL
             ========================= */}
 
             <AddEventModal
-                isOpen={showAddEventModal}
+
+                isOpen={
+                    showAddEventModal
+                }
 
                 onClose={() =>
                     setShowAddEventModal(false)
                 }
 
-                onEventCreated={fetchEvents}
+                onEventCreated={
+                    fetchEvents
+                }
+
             />
 
+
+            {/* =========================
+                EDIT EVENT MODAL
+            ========================= */}
+
+            <EditEventModal
+
+                event={
+                    eventToEdit
+                }
+
+                onClose={() =>
+                    setEventToEdit(null)
+                }
+
+                onUpdated={
+                    fetchEvents
+                }
+
+            />
+
+
+            {/* =========================
+                CALENDAR PAGE
+            ========================= */}
 
             <div className="calendar-page">
 
@@ -288,11 +454,13 @@ function Calendar() {
 
                 <div className="calendar-header">
 
+
                     <div>
 
                         <h1>
                             My Calendar
                         </h1>
+
 
                         <p>
                             Plan your tasks, events and
@@ -302,23 +470,32 @@ function Calendar() {
                     </div>
 
 
+                    {/* ADD EVENT */}
+
                     <button
+
                         type="button"
+
                         className="add-event-btn"
+
                         onClick={() => {
 
                             console.log(
                                 "Add event clicked"
                             );
 
-                            setShowAddEventModal(true);
+                            setShowAddEventModal(
+                                true
+                            );
 
                         }}
+
                     >
 
                         + Add Event
 
                     </button>
+
 
                 </div>
 
@@ -331,19 +508,25 @@ function Calendar() {
 
 
                     {/* =========================
-                        CALENDAR TOOLBAR
+                        TOOLBAR
                     ========================= */}
 
                     <div className="calendar-toolbar">
 
 
+                        {/* NAVIGATION */}
+
                         <div className="calendar-navigation">
 
+
                             <button
+
                                 type="button"
+
                                 onClick={
                                     handlePreviousMonth
                                 }
+
                             >
 
                                 ‹
@@ -352,33 +535,50 @@ function Calendar() {
 
 
                             <button
+
                                 type="button"
+
                                 onClick={
                                     handleNextMonth
                                 }
+
                             >
 
                                 ›
 
                             </button>
 
+
                         </div>
 
 
+                        {/* MONTH */}
+
                         <h2>
+
                             {monthName} {year}
+
                         </h2>
 
 
+                        {/* TODAY */}
+
                         <button
+
                             type="button"
+
                             className="today-btn"
-                            onClick={handleToday}
+
+                            onClick={
+                                handleToday
+                            }
+
                         >
 
                             Today
 
                         </button>
+
 
                     </div>
 
@@ -405,11 +605,17 @@ function Calendar() {
                     <div className="calendar-weekdays">
 
                         <div>Sun</div>
+
                         <div>Mon</div>
+
                         <div>Tue</div>
+
                         <div>Wed</div>
+
                         <div>Thu</div>
+
                         <div>Fri</div>
+
                         <div>Sat</div>
 
                     </div>
@@ -421,66 +627,218 @@ function Calendar() {
 
                     <div className="calendar-grid">
 
+
                         {calendarDays.map(
                             (day, index) => {
 
                                 const dayEvents =
-                                    getEventsForDay(day);
+                                    getEventsForDay(
+                                        day
+                                    );
 
 
                                 return (
 
                                     <div
+
                                         key={index}
-                                        className={`calendar-day ${
-                                            day &&
-                                            isToday(day)
-                                                ? "today"
-                                                : ""
-                                        }`}
+
+                                        className={`
+                                            calendar-day
+                                            ${
+                                                day &&
+                                                isToday(day)
+                                                    ? "today"
+                                                    : ""
+                                            }
+                                        `}
+
                                     >
+
 
                                         {day && (
 
                                             <>
 
-                                                {/* DAY NUMBER */}
+                                                {/* =========================
+                                                    DAY NUMBER
+                                                ========================= */}
 
                                                 <span
                                                     className="day-number"
                                                 >
+
                                                     {day}
+
                                                 </span>
 
 
-                                                {/* EVENTS */}
+                                                {/* =========================
+                                                    EVENTS
+                                                ========================= */}
 
                                                 <div
                                                     className="day-events"
                                                 >
 
+
                                                     {dayEvents.map(
                                                         (event) => (
 
                                                             <div
+
                                                                 key={
                                                                     event.event_id
                                                                 }
-                                                                className="calendar-event"
+
+                                                                className={`
+                                                                    calendar-event
+                                                                    ${
+                                                                        event.status ===
+                                                                        "Completed"
+                                                                            ? "completed"
+                                                                            : event.status ===
+                                                                              "Cancelled"
+                                                                            ? "cancelled"
+                                                                            : ""
+                                                                    }
+                                                                `}
+
                                                             >
 
-                                                                {event.title}
+
+                                                                {/* EVENT TITLE */}
+
+                                                                <div
+                                                                    className="calendar-event-title"
+                                                                >
+
+                                                                    {
+                                                                        event.title
+                                                                    }
+
+                                                                </div>
+
+
+                                                                {/* EVENT TIME */}
+
+                                                                {event.start_time && (
+
+                                                                    <div
+                                                                        className="calendar-event-time"
+                                                                    >
+
+                                                                        {
+                                                                            String(
+                                                                                event.start_time
+                                                                            ).substring(
+                                                                                0,
+                                                                                5
+                                                                            )
+                                                                        }
+
+
+                                                                        {event.end_time && (
+
+                                                                            <>
+                                                                                {" - "}
+
+                                                                                {
+                                                                                    String(
+                                                                                        event.end_time
+                                                                                    ).substring(
+                                                                                        0,
+                                                                                        5
+                                                                                    )
+                                                                                }
+                                                                            </>
+
+                                                                        )}
+
+                                                                    </div>
+
+                                                                )}
+
+
+                                                                {/* =========================
+                                                                    EVENT ACTIONS
+                                                                ========================= */}
+
+                                                                <div
+                                                                    className="calendar-event-actions"
+                                                                >
+
+
+                                                                    {/* EDIT */}
+
+                                                                    <button
+
+                                                                        type="button"
+
+                                                                        className="calendar-event-edit"
+
+                                                                        onClick={(
+                                                                            e
+                                                                        ) => {
+
+                                                                            e.stopPropagation();
+
+                                                                            handleEditEvent(
+                                                                                event
+                                                                            );
+
+                                                                        }}
+
+                                                                    >
+
+                                                                        Edit
+
+                                                                    </button>
+
+
+                                                                    {/* DELETE */}
+
+                                                                    <button
+
+                                                                        type="button"
+
+                                                                        className="calendar-event-delete"
+
+                                                                        onClick={(
+                                                                            e
+                                                                        ) => {
+
+                                                                            e.stopPropagation();
+
+                                                                            handleDeleteEvent(
+                                                                                event
+                                                                            );
+
+                                                                        }}
+
+                                                                    >
+
+                                                                        Delete
+
+                                                                    </button>
+
+
+                                                                </div>
+
 
                                                             </div>
 
                                                         )
                                                     )}
 
+
                                                 </div>
+
 
                                             </>
 
                                         )}
+
 
                                     </div>
 
@@ -489,11 +847,15 @@ function Calendar() {
                             }
                         )}
 
+
                     </div>
+
 
                 </div>
 
+
             </div>
+
 
         </DashboardLayout>
 
