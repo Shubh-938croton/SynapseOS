@@ -1,6 +1,9 @@
 const db = require("../config/database");
 
-// Create Goal
+// =====================================================
+// CREATE GOAL
+// =====================================================
+
 const createGoal = (goal, callback) => {
 
     const query = `
@@ -36,10 +39,13 @@ const createGoal = (goal, callback) => {
 
         }
     );
-
 };
 
-// Get All Goals
+
+// =====================================================
+// GET ALL GOALS
+// =====================================================
+
 const getAllGoals = (userId, callback) => {
 
     const query = `
@@ -49,21 +55,31 @@ const getAllGoals = (userId, callback) => {
         ORDER BY created_at DESC
     `;
 
-    db.query(query, [userId], (err, results) => {
+    db.query(
+        query,
+        [userId],
+        (err, results) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, results);
+
         }
-
-        callback(null, results);
-
-    });
-
+    );
 };
 
 
-// Get Goal By ID
-const getGoalById = (userId, goalId, callback) => {
+// =====================================================
+// GET GOAL BY ID
+// =====================================================
+
+const getGoalById = (
+    userId,
+    goalId,
+    callback
+) => {
 
     const query = `
         SELECT *
@@ -72,21 +88,30 @@ const getGoalById = (userId, goalId, callback) => {
         AND user_id = ?
     `;
 
-    db.query(query, [goalId, userId], (err, results) => {
+    db.query(
+        query,
+        [goalId, userId],
+        (err, results) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, results);
+
         }
-
-        callback(null, results);
-
-    });
-
+    );
 };
 
 
-// Update Goal
-const updateGoal = (goal, callback) => {
+// =====================================================
+// UPDATE GOAL
+// =====================================================
+
+const updateGoal = (
+    goal,
+    callback
+) => {
 
     const query = `
         UPDATE goals
@@ -121,11 +146,18 @@ const updateGoal = (goal, callback) => {
 
         }
     );
-
 };
 
-// Delete Goal
-const deleteGoal = (userId, goalId, callback) => {
+
+// =====================================================
+// DELETE GOAL
+// =====================================================
+
+const deleteGoal = (
+    userId,
+    goalId,
+    callback
+) => {
 
     const query = `
         DELETE FROM goals
@@ -133,17 +165,25 @@ const deleteGoal = (userId, goalId, callback) => {
         AND user_id = ?
     `;
 
-    db.query(query, [goalId, userId], (err, result) => {
+    db.query(
+        query,
+        [goalId, userId],
+        (err, result) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, result);
+
         }
-
-        callback(null, result);
-
-    });
-
+    );
 };
+
+
+// =====================================================
+// EXPORTS
+// =====================================================
 
 module.exports = {
     createGoal,

@@ -1,11 +1,14 @@
 const goalModel = require("../models/goalModel");
 
-// Create Goal
+// =====================================================
+// CREATE GOAL
+// =====================================================
+
 const createGoal = (req, res) => {
 
     try {
 
-        const user_id = req.user.user_id;
+        const userId = req.user.user_id;
 
         const {
             title,
@@ -15,80 +18,234 @@ const createGoal = (req, res) => {
             status
         } = req.body;
 
-        // Validation
-        if (
-            progress_percentage < 0 ||
-            progress_percentage > 100
-        ) {
+
+        // =================================================
+        // TITLE VALIDATION
+        // =================================================
+
+        if (!title || !title.trim()) {
+
             return res.status(400).json({
-                message: "Progress percentage must be between 0 and 100"
+                message: "Goal title is required"
             });
+
         }
 
-        const goal = {
-            user_id,
-            title,
-            description,
-            target_date,
-            progress_percentage,
-            status
-        };
 
-        goalModel.createGoal(goal, (err, result) => {
+        // =================================================
+        // PROGRESS
+        // =================================================
 
-            if (err) {
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
-                });
-            }
+        const progress =
+            progress_percentage === undefined ||
+            progress_percentage === null ||
+            progress_percentage === ""
+                ? 0
+                : Number(progress_percentage);
 
-            return res.status(201).json({
-                message: "Goal created successfully",
-                goal_id: result.insertId
+
+        if (
+            !Number.isInteger(progress) ||
+            progress < 0 ||
+            progress > 100
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Progress percentage must be an integer between 0 and 100"
             });
 
-        });
+        }
+
+
+        // =================================================
+        // STATUS
+        // =================================================
+
+        let goalStatus =
+            status || "Not Started";
+
+
+        const validStatuses = [
+            "Not Started",
+            "In Progress",
+            "Completed"
+        ];
+
+
+        if (!validStatuses.includes(goalStatus)) {
+
+            return res.status(400).json({
+                message: "Invalid goal status"
+            });
+
+        }
+
+
+        // =================================================
+        // AUTOMATIC STATUS
+        // =================================================
+
+        if (progress === 100) {
+
+            goalStatus = "Completed";
+
+        } else if (progress > 0) {
+
+            goalStatus = "In Progress";
+
+        }
+
+
+        // =================================================
+        // CREATE GOAL OBJECT
+        // =================================================
+
+        const goal = {
+
+            user_id: userId,
+
+            title: title.trim(),
+
+            description:
+                description?.trim() || null,
+
+            target_date:
+                target_date || null,
+
+            progress_percentage:
+                progress,
+
+            status:
+                goalStatus
+
+        };
+
+
+        // =================================================
+        // DATABASE
+        // =================================================
+
+        goalModel.createGoal(
+            goal,
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Create goal database error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message:
+                            "Failed to create goal",
+                        error:
+                            err.message
+                    });
+
+                }
+
+
+                return res.status(201).json({
+
+                    message:
+                        "Goal created successfully",
+
+                    goal_id:
+                        result.insertId
+
+                });
+
+            }
+        );
 
     } catch (error) {
 
+        console.error(
+            "Create goal error:",
+            error
+        );
+
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
         });
 
     }
 
 };
 
-// Get All Goals
+
+// =====================================================
+// GET ALL GOALS
+// =====================================================
+
 const getAllGoals = (req, res) => {
 
     try {
 
-        const userId = req.user.user_id;
+        const userId =
+            req.user.user_id;
 
-        goalModel.getAllGoals(userId, (err, goals) => {
 
-            if (err) {
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+        goalModel.getAllGoals(
+            userId,
+            (err, goals) => {
+
+                if (err) {
+
+                    console.error(
+                        "Get goals database error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+
+                        message:
+                            "Failed to fetch goals",
+
+                        error:
+                            err.message
+
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Goals fetched successfully",
+
+                    goals:
+                        goals
+
                 });
+
             }
-
-            return res.status(200).json({
-                message: "Goals fetched successfully",
-                goals
-            });
-
-        });
+        );
 
     } catch (error) {
 
+        console.error(
+            "Get all goals error:",
+            error
+        );
+
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
         });
 
     }
@@ -96,41 +253,89 @@ const getAllGoals = (req, res) => {
 };
 
 
-// Get Goal By ID
+// =====================================================
+// GET GOAL BY ID
+// =====================================================
+
 const getGoalById = (req, res) => {
 
     try {
 
-        const userId = req.user.user_id;
-        const goalId = req.params.id;
+        const userId =
+            req.user.user_id;
 
-        goalModel.getGoalById(userId, goalId, (err, goals) => {
+        const goalId =
+            req.params.id;
 
-            if (err) {
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+
+        goalModel.getGoalById(
+            userId,
+            goalId,
+            (err, goals) => {
+
+                if (err) {
+
+                    console.error(
+                        "Get goal database error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+
+                        message:
+                            "Failed to fetch goal",
+
+                        error:
+                            err.message
+
+                    });
+
+                }
+
+
+                if (
+                    !goals ||
+                    goals.length === 0
+                ) {
+
+                    return res.status(404).json({
+
+                        message:
+                            "Goal not found"
+
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Goal fetched successfully",
+
+                    goal:
+                        goals[0]
+
                 });
+
             }
-
-            if (goals.length === 0) {
-                return res.status(404).json({
-                    message: "Goal not found"
-                });
-            }
-
-            return res.status(200).json({
-                message: "Goal fetched successfully",
-                goal: goals[0]
-            });
-
-        });
+        );
 
     } catch (error) {
 
+        console.error(
+            "Get goal by ID error:",
+            error
+        );
+
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
         });
 
     }
@@ -138,13 +343,20 @@ const getGoalById = (req, res) => {
 };
 
 
-// Update Goal
+// =====================================================
+// UPDATE GOAL
+// =====================================================
+
 const updateGoal = (req, res) => {
 
     try {
 
-        const user_id = req.user.user_id;
-        const goal_id = req.params.id;
+        const userId =
+            req.user.user_id;
+
+        const goalId =
+            req.params.id;
+
 
         const {
             title,
@@ -154,49 +366,190 @@ const updateGoal = (req, res) => {
             status
         } = req.body;
 
-        // Validation
-        if (progress_percentage < 0 || progress_percentage > 100) {
+
+        // =================================================
+        // TITLE VALIDATION
+        // =================================================
+
+        if (!title || !title.trim()) {
+
             return res.status(400).json({
-                message: "Progress percentage must be between 0 and 100"
+
+                message:
+                    "Goal title is required"
+
             });
+
         }
 
-        const goal = {
-            goal_id,
-            user_id,
-            title,
-            description,
-            target_date,
-            progress_percentage,
-            status
-        };
 
-        goalModel.updateGoal(goal, (err, result) => {
+        // =================================================
+        // PROGRESS
+        // =================================================
 
-            if (err) {
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
-                });
-            }
+        const progress =
+            progress_percentage === undefined ||
+            progress_percentage === null ||
+            progress_percentage === ""
+                ? 0
+                : Number(progress_percentage);
 
-            if (result.affectedRows === 0) {
-                return res.status(404).json({
-                    message: "Goal not found"
-                });
-            }
 
-            return res.status(200).json({
-                message: "Goal updated successfully"
+        if (
+            !Number.isInteger(progress) ||
+            progress < 0 ||
+            progress > 100
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Progress percentage must be an integer between 0 and 100"
+
             });
 
-        });
+        }
+
+
+        // =================================================
+        // STATUS
+        // =================================================
+
+        let goalStatus =
+            status || "Not Started";
+
+
+        const validStatuses = [
+            "Not Started",
+            "In Progress",
+            "Completed"
+        ];
+
+
+        if (!validStatuses.includes(goalStatus)) {
+
+            return res.status(400).json({
+
+                message:
+                    "Invalid goal status"
+
+            });
+
+        }
+
+
+        // =================================================
+        // AUTOMATIC STATUS
+        // =================================================
+
+        if (progress === 100) {
+
+            goalStatus = "Completed";
+
+        } else if (progress > 0) {
+
+            goalStatus = "In Progress";
+
+        }
+
+
+        // =================================================
+        // UPDATE OBJECT
+        // =================================================
+
+        const goal = {
+
+            goal_id:
+                goalId,
+
+            user_id:
+                userId,
+
+            title:
+                title.trim(),
+
+            description:
+                description?.trim() || null,
+
+            target_date:
+                target_date || null,
+
+            progress_percentage:
+                progress,
+
+            status:
+                goalStatus
+
+        };
+
+
+        // =================================================
+        // DATABASE
+        // =================================================
+
+        goalModel.updateGoal(
+            goal,
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Update goal database error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+
+                        message:
+                            "Failed to update goal",
+
+                        error:
+                            err.message
+
+                    });
+
+                }
+
+
+                if (
+                    result.affectedRows === 0
+                ) {
+
+                    return res.status(404).json({
+
+                        message:
+                            "Goal not found"
+
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Goal updated successfully"
+
+                });
+
+            }
+        );
 
     } catch (error) {
 
+        console.error(
+            "Update goal error:",
+            error
+        );
+
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
         });
 
     }
@@ -204,50 +557,106 @@ const updateGoal = (req, res) => {
 };
 
 
-// Delete Goal
+// =====================================================
+// DELETE GOAL
+// =====================================================
+
 const deleteGoal = (req, res) => {
 
     try {
 
-        const userId = req.user.user_id;
-        const goalId = req.params.id;
+        const userId =
+            req.user.user_id;
 
-        goalModel.deleteGoal(userId, goalId, (err, result) => {
+        const goalId =
+            req.params.id;
 
-            if (err) {
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+
+        goalModel.deleteGoal(
+            userId,
+            goalId,
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Delete goal database error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+
+                        message:
+                            "Failed to delete goal",
+
+                        error:
+                            err.message
+
+                    });
+
+                }
+
+
+                if (
+                    result.affectedRows === 0
+                ) {
+
+                    return res.status(404).json({
+
+                        message:
+                            "Goal not found"
+
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Goal deleted successfully"
+
                 });
+
             }
-
-            if (result.affectedRows === 0) {
-                return res.status(404).json({
-                    message: "Goal not found"
-                });
-            }
-
-            return res.status(200).json({
-                message: "Goal deleted successfully"
-            });
-
-        });
+        );
 
     } catch (error) {
 
+        console.error(
+            "Delete goal error:",
+            error
+        );
+
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
         });
 
     }
 
 };
 
+
+// =====================================================
+// EXPORTS
+// =====================================================
+
 module.exports = {
+
     createGoal,
+
     getAllGoals,
+
     getGoalById,
+
     updateGoal,
+
     deleteGoal
+
 };
