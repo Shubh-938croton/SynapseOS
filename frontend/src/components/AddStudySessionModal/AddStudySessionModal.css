@@ -1,0 +1,229 @@
+.study-session-modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    backdrop-filter: blur(4px);
+}
+
+.study-session-modal {
+    width: 100%;
+    max-width: 620px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 25px 60px rgba(15, 23, 42, 0.25);
+}
+
+.study-session-modal-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    padding: 24px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.study-session-modal-header h2 {
+    margin: 0 0 6px;
+
+    color: #0f172a;
+
+    font-size: 22px;
+}
+
+.study-session-modal-header p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+.study-session-modal-close {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.study-session-modal-close:hover {
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.study-session-modal-form {
+    padding: 24px;
+}
+
+.study-session-form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+}
+
+.study-session-form-group label {
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.study-session-form-group input,
+.study-session-form-group textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 11px 13px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    color: #1e293b;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    background: #ffffff;
+
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.study-session-form-group textarea {
+    resize: vertical;
+}
+
+.study-session-form-group input:focus,
+.study-session-form-group textarea:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.study-session-time-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 16px;
+}
+
+.study-session-modal-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding-top: 8px;
+}
+
+.study-session-cancel-btn,
+.study-session-save-btn {
+    border-radius: 9px;
+
+    padding: 10px 16px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.study-session-cancel-btn {
+    border: 1px solid #cbd5e1;
+
+    background: #ffffff;
+
+    color: #475569;
+}
+
+.study-session-cancel-btn:hover {
+    background: #f8fafc;
+}
+
+.study-session-save-btn {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    border: none;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #4f46e5
+    );
+
+    color: #ffffff;
+}
+
+.study-session-save-btn:hover {
+    opacity: 0.92;
+}
+
+@media (max-width: 600px) {
+
+    .study-session-time-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .study-session-modal-actions {
+        flex-direction: column;
+    }
+
+    .study-session-cancel-btn,
+    .study-session-save-btn {
+        width: 100%;
+    }
+
+}

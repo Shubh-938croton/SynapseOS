@@ -1,0 +1,407 @@
+/* =========================================================
+   STUDY SESSIONS PAGE
+========================================================= */
+
+.study-sessions-page {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 36px 40px 60px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.study-sessions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 32px;
+}
+
+.study-sessions-header h1 {
+    margin: 0 0 8px;
+
+    color: #111827;
+
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.study-sessions-header p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.add-study-session-btn {
+    border: none;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #4f46e5
+    );
+
+    color: white;
+
+    padding: 12px 20px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 15px rgba(37, 99, 235, 0.2);
+
+    transition: all 0.2s ease;
+}
+
+.add-study-session-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.study-sessions-loading {
+    min-height: 280px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.study-sessions-empty {
+    min-height: 300px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 5px 20px rgba(15, 23, 42, 0.05);
+}
+
+.study-sessions-empty h2 {
+    margin: 0 0 10px;
+
+    color: #1e293b;
+
+    font-size: 22px;
+}
+
+.study-sessions-empty p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.study-sessions-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(310px, 1fr));
+
+    gap: 24px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.study-session-card {
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+
+    padding: 24px;
+
+    box-shadow:
+        0 6px 20px rgba(15, 23, 42, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.study-session-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 12px 30px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.study-session-card-header {
+    margin-bottom: 16px;
+}
+
+.study-session-card-header h2 {
+    margin: 0 0 8px;
+
+    color: #0f172a;
+
+    font-size: 19px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   SUBJECT
+========================================================= */
+
+.study-session-subject {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.study-session-description {
+    margin: 0 0 20px;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.study-session-info {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    padding: 15px 0;
+
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.study-session-info div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.study-session-info span {
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+.study-session-info strong {
+    color: #1e293b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   DURATION
+========================================================= */
+
+.study-session-duration {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 0;
+}
+
+.study-session-duration span {
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+.study-session-duration strong {
+    color: #2563eb;
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.study-session-actions {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+/* =========================================================
+   EDIT
+========================================================= */
+
+.edit-study-session-btn {
+    flex: 1;
+
+    padding: 9px 14px;
+
+    border: 1px solid #2563eb;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.edit-study-session-btn:hover {
+    background: #2563eb;
+
+    color: white;
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+.delete-study-session-btn {
+    flex: 1;
+
+    padding: 9px 14px;
+
+    border: 1px solid #ef4444;
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.delete-study-session-btn:hover {
+    background: #dc2626;
+
+    color: white;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .study-sessions-page {
+        padding: 24px 16px 40px;
+    }
+
+    .study-sessions-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .add-study-session-btn {
+        width: 100%;
+    }
+
+    .study-sessions-grid {
+        grid-template-columns: 1fr;
+    }
+
+}

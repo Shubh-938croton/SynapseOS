@@ -9,6 +9,7 @@ import Tasks from "../pages/Tasks/Tasks";
 import Notes from "../pages/Notes/Notes";
 import Calendar from "../pages/Calendar/Calendar";
 import Goals from "../pages/Goals/Goals";
+import StudySessions from "../pages/StudySessions/StudySessions";
 
 
 function AppRoutes() {
@@ -112,6 +113,19 @@ function AppRoutes() {
                         </ProtectedRoute>
                     }
                 />
+
+                {/* =========================
+    STUDY SESSIONS
+========================= */}
+
+<Route
+    path="/study-sessions"
+    element={
+        <ProtectedRoute>
+            <StudySessions />
+        </ProtectedRoute>
+    }
+/>
 
             </Routes>
 
