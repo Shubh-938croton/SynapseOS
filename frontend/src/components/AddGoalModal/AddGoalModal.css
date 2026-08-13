@@ -1,0 +1,444 @@
+/* =========================================
+   ADD GOAL MODAL OVERLAY
+========================================= */
+
+.goal-modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    z-index: 9999;
+
+    backdrop-filter: blur(4px);
+}
+
+
+/* =========================================
+   MODAL
+========================================= */
+
+.goal-modal {
+    width: 100%;
+    max-width: 560px;
+
+    max-height: 90vh;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 25px 50px rgba(15, 23, 42, 0.25);
+
+    overflow-y: auto;
+
+    animation: goalModalAppear 0.2s ease-out;
+}
+
+
+/* =========================================
+   MODAL ANIMATION
+========================================= */
+
+@keyframes goalModalAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.goal-modal-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 24px 28px 20px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+/* =========================================
+   HEADER TITLE
+========================================= */
+
+.goal-modal-header h2 {
+    margin: 0;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+
+.goal-modal-header p {
+    margin: 6px 0 0;
+
+    font-size: 14px;
+
+    color: #6b7280;
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.goal-modal-close {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #6b7280;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.goal-modal-close:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+
+.goal-modal-close:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.goal-modal-form {
+    padding: 24px 28px 28px;
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.goal-form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+.goal-form-group label {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.goal-form-group input,
+.goal-form-group textarea,
+.goal-form-group select {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 11px 13px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =========================================
+   TEXTAREA
+========================================= */
+
+.goal-form-group textarea {
+    min-height: 100px;
+
+    resize: vertical;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   FOCUS
+========================================= */
+
+.goal-form-group input:focus,
+.goal-form-group textarea:focus,
+.goal-form-group select:focus {
+
+    border-color: #4f46e5;
+
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+
+/* =========================================
+   DISABLED
+========================================= */
+
+.goal-form-group input:disabled,
+.goal-form-group textarea:disabled,
+.goal-form-group select:disabled {
+
+    background: #f3f4f6;
+
+    color: #6b7280;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.goal-modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding-top: 6px;
+
+    margin-top: 8px;
+
+    border-top: 1px solid #e5e7eb;
+
+    padding-top: 20px;
+}
+
+
+/* =========================================
+   CANCEL BUTTON
+========================================= */
+
+.goal-cancel-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 90px;
+
+    padding: 10px 16px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.goal-cancel-btn:hover {
+
+    background: #f9fafb;
+
+    border-color: #9ca3af;
+}
+
+
+.goal-cancel-btn:disabled {
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   SAVE BUTTON
+========================================= */
+
+.goal-save-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-width: 125px;
+
+    padding: 10px 16px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #4f46e5;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+.goal-save-btn:hover {
+
+    background: #4338ca;
+
+    transform: translateY(-1px);
+}
+
+
+.goal-save-btn:active {
+
+    transform: translateY(0);
+}
+
+
+.goal-save-btn:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .goal-modal-overlay {
+        padding: 12px;
+    }
+
+
+    .goal-modal {
+        max-height: 95vh;
+
+        border-radius: 12px;
+    }
+
+
+    .goal-modal-header {
+        padding: 20px;
+    }
+
+
+    .goal-modal-form {
+        padding: 20px;
+    }
+
+
+    .goal-modal-header h2 {
+        font-size: 21px;
+    }
+
+
+    .goal-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+
+    .goal-cancel-btn,
+    .goal-save-btn {
+        width: 100%;
+    }
+
+}

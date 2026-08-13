@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 
 import DashboardLayout from "../../components/Layout/DashboardLayout";
-
-import AddGoalModal
-    from "../../components/AddGoalModal/AddGoalModal";
-
-import EditGoalModal
-    from "../../components/EditGoalModal/EditGoalModal";
+import AddGoalModal from "../../components/AddGoalModal/AddGoalModal";
+import EditGoalModal from "../../components/EditGoalModal/EditGoalModal";
 
 import {
     getAllGoals,
@@ -19,25 +15,15 @@ import "./Goals.css";
 function Goals() {
 
     // =========================
-    // GOALS
+    // STATE
     // =========================
 
     const [goals, setGoals] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
-
-    // =========================
-    // ADD GOAL MODAL
-    // =========================
-
     const [showAddGoalModal, setShowAddGoalModal] =
         useState(false);
-
-
-    // =========================
-    // EDIT GOAL
-    // =========================
 
     const [goalToEdit, setGoalToEdit] =
         useState(null);
@@ -53,20 +39,15 @@ function Goals() {
 
             setLoading(true);
 
-            const response = await getAllGoals();
+            const data = await getAllGoals();
 
-            setGoals(response || []);
+            setGoals(data || []);
 
         } catch (error) {
 
             console.error(
-                "Error fetching goals:",
+                "Failed to fetch goals:",
                 error
-            );
-
-            alert(
-                error.response?.data?.message ||
-                "Failed to fetch goals."
             );
 
         } finally {
@@ -79,7 +60,7 @@ function Goals() {
 
 
     // =========================
-    // INITIAL LOAD
+    // LOAD GOALS
     // =========================
 
     useEffect(() => {
@@ -93,27 +74,26 @@ function Goals() {
     // DELETE GOAL
     // =========================
 
-    const handleDeleteGoal = async (goal) => {
+    const handleDeleteGoal = async (goalId) => {
 
         const confirmed = window.confirm(
-            `Are you sure you want to delete "${goal.title}"?`
+            "Are you sure you want to delete this goal?"
         );
 
         if (!confirmed) {
             return;
         }
 
-
         try {
 
-            await deleteGoal(goal.goal_id);
+            await deleteGoal(goalId);
 
             await fetchGoals();
 
         } catch (error) {
 
             console.error(
-                "Delete goal error:",
+                "Failed to delete goal:",
                 error
             );
 
@@ -121,31 +101,6 @@ function Goals() {
                 error.response?.data?.message ||
                 "Failed to delete goal."
             );
-
-        }
-
-    };
-
-
-    // =========================
-    // STATUS CLASS
-    // =========================
-
-    const getStatusClass = (status) => {
-
-        switch (status) {
-
-            case "Completed":
-                return "completed";
-
-            case "In Progress":
-                return "in-progress";
-
-            case "Not Started":
-                return "not-started";
-
-            default:
-                return "";
 
         }
 
@@ -162,17 +117,43 @@ function Goals() {
             return "No target date";
         }
 
-        const dateString =
-            String(date).substring(0, 10);
+        const parsedDate = new Date(date);
 
-        const [year, month, day] =
-            dateString.split("-");
-
-        if (!year || !month || !day) {
+        if (Number.isNaN(parsedDate.getTime())) {
             return "No target date";
         }
 
-        return `${day}/${month}/${year}`;
+        return parsedDate.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    };
+
+
+    // =========================
+    // STATUS CLASS
+    // =========================
+
+    const getStatusClass = (status) => {
+
+        switch (status) {
+
+            case "Completed":
+                return "goal-status-completed";
+
+            case "In Progress":
+                return "goal-status-progress";
+
+            case "Not Started":
+            default:
+                return "goal-status-not-started";
+
+        }
 
     };
 
@@ -184,7 +165,6 @@ function Goals() {
     return (
 
         <DashboardLayout>
-
 
             {/* =========================
                 ADD GOAL MODAL
@@ -228,6 +208,10 @@ function Goals() {
             />
 
 
+            {/* =========================
+                GOALS PAGE
+            ========================= */}
+
             <div className="goals-page">
 
 
@@ -251,6 +235,8 @@ function Goals() {
                     </div>
 
 
+                    {/* ONLY CREATE BUTTON */}
+
                     <button
 
                         type="button"
@@ -262,6 +248,7 @@ function Goals() {
                         }
 
                     >
+
                         + Add Goal
 
                     </button>
@@ -303,29 +290,13 @@ function Goals() {
                                 your progress.
                             </p>
 
-
-                            <button
-
-                                type="button"
-
-                                className="add-goal-btn"
-
-                                onClick={() =>
-                                    setShowAddGoalModal(true)
-                                }
-
-                            >
-                                + Create Goal
-
-                            </button>
-
                         </div>
 
                     )}
 
 
                 {/* =========================
-                    GOALS GRID
+                    GOALS LIST
                 ========================= */}
 
                 {!loading &&
@@ -336,15 +307,13 @@ function Goals() {
                             {goals.map((goal) => (
 
                                 <div
-                                    key={
-                                        goal.goal_id
-                                    }
+                                    key={goal.goal_id}
                                     className="goal-card"
                                 >
 
 
                                     {/* =========================
-                                        CARD HEADER
+                                        GOAL HEADER
                                     ========================= */}
 
                                     <div className="goal-card-header">
@@ -360,7 +329,9 @@ function Goals() {
                                                     goal.status
                                                 )}`}
                                             >
+
                                                 {goal.status}
+
                                             </span>
 
                                         </div>
@@ -376,9 +347,7 @@ function Goals() {
 
                                         <p className="goal-description">
 
-                                            {
-                                                goal.description
-                                            }
+                                            {goal.description}
 
                                         </p>
 
@@ -398,9 +367,7 @@ function Goals() {
                                             </span>
 
                                             <strong>
-                                                {
-                                                    goal.progress_percentage ?? 0
-                                                }%
+                                                {goal.progress_percentage || 0}%
                                             </strong>
 
                                         </div>
@@ -409,21 +376,18 @@ function Goals() {
                                         <div className="goal-progress-bar">
 
                                             <div
-
                                                 className="goal-progress-fill"
-
                                                 style={{
                                                     width: `${Math.min(
                                                         Math.max(
                                                             Number(
-                                                                goal.progress_percentage ?? 0
-                                                            ),
+                                                                goal.progress_percentage
+                                                            ) || 0,
                                                             0
                                                         ),
                                                         100
                                                     )}%`
                                                 }}
-
                                             />
 
                                         </div>
@@ -442,11 +406,9 @@ function Goals() {
                                         </span>
 
                                         <strong>
-                                            {
-                                                formatDate(
-                                                    goal.target_date
-                                                )
-                                            }
+                                            {formatDate(
+                                                goal.target_date
+                                            )}
                                         </strong>
 
                                     </div>
@@ -456,22 +418,20 @@ function Goals() {
                                         ACTIONS
                                     ========================= */}
 
-                                    <div className="goal-actions">
-
+                                    <div className="goal-card-actions">
 
                                         <button
 
                                             type="button"
 
-                                            className="goal-edit-btn"
+                                            className="edit-goal-btn"
 
                                             onClick={() =>
-                                                setGoalToEdit(
-                                                    goal
-                                                )
+                                                setGoalToEdit(goal)
                                             }
 
                                         >
+
                                             Edit
 
                                         </button>
@@ -481,19 +441,19 @@ function Goals() {
 
                                             type="button"
 
-                                            className="goal-delete-btn"
+                                            className="delete-goal-btn"
 
                                             onClick={() =>
                                                 handleDeleteGoal(
-                                                    goal
+                                                    goal.goal_id
                                                 )
                                             }
 
                                         >
+
                                             Delete
 
                                         </button>
-
 
                                     </div>
 
