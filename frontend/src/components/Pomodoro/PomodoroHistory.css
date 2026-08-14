@@ -1,0 +1,337 @@
+/* =======================================
+   POMODORO HISTORY
+======================================= */
+
+.pomodoro-history {
+    width: 100%;
+    max-width: 1100px;
+    margin: 40px auto 0;
+}
+
+
+/* =======================================
+   HEADER
+======================================= */
+
+.pomodoro-history-header {
+    margin-bottom: 24px;
+}
+
+.pomodoro-history-label {
+    display: block;
+    margin-bottom: 6px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: #4f46e5;
+}
+
+.pomodoro-history-header h2 {
+    margin: 0;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    color: #1f2937;
+}
+
+.pomodoro-history-header p {
+    margin: 6px 0 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =======================================
+   LOADING
+======================================= */
+
+.pomodoro-history-loading {
+    padding: 30px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+}
+
+
+/* =======================================
+   EMPTY STATE
+======================================= */
+
+.pomodoro-history-empty {
+    padding: 40px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+}
+
+.pomodoro-history-empty h3 {
+    margin: 0 0 8px;
+
+    color: #1f2937;
+
+    font-size: 18px;
+}
+
+.pomodoro-history-empty p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =======================================
+   HISTORY LIST
+======================================= */
+
+.pomodoro-history-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+
+/* =======================================
+   HISTORY CARD
+======================================= */
+
+.pomodoro-history-card {
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.05);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pomodoro-history-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+
+/* =======================================
+   CARD TOP
+======================================= */
+
+.pomodoro-history-card-top {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+.pomodoro-history-card-top h3 {
+    margin: 0;
+
+    font-size: 18px;
+
+    color: #1f2937;
+}
+
+.pomodoro-task {
+    margin: 5px 0 0;
+
+    font-size: 13px;
+
+    color: #6b7280;
+}
+
+
+/* =======================================
+   STATUS
+======================================= */
+
+.pomodoro-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.status-completed {
+    background: #dcfce7;
+
+    color: #166534;
+}
+
+.status-cancelled {
+    background: #fee2e2;
+
+    color: #991b1b;
+}
+
+.status-in_progress {
+    background: #dbeafe;
+
+    color: #1d4ed8;
+}
+
+.status-default {
+    background: #f3f4f6;
+
+    color: #4b5563;
+}
+
+
+/* =======================================
+   DETAILS
+======================================= */
+
+.pomodoro-history-details {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 16px;
+
+    padding: 18px 0;
+
+    border-top: 1px solid #e5e7eb;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.pomodoro-history-details div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.pomodoro-history-details span {
+    font-size: 12px;
+
+    color: #9ca3af;
+}
+
+.pomodoro-history-details strong {
+    font-size: 14px;
+
+    color: #1f2937;
+}
+
+
+/* =======================================
+   ACTIONS
+======================================= */
+
+.pomodoro-history-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 16px;
+}
+
+.pomodoro-delete-btn {
+    padding: 8px 16px;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #dc2626;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.pomodoro-delete-btn:hover {
+    background: #dc2626;
+
+    color: #ffffff;
+}
+
+
+/* =======================================
+   RESPONSIVE
+======================================= */
+
+@media (max-width: 800px) {
+
+    .pomodoro-history-details {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .pomodoro-history {
+        margin-top: 30px;
+    }
+
+    .pomodoro-history-card {
+        padding: 16px;
+    }
+
+    .pomodoro-history-card-top {
+        flex-direction: column;
+    }
+
+    .pomodoro-history-details {
+        grid-template-columns: 1fr;
+    }
+
+}
