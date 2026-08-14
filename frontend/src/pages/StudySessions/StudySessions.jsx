@@ -147,38 +147,31 @@ function StudySessions() {
 
 
     // =========================
-    // FORMAT TIME
-    // =========================
+// FORMAT TIME
+// =========================
 
-    const formatTime = (time) => {
+const formatTime = (time) => {
 
-        if (!time) {
-            return "--";
+    if (!time) {
+        return "--";
+    }
+
+    const parsedDate = new Date(time);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+        return "--";
+    }
+
+    return parsedDate.toLocaleTimeString(
+        "en-IN",
+        {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true
         }
+    );
 
-        const value =
-            String(time).substring(0, 5);
-
-        const [hours, minutes] =
-            value.split(":");
-
-        const date =
-            new Date();
-
-        date.setHours(
-            Number(hours),
-            Number(minutes)
-        );
-
-        return date.toLocaleTimeString(
-            "en-IN",
-            {
-                hour: "numeric",
-                minute: "2-digit"
-            }
-        );
-
-    };
+};
 
 
     // =========================
@@ -216,46 +209,45 @@ function StudySessions() {
         <DashboardLayout>
 
 
-            {/* =========================
-                ADD MODAL
-            ========================= */}
+            {/* ADD MODAL */}
 
-            <AddStudySessionModal
-
-                isOpen={
-                    showAddModal
-                }
-
-                onClose={() =>
-                    setShowAddModal(false)
-                }
-
-                onSessionCreated={
-                    fetchSessions
-                }
-
-            />
+    <AddStudySessionModal
+        isOpen={showAddModal}
+        onClose={() =>
+            setShowAddModal(false)
+        }
+        onSessionCreated={
+            fetchSessions
+        }
+    />
 
 
             {/* =========================
-                EDIT MODAL
-            ========================= */}
+    EDIT MODAL
+========================= */}
 
-            <EditStudySessionModal
+<EditStudySessionModal
 
-                session={
-                    sessionToEdit
-                }
+    isOpen={
+        sessionToEdit !== null
+    }
 
-                onClose={() =>
-                    setSessionToEdit(null)
-                }
+    session={
+        sessionToEdit
+    }
 
-                onUpdated={
-                    fetchSessions
-                }
+    onClose={() =>
+        setSessionToEdit(null)
+    }
 
-            />
+    onSessionUpdated={
+        fetchSessions
+    }
+
+/>
+
+
+            
 
 
             {/* =========================
@@ -300,6 +292,7 @@ function StudySessions() {
                         + Add Study Session
 
                     </button>
+
 
                 </div>
 

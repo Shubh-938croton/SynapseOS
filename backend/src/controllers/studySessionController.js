@@ -161,20 +161,29 @@ const updateStudySession = (req, res) => {
             session_notes
         } = req.body;
 
-        // Calculate duration automatically
+
         const start = new Date(start_time);
         const end = new Date(end_time);
 
-        const duration_minutes = Math.floor((end - start) / (1000 * 60));
+        const duration_minutes =
+            Math.floor(
+                (end - start) /
+                (1000 * 60)
+            );
 
-        // Validate duration
+
         if (duration_minutes <= 0) {
+
             return res.status(400).json({
-                message: "End time must be after start time"
+                message:
+                    "End time must be after start time"
             });
+
         }
 
+
         const session = {
+
             session_id,
             user_id,
             subject_id,
@@ -183,34 +192,66 @@ const updateStudySession = (req, res) => {
             end_time,
             duration_minutes,
             session_notes
+
         };
 
-        studySessionModel.updateStudySession(session, (err, result) => {
 
-            if (err) {
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+        studySessionModel.updateStudySession(
+            session,
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Update study session DB error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message: "Database error",
+                        error: err.message
+                    });
+
+                }
+
+
+                if (
+                    result.affectedRows === 0
+                ) {
+
+                    return res.status(404).json({
+                        message:
+                            "Study session not found"
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Study session updated successfully"
+
                 });
+
             }
-
-            if (result.affectedRows === 0) {
-                return res.status(404).json({
-                    message: "Study session not found"
-                });
-            }
-
-            return res.status(200).json({
-                message: "Study session updated successfully"
-            });
-
-        });
+        );
 
     } catch (error) {
 
+        console.error(
+            "Update study session error:",
+            error
+        );
+
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
         });
 
     }

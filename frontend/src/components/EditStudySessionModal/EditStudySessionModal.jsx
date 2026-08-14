@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { FaTimes, FaSave } from "react-icons/fa";
+import {
+    FaTimes,
+    FaSave
+} from "react-icons/fa";
 
 import {
     updateStudySession
@@ -14,26 +17,32 @@ import "./EditStudySessionModal.css";
 
 
 function EditStudySessionModal({
-    session,
     isOpen,
+    session,
     onClose,
     onSessionUpdated
 }) {
 
-    // =========================
-    // FORM STATE
-    // =========================
+    const [subjectId, setSubjectId] =
+        useState("");
 
-    const [subjectId, setSubjectId] = useState("");
-    const [topic, setTopic] = useState("");
-    const [sessionNotes, setSessionNotes] = useState("");
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
+    const [topic, setTopic] =
+        useState("");
 
-    const [subjects, setSubjects] = useState([]);
+    const [sessionNotes, setSessionNotes] =
+        useState("");
 
-    const [loading, setLoading] = useState(false);
-    const [loadingSubjects, setLoadingSubjects] = useState(false);
+    const [startTime, setStartTime] =
+        useState("");
+
+    const [endTime, setEndTime] =
+        useState("");
+
+    const [subjects, setSubjects] =
+        useState([]);
+
+    const [loading, setLoading] =
+        useState(false);
 
 
     // =========================
@@ -46,45 +55,45 @@ function EditStudySessionModal({
             return;
         }
 
-        const fetchSubjects = async () => {
+        const loadSubjects = async () => {
 
             try {
 
-                setLoadingSubjects(true);
-
-                const data = await getAllSubjects();
+                const data =
+                    await getAllSubjects();
 
                 setSubjects(data || []);
 
             } catch (error) {
 
                 console.error(
-                    "Fetch subjects error:",
+                    "Failed to load subjects:",
                     error
                 );
 
-            } finally {
-
-                setLoadingSubjects(false);
+                alert(
+                    "Failed to load subjects."
+                );
 
             }
 
         };
 
-        fetchSubjects();
+        loadSubjects();
 
     }, [isOpen]);
 
 
     // =========================
-    // LOAD EXISTING SESSION
+    // LOAD SESSION DATA
     // =========================
 
     useEffect(() => {
 
-        if (!isOpen || !session) {
+        if (!session || !isOpen) {
             return;
         }
+
 
         setSubjectId(
             session.subject_id
@@ -92,35 +101,39 @@ function EditStudySessionModal({
                 : ""
         );
 
+
         setTopic(
             session.topic || ""
         );
+
 
         setSessionNotes(
             session.session_notes || ""
         );
 
+
         setStartTime(
-            convertToDatetimeLocal(
+            formatForInput(
                 session.start_time
             )
         );
 
+
         setEndTime(
-            convertToDatetimeLocal(
+            formatForInput(
                 session.end_time
             )
         );
 
-    }, [isOpen, session]);
+
+    }, [session, isOpen]);
 
 
     // =========================
-    // CONVERT MYSQL DATETIME
-    // TO datetime-local
+    // FORMAT FOR INPUT
     // =========================
 
-    const convertToDatetimeLocal = (value) => {
+    const formatForInput = (value) => {
 
         if (!value) {
             return "";
@@ -155,16 +168,13 @@ function EditStudySessionModal({
                 date.getMinutes()
             ).padStart(2, "0");
 
-        return (
-            `${year}-${month}-${day}` +
-            `T${hours}:${minutes}`
-        );
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
 
     };
 
 
     // =========================
-    // MYSQL DATETIME FORMAT
+    // FORMAT FOR MYSQL
     // =========================
 
     const formatForMySQL = (value) => {
@@ -173,34 +183,7 @@ function EditStudySessionModal({
             return null;
         }
 
-        return value.replace(
-            "T",
-            " "
-        ) + ":00";
-
-    };
-
-
-    // =========================
-    // CALCULATE DURATION
-    // =========================
-
-    const calculateDuration = () => {
-
-        const start =
-            new Date(startTime);
-
-        const end =
-            new Date(endTime);
-
-        const difference =
-            end.getTime() -
-            start.getTime();
-
-        return Math.floor(
-            difference /
-            (1000 * 60)
-        );
+        return value.replace("T", " ") + ":00";
 
     };
 
@@ -230,19 +213,9 @@ function EditStudySessionModal({
 
 
         if (!session) {
-
-            alert(
-                "Study session not found."
-            );
-
             return;
-
         }
 
-
-        // =========================
-        // VALIDATION
-        // =========================
 
         if (!subjectId) {
 
@@ -277,11 +250,14 @@ function EditStudySessionModal({
         }
 
 
-        const durationMinutes =
-            calculateDuration();
+        const start =
+            new Date(startTime);
+
+        const end =
+            new Date(endTime);
 
 
-        if (durationMinutes <= 0) {
+        if (end <= start) {
 
             alert(
                 "End time must be after start time."
@@ -297,9 +273,12 @@ function EditStudySessionModal({
             setLoading(true);
 
 
-            // =========================
-            // DATA SENT TO BACKEND
-            // =========================
+            const durationMinutes =
+                Math.floor(
+                    (end - start) /
+                    (1000 * 60)
+                );
+
 
             const sessionData = {
 
@@ -336,19 +315,11 @@ function EditStudySessionModal({
             );
 
 
-            // =========================
-            // UPDATE API
-            // =========================
-
             await updateStudySession(
                 session.session_id,
                 sessionData
             );
 
-
-            // =========================
-            // REFRESH SESSIONS
-            // =========================
 
             if (onSessionUpdated) {
 
@@ -357,22 +328,14 @@ function EditStudySessionModal({
             }
 
 
-            // =========================
-            // CLOSE MODAL
-            // =========================
-
             onClose();
+
 
         } catch (error) {
 
             console.error(
                 "Update study session error:",
                 error
-            );
-
-            console.error(
-                "Backend response:",
-                error.response?.data
             );
 
             alert(
@@ -401,10 +364,6 @@ function EditStudySessionModal({
     }
 
 
-    // =========================
-    // UI
-    // =========================
-
     return (
 
         <div
@@ -419,9 +378,7 @@ function EditStudySessionModal({
                 }
             >
 
-                {/* =========================
-                    HEADER
-                ========================= */}
+                {/* HEADER */}
 
                 <div className="study-session-modal-header">
 
@@ -452,9 +409,7 @@ function EditStudySessionModal({
                 </div>
 
 
-                {/* =========================
-                    FORM
-                ========================= */}
+                {/* FORM */}
 
                 <form
                     className="study-session-modal-form"
@@ -476,14 +431,11 @@ function EditStudySessionModal({
                                     e.target.value
                                 )
                             }
-                            disabled={
-                                loading ||
-                                loadingSubjects
-                            }
+                            disabled={loading}
                         >
 
                             <option value="">
-                                Select a subject
+                                Select Subject
                             </option>
 
                             {subjects.map(
@@ -528,7 +480,6 @@ function EditStudySessionModal({
                                     e.target.value
                                 )
                             }
-                            placeholder="e.g. DSA Practice"
                             disabled={loading}
                         />
 
@@ -550,7 +501,6 @@ function EditStudySessionModal({
                                     e.target.value
                                 )
                             }
-                            placeholder="What did you study?"
                             rows="4"
                             disabled={loading}
                         />
@@ -623,10 +573,7 @@ function EditStudySessionModal({
                         <button
                             type="submit"
                             className="study-session-save-btn"
-                            disabled={
-                                loading ||
-                                loadingSubjects
-                            }
+                            disabled={loading}
                         >
 
                             <FaSave />

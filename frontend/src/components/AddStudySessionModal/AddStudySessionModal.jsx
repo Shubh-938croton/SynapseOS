@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
-
 import { FaTimes, FaSave } from "react-icons/fa";
 
-import {
-    createStudySession
-} from "../../services/studySessionService";
-
-import {
-    getAllSubjects
-} from "../../services/subjectService";
+import { createStudySession } from "../../services/studySessionService";
+import { getAllSubjects } from "../../services/subjectService";
 
 import "./AddStudySessionModal.css";
 
@@ -19,33 +13,17 @@ function AddStudySessionModal({
     onSessionCreated
 }) {
 
-    // =========================
-    // FORM STATE
-    // =========================
+    const [subjectId, setSubjectId] = useState("");
+    const [topic, setTopic] = useState("");
+    const [sessionNotes, setSessionNotes] = useState("");
 
-    const [subjectId, setSubjectId] =
-        useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
 
-    const [topic, setTopic] =
-        useState("");
+    const [subjects, setSubjects] = useState([]);
 
-    const [sessionNotes, setSessionNotes] =
-        useState("");
-
-    const [startTime, setStartTime] =
-        useState("");
-
-    const [endTime, setEndTime] =
-        useState("");
-
-    const [subjects, setSubjects] =
-        useState([]);
-
-    const [loadingSubjects, setLoadingSubjects] =
-        useState(false);
-
-    const [loading, setLoading] =
-        useState(false);
+    const [loading, setLoading] = useState(false);
+    const [subjectsLoading, setSubjectsLoading] = useState(false);
 
 
     // =========================
@@ -58,38 +36,34 @@ function AddStudySessionModal({
             return;
         }
 
-        const fetchSubjects = async () => {
+        const loadSubjects = async () => {
 
             try {
 
-                setLoadingSubjects(true);
+                setSubjectsLoading(true);
 
-                const data =
-                    await getAllSubjects();
+                const data = await getAllSubjects();
 
                 setSubjects(data || []);
 
             } catch (error) {
 
                 console.error(
-                    "Failed to fetch subjects:",
+                    "Failed to load subjects:",
                     error
                 );
 
-                alert(
-                    error.response?.data?.message ||
-                    "Failed to load subjects."
-                );
+                alert("Failed to load subjects.");
 
             } finally {
 
-                setLoadingSubjects(false);
+                setSubjectsLoading(false);
 
             }
 
         };
 
-        fetchSubjects();
+        loadSubjects();
 
     }, [isOpen]);
 
@@ -107,7 +81,6 @@ function AddStudySessionModal({
             setSessionNotes("");
             setStartTime("");
             setEndTime("");
-
             setLoading(false);
 
         }
@@ -116,7 +89,7 @@ function AddStudySessionModal({
 
 
     // =========================
-    // CLOSE MODAL
+    // CLOSE
     // =========================
 
     const handleClose = () => {
@@ -131,23 +104,16 @@ function AddStudySessionModal({
 
 
     // =========================
-    // CALCULATE DURATION
+    // FORMAT DATETIME
     // =========================
 
-    const calculateDuration = () => {
+    const formatForMySQL = (dateTime) => {
 
-        const start =
-            new Date(startTime);
+        if (!dateTime) {
+            return null;
+        }
 
-        const end =
-            new Date(endTime);
-
-        const difference =
-            end.getTime() - start.getTime();
-
-        return Math.floor(
-            difference / (1000 * 60)
-        );
+        return dateTime.replace("T", " ") + ":00";
 
     };
 
@@ -161,39 +127,29 @@ function AddStudySessionModal({
         e.preventDefault();
 
 
-        // -------------------------
-        // SUBJECT VALIDATION
-        // -------------------------
+        // Subject validation
 
         if (!subjectId) {
 
-            alert(
-                "Please select a subject."
-            );
+            alert("Please select a subject.");
 
             return;
 
         }
 
 
-        // -------------------------
-        // TOPIC VALIDATION
-        // -------------------------
+        // Topic validation
 
         if (!topic.trim()) {
 
-            alert(
-                "Please enter a topic."
-            );
+            alert("Please enter a topic.");
 
             return;
 
         }
 
 
-        // -------------------------
-        // TIME VALIDATION
-        // -------------------------
+        // Time validation
 
         if (!startTime || !endTime) {
 
@@ -206,29 +162,16 @@ function AddStudySessionModal({
         }
 
 
-        if (endTime <= startTime) {
+        // Date comparison
+
+        const start = new Date(startTime);
+        const end = new Date(endTime);
+
+
+        if (end <= start) {
 
             alert(
                 "End time must be after start time."
-            );
-
-            return;
-
-        }
-
-
-        // -------------------------
-        // DURATION
-        // -------------------------
-
-        const durationMinutes =
-            calculateDuration();
-
-
-        if (durationMinutes <= 0) {
-
-            alert(
-                "Study session duration must be greater than 0 minutes."
             );
 
             return;
@@ -241,37 +184,17 @@ function AddStudySessionModal({
             setLoading(true);
 
 
-            // =========================
-            // CONVERT DATETIME
-            // =========================
-
-            const formattedStartTime =
-                startTime.replace("T", " ") + ":00";
-
-            const formattedEndTime =
-                endTime.replace("T", " ") + ":00";
-
-
-            // =========================
-            // SESSION DATA
-            // =========================
-
             const sessionData = {
 
-                subject_id:
-                    Number(subjectId),
+                subject_id: Number(subjectId),
 
-                topic:
-                    topic.trim(),
+                topic: topic.trim(),
 
                 start_time:
-                    formattedStartTime,
+                    formatForMySQL(startTime),
 
                 end_time:
-                    formattedEndTime,
-
-                duration_minutes:
-                    durationMinutes,
+                    formatForMySQL(endTime),
 
                 session_notes:
                     sessionNotes.trim() || null
@@ -285,18 +208,10 @@ function AddStudySessionModal({
             );
 
 
-            // =========================
-            // CREATE SESSION
-            // =========================
-
             await createStudySession(
                 sessionData
             );
 
-
-            // =========================
-            // REFRESH SESSIONS
-            // =========================
 
             if (onSessionCreated) {
 
@@ -305,11 +220,8 @@ function AddStudySessionModal({
             }
 
 
-            // =========================
-            // CLOSE MODAL
-            // =========================
-
             onClose();
+
 
         } catch (error) {
 
@@ -317,12 +229,6 @@ function AddStudySessionModal({
                 "Create study session error:",
                 error
             );
-
-            console.error(
-                "Backend response:",
-                error.response?.data
-            );
-
 
             alert(
                 error.response?.data?.message ||
@@ -350,10 +256,6 @@ function AddStudySessionModal({
     }
 
 
-    // =========================
-    // RENDER
-    // =========================
-
     return (
 
         <div
@@ -372,9 +274,7 @@ function AddStudySessionModal({
                     HEADER
                 ========================= */}
 
-                <div
-                    className="study-session-modal-header"
-                >
+                <div className="study-session-modal-header">
 
                     <div>
 
@@ -412,13 +312,9 @@ function AddStudySessionModal({
                     onSubmit={handleSubmit}
                 >
 
-                    {/* =========================
-                        SUBJECT
-                    ========================= */}
+                    {/* SUBJECT */}
 
-                    <div
-                        className="study-session-form-group"
-                    >
+                    <div className="study-session-form-group">
 
                         <label>
                             Subject
@@ -433,45 +329,41 @@ function AddStudySessionModal({
                             }
                             disabled={
                                 loading ||
-                                loadingSubjects
+                                subjectsLoading
                             }
                         >
 
                             <option value="">
-                                Select a subject
+                                Select Subject
                             </option>
 
-                            {subjects.map(
-                                (subject) => (
+                            {subjects.map((subject) => (
 
-                                    <option
-                                        key={
-                                            subject.subject_id
-                                        }
-                                        value={
-                                            subject.subject_id
-                                        }
-                                    >
-                                        {
-                                            subject.subject_name
-                                        }
-                                    </option>
+                                <option
+                                    key={
+                                        subject.subject_id
+                                    }
+                                    value={
+                                        subject.subject_id
+                                    }
+                                >
 
-                                )
-                            )}
+                                    {
+                                        subject.subject_name
+                                    }
+
+                                </option>
+
+                            ))}
 
                         </select>
 
                     </div>
 
 
-                    {/* =========================
-                        TOPIC
-                    ========================= */}
+                    {/* TOPIC */}
 
-                    <div
-                        className="study-session-form-group"
-                    >
+                    <div className="study-session-form-group">
 
                         <label>
                             Topic
@@ -485,20 +377,16 @@ function AddStudySessionModal({
                                     e.target.value
                                 )
                             }
-                            placeholder="e.g. DSA - Heap"
+                            placeholder="e.g. DSA Practice"
                             disabled={loading}
                         />
 
                     </div>
 
 
-                    {/* =========================
-                        NOTES
-                    ========================= */}
+                    {/* NOTES */}
 
-                    <div
-                        className="study-session-form-group"
-                    >
+                    <div className="study-session-form-group">
 
                         <label>
                             Session Notes
@@ -519,19 +407,11 @@ function AddStudySessionModal({
                     </div>
 
 
-                    {/* =========================
-                        TIME
-                    ========================= */}
+                    {/* TIME */}
 
-                    <div
-                        className="study-session-time-grid"
-                    >
+                    <div className="study-session-time-grid">
 
-                        {/* START */}
-
-                        <div
-                            className="study-session-form-group"
-                        >
+                        <div className="study-session-form-group">
 
                             <label>
                                 Start Time
@@ -551,11 +431,7 @@ function AddStudySessionModal({
                         </div>
 
 
-                        {/* END */}
-
-                        <div
-                            className="study-session-form-group"
-                        >
+                        <div className="study-session-form-group">
 
                             <label>
                                 End Time
@@ -577,13 +453,9 @@ function AddStudySessionModal({
                     </div>
 
 
-                    {/* =========================
-                        ACTIONS
-                    ========================= */}
+                    {/* ACTIONS */}
 
-                    <div
-                        className="study-session-modal-actions"
-                    >
+                    <div className="study-session-modal-actions">
 
                         <button
                             type="button"
@@ -600,10 +472,7 @@ function AddStudySessionModal({
                         <button
                             type="submit"
                             className="study-session-save-btn"
-                            disabled={
-                                loading ||
-                                loadingSubjects
-                            }
+                            disabled={loading}
                         >
 
                             <FaSave />
