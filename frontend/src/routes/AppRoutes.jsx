@@ -10,6 +10,7 @@ import Notes from "../pages/Notes/Notes";
 import Calendar from "../pages/Calendar/Calendar";
 import Goals from "../pages/Goals/Goals";
 import StudySessions from "../pages/StudySessions/StudySessions";
+import Pomodoro from "../pages/Pomodoro/Pomodoro";
 
 
 function AppRoutes() {
@@ -126,6 +127,9 @@ function AppRoutes() {
         </ProtectedRoute>
     }
 />
+
+
+<Route path="/pomodoro" element={<Pomodoro />} />
 
             </Routes>
 

@@ -1,0 +1,81 @@
+.pomodoro-page {
+    width: 100%;
+    min-height: 100%;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.pomodoro-page-header {
+    margin-bottom: 32px;
+}
+
+.pomodoro-page-label {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: #6366f1;
+}
+
+.pomodoro-page-header h1 {
+    margin: 0 0 8px;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.pomodoro-page-header p {
+    margin: 0;
+
+    max-width: 600px;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    color: #6b7280;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.pomodoro-page-content {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-start;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .pomodoro-page {
+        padding: 24px 16px;
+    }
+
+    .pomodoro-page-header h1 {
+        font-size: 28px;
+    }
+
+}

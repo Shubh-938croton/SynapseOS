@@ -1,0 +1,242 @@
+/* =========================================
+   POMODORO TIMER
+========================================= */
+
+.pomodoro-timer {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+
+    padding: 32px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+
+    text-align: center;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.pomodoro-timer-header {
+    margin-bottom: 24px;
+}
+
+.pomodoro-label {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: #6366f1;
+}
+
+.pomodoro-timer-header h2 {
+    margin: 0;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+
+/* =========================================
+   CLOCK
+========================================= */
+
+.pomodoro-clock {
+    margin: 20px 0 12px;
+
+    font-size: 72px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    letter-spacing: 2px;
+
+    color: #111827;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.pomodoro-status {
+    margin-bottom: 28px;
+
+    font-size: 14px;
+
+    color: #6b7280;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.pomodoro-actions {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+}
+
+.pomodoro-actions button {
+    min-width: 100px;
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.pomodoro-actions button:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.pomodoro-actions button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.pomodoro-actions button:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   START BUTTON
+========================================= */
+
+.pomodoro-start-btn {
+    background: #6366f1;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 15px rgba(99, 102, 241, 0.25);
+}
+
+.pomodoro-start-btn:hover:not(:disabled) {
+    background: #4f46e5;
+
+    box-shadow:
+        0 7px 18px rgba(99, 102, 241, 0.35);
+}
+
+
+/* =========================================
+   PAUSE BUTTON
+========================================= */
+
+.pomodoro-pause-btn {
+    background: #f59e0b;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 15px rgba(245, 158, 11, 0.2);
+}
+
+.pomodoro-pause-btn:hover:not(:disabled) {
+    background: #d97706;
+}
+
+
+/* =========================================
+   RESET BUTTON
+========================================= */
+
+.pomodoro-reset-btn {
+    background: #e5e7eb;
+
+    color: #374151;
+}
+
+.pomodoro-reset-btn:hover:not(:disabled) {
+    background: #d1d5db;
+}
+
+
+/* =========================================
+   INTERRUPT BUTTON
+========================================= */
+
+.pomodoro-interrupt-btn {
+    background: #ef4444;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 15px rgba(239, 68, 68, 0.2);
+}
+
+.pomodoro-interrupt-btn:hover:not(:disabled) {
+    background: #dc2626;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .pomodoro-timer {
+        padding: 24px 18px;
+
+        border-radius: 16px;
+    }
+
+    .pomodoro-timer-header h2 {
+        font-size: 24px;
+    }
+
+    .pomodoro-clock {
+        font-size: 56px;
+    }
+
+    .pomodoro-actions {
+        gap: 8px;
+    }
+
+    .pomodoro-actions button {
+        min-width: 90px;
+
+        padding: 10px 15px;
+    }
+
+}
