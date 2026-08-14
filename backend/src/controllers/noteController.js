@@ -7,87 +7,154 @@ const noteModel = require("../models/noteModel");
 
 const createNote = (req, res) => {
 
-    const userId = req.user.user_id;
+    try {
 
-    const {
-        subject_id,
-        title,
-        content,
-        is_pinned
-    } = req.body;
+        const userId = req.user.user_id;
 
-
-    if (!subject_id || !title) {
-
-        return res.status(400).json({
-            message: "Subject and title are required"
-        });
-
-    }
+        const {
+            subject_id,
+            title,
+            content,
+            is_pinned
+        } = req.body;
 
 
-    noteModel.findSubjectById(
-        userId,
-        subject_id,
-        (err, subjects) => {
+        // -------------------------
+        // Validate input
+        // -------------------------
 
-            if (err) {
+        if (!subject_id) {
 
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
-                });
+            return res.status(400).json({
+                message: "Subject is required"
+            });
 
-            }
+        }
 
+        if (!title || !title.trim()) {
 
-            if (subjects.length === 0) {
+            return res.status(400).json({
+                message: "Note title is required"
+            });
 
-                return res.status(404).json({
-                    message: "Subject not found"
-                });
-
-            }
+        }
 
 
-            const note = {
+        // -------------------------
+        // Check subject ownership
+        // -------------------------
 
-                user_id: userId,
-                subject_id,
-                title,
-                content: content || "",
-                is_pinned: is_pinned || false
+        noteModel.findSubjectById(
+            userId,
+            subject_id,
+            (err, subjects) => {
 
-            };
+                if (err) {
 
+                    console.error(
+                        "Find subject error:",
+                        err
+                    );
 
-            noteModel.createNote(
-                note,
-                (err, result) => {
-
-                    if (err) {
-
-                        return res.status(500).json({
-                            message: "Failed to create note",
-                            error: err.message
-                        });
-
-                    }
-
-
-                    return res.status(201).json({
-
-                        message: "Note created successfully",
-
-                        noteId: result.insertId
-
+                    return res.status(500).json({
+                        message: "Database error",
+                        error: err.message
                     });
 
                 }
-            );
 
-        }
-    );
+
+                if (!subjects || subjects.length === 0) {
+
+                    return res.status(404).json({
+                        message: "Subject not found"
+                    });
+
+                }
+
+
+                // -------------------------
+                // Prepare note
+                // -------------------------
+
+                const note = {
+
+                    user_id: userId,
+
+                    subject_id: subject_id,
+
+                    title: title.trim(),
+
+                    content:
+                        content !== undefined &&
+                        content !== null
+                            ? String(content)
+                            : "",
+
+                    is_pinned:
+                        is_pinned === true ||
+                        is_pinned === 1
+
+                };
+
+
+                // -------------------------
+                // Create note
+                // -------------------------
+
+                noteModel.createNote(
+                    note,
+                    (err, result) => {
+
+                        if (err) {
+
+                            console.error(
+                                "Create note error:",
+                                err
+                            );
+
+                            return res.status(500).json({
+                                message: "Failed to create note",
+                                error: err.message
+                            });
+
+                        }
+
+
+                        return res.status(201).json({
+
+                            message:
+                                "Note created successfully",
+
+                            noteId:
+                                result.insertId
+
+                        });
+
+                    }
+                );
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Create note controller error:",
+            error
+        );
+
+        return res.status(500).json({
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
+        });
+
+    }
 
 };
 
@@ -98,33 +165,64 @@ const createNote = (req, res) => {
 
 const getAllNotes = (req, res) => {
 
-    const userId = req.user.user_id;
+    try {
+
+        const userId = req.user.user_id;
 
 
-    noteModel.getAllNotes(
-        userId,
-        (err, notes) => {
+        noteModel.getAllNotes(
+            userId,
+            (err, notes) => {
 
-            if (err) {
+                if (err) {
 
-                return res.status(500).json({
-                    message: "Failed to fetch notes",
-                    error: err.message
+                    console.error(
+                        "Get all notes error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message: "Failed to fetch notes",
+                        error: err.message
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Notes fetched successfully",
+
+                    count:
+                        notes ? notes.length : 0,
+
+                    notes:
+                        notes || []
+
                 });
 
             }
+        );
 
+    } catch (error) {
 
-            return res.status(200).json({
+        console.error(
+            "Get all notes controller error:",
+            error
+        );
 
-                count: notes.length,
+        return res.status(500).json({
 
-                notes
+            message:
+                "Internal server error",
 
-            });
+            error:
+                error.message
 
-        }
-    );
+        });
+
+    }
 
 };
 
@@ -135,41 +233,85 @@ const getAllNotes = (req, res) => {
 
 const getNoteById = (req, res) => {
 
-    const userId = req.user.user_id;
+    try {
 
-    const noteId = req.params.id;
+        const userId = req.user.user_id;
 
-
-    noteModel.getNoteById(
-        userId,
-        noteId,
-        (err, notes) => {
-
-            if (err) {
-
-                return res.status(500).json({
-                    message: "Failed to fetch note",
-                    error: err.message
-                });
-
-            }
+        const noteId = req.params.id;
 
 
-            if (notes.length === 0) {
+        if (!noteId) {
 
-                return res.status(404).json({
-                    message: "Note not found"
-                });
-
-            }
-
-
-            return res.status(200).json(
-                notes[0]
-            );
+            return res.status(400).json({
+                message: "Note ID is required"
+            });
 
         }
-    );
+
+
+        noteModel.getNoteById(
+            userId,
+            noteId,
+            (err, notes) => {
+
+                if (err) {
+
+                    console.error(
+                        "Get note by ID error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message: "Failed to fetch note",
+                        error: err.message
+                    });
+
+                }
+
+
+                if (
+                    !notes ||
+                    notes.length === 0
+                ) {
+
+                    return res.status(404).json({
+                        message: "Note not found"
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Note fetched successfully",
+
+                    note:
+                        notes[0]
+
+                });
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Get note controller error:",
+            error
+        );
+
+        return res.status(500).json({
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
+        });
+
+    }
 
 };
 
@@ -180,103 +322,182 @@ const getNoteById = (req, res) => {
 
 const updateNote = (req, res) => {
 
-    const userId = req.user.user_id;
+    try {
 
-    const noteId = req.params.id;
+        const userId = req.user.user_id;
 
-
-    const {
-        subject_id,
-        title,
-        content,
-        is_pinned
-    } = req.body;
+        const noteId = req.params.id;
 
 
-    if (!subject_id || !title) {
-
-        return res.status(400).json({
-            message: "Subject and title are required"
-        });
-
-    }
-
-
-    // Verify subject belongs to user
-
-    noteModel.findSubjectById(
-        userId,
-        subject_id,
-        (err, subjects) => {
-
-            if (err) {
-
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
-                });
-
-            }
+        const {
+            subject_id,
+            title,
+            content,
+            is_pinned
+        } = req.body;
 
 
-            if (subjects.length === 0) {
+        // -------------------------
+        // Validate input
+        // -------------------------
 
-                return res.status(404).json({
-                    message: "Subject not found"
-                });
+        if (!subject_id) {
 
-            }
+            return res.status(400).json({
+                message: "Subject is required"
+            });
 
+        }
 
-            const note = {
+        if (!title || !title.trim()) {
 
-                subject_id,
+            return res.status(400).json({
+                message: "Note title is required"
+            });
 
-                title,
-
-                content: content || "",
-
-                is_pinned: is_pinned || false
-
-            };
-
-
-            noteModel.updateNote(
-                userId,
-                noteId,
-                note,
-                (err, result) => {
-
-                    if (err) {
-
-                        return res.status(500).json({
-                            message: "Failed to update note",
-                            error: err.message
-                        });
-
-                    }
+        }
 
 
-                    if (result.affectedRows === 0) {
+        if (!noteId) {
 
-                        return res.status(404).json({
-                            message: "Note not found"
-                        });
+            return res.status(400).json({
+                message: "Note ID is required"
+            });
 
-                    }
+        }
 
 
-                    return res.status(200).json({
+        // -------------------------
+        // Verify subject ownership
+        // -------------------------
 
-                        message: "Note updated successfully"
+        noteModel.findSubjectById(
+            userId,
+            subject_id,
+            (err, subjects) => {
 
+                if (err) {
+
+                    console.error(
+                        "Find subject error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message: "Database error",
+                        error: err.message
                     });
 
                 }
-            );
 
-        }
-    );
+
+                if (
+                    !subjects ||
+                    subjects.length === 0
+                ) {
+
+                    return res.status(404).json({
+                        message: "Subject not found"
+                    });
+
+                }
+
+
+                // -------------------------
+                // Prepare updated note
+                // -------------------------
+
+                const note = {
+
+                    subject_id,
+
+                    title:
+                        title.trim(),
+
+                    content:
+                        content !== undefined &&
+                        content !== null
+                            ? String(content)
+                            : "",
+
+                    is_pinned:
+                        is_pinned === true ||
+                        is_pinned === 1
+
+                };
+
+
+                // -------------------------
+                // Update note
+                // -------------------------
+
+                noteModel.updateNote(
+                    userId,
+                    noteId,
+                    note,
+                    (err, result) => {
+
+                        if (err) {
+
+                            console.error(
+                                "Update note error:",
+                                err
+                            );
+
+                            return res.status(500).json({
+                                message:
+                                    "Failed to update note",
+                                error:
+                                    err.message
+                            });
+
+                        }
+
+
+                        if (
+                            !result ||
+                            result.affectedRows === 0
+                        ) {
+
+                            return res.status(404).json({
+                                message:
+                                    "Note not found"
+                            });
+
+                        }
+
+
+                        return res.status(200).json({
+
+                            message:
+                                "Note updated successfully"
+
+                        });
+
+                    }
+                );
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Update note controller error:",
+            error
+        );
+
+        return res.status(500).json({
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
+        });
+
+    }
 
 };
 
@@ -287,43 +508,85 @@ const updateNote = (req, res) => {
 
 const deleteNote = (req, res) => {
 
-    const userId = req.user.user_id;
+    try {
 
-    const noteId = req.params.id;
+        const userId = req.user.user_id;
 
-
-    noteModel.deleteNote(
-        userId,
-        noteId,
-        (err, result) => {
-
-            if (err) {
-
-                return res.status(500).json({
-                    message: "Failed to delete note",
-                    error: err.message
-                });
-
-            }
+        const noteId = req.params.id;
 
 
-            if (result.affectedRows === 0) {
+        if (!noteId) {
 
-                return res.status(404).json({
-                    message: "Note not found"
-                });
-
-            }
-
-
-            return res.status(200).json({
-
-                message: "Note deleted successfully"
-
+            return res.status(400).json({
+                message: "Note ID is required"
             });
 
         }
-    );
+
+
+        noteModel.deleteNote(
+            userId,
+            noteId,
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Delete note error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message:
+                            "Failed to delete note",
+                        error:
+                            err.message
+                    });
+
+                }
+
+
+                if (
+                    !result ||
+                    result.affectedRows === 0
+                ) {
+
+                    return res.status(404).json({
+                        message:
+                            "Note not found"
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Note deleted successfully"
+
+                });
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Delete note controller error:",
+            error
+        );
+
+        return res.status(500).json({
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
+        });
+
+    }
 
 };
 

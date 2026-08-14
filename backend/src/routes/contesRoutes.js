@@ -2,66 +2,66 @@ const express = require("express");
 
 const router = express.Router();
 
-const noteController = require("../controllers/noteController");
+const contestController = require("../controllers/contestController");
 const verifyToken = require("../middleware/authMiddleware");
 
 
 // =========================
-// CREATE NOTE
+// CREATE CONTEST
 // =========================
 
 router.post(
     "/",
     verifyToken,
-    noteController.createNote
+    contestController.createContest
 );
 
 
 // =========================
-// GET ALL NOTES
+// GET ALL CONTESTS
 // =========================
 
 router.get(
     "/",
     verifyToken,
-    noteController.getAllNotes
+    contestController.getAllContests
 );
 
 
 // =========================
-// GET NOTE BY ID
+// GET CONTEST BY ID
 // =========================
 
 router.get(
     "/:id",
     verifyToken,
-    noteController.getNoteById
+    contestController.getContestById
 );
 
 
 // =========================
-// UPDATE NOTE
+// UPDATE CONTEST
 // =========================
 
 router.put(
     "/:id",
     verifyToken,
-    noteController.updateNote
+    contestController.updateContest
 );
 
 
 // =========================
-// DELETE NOTE
+// DELETE CONTEST
 // =========================
 
 router.delete(
     "/:id",
     verifyToken,
-    noteController.deleteNote
+    contestController.deleteContest
 );
 
 
-console.log("Note Routes Loaded");
+console.log("Contest Routes Loaded");
 
 
 module.exports = router;
