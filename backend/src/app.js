@@ -20,6 +20,7 @@ const studySessionRoutes = require("./routes/studySessionRoutes");
 const pomodoroRoutes = require("./routes/pomodoroRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const contestRoutes = require("./routes/contestRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
 
 app.use(express.json());
 
@@ -34,5 +35,6 @@ app.use("/api/study-sessions", studySessionRoutes);
 app.use("/api/pomodoro", pomodoroRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/contests", contestRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 module.exports = app;
