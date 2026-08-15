@@ -1,20 +1,145 @@
-import { useState } from "react";
-import { createContest } from "../../services/contestService";
+import { useEffect, useState } from "react";
+
+import {
+    createContest,
+    updateContest
+} from "../../services/contestService";
+
 import "./AddContestModal.css";
 
 
-function AddContestModal({ onClose, onContestAdded }) {
+function AddContestModal({
+    contest = null,
+    onClose,
+    onContestAdded,
+    onContestUpdated
+}) {
+
+    const isEditMode = Boolean(contest);
+
+
+    // =========================================
+    // FORM STATE
+    // =========================================
 
     const [formData, setFormData] = useState({
+
         platform: "LeetCode",
+
         contest_name: "",
+
         contest_date: "",
+
         contest_url: "",
+
         participation_status: "Upcoming"
+
     });
 
+
     const [loading, setLoading] = useState(false);
+
     const [error, setError] = useState("");
+
+
+    // =========================================
+    // LOAD CONTEST DATA FOR EDIT
+    // =========================================
+
+    useEffect(() => {
+
+        if (!contest) {
+
+            setFormData({
+
+                platform: "LeetCode",
+
+                contest_name: "",
+
+                contest_date: "",
+
+                contest_url: "",
+
+                participation_status: "Upcoming"
+
+            });
+
+            return;
+
+        }
+
+
+        setFormData({
+
+            platform:
+                contest.platform || "LeetCode",
+
+            contest_name:
+                contest.contest_name || "",
+
+            contest_date:
+                formatDateForInput(
+                    contest.contest_date
+                ),
+
+            contest_url:
+                contest.contest_url || "",
+
+            participation_status:
+                contest.participation_status ||
+                "Upcoming"
+
+        });
+
+    }, [contest]);
+
+
+    // =========================================
+    // FORMAT DATE FOR DATETIME-LOCAL
+    // =========================================
+
+    const formatDateForInput = (date) => {
+
+        if (!date) {
+            return "";
+        }
+
+
+        const parsedDate = new Date(date);
+
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return "";
+        }
+
+
+        const year =
+            parsedDate.getFullYear();
+
+        const month =
+            String(
+                parsedDate.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                parsedDate.getDate()
+            ).padStart(2, "0");
+
+        const hours =
+            String(
+                parsedDate.getHours()
+            ).padStart(2, "0");
+
+        const minutes =
+            String(
+                parsedDate.getMinutes()
+            ).padStart(2, "0");
+
+
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+
+    };
 
 
     // =========================================
@@ -23,12 +148,105 @@ function AddContestModal({ onClose, onContestAdded }) {
 
     const handleChange = (e) => {
 
-        const { name, value } = e.target;
+        const {
+            name,
+            value
+        } = e.target;
+
 
         setFormData((previousData) => ({
+
             ...previousData,
+
             [name]: value
+
         }));
+
+
+        // Clear previous error
+        if (error) {
+            setError("");
+        }
+
+    };
+
+
+    // =========================================
+    // VALIDATE FORM
+    // =========================================
+
+    const validateForm = () => {
+
+        if (!formData.platform) {
+
+            setError(
+                "Please select a platform."
+            );
+
+            return false;
+
+        }
+
+
+        if (
+            !formData.contest_name.trim()
+        ) {
+
+            setError(
+                "Contest name is required."
+            );
+
+            return false;
+
+        }
+
+
+        if (!formData.contest_date) {
+
+            setError(
+                "Contest date and time are required."
+            );
+
+            return false;
+
+        }
+
+
+        if (formData.contest_url.trim()) {
+
+            try {
+
+                new URL(
+                    formData.contest_url.trim()
+                );
+
+            } catch {
+
+                setError(
+                    "Please enter a valid contest URL."
+                );
+
+                return false;
+
+            }
+
+        }
+
+
+        if (
+            !formData.participation_status
+        ) {
+
+            setError(
+                "Please select a participation status."
+            );
+
+            return false;
+
+        }
+
+
+        return true;
 
     };
 
@@ -44,20 +262,8 @@ function AddContestModal({ onClose, onContestAdded }) {
         setError("");
 
 
-        // Basic validation
-
-        if (
-            !formData.platform ||
-            !formData.contest_name.trim() ||
-            !formData.contest_date
-        ) {
-
-            setError(
-                "Platform, contest name and contest date are required."
-            );
-
+        if (!validateForm()) {
             return;
-
         }
 
 
@@ -68,7 +274,8 @@ function AddContestModal({ onClose, onContestAdded }) {
 
             const contestData = {
 
-                platform: formData.platform,
+                platform:
+                    formData.platform,
 
                 contest_name:
                     formData.contest_name.trim(),
@@ -77,7 +284,8 @@ function AddContestModal({ onClose, onContestAdded }) {
                     formData.contest_date,
 
                 contest_url:
-                    formData.contest_url.trim() || null,
+                    formData.contest_url.trim() ||
+                    null,
 
                 participation_status:
                     formData.participation_status
@@ -85,26 +293,63 @@ function AddContestModal({ onClose, onContestAdded }) {
             };
 
 
-            await createContest(contestData);
+            // =================================
+            // EDIT CONTEST
+            // =================================
+
+            if (isEditMode) {
+
+                await updateContest(
+                    contest.contest_id,
+                    contestData
+                );
 
 
-            // Tell ContestList to refresh
+                if (onContestUpdated) {
 
-            if (onContestAdded) {
-                onContestAdded();
+                    onContestUpdated();
+
+                }
+
             }
 
+
+            // =================================
+            // CREATE CONTEST
+            // =================================
+
+            else {
+
+                await createContest(
+                    contestData
+                );
+
+
+                if (onContestAdded) {
+
+                    onContestAdded();
+
+                }
+
+            }
 
         } catch (err) {
 
             console.error(
-                "Failed to create contest:",
+                isEditMode
+                    ? "Failed to update contest:"
+                    : "Failed to create contest:",
                 err
             );
 
+
             setError(
-                err?.response?.data?.message ||
-                "Failed to create contest. Please try again."
+                err?.message ||
+                (
+                    isEditMode
+                        ? "Failed to update contest."
+                        : "Failed to create contest."
+                )
             );
 
         } finally {
@@ -120,16 +365,25 @@ function AddContestModal({ onClose, onContestAdded }) {
 
         <div
             className="contest-modal-overlay"
+
             onMouseDown={(e) => {
 
-                if (e.target === e.currentTarget) {
-                    onClose();
+                if (
+                    e.target ===
+                    e.currentTarget
+                ) {
+
+                    if (!loading) {
+                        onClose();
+                    }
+
                 }
 
             }}
         >
 
             <div className="contest-modal">
+
 
                 {/* =================================
                     HEADER
@@ -140,16 +394,32 @@ function AddContestModal({ onClose, onContestAdded }) {
                     <div>
 
                         <span className="contest-modal-label">
-                            CODING
+
+                            {isEditMode
+                                ? "UPDATE"
+                                : "CODING"
+                            }
+
                         </span>
 
+
                         <h2>
-                            Add Contest
+
+                            {isEditMode
+                                ? "Edit Contest"
+                                : "Add Contest"
+                            }
+
                         </h2>
 
+
                         <p>
-                            Add a coding contest to your
-                            productivity tracker.
+
+                            {isEditMode
+                                ? "Update the details of your coding contest."
+                                : "Add a coding contest to your productivity tracker."
+                            }
+
                         </p>
 
                     </div>
@@ -157,8 +427,12 @@ function AddContestModal({ onClose, onContestAdded }) {
 
                     <button
                         type="button"
+
                         className="contest-modal-close"
+
                         onClick={onClose}
+
+                        disabled={loading}
                     >
                         ×
                     </button>
@@ -173,7 +447,9 @@ function AddContestModal({ onClose, onContestAdded }) {
                 {error && (
 
                     <div className="contest-modal-error">
+
                         {error}
+
                     </div>
 
                 )}
@@ -185,22 +461,38 @@ function AddContestModal({ onClose, onContestAdded }) {
 
                 <form
                     className="contest-modal-form"
+
                     onSubmit={handleSubmit}
                 >
 
-                    {/* PLATFORM */}
+
+                    {/* =================================
+                        PLATFORM
+                    ================================= */}
 
                     <div className="contest-form-group">
 
                         <label htmlFor="platform">
+
                             Platform
+
                         </label>
+
 
                         <select
                             id="platform"
+
                             name="platform"
-                            value={formData.platform}
-                            onChange={handleChange}
+
+                            value={
+                                formData.platform
+                            }
+
+                            onChange={
+                                handleChange
+                            }
+
+                            disabled={loading}
                         >
 
                             <option value="LeetCode">
@@ -232,84 +524,146 @@ function AddContestModal({ onClose, onContestAdded }) {
                     </div>
 
 
-                    {/* CONTEST NAME */}
+                    {/* =================================
+                        CONTEST NAME
+                    ================================= */}
 
                     <div className="contest-form-group">
 
                         <label htmlFor="contest_name">
+
                             Contest Name
+
                         </label>
+
 
                         <input
                             id="contest_name"
+
                             type="text"
+
                             name="contest_name"
-                            value={formData.contest_name}
-                            onChange={handleChange}
+
+                            value={
+                                formData.contest_name
+                            }
+
+                            onChange={
+                                handleChange
+                            }
+
                             placeholder="e.g. LeetCode Weekly Contest"
+
                             maxLength={200}
+
+                            disabled={loading}
                         />
 
                     </div>
 
 
-                    {/* DATE */}
+                    {/* =================================
+                        CONTEST DATE
+                    ================================= */}
 
                     <div className="contest-form-group">
 
                         <label htmlFor="contest_date">
+
                             Contest Date & Time
+
                         </label>
+
 
                         <input
                             id="contest_date"
+
                             type="datetime-local"
+
                             name="contest_date"
-                            value={formData.contest_date}
-                            onChange={handleChange}
+
+                            value={
+                                formData.contest_date
+                            }
+
+                            onChange={
+                                handleChange
+                            }
+
+                            disabled={loading}
                         />
 
                     </div>
 
 
-                    {/* URL */}
+                    {/* =================================
+                        CONTEST URL
+                    ================================= */}
 
                     <div className="contest-form-group">
 
                         <label htmlFor="contest_url">
+
                             Contest URL
+
                             <span>
-                                {" "} (Optional)
+                                {" "}
+                                (Optional)
                             </span>
+
                         </label>
+
 
                         <input
                             id="contest_url"
+
                             type="url"
+
                             name="contest_url"
-                            value={formData.contest_url}
-                            onChange={handleChange}
+
+                            value={
+                                formData.contest_url
+                            }
+
+                            onChange={
+                                handleChange
+                            }
+
                             placeholder="https://leetcode.com/contest/..."
+
+                            disabled={loading}
                         />
 
                     </div>
 
 
-                    {/* STATUS */}
+                    {/* =================================
+                        PARTICIPATION STATUS
+                    ================================= */}
 
                     <div className="contest-form-group">
 
                         <label htmlFor="participation_status">
+
                             Participation Status
+
                         </label>
+
 
                         <select
                             id="participation_status"
+
                             name="participation_status"
+
                             value={
                                 formData.participation_status
                             }
-                            onChange={handleChange}
+
+                            onChange={
+                                handleChange
+                            }
+
+                            disabled={loading}
                         >
 
                             <option value="Upcoming">
@@ -335,28 +689,48 @@ function AddContestModal({ onClose, onContestAdded }) {
 
                     <div className="contest-modal-actions">
 
+
                         <button
                             type="button"
+
                             className="contest-modal-cancel"
+
                             onClick={onClose}
+
                             disabled={loading}
                         >
+
                             Cancel
+
                         </button>
 
 
                         <button
                             type="submit"
+
                             className="contest-modal-submit"
+
                             disabled={loading}
                         >
 
                             {loading
-                                ? "Adding..."
-                                : "Add Contest"
+
+                                ? (
+                                    isEditMode
+                                        ? "Updating..."
+                                        : "Adding..."
+                                )
+
+                                : (
+                                    isEditMode
+                                        ? "Update Contest"
+                                        : "Add Contest"
+                                )
+
                             }
 
                         </button>
+
 
                     </div>
 

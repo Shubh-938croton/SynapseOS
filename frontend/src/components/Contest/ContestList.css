@@ -641,3 +641,122 @@
     }
 
 }
+/* =========================================
+   CONTEST CARD ACTIONS
+========================================= */
+
+.contest-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.contest-edit-button {
+    padding: 7px 13px;
+
+    border: 1px solid #dbe3ee;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #475569;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.contest-edit-button:hover {
+    background: #f8fafc;
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+
+.contest-edit-button:active {
+    transform: scale(0.97);
+}
+
+
+.contest-edit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   DELETE BUTTON
+   Keep this if your current CSS does not
+   already define it.
+========================================= */
+
+.contest-delete-button {
+    padding: 7px 13px;
+
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #dc2626;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.contest-delete-button:hover {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+
+
+.contest-delete-button:active {
+    transform: scale(0.97);
+}
+
+
+.contest-delete-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .contest-card-footer {
+        flex-wrap: wrap;
+    }
+
+    .contest-card-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+}

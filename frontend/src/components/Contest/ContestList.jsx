@@ -13,18 +13,26 @@ import "./ContestList.css";
 
 function ContestList() {
 
+    // =========================================
+    // STATE
+    // =========================================
+
     const [contests, setContests] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
     const [error, setError] = useState("");
 
+    // Add modal
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+    // Edit modal
+    const [editingContest, setEditingContest] = useState(null);
 
     // Search
     const [searchTerm, setSearchTerm] = useState("");
 
-    // Sorting
+    // Sort
     const [sortBy, setSortBy] = useState("date-asc");
 
 
@@ -43,7 +51,9 @@ function ContestList() {
 
             const contestData =
                 response?.contests ||
-                (Array.isArray(response) ? response : []);
+                (Array.isArray(response)
+                    ? response
+                    : []);
 
             setContests(contestData);
 
@@ -55,7 +65,7 @@ function ContestList() {
             );
 
             setError(
-                err?.response?.data?.message ||
+                err?.message ||
                 "Failed to load contests"
             );
 
@@ -80,6 +90,19 @@ function ContestList() {
 
 
     // =========================================
+    // OPEN EDIT MODAL
+    // =========================================
+
+    const handleEdit = (contest) => {
+
+        setError("");
+
+        setEditingContest(contest);
+
+    };
+
+
+    // =========================================
     // DELETE CONTEST
     // =========================================
 
@@ -93,16 +116,22 @@ function ContestList() {
             return;
         }
 
+
         try {
+
+            setError("");
 
             await deleteContest(contestId);
 
-            setContests((previousContests) =>
-                previousContests.filter(
-                    (contest) =>
-                        contest.contest_id !== contestId
-                )
+
+            setContests(
+                (previousContests) =>
+                    previousContests.filter(
+                        (contest) =>
+                            contest.contest_id !== contestId
+                    )
             );
+
 
         } catch (err) {
 
@@ -112,7 +141,7 @@ function ContestList() {
             );
 
             setError(
-                err?.response?.data?.message ||
+                err?.message ||
                 "Failed to delete contest"
             );
 
@@ -135,6 +164,19 @@ function ContestList() {
 
 
     // =========================================
+    // CONTEST UPDATED
+    // =========================================
+
+    const handleContestUpdated = () => {
+
+        setEditingContest(null);
+
+        fetchContests();
+
+    };
+
+
+    // =========================================
     // FORMAT DATE
     // =========================================
 
@@ -144,7 +186,16 @@ function ContestList() {
             return "No date";
         }
 
-        return new Date(date).toLocaleDateString(
+
+        const parsedDate = new Date(date);
+
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return "No date";
+        }
+
+
+        return parsedDate.toLocaleDateString(
             "en-IN",
             {
                 day: "2-digit",
@@ -166,7 +217,16 @@ function ContestList() {
             return "";
         }
 
-        return new Date(date).toLocaleTimeString(
+
+        const parsedDate = new Date(date);
+
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return "";
+        }
+
+
+        return parsedDate.toLocaleTimeString(
             "en-IN",
             {
                 hour: "2-digit",
@@ -187,6 +247,7 @@ function ContestList() {
             return "contest-platform-other";
         }
 
+
         return `contest-platform-${platform
             .toLowerCase()
             .replace(/\s+/g, "-")}`;
@@ -204,7 +265,9 @@ function ContestList() {
             return "contest-status-upcoming";
         }
 
-        return `contest-status-${status.toLowerCase()}`;
+
+        return `contest-status-${status
+            .toLowerCase()}`;
 
     };
 
@@ -213,28 +276,35 @@ function ContestList() {
     // SEARCH + SORT
     // =========================================
 
-    const filteredContests = contests
+    const filteredContests = [...contests]
+
         .filter((contest) => {
 
-            const search = searchTerm
-                .trim()
-                .toLowerCase();
+            const search =
+                searchTerm
+                    .trim()
+                    .toLowerCase();
+
 
             if (!search) {
                 return true;
             }
 
+
             const contestName =
                 contest.contest_name
                     ?.toLowerCase() || "";
+
 
             const platform =
                 contest.platform
                     ?.toLowerCase() || "";
 
+
             const status =
                 contest.participation_status
                     ?.toLowerCase() || "";
+
 
             return (
                 contestName.includes(search) ||
@@ -243,6 +313,8 @@ function ContestList() {
             );
 
         })
+
+
         .sort((a, b) => {
 
             switch (sortBy) {
@@ -311,6 +383,7 @@ function ContestList() {
 
                 <div className="contest-page-container">
 
+
                     {/* =================================
                         PAGE HEADER
                     ================================= */}
@@ -323,9 +396,11 @@ function ContestList() {
                                 CODING
                             </div>
 
+
                             <h1>
                                 Coding Contests
                             </h1>
+
 
                             <p>
                                 Track upcoming and completed
@@ -336,6 +411,7 @@ function ContestList() {
 
 
                         <button
+                            type="button"
                             className="contest-add-button"
                             onClick={() =>
                                 setIsAddModalOpen(true)
@@ -351,77 +427,81 @@ function ContestList() {
                         SEARCH + SORT
                     ================================= */}
 
-                    {!loading && contests.length > 0 && (
+                    {!loading &&
+                        contests.length > 0 && (
 
-                        <div className="contest-controls">
+                            <div className="contest-controls">
 
-                            {/* SEARCH */}
 
-                            <div className="contest-search">
+                                {/* SEARCH */}
 
-                                <span className="contest-search-icon">
-                                    🔎
-                                </span>
+                                <div className="contest-search">
 
-                                <input
-                                    type="text"
-                                    placeholder="Search contests, platforms or status..."
-                                    value={searchTerm}
-                                    onChange={(e) =>
-                                        setSearchTerm(
-                                            e.target.value
-                                        )
-                                    }
-                                />
+                                    <span className="contest-search-icon">
+                                        🔎
+                                    </span>
+
+
+                                    <input
+                                        type="text"
+                                        placeholder="Search contests, platforms or status..."
+                                        value={searchTerm}
+                                        onChange={(e) =>
+                                            setSearchTerm(
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+
+                                </div>
+
+
+                                {/* SORT */}
+
+                                <div className="contest-sort">
+
+                                    <label htmlFor="contest-sort">
+                                        Sort by
+                                    </label>
+
+
+                                    <select
+                                        id="contest-sort"
+                                        value={sortBy}
+                                        onChange={(e) =>
+                                            setSortBy(
+                                                e.target.value
+                                            )
+                                        }
+                                    >
+
+                                        <option value="date-asc">
+                                            Upcoming first
+                                        </option>
+
+                                        <option value="date-desc">
+                                            Latest first
+                                        </option>
+
+                                        <option value="name-asc">
+                                            Name: A → Z
+                                        </option>
+
+                                        <option value="name-desc">
+                                            Name: Z → A
+                                        </option>
+
+                                        <option value="platform">
+                                            Platform
+                                        </option>
+
+                                    </select>
+
+                                </div>
 
                             </div>
 
-
-                            {/* SORT */}
-
-                            <div className="contest-sort">
-
-                                <label htmlFor="contest-sort">
-                                    Sort by
-                                </label>
-
-                                <select
-                                    id="contest-sort"
-                                    value={sortBy}
-                                    onChange={(e) =>
-                                        setSortBy(
-                                            e.target.value
-                                        )
-                                    }
-                                >
-
-                                    <option value="date-asc">
-                                        Upcoming first
-                                    </option>
-
-                                    <option value="date-desc">
-                                        Latest first
-                                    </option>
-
-                                    <option value="name-asc">
-                                        Name: A → Z
-                                    </option>
-
-                                    <option value="name-desc">
-                                        Name: Z → A
-                                    </option>
-
-                                    <option value="platform">
-                                        Platform
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                    )}
+                        )}
 
 
                     {/* =================================
@@ -431,7 +511,9 @@ function ContestList() {
                     {error && (
 
                         <div className="contest-error">
+
                             {error}
+
                         </div>
 
                     )}
@@ -453,6 +535,7 @@ function ContestList() {
 
                         </div>
 
+
                     ) : contests.length === 0 ? (
 
                         /* =================================
@@ -465,16 +548,20 @@ function ContestList() {
                                 🏆
                             </div>
 
+
                             <h2>
                                 No contests yet
                             </h2>
+
 
                             <p>
                                 Add your first coding contest
                                 to start tracking your progress.
                             </p>
 
+
                             <button
+                                type="button"
                                 className="contest-empty-button"
                                 onClick={() =>
                                     setIsAddModalOpen(true)
@@ -484,6 +571,7 @@ function ContestList() {
                             </button>
 
                         </div>
+
 
                     ) : filteredContests.length === 0 ? (
 
@@ -497,16 +585,20 @@ function ContestList() {
                                 🔎
                             </div>
 
+
                             <h2>
                                 No contests found
                             </h2>
+
 
                             <p>
                                 No contests match "{searchTerm}".
                                 Try a different search term.
                             </p>
 
+
                             <button
+                                type="button"
                                 className="contest-empty-button"
                                 onClick={() =>
                                     setSearchTerm("")
@@ -516,6 +608,7 @@ function ContestList() {
                             </button>
 
                         </div>
+
 
                     ) : (
 
@@ -530,10 +623,15 @@ function ContestList() {
 
                                     <div
                                         className="contest-card"
-                                        key={contest.contest_id}
+                                        key={
+                                            contest.contest_id
+                                        }
                                     >
 
-                                        {/* CARD HEADER */}
+
+                                        {/* =============================
+                                            CARD HEADER
+                                        ============================= */}
 
                                         <div className="contest-card-header">
 
@@ -548,6 +646,7 @@ function ContestList() {
                                                         contest.platform
                                                     }
                                                 </span>
+
 
                                                 <h2>
                                                     {
@@ -571,14 +670,21 @@ function ContestList() {
                                         </div>
 
 
-                                        {/* DIVIDER */}
+                                        {/* =============================
+                                            DIVIDER
+                                        ============================= */}
 
                                         <div className="contest-divider"></div>
 
 
-                                        {/* DETAILS */}
+                                        {/* =============================
+                                            DETAILS
+                                        ============================= */}
 
                                         <div className="contest-details">
+
+
+                                            {/* DATE */}
 
                                             <div className="contest-detail">
 
@@ -586,11 +692,13 @@ function ContestList() {
                                                     📅
                                                 </div>
 
+
                                                 <div>
 
                                                     <span className="contest-detail-label">
                                                         Date
                                                     </span>
+
 
                                                     <span className="contest-detail-value">
                                                         {
@@ -605,17 +713,21 @@ function ContestList() {
                                             </div>
 
 
+                                            {/* TIME */}
+
                                             <div className="contest-detail">
 
                                                 <div className="contest-detail-icon">
                                                     ⏰
                                                 </div>
 
+
                                                 <div>
 
                                                     <span className="contest-detail-label">
                                                         Time
                                                     </span>
+
 
                                                     <span className="contest-detail-value">
                                                         {
@@ -632,9 +744,14 @@ function ContestList() {
                                         </div>
 
 
-                                        {/* CARD FOOTER */}
+                                        {/* =============================
+                                            CARD FOOTER
+                                        ============================= */}
 
                                         <div className="contest-card-footer">
+
+
+                                            {/* OPEN CONTEST */}
 
                                             {contest.contest_url ? (
 
@@ -658,16 +775,41 @@ function ContestList() {
                                             )}
 
 
-                                            <button
-                                                className="contest-delete-button"
-                                                onClick={() =>
-                                                    handleDelete(
-                                                        contest.contest_id
-                                                    )
-                                                }
-                                            >
-                                                Delete
-                                            </button>
+                                            {/* ACTION BUTTONS */}
+
+                                            <div className="contest-card-actions">
+
+
+                                                {/* EDIT */}
+
+                                                <button
+                                                    type="button"
+                                                    className="contest-edit-button"
+                                                    onClick={() =>
+                                                        handleEdit(
+                                                            contest
+                                                        )
+                                                    }
+                                                >
+                                                    Edit
+                                                </button>
+
+
+                                                {/* DELETE */}
+
+                                                <button
+                                                    type="button"
+                                                    className="contest-delete-button"
+                                                    onClick={() =>
+                                                        handleDelete(
+                                                            contest.contest_id
+                                                        )
+                                                    }
+                                                >
+                                                    Delete
+                                                </button>
+
+                                            </div>
 
                                         </div>
 
@@ -695,6 +837,27 @@ function ContestList() {
                         }
                         onContestAdded={
                             handleContestAdded
+                        }
+                    />
+
+                )}
+
+
+                {/* =================================
+                    EDIT CONTEST MODAL
+                ================================= */}
+
+                {editingContest && (
+
+                    <AddContestModal
+                        contest={editingContest}
+
+                        onClose={() =>
+                            setEditingContest(null)
+                        }
+
+                        onContestUpdated={
+                            handleContestUpdated
                         }
                     />
 
