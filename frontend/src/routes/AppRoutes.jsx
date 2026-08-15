@@ -12,6 +12,8 @@ import Goals from "../pages/Goals/Goals";
 import StudySessions from "../pages/StudySessions/StudySessions";
 import Pomodoro from "../pages/Pomodoro/Pomodoro";
 
+import ContestList from "../components/Contest/ContestList";
+
 
 function AppRoutes() {
 
@@ -115,21 +117,47 @@ function AppRoutes() {
                     }
                 />
 
+
                 {/* =========================
-    STUDY SESSIONS
-========================= */}
+                    STUDY SESSIONS
+                ========================= */}
 
-<Route
-    path="/study-sessions"
-    element={
-        <ProtectedRoute>
-            <StudySessions />
-        </ProtectedRoute>
-    }
-/>
+                <Route
+                    path="/study-sessions"
+                    element={
+                        <ProtectedRoute>
+                            <StudySessions />
+                        </ProtectedRoute>
+                    }
+                />
 
 
-<Route path="/pomodoro" element={<Pomodoro />} />
+                {/* =========================
+                    POMODORO
+                ========================= */}
+
+                <Route
+                    path="/pomodoro"
+                    element={
+                        <ProtectedRoute>
+                            <Pomodoro />
+                        </ProtectedRoute>
+                    }
+                />
+
+
+                {/* =========================
+                    CODING CONTESTS
+                ========================= */}
+
+                <Route
+                    path="/contests"
+                    element={
+                        <ProtectedRoute>
+                            <ContestList />
+                        </ProtectedRoute>
+                    }
+                />
 
             </Routes>
 
@@ -140,6 +168,4 @@ function AppRoutes() {
 }
 
 
-export default AppRoutes;   
-
-
+export default AppRoutes;

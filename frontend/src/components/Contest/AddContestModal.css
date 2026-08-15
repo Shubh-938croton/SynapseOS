@@ -1,0 +1,480 @@
+/* =========================================
+   CONTEST MODAL OVERLAY
+========================================= */
+
+.contest-modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 1000;
+
+    animation: contestModalFadeIn 0.2s ease;
+}
+
+
+/* =========================================
+   MODAL
+========================================= */
+
+.contest-modal {
+    width: 100%;
+    max-width: 520px;
+
+    max-height: 90vh;
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 20px 45px rgba(15, 23, 42, 0.18);
+
+    animation: contestModalSlideUp 0.25s ease;
+}
+
+
+/* =========================================
+   MODAL HEADER
+========================================= */
+
+.contest-modal-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 20px;
+
+    padding: 24px 26px 20px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.contest-modal-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #4f46e5;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.contest-modal-header h2 {
+    margin: 0 0 6px;
+
+    color: #111827;
+
+    font-size: 22px;
+
+    font-weight: 700;
+}
+
+.contest-modal-header p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.contest-modal-close {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 24px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.contest-modal-close:hover {
+    background: #f1f5f9;
+    color: #111827;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.contest-modal-error {
+    margin: 18px 26px 0;
+
+    padding: 11px 13px;
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 9px;
+
+    color: #dc2626;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.contest-modal-form {
+    padding: 24px 26px 26px;
+}
+
+.contest-form-group {
+    margin-bottom: 18px;
+}
+
+.contest-form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.contest-form-group label span {
+    color: #94a3b8;
+
+    font-weight: 400;
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.contest-form-group input,
+.contest-form-group select {
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #1e293b;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+/* =========================================
+   INPUT FOCUS
+========================================= */
+
+.contest-form-group input:focus,
+.contest-form-group select:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
+
+    background: #ffffff;
+}
+
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+.contest-form-group input::placeholder {
+    color: #94a3b8;
+}
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+.contest-form-group select {
+    cursor: pointer;
+
+    appearance: auto;
+}
+
+
+/* =========================================
+   DATETIME INPUT
+========================================= */
+
+.contest-form-group input[type="datetime-local"] {
+    color: #334155;
+}
+
+
+/* =========================================
+   URL INPUT
+========================================= */
+
+.contest-form-group input[type="url"] {
+    font-size: 13px;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.contest-modal-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #e2e8f0;
+}
+
+
+/* =========================================
+   CANCEL
+========================================= */
+
+.contest-modal-cancel {
+    height: 40px;
+
+    padding: 0 17px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #475569;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.contest-modal-cancel:hover {
+    background: #f8fafc;
+
+    border-color: #94a3b8;
+
+    color: #1e293b;
+}
+
+
+/* =========================================
+   SUBMIT
+========================================= */
+
+.contest-modal-submit {
+    height: 40px;
+
+    padding: 0 18px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.contest-modal-submit:hover:not(:disabled) {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   DISABLED
+========================================= */
+
+.contest-modal-submit:disabled,
+.contest-modal-cancel:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+.contest-modal-submit:disabled {
+    transform: none;
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+.contest-modal::-webkit-scrollbar {
+    width: 7px;
+}
+
+.contest-modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.contest-modal::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+
+    border-radius: 10px;
+}
+
+.contest-modal::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes contestModalFadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+@keyframes contestModalSlideUp {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(15px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .contest-modal-overlay {
+        padding: 12px;
+    }
+
+    .contest-modal {
+        max-width: 100%;
+
+        border-radius: 14px;
+    }
+
+    .contest-modal-header {
+        padding: 20px;
+    }
+
+    .contest-modal-form {
+        padding: 20px;
+    }
+
+    .contest-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .contest-modal-cancel,
+    .contest-modal-submit {
+        width: 100%;
+    }
+
+}
