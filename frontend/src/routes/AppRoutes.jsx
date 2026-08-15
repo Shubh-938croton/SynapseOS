@@ -13,6 +13,7 @@ import StudySessions from "../pages/StudySessions/StudySessions";
 import Pomodoro from "../pages/Pomodoro/Pomodoro";
 
 import ContestList from "../components/Contest/ContestList";
+import Analytics from "../pages/Stats/Stats";
 
 
 function AppRoutes() {
@@ -60,6 +61,20 @@ function AppRoutes() {
                         </ProtectedRoute>
                     }
                 />
+
+
+                {/* =========================
+                    ANALYTICS
+                ========================= */}
+
+    {/* other routes */}
+
+                <Route
+                    path="/analytics"
+                    element={<Analytics />}
+                />
+
+                {/* other routes */}
 
 
                 {/* =========================
@@ -164,7 +179,6 @@ function AppRoutes() {
         </BrowserRouter>
 
     );
-
 }
 
 
