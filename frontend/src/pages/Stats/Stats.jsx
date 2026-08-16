@@ -492,94 +492,146 @@ function Stats() {
                     <div className="analytics-grid">
 
 
-                        {/* =================================
-                            DAILY STUDY TIME
-                        ================================= */}
+                       {/* =================================
+    DAILY STUDY TIME
+================================= */}
 
-                        <div className="analytics-panel">
+<div className="analytics-panel">
 
-                            <div className="analytics-panel-header">
+    <div className="analytics-panel-header">
 
-                                <div>
-                                    <h3>
-                                        Daily Study Time
-                                    </h3>
+        <div>
+            <h3>
+                Daily Study Time
+            </h3>
 
-                                    <p>
-                                        Study minutes recorded each day
-                                    </p>
-                                </div>
+            <p>
+                Study time recorded each day
+            </p>
+        </div>
 
-                            </div>
+        <span className="analytics-unit">
+            Hours
+        </span>
+
+    </div>
 
 
-                            {studyDailyTrend.length === 0 ? (
+    {studyDailyTrend.length === 0 ? (
 
-                                <div className="chart-empty">
-                                    No study data available yet.
-                                </div>
+        <div className="chart-empty">
+            No study data available yet.
+        </div>
 
-                            ) : (
+    ) : (
 
-                                <div className="study-chart">
+        <div className="study-chart-container">
 
-                                    {studyDailyTrend.map(
-                                        (item, index) => {
+            {/* 24 HOUR REFERENCE */}
 
-                                            const minutes =
-                                                Number(
-                                                    item.study_minutes
-                                                ) || 0;
+            <div className="study-chart-scale">
 
-                                            const height =
-                                                (
-                                                    minutes /
-                                                    maxStudyMinutes
-                                                ) * 100;
+                <span>24h</span>
+                <span>18h</span>
+                <span>12h</span>
+                <span>6h</span>
+                <span>0h</span>
 
-                                            return (
-                                                <div
-                                                    className="study-chart-column"
-                                                    key={`${item.study_date}-${index}`}
-                                                >
+            </div>
 
-                                                    <div className="chart-value">
-                                                        {formatMinutes(
-                                                            minutes
-                                                        )}
-                                                    </div>
 
-                                                    <div className="study-bar-wrapper">
+            {/* CHART */}
 
-                                                        <div
-                                                            className="study-bar"
-                                                            style={{
-                                                                height:
-                                                                    `${Math.max(
-                                                                        height,
-                                                                        4
-                                                                    )}%`
-                                                            }}
-                                                        />
+            <div className="study-chart">
 
-                                                    </div>
+                {studyDailyTrend.map(
+                    (item, index) => {
 
-                                                    <span className="chart-label">
-                                                        {formatDate(
-                                                            item.study_date
-                                                        )}
-                                                    </span>
+                        const minutes =
+                            Number(
+                                item.study_minutes
+                            ) || 0;
 
-                                                </div>
-                                            );
-                                        }
+
+                        const hours =
+                            minutes / 60;
+
+
+                        /*
+                         * Scale against 24 hours.
+                         *
+                         * 1440 minutes = 24 hours
+                         */
+
+                        const height =
+                            Math.min(
+                                (minutes / 1440) * 100,
+                                100
+                            );
+
+
+                        return (
+
+                            <div
+                                className="study-chart-column"
+                                key={
+                                    `${item.study_date}-${index}`
+                                }
+                            >
+
+                                {/* VALUE */}
+
+                                <div className="chart-value">
+
+                                    {formatMinutes(
+                                        minutes
                                     )}
 
                                 </div>
 
-                            )}
 
-                        </div>
+                                {/* BAR */}
+
+                                <div className="study-bar-wrapper">
+
+                                    <div
+                                        className="study-bar"
+                                        style={{
+                                            height:
+                                                `${Math.max(
+                                                    height,
+                                                    3
+                                                )}%`
+                                        }}
+                                    />
+
+                                </div>
+
+
+                                {/* DATE */}
+
+                                <span className="chart-label">
+
+                                    {formatDate(
+                                        item.study_date
+                                    )}
+
+                                </span>
+
+                            </div>
+
+                        );
+
+                    }
+                )}
+
+            </div>
+
+        </div>
+
+    )}
+
+</div>
 
 
                         {/* =================================
