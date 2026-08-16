@@ -1,174 +1,501 @@
-const db = require("../config/database");
+const studySessionModel = require("../models/studySessionModel");
 
-// ===============================
-// Create Study Session
-// ===============================
-const createStudySession = (session, callback) => {
 
-    const query = `
-        INSERT INTO study_sessions
-        (
-            user_id,
+// =======================================
+// CREATE STUDY SESSION
+// =======================================
+
+const createStudySession = async (req, res) => {
+
+    try {
+
+        const userId = req.user.user_id;
+
+        const {
             subject_id,
             topic,
             start_time,
             end_time,
-            duration_minutes,
             session_notes
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    `;
+        } = req.body;
 
-    db.query(
-        query,
-        [
-            session.user_id,
-            session.subject_id,
-            session.topic,
-            session.start_time,
-            session.end_time,
-            session.duration_minutes,
-            session.session_notes
-        ],
-        (err, result) => {
 
-            if (err) {
-                return callback(err, null);
+        // =======================================
+        // VALIDATION
+        // =======================================
+
+        if (
+            !subject_id ||
+            !topic ||
+            !start_time ||
+            !end_time
+        ) {
+
+            return res.status(400).json({
+                message: "Subject, topic, start time and end time are required"
+            });
+
+        }
+
+
+        // =======================================
+        // CALCULATE DURATION
+        // =======================================
+
+        const start = new Date(start_time);
+        const end = new Date(end_time);
+
+        const durationMinutes =
+            Math.floor(
+                (end - start) / (1000 * 60)
+            );
+
+
+        // =======================================
+        // VALIDATE DURATION
+        // =======================================
+
+        if (durationMinutes <= 0) {
+
+            return res.status(400).json({
+                message: "End time must be after start time"
+            });
+
+        }
+
+
+        if (durationMinutes > 1440) {
+
+            return res.status(400).json({
+                message: "Study session cannot exceed 24 hours"
+            });
+
+        }
+
+
+        // =======================================
+        // CREATE SESSION
+        // =======================================
+
+        studySessionModel.createStudySession(
+
+            userId,
+            subject_id,
+            topic,
+            start_time,
+            end_time,
+            durationMinutes,
+            session_notes,
+
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Create Study Session Error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message: "Failed to create study session",
+                        error: err.message
+                    });
+
+                }
+
+
+                return res.status(201).json({
+
+                    message: "Study session created successfully",
+
+                    session_id:
+                        result.insertId
+
+                });
+
             }
 
-            callback(null, result);
+        );
 
-        }
-    );
+    } catch (err) {
 
-};
+        console.error(
+            "Create Study Session Controller Error:",
+            err
+        );
 
-// ===============================
-// Get All Study Sessions
-// ===============================
-const getAllStudySessions = (userId, callback) => {
+        return res.status(500).json({
+            message: "Server error",
+            error: err.message
+        });
 
-    const query = `
-        SELECT
-            ss.*,
-            s.subject_name
-        FROM study_sessions ss
-        INNER JOIN subjects s
-            ON ss.subject_id = s.subject_id
-        WHERE ss.user_id = ?
-        ORDER BY ss.created_at DESC
-    `;
-
-    db.query(query, [userId], (err, results) => {
-
-        if (err) {
-            return callback(err, null);
-        }
-
-        callback(null, results);
-
-    });
+    }
 
 };
 
-// ===============================
-// Get Study Session By ID
-// ===============================
-const getStudySessionById = (userId, sessionId, callback) => {
 
-    const query = `
-        SELECT
-            ss.*,
-            s.subject_name
-        FROM study_sessions ss
-        INNER JOIN subjects s
-            ON ss.subject_id = s.subject_id
-        WHERE ss.session_id = ?
-        AND ss.user_id = ?
-    `;
+// =======================================
+// GET ALL STUDY SESSIONS
+// =======================================
 
-    db.query(query, [sessionId, userId], (err, results) => {
+const getAllStudySessions = async (req, res) => {
 
-        if (err) {
-            return callback(err, null);
-        }
+    try {
 
-        callback(null, results);
+        const userId = req.user.user_id;
 
-    });
 
-};
+        studySessionModel.getAllStudySessions(
 
-// ===============================
-// Update Study Session
-// ===============================
-const updateStudySession = (session, callback) => {
+            userId,
 
-    const query = `
-        UPDATE study_sessions
-        SET
-            subject_id = ?,
-            topic = ?,
-            start_time = ?,
-            end_time = ?,
-            duration_minutes = ?,
-            session_notes = ?
-        WHERE session_id = ?
-        AND user_id = ?
-    `;
+            (err, results) => {
 
-    db.query(
-        query,
-        [
-            session.subject_id,
-            session.topic,
-            session.start_time,
-            session.end_time,
-            session.duration_minutes,
-            session.session_notes,
-            session.session_id,
-            session.user_id
-        ],
-        (err, result) => {
+                if (err) {
 
-            if (err) {
-                return callback(err, null);
+                    console.error(
+                        "Get Study Sessions Error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message: "Failed to fetch study sessions",
+                        error: err.message
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Study sessions fetched successfully",
+
+                    sessions: results
+
+                });
+
             }
 
-            callback(null, result);
+        );
 
-        }
-    );
+    } catch (err) {
+
+        console.error(
+            "Get Study Sessions Controller Error:",
+            err
+        );
+
+        return res.status(500).json({
+            message: "Server error",
+            error: err.message
+        });
+
+    }
+
+};
+
+
+// =======================================
+// GET STUDY SESSION BY ID
+// =======================================
+
+const getStudySessionById = async (req, res) => {
+
+    try {
+
+        const userId = req.user.user_id;
+
+        const sessionId = req.params.id;
+
+
+        studySessionModel.getStudySessionById(
+
+            userId,
+            sessionId,
+
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Get Study Session Error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message: "Failed to fetch study session",
+                        error: err.message
+                    });
+
+                }
+
+
+                if (!result || result.length === 0) {
+
+                    return res.status(404).json({
+                        message: "Study session not found"
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Study session fetched successfully",
+
+                    session: result[0]
+
+                });
+
+            }
+
+        );
+
+    } catch (err) {
+
+        console.error(
+            "Get Study Session By ID Controller Error:",
+            err
+        );
+
+        return res.status(500).json({
+            message: "Server error",
+            error: err.message
+        });
+
+    }
 
 };
 
-// ===============================
-// Delete Study Session
-// ===============================
-const deleteStudySession = (userId, sessionId, callback) => {
 
-    const query = `
-        DELETE FROM study_sessions
-        WHERE session_id = ?
-        AND user_id = ?
-    `;
+// =======================================
+// UPDATE STUDY SESSION
+// =======================================
 
-    db.query(query, [sessionId, userId], (err, result) => {
+const updateStudySession = async (req, res) => {
 
-        if (err) {
-            return callback(err, null);
+    try {
+
+        const userId = req.user.user_id;
+
+        const sessionId = req.params.id;
+
+
+        const {
+            subject_id,
+            topic,
+            start_time,
+            end_time,
+            session_notes
+        } = req.body;
+
+
+        // =======================================
+        // VALIDATION
+        // =======================================
+
+        if (
+            !subject_id ||
+            !topic ||
+            !start_time ||
+            !end_time
+        ) {
+
+            return res.status(400).json({
+                message: "Subject, topic, start time and end time are required"
+            });
+
         }
 
-        callback(null, result);
 
-    });
+        // =======================================
+        // RECALCULATE DURATION
+        // =======================================
+
+        const start = new Date(start_time);
+        const end = new Date(end_time);
+
+        const durationMinutes =
+            Math.floor(
+                (end - start) / (1000 * 60)
+            );
+
+
+        // =======================================
+        // VALIDATE DURATION
+        // =======================================
+
+        if (durationMinutes <= 0) {
+
+            return res.status(400).json({
+                message: "End time must be after start time"
+            });
+
+        }
+
+
+        if (durationMinutes > 1440) {
+
+            return res.status(400).json({
+                message: "Study session cannot exceed 24 hours"
+            });
+
+        }
+
+
+        // =======================================
+        // UPDATE SESSION
+        // =======================================
+
+        studySessionModel.updateStudySession(
+
+            userId,
+            sessionId,
+            subject_id,
+            topic,
+            start_time,
+            end_time,
+            durationMinutes,
+            session_notes,
+
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Update Study Session Error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message: "Failed to update study session",
+                        error: err.message
+                    });
+
+                }
+
+
+                if (result.affectedRows === 0) {
+
+                    return res.status(404).json({
+                        message: "Study session not found"
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Study session updated successfully"
+
+                });
+
+            }
+
+        );
+
+    } catch (err) {
+
+        console.error(
+            "Update Study Session Controller Error:",
+            err
+        );
+
+        return res.status(500).json({
+            message: "Server error",
+            error: err.message
+        });
+
+    }
 
 };
+
+
+// =======================================
+// DELETE STUDY SESSION
+// =======================================
+
+const deleteStudySession = async (req, res) => {
+
+    try {
+
+        const userId = req.user.user_id;
+
+        const sessionId = req.params.id;
+
+
+        studySessionModel.deleteStudySession(
+
+            userId,
+            sessionId,
+
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Delete Study Session Error:",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        message: "Failed to delete study session",
+                        error: err.message
+                    });
+
+                }
+
+
+                if (result.affectedRows === 0) {
+
+                    return res.status(404).json({
+                        message: "Study session not found"
+                    });
+
+                }
+
+
+                return res.status(200).json({
+
+                    message:
+                        "Study session deleted successfully"
+
+                });
+
+            }
+
+        );
+
+    } catch (err) {
+
+        console.error(
+            "Delete Study Session Controller Error:",
+            err
+        );
+
+        return res.status(500).json({
+            message: "Server error",
+            error: err.message
+        });
+
+    }
+
+};
+
+
+// =======================================
+// EXPORT
+// =======================================
 
 module.exports = {
+
     createStudySession,
     getAllStudySessions,
     getStudySessionById,
     updateStudySession,
     deleteStudySession
+
 };

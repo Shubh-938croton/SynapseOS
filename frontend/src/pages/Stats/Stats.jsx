@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import { getAnalytics } from "../../services/analyticsService";
@@ -5,260 +6,251 @@ import { getAnalytics } from "../../services/analyticsService";
 import "./Stats.css";
 
 function Stats() {
-
     const [analytics, setAnalytics] = useState(null);
-
     const [loading, setLoading] = useState(true);
-
     const [error, setError] = useState("");
-
 
     // =======================================
     // FETCH ANALYTICS
     // =======================================
 
     useEffect(() => {
-
         const fetchAnalytics = async () => {
-
             try {
-
                 const response = await getAnalytics();
 
-                console.log(
-                    "Analytics API Response:",
-                    response
-                );
+                console.log("Analytics API Response:", response);
 
                 setAnalytics(response);
-
             } catch (err) {
-
-                console.error(
-                    "Analytics Error:",
-                    err
-                );
+                console.error("Analytics Error:", err);
 
                 setError(
-                    err.message ||
-                    "Failed to load analytics"
+                    err.message || "Failed to load analytics"
                 );
-
             } finally {
-
                 setLoading(false);
-
             }
-
         };
 
         fetchAnalytics();
-
     }, []);
-
 
     // =======================================
     // LOADING
     // =======================================
 
     if (loading) {
-
         return (
-
             <DashboardLayout>
-
                 <div className="stats-state">
-
                     <div className="stats-spinner"></div>
-
-                    <p>
-                        Loading analytics...
-                    </p>
-
+                    <p>Loading analytics...</p>
                 </div>
-
             </DashboardLayout>
-
         );
-
     }
-
 
     // =======================================
     // ERROR
     // =======================================
 
     if (error) {
-
         return (
-
             <DashboardLayout>
-
                 <div className="stats-state stats-error-state">
-
-                    <div className="stats-error-icon">
-                        !
-                    </div>
+                    <div className="stats-error-icon">!</div>
 
                     <h2>
                         Unable to load analytics
                     </h2>
 
-                    <p>
-                        {error}
-                    </p>
-
+                    <p>{error}</p>
                 </div>
-
             </DashboardLayout>
-
         );
-
     }
 
-
     // =======================================
-    // OVERVIEW DATA
+    // BACKEND DATA
     // =======================================
-
-    /*
-        Backend response:
-
-        {
-            overview: {
-                totalTasks,
-                completedTasks,
-                pendingTasks,
-                totalStudyMinutes,
-                totalPomodoroSessions,
-                totalNotes,
-                averageProgress,
-                ...
-            },
-
-            tasks: {...},
-            study: {...},
-            progress: {...},
-            pomodoro: {...},
-            goals: {...},
-            contests: {...},
-            notes: {...},
-            calendar: {...}
-        }
-    */
 
     const overview = analytics?.overview || {};
 
+    const studyDailyTrend =
+        analytics?.study?.dailyTrend || [];
+
+    const studyBySubject =
+        analytics?.study?.bySubject || [];
+
+    const taskCompletionTrend =
+        analytics?.tasks?.completionTrend || [];
+
+    const pomodoroDailyTrend =
+        analytics?.pomodoro?.dailyTrend || [];
+
+    const notesBySubject =
+        analytics?.notes?.bySubject || [];
+
+    const contestsByPlatform =
+        analytics?.contests?.byPlatform || [];
 
     // =======================================
-    // VALUES
+    // OVERVIEW VALUES
     // =======================================
 
     const totalStudyMinutes =
-        Number(
-            overview.totalStudyMinutes
-        ) || 0;
-
+        Number(overview.totalStudyMinutes) || 0;
 
     const tasksCompleted =
-        Number(
-            overview.completedTasks
-        ) || 0;
-
+        Number(overview.completedTasks) || 0;
 
     const totalTasks =
-        Number(
-            overview.totalTasks
-        ) || 0;
-
+        Number(overview.totalTasks) || 0;
 
     const pendingTasks =
-        Number(
-            overview.pendingTasks
-        ) || 0;
-
+        Number(overview.pendingTasks) || 0;
 
     const notesCreated =
-        Number(
-            overview.totalNotes
-        ) || 0;
-
+        Number(overview.totalNotes) || 0;
 
     const pomodoroSessions =
-        Number(
-            overview.totalPomodoroSessions
-        ) || 0;
-
+        Number(overview.totalPomodoroSessions) || 0;
 
     const goalProgress =
-        Number(
-            overview.averageProgress
-        ) || 0;
-
-
-    // =======================================
-    // STUDY TIME
-    // =======================================
+        Number(overview.averageProgress) || 0;
 
     const studyHours =
-        Math.floor(
-            totalStudyMinutes / 60
-        );
-
+        Math.floor(totalStudyMinutes / 60);
 
     const remainingMinutes =
         totalStudyMinutes % 60;
 
-
-    // =======================================
-    // TASK PROGRESS
-    // =======================================
-
     const taskProgress =
         totalTasks > 0
             ? Math.min(
-                (
-                    tasksCompleted /
-                    totalTasks
-                ) * 100,
+                (tasksCompleted / totalTasks) * 100,
                 100
             )
             : 0;
 
-
-    // =======================================
-    // SAFE GOAL PROGRESS
-    // =======================================
-
     const safeGoalProgress =
         Math.min(
-            Math.max(
-                goalProgress,
-                0
-            ),
+            Math.max(goalProgress, 0),
             100
         );
 
+    // =======================================
+    // HELPER FUNCTIONS
+    // =======================================
+
+    const formatDate = (date) => {
+        if (!date) return "";
+
+        const parsedDate = new Date(date);
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return date;
+        }
+
+        return parsedDate.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short"
+            }
+        );
+    };
+
+    const formatMinutes = (minutes) => {
+        const value = Number(minutes) || 0;
+
+        if (value < 60) {
+            return `${value} min`;
+        }
+
+        const hours = Math.floor(value / 60);
+        const mins = value % 60;
+
+        return mins > 0
+            ? `${hours}h ${mins}m`
+            : `${hours}h`;
+    };
+
+    // =======================================
+    // MAXIMUM VALUES FOR CHARTS
+    // =======================================
+
+    const maxStudyMinutes =
+        Math.max(
+            ...studyDailyTrend.map(
+                item =>
+                    Number(item.study_minutes) || 0
+            ),
+            1
+        );
+
+    const maxSubjectMinutes =
+        Math.max(
+            ...studyBySubject.map(
+                item =>
+                    Number(item.study_minutes) || 0
+            ),
+            1
+        );
+
+    const maxCompletedTasks =
+        Math.max(
+            ...taskCompletionTrend.map(
+                item =>
+                    Number(item.completed_count) || 0
+            ),
+            1
+        );
+
+    const maxPomodoroSessions =
+        Math.max(
+            ...pomodoroDailyTrend.map(
+                item =>
+                    Number(item.session_count) || 0
+            ),
+            1
+        );
+
+    const maxNotes =
+        Math.max(
+            ...notesBySubject.map(
+                item =>
+                    Number(item.note_count) || 0
+            ),
+            1
+        );
+
+    const maxContests =
+        Math.max(
+            ...contestsByPlatform.map(
+                item =>
+                    Number(item.contest_count) || 0
+            ),
+            1
+        );
 
     // =======================================
     // PAGE
     // =======================================
 
     return (
-
         <DashboardLayout>
 
             <div className="stats-page">
 
-
                 {/* =================================
-                    PAGE HEADER
+                    HEADER
                 ================================= */}
 
                 <div className="stats-header">
 
                     <div>
-
                         <span className="stats-eyebrow">
                             PRODUCTIVITY
                         </span>
@@ -271,7 +263,6 @@ function Stats() {
                             Track your study activity,
                             tasks and overall progress.
                         </p>
-
                     </div>
 
                 </div>
@@ -287,20 +278,13 @@ function Stats() {
                         Overview
                     </h2>
 
-
                     <div className="stats-cards">
-
-
-                        {/* =========================
-                            STUDY TIME
-                        ========================= */}
 
                         <div className="stats-card">
 
                             <div className="stats-card-icon study-icon">
                                 ⏱
                             </div>
-
 
                             <div className="stats-card-content">
 
@@ -318,16 +302,11 @@ function Stats() {
                         </div>
 
 
-                        {/* =========================
-                            TASKS COMPLETED
-                        ========================= */}
-
                         <div className="stats-card">
 
                             <div className="stats-card-icon task-icon">
                                 ✓
                             </div>
-
 
                             <div className="stats-card-content">
 
@@ -344,16 +323,11 @@ function Stats() {
                         </div>
 
 
-                        {/* =========================
-                            NOTES
-                        ========================= */}
-
                         <div className="stats-card">
 
                             <div className="stats-card-icon note-icon">
                                 📝
                             </div>
-
 
                             <div className="stats-card-content">
 
@@ -370,16 +344,11 @@ function Stats() {
                         </div>
 
 
-                        {/* =========================
-                            POMODORO
-                        ========================= */}
-
                         <div className="stats-card">
 
                             <div className="stats-card-icon pomodoro-icon">
                                 🍅
                             </div>
-
 
                             <div className="stats-card-content">
 
@@ -410,13 +379,8 @@ function Stats() {
                         Progress
                     </h2>
 
-
                     <div className="stats-progress-grid">
 
-
-                        {/* =========================
-                            GOAL PROGRESS
-                        ========================= */}
 
                         <div className="stats-panel">
 
@@ -434,13 +398,11 @@ function Stats() {
 
                                 </div>
 
-
                                 <strong className="progress-value">
                                     {safeGoalProgress}%
                                 </strong>
 
                             </div>
-
 
                             <div className="progress-track">
 
@@ -456,10 +418,6 @@ function Stats() {
 
                         </div>
 
-
-                        {/* =========================
-                            TASK PROGRESS
-                        ========================= */}
 
                         <div className="stats-panel">
 
@@ -477,20 +435,16 @@ function Stats() {
 
                                 </div>
 
-
                                 <strong className="progress-value">
-                                    {Math.round(
-                                        taskProgress
-                                    )}%
+                                    {Math.round(taskProgress)}%
                                 </strong>
 
                             </div>
 
-
                             <div className="progress-track">
 
                                 <div
-                                    className="progress-fill task-progress"
+                                    className="progress-fill"
                                     style={{
                                         width:
                                             `${taskProgress}%`
@@ -499,28 +453,20 @@ function Stats() {
 
                             </div>
 
-
                             <div className="task-summary">
 
                                 <span>
-
                                     Completed:{" "}
-
                                     <strong>
                                         {tasksCompleted}
                                     </strong>
-
                                 </span>
 
-
                                 <span>
-
                                     Pending:{" "}
-
                                     <strong>
                                         {pendingTasks}
                                     </strong>
-
                                 </span>
 
                             </div>
@@ -543,25 +489,546 @@ function Stats() {
                     </h2>
 
 
-                    <div className="stats-activity-panel">
+                    <div className="analytics-grid">
 
-                        <div className="activity-empty">
 
-                            <div className="activity-icon">
-                                📊
+                        {/* =================================
+                            DAILY STUDY TIME
+                        ================================= */}
+
+                        <div className="analytics-panel">
+
+                            <div className="analytics-panel-header">
+
+                                <div>
+                                    <h3>
+                                        Daily Study Time
+                                    </h3>
+
+                                    <p>
+                                        Study minutes recorded each day
+                                    </p>
+                                </div>
+
                             </div>
 
 
-                            <h3>
-                                Detailed activity coming next
-                            </h3>
+                            {studyDailyTrend.length === 0 ? (
+
+                                <div className="chart-empty">
+                                    No study data available yet.
+                                </div>
+
+                            ) : (
+
+                                <div className="study-chart">
+
+                                    {studyDailyTrend.map(
+                                        (item, index) => {
+
+                                            const minutes =
+                                                Number(
+                                                    item.study_minutes
+                                                ) || 0;
+
+                                            const height =
+                                                (
+                                                    minutes /
+                                                    maxStudyMinutes
+                                                ) * 100;
+
+                                            return (
+                                                <div
+                                                    className="study-chart-column"
+                                                    key={`${item.study_date}-${index}`}
+                                                >
+
+                                                    <div className="chart-value">
+                                                        {formatMinutes(
+                                                            minutes
+                                                        )}
+                                                    </div>
+
+                                                    <div className="study-bar-wrapper">
+
+                                                        <div
+                                                            className="study-bar"
+                                                            style={{
+                                                                height:
+                                                                    `${Math.max(
+                                                                        height,
+                                                                        4
+                                                                    )}%`
+                                                            }}
+                                                        />
+
+                                                    </div>
+
+                                                    <span className="chart-label">
+                                                        {formatDate(
+                                                            item.study_date
+                                                        )}
+                                                    </span>
+
+                                                </div>
+                                            );
+                                        }
+                                    )}
+
+                                </div>
+
+                            )}
+
+                        </div>
 
 
-                            <p>
-                                Your study sessions,
-                                subjects and daily activity
-                                will appear here.
-                            </p>
+                        {/* =================================
+                            STUDY BY SUBJECT
+                        ================================= */}
+
+                        <div className="analytics-panel">
+
+                            <div className="analytics-panel-header">
+
+                                <div>
+                                    <h3>
+                                        Study Time by Subject
+                                    </h3>
+
+                                    <p>
+                                        Total study time for each subject
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            {studyBySubject.length === 0 ? (
+
+                                <div className="chart-empty">
+                                    No subject study data available.
+                                </div>
+
+                            ) : (
+
+                                <div className="horizontal-chart">
+
+                                    {studyBySubject.map(
+                                        (item, index) => {
+
+                                            const minutes =
+                                                Number(
+                                                    item.study_minutes
+                                                ) || 0;
+
+                                            const width =
+                                                (
+                                                    minutes /
+                                                    maxSubjectMinutes
+                                                ) * 100;
+
+                                            return (
+                                                <div
+                                                    className="horizontal-chart-row"
+                                                    key={`${item.subject_name}-${index}`}
+                                                >
+
+                                                    <div className="horizontal-chart-info">
+
+                                                        <span>
+                                                            {item.subject_name ||
+                                                                "Unknown"}
+                                                        </span>
+
+                                                        <strong>
+                                                            {formatMinutes(
+                                                                minutes
+                                                            )}
+                                                        </strong>
+
+                                                    </div>
+
+                                                    <div className="horizontal-track">
+
+                                                        <div
+                                                            className="horizontal-fill"
+                                                            style={{
+                                                                width:
+                                                                    `${Math.max(
+                                                                        width,
+                                                                        3
+                                                                    )}%`
+                                                            }}
+                                                        />
+
+                                                    </div>
+
+                                                </div>
+                                            );
+                                        }
+                                    )}
+
+                                </div>
+
+                            )}
+
+                        </div>
+
+
+                        {/* =================================
+                            TASK COMPLETION
+                        ================================= */}
+
+                        <div className="analytics-panel">
+
+                            <div className="analytics-panel-header">
+
+                                <div>
+                                    <h3>
+                                        Task Completion
+                                    </h3>
+
+                                    <p>
+                                        Tasks completed over time
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            {taskCompletionTrend.length === 0 ? (
+
+                                <div className="chart-empty">
+                                    No completed tasks recorded yet.
+                                </div>
+
+                            ) : (
+
+                                <div className="mini-chart">
+
+                                    {taskCompletionTrend.map(
+                                        (item, index) => {
+
+                                            const count =
+                                                Number(
+                                                    item.completed_count
+                                                ) || 0;
+
+                                            const height =
+                                                (
+                                                    count /
+                                                    maxCompletedTasks
+                                                ) * 100;
+
+                                            return (
+                                                <div
+                                                    className="mini-chart-column"
+                                                    key={`${item.completion_date}-${index}`}
+                                                >
+
+                                                    <span>
+                                                        {count}
+                                                    </span>
+
+                                                    <div className="mini-bar-track">
+
+                                                        <div
+                                                            className="mini-bar"
+                                                            style={{
+                                                                height:
+                                                                    `${Math.max(
+                                                                        height,
+                                                                        4
+                                                                    )}%`
+                                                            }}
+                                                        />
+
+                                                    </div>
+
+                                                    <small>
+                                                        {formatDate(
+                                                            item.completion_date
+                                                        )}
+                                                    </small>
+
+                                                </div>
+                                            );
+                                        }
+                                    )}
+
+                                </div>
+
+                            )}
+
+                        </div>
+
+
+                        {/* =================================
+                            POMODORO
+                        ================================= */}
+
+                        <div className="analytics-panel">
+
+                            <div className="analytics-panel-header">
+
+                                <div>
+                                    <h3>
+                                        Pomodoro Activity
+                                    </h3>
+
+                                    <p>
+                                        Daily completed Pomodoro sessions
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            {pomodoroDailyTrend.length === 0 ? (
+
+                                <div className="chart-empty">
+                                    No Pomodoro data available yet.
+                                </div>
+
+                            ) : (
+
+                                <div className="mini-chart">
+
+                                    {pomodoroDailyTrend.map(
+                                        (item, index) => {
+
+                                            const sessions =
+                                                Number(
+                                                    item.session_count
+                                                ) || 0;
+
+                                            const height =
+                                                (
+                                                    sessions /
+                                                    maxPomodoroSessions
+                                                ) * 100;
+
+                                            return (
+                                                <div
+                                                    className="mini-chart-column"
+                                                    key={`${item.session_date}-${index}`}
+                                                >
+
+                                                    <span>
+                                                        {sessions}
+                                                    </span>
+
+                                                    <div className="mini-bar-track">
+
+                                                        <div
+                                                            className="pomodoro-bar"
+                                                            style={{
+                                                                height:
+                                                                    `${Math.max(
+                                                                        height,
+                                                                        4
+                                                                    )}%`
+                                                            }}
+                                                        />
+
+                                                    </div>
+
+                                                    <small>
+                                                        {formatDate(
+                                                            item.session_date
+                                                        )}
+                                                    </small>
+
+                                                </div>
+                                            );
+                                        }
+                                    )}
+
+                                </div>
+
+                            )}
+
+                        </div>
+
+
+                        {/* =================================
+                            NOTES BY SUBJECT
+                        ================================= */}
+
+                        <div className="analytics-panel">
+
+                            <div className="analytics-panel-header">
+
+                                <div>
+                                    <h3>
+                                        Notes by Subject
+                                    </h3>
+
+                                    <p>
+                                        Notes created for each subject
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            {notesBySubject.length === 0 ? (
+
+                                <div className="chart-empty">
+                                    No notes available yet.
+                                </div>
+
+                            ) : (
+
+                                <div className="horizontal-chart">
+
+                                    {notesBySubject.map(
+                                        (item, index) => {
+
+                                            const count =
+                                                Number(
+                                                    item.note_count
+                                                ) || 0;
+
+                                            const width =
+                                                (
+                                                    count /
+                                                    maxNotes
+                                                ) * 100;
+
+                                            return (
+                                                <div
+                                                    className="horizontal-chart-row"
+                                                    key={`${item.subject_name}-${index}`}
+                                                >
+
+                                                    <div className="horizontal-chart-info">
+
+                                                        <span>
+                                                            {item.subject_name ||
+                                                                "Unknown"}
+                                                        </span>
+
+                                                        <strong>
+                                                            {count}
+                                                        </strong>
+
+                                                    </div>
+
+                                                    <div className="horizontal-track">
+
+                                                        <div
+                                                            className="notes-fill"
+                                                            style={{
+                                                                width:
+                                                                    `${Math.max(
+                                                                        width,
+                                                                        3
+                                                                    )}%`
+                                                            }}
+                                                        />
+
+                                                    </div>
+
+                                                </div>
+                                            );
+                                        }
+                                    )}
+
+                                </div>
+
+                            )}
+
+                        </div>
+
+
+                        {/* =================================
+                            CONTESTS
+                        ================================= */}
+
+                        <div className="analytics-panel">
+
+                            <div className="analytics-panel-header">
+
+                                <div>
+                                    <h3>
+                                        Contest Participation
+                                    </h3>
+
+                                    <p>
+                                        Contests by coding platform
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            {contestsByPlatform.length === 0 ? (
+
+                                <div className="chart-empty">
+                                    No contest data available yet.
+                                </div>
+
+                            ) : (
+
+                                <div className="horizontal-chart">
+
+                                    {contestsByPlatform.map(
+                                        (item, index) => {
+
+                                            const count =
+                                                Number(
+                                                    item.contest_count
+                                                ) || 0;
+
+                                            const width =
+                                                (
+                                                    count /
+                                                    maxContests
+                                                ) * 100;
+
+                                            return (
+                                                <div
+                                                    className="horizontal-chart-row"
+                                                    key={`${item.platform}-${index}`}
+                                                >
+
+                                                    <div className="horizontal-chart-info">
+
+                                                        <span>
+                                                            {item.platform ||
+                                                                "Other"}
+                                                        </span>
+
+                                                        <strong>
+                                                            {count}
+                                                        </strong>
+
+                                                    </div>
+
+                                                    <div className="horizontal-track">
+
+                                                        <div
+                                                            className="contest-fill"
+                                                            style={{
+                                                                width:
+                                                                    `${Math.max(
+                                                                        width,
+                                                                        3
+                                                                    )}%`
+                                                            }}
+                                                        />
+
+                                                    </div>
+
+                                                </div>
+                                            );
+                                        }
+                                    )}
+
+                                </div>
+
+                            )}
 
                         </div>
 
@@ -572,10 +1039,8 @@ function Stats() {
             </div>
 
         </DashboardLayout>
-
     );
-
 }
 
-
 export default Stats;
+

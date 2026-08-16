@@ -26,9 +26,9 @@ function AddStudySessionModal({
     const [subjectsLoading, setSubjectsLoading] = useState(false);
 
 
-    // =========================
+    // =======================================
     // LOAD SUBJECTS
-    // =========================
+    // =======================================
 
     useEffect(() => {
 
@@ -68,9 +68,9 @@ function AddStudySessionModal({
     }, [isOpen]);
 
 
-    // =========================
+    // =======================================
     // RESET FORM
-    // =========================
+    // =======================================
 
     useEffect(() => {
 
@@ -88,9 +88,9 @@ function AddStudySessionModal({
     }, [isOpen]);
 
 
-    // =========================
+    // =======================================
     // CLOSE
-    // =========================
+    // =======================================
 
     const handleClose = () => {
 
@@ -103,9 +103,9 @@ function AddStudySessionModal({
     };
 
 
-    // =========================
-    // FORMAT DATETIME
-    // =========================
+    // =======================================
+    // FORMAT DATETIME FOR MYSQL
+    // =======================================
 
     const formatForMySQL = (dateTime) => {
 
@@ -113,21 +113,29 @@ function AddStudySessionModal({
             return null;
         }
 
+        // datetime-local:
+        // 2026-08-15T09:02
+        //
+        // MySQL:
+        // 2026-08-15 09:02:00
+
         return dateTime.replace("T", " ") + ":00";
 
     };
 
 
-    // =========================
+    // =======================================
     // SUBMIT
-    // =========================
+    // =======================================
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
 
 
-        // Subject validation
+        // =======================================
+        // SUBJECT VALIDATION
+        // =======================================
 
         if (!subjectId) {
 
@@ -138,7 +146,9 @@ function AddStudySessionModal({
         }
 
 
-        // Topic validation
+        // =======================================
+        // TOPIC VALIDATION
+        // =======================================
 
         if (!topic.trim()) {
 
@@ -149,7 +159,9 @@ function AddStudySessionModal({
         }
 
 
-        // Time validation
+        // =======================================
+        // TIME VALIDATION
+        // =======================================
 
         if (!startTime || !endTime) {
 
@@ -162,11 +174,27 @@ function AddStudySessionModal({
         }
 
 
-        // Date comparison
+        // =======================================
+        // DIRECT DATETIME COMPARISON
+        // =======================================
 
         const start = new Date(startTime);
         const end = new Date(endTime);
 
+
+        if (Number.isNaN(start.getTime()) ||
+            Number.isNaN(end.getTime())) {
+
+            alert("Invalid date or time.");
+
+            return;
+
+        }
+
+
+        // =======================================
+        // END MUST BE AFTER START
+        // =======================================
 
         if (end <= start) {
 
@@ -179,6 +207,43 @@ function AddStudySessionModal({
         }
 
 
+        // =======================================
+        // MAXIMUM 24 HOURS
+        // =======================================
+
+        const durationMinutes =
+            Math.floor(
+                (end.getTime() - start.getTime())
+                / (1000 * 60)
+            );
+
+
+        if (durationMinutes > 1440) {
+
+            alert(
+                "A study session cannot be longer than 24 hours."
+            );
+
+            return;
+
+        }
+
+
+        if (durationMinutes <= 0) {
+
+            alert(
+                "Study session duration must be greater than 0 minutes."
+            );
+
+            return;
+
+        }
+
+
+        // =======================================
+        // CREATE SESSION
+        // =======================================
+
         try {
 
             setLoading(true);
@@ -186,9 +251,11 @@ function AddStudySessionModal({
 
             const sessionData = {
 
-                subject_id: Number(subjectId),
+                subject_id:
+                    Number(subjectId),
 
-                topic: topic.trim(),
+                topic:
+                    topic.trim(),
 
                 start_time:
                     formatForMySQL(startTime),
@@ -213,12 +280,20 @@ function AddStudySessionModal({
             );
 
 
+            // =======================================
+            // REFRESH PARENT LIST
+            // =======================================
+
             if (onSessionCreated) {
 
                 await onSessionCreated();
 
             }
 
+
+            // =======================================
+            // CLOSE MODAL
+            // =======================================
 
             onClose();
 
@@ -233,6 +308,7 @@ function AddStudySessionModal({
             alert(
                 error.response?.data?.message ||
                 error.response?.data?.error ||
+                error.message ||
                 "Failed to create study session."
             );
 
@@ -245,9 +321,9 @@ function AddStudySessionModal({
     };
 
 
-    // =========================
+    // =======================================
     // DON'T RENDER
-    // =========================
+    // =======================================
 
     if (!isOpen) {
 
@@ -270,9 +346,9 @@ function AddStudySessionModal({
                 }
             >
 
-                {/* =========================
+                {/* =================================
                     HEADER
-                ========================= */}
+                ================================= */}
 
                 <div className="study-session-modal-header">
 
@@ -303,9 +379,9 @@ function AddStudySessionModal({
                 </div>
 
 
-                {/* =========================
+                {/* =================================
                     FORM
-                ========================= */}
+                ================================= */}
 
                 <form
                     className="study-session-modal-form"
@@ -340,17 +416,11 @@ function AddStudySessionModal({
                             {subjects.map((subject) => (
 
                                 <option
-                                    key={
-                                        subject.subject_id
-                                    }
-                                    value={
-                                        subject.subject_id
-                                    }
+                                    key={subject.subject_id}
+                                    value={subject.subject_id}
                                 >
 
-                                    {
-                                        subject.subject_name
-                                    }
+                                    {subject.subject_name}
 
                                 </option>
 
@@ -453,7 +523,9 @@ function AddStudySessionModal({
                     </div>
 
 
-                    {/* ACTIONS */}
+                    {/* =================================
+                        ACTIONS
+                    ================================= */}
 
                     <div className="study-session-modal-actions">
 
