@@ -1,9 +1,12 @@
 import "./Navbar.css";
-import { FaBell } from "react-icons/fa";
+
+import NotificationBell from "../Notification/NotificationBell";
 
 function Navbar() {
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(
+        localStorage.getItem("user")
+    );
 
     return (
 
@@ -13,7 +16,10 @@ function Navbar() {
 
                 <h2>
                     Welcome back,
-                    <span> {user?.full_name || "User"} 👋</span>
+                    <span>
+                        {" "}
+                        {user?.full_name || "User"} 👋
+                    </span>
                 </h2>
 
                 <p>
@@ -22,29 +28,41 @@ function Navbar() {
 
             </div>
 
+
             <div className="navbar-right">
 
-                <button className="notification-btn">
+                {/* =================================
+                    NOTIFICATION BELL
+                ================================= */}
 
-                    <FaBell />
+                <NotificationBell />
 
-                </button>
+
+                {/* =================================
+                    PROFILE
+                ================================= */}
 
                 <div className="profile">
 
                     <div className="avatar">
 
                         {user?.full_name
-                            ? user.full_name.charAt(0).toUpperCase()
+                            ? user.full_name
+                                .charAt(0)
+                                .toUpperCase()
                             : "U"}
 
                     </div>
 
                     <div>
 
-                        <h4>{user?.full_name}</h4>
+                        <h4>
+                            {user?.full_name || "User"}
+                        </h4>
 
-                        <span>{user?.email}</span>
+                        <span>
+                            {user?.email || ""}
+                        </span>
 
                     </div>
 
@@ -55,8 +73,6 @@ function Navbar() {
         </header>
 
     );
-
 }
 
 export default Navbar;
-
