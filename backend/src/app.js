@@ -21,6 +21,7 @@ const pomodoroRoutes = require("./routes/pomodoroRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const contestRoutes = require("./routes/contestRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
 
 app.use(express.json());
 
@@ -36,5 +37,6 @@ app.use("/api/pomodoro", pomodoroRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/contests", contestRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 module.exports = app;
