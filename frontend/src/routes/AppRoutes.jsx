@@ -14,172 +14,154 @@ import Pomodoro from "../pages/Pomodoro/Pomodoro";
 
 import ContestList from "../components/Contest/ContestList";
 import Analytics from "../pages/Stats/Stats";
-
+import Profile from "../pages/Profile/Profile";
 
 function AppRoutes() {
-
-    return (
-
-        <BrowserRouter>
-
-            <Routes>
-
-                {/* =========================
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* =========================
                     LOGIN
                 ========================= */}
 
-                <Route
-                    path="/"
-                    element={<Login />}
-                />
+        <Route path="/" element={<Login />} />
 
-                <Route
-                    path="/login"
-                    element={<Login />}
-                />
+        <Route path="/login" element={<Login />} />
 
-
-                {/* =========================
+        {/* =========================
                     REGISTER
                 ========================= */}
 
-                <Route
-                    path="/register"
-                    element={<Register />}
-                />
+        <Route path="/register" element={<Register />} />
 
-
-                {/* =========================
+        {/* =========================
                     DASHBOARD
                 ========================= */}
 
-                <Route
-                    path="/dashboard"
-                    element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    }
-                />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
-
-                {/* =========================
+        {/* =========================
                     ANALYTICS
                 ========================= */}
 
-    {/* other routes */}
+        {/* other routes */}
 
-                <Route
-                    path="/analytics"
-                    element={<Analytics />}
-                />
+        <Route path="/analytics" element={<Analytics />} />
 
-                {/* other routes */}
+        {/* other routes */}
 
-
-                {/* =========================
+        {/* =========================
                     TASKS
                 ========================= */}
 
-                <Route
-                    path="/tasks"
-                    element={
-                        <ProtectedRoute>
-                            <Tasks />
-                        </ProtectedRoute>
-                    }
-                />
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <Tasks />
+            </ProtectedRoute>
+          }
+        />
 
-
-                {/* =========================
+        {/* =========================
                     NOTES
                 ========================= */}
 
-                <Route
-                    path="/notes"
-                    element={
-                        <ProtectedRoute>
-                            <Notes />
-                        </ProtectedRoute>
-                    }
-                />
+        <Route
+          path="/notes"
+          element={
+            <ProtectedRoute>
+              <Notes />
+            </ProtectedRoute>
+          }
+        />
 
-
-                {/* =========================
+        {/* =========================
                     CALENDAR
                 ========================= */}
 
-                <Route
-                    path="/calendar"
-                    element={
-                        <ProtectedRoute>
-                            <Calendar />
-                        </ProtectedRoute>
-                    }
-                />
+        <Route
+          path="/calendar"
+          element={
+            <ProtectedRoute>
+              <Calendar />
+            </ProtectedRoute>
+          }
+        />
 
-
-                {/* =========================
+        {/* =========================
                     GOALS
                 ========================= */}
 
-                <Route
-                    path="/goals"
-                    element={
-                        <ProtectedRoute>
-                            <Goals />
-                        </ProtectedRoute>
-                    }
-                />
+        <Route
+          path="/goals"
+          element={
+            <ProtectedRoute>
+              <Goals />
+            </ProtectedRoute>
+          }
+        />
 
-
-                {/* =========================
+        {/* =========================
                     STUDY SESSIONS
                 ========================= */}
 
-                <Route
-                    path="/study-sessions"
-                    element={
-                        <ProtectedRoute>
-                            <StudySessions />
-                        </ProtectedRoute>
-                    }
-                />
+        <Route
+          path="/study-sessions"
+          element={
+            <ProtectedRoute>
+              <StudySessions />
+            </ProtectedRoute>
+          }
+        />
 
-
-                {/* =========================
+        {/* =========================
                     POMODORO
                 ========================= */}
 
-                <Route
-                    path="/pomodoro"
-                    element={
-                        <ProtectedRoute>
-                            <Pomodoro />
-                        </ProtectedRoute>
-                    }
-                />
+        <Route
+          path="/pomodoro"
+          element={
+            <ProtectedRoute>
+              <Pomodoro />
+            </ProtectedRoute>
+          }
+        />
 
-
-                {/* =========================
+        {/* =========================
                     CODING CONTESTS
                 ========================= */}
 
-                <Route
-                    path="/contests"
-                    element={
-                        <ProtectedRoute>
-                            <ContestList />
-                        </ProtectedRoute>
-                    }
-                />
+        <Route
+          path="/contests"
+          element={
+            <ProtectedRoute>
+              <ContestList />
+            </ProtectedRoute>
+          }
+        />
 
-            </Routes>
-
-        </BrowserRouter>
-
-    );
+        {/* =========================
+                    PROFILEN
+                ========================= */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
 
 export default AppRoutes;

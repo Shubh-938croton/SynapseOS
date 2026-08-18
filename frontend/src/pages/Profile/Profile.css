@@ -1,0 +1,1155 @@
+/* =========================================
+   PROFILE PAGE
+========================================= */
+
+.profile-page {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.profile-header {
+    margin-bottom: 30px;
+}
+
+.profile-eyebrow {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #3159d8;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.profile-header h1 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.profile-header p {
+    margin: 8px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   PROFILE CARD
+========================================= */
+
+.profile-card {
+    width: 100%;
+    max-width: 900px;
+
+    box-sizing: border-box;
+
+    padding: 28px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+
+/* =========================================
+   PROFILE CARD TOP
+========================================= */
+
+.profile-card-top {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding-bottom: 28px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+/* =========================================
+   AVATAR
+========================================= */
+
+.profile-avatar {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 86px;
+    height: 86px;
+
+    flex-shrink: 0;
+
+    color: #ffffff;
+
+    background: #3159d8;
+
+    border-radius: 50%;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    box-shadow:
+        0 6px 16px rgba(49, 89, 216, 0.22);
+}
+
+
+/* =========================================
+   MAIN PROFILE INFO
+========================================= */
+
+.profile-main-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.profile-main-info h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.profile-main-info p {
+    margin: 0;
+
+    color: #3159d8;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-main-info span {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   PROFILE SECTION
+========================================= */
+
+.profile-section {
+    padding: 28px 0;
+}
+
+.profile-section h3 {
+    margin: 0 0 20px;
+
+    color: #111827;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   INFORMATION GRID
+========================================= */
+
+.profile-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+/* =========================================
+   INFORMATION ITEM
+========================================= */
+
+.profile-info-item {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    min-height: 70px;
+
+    padding: 16px;
+
+    box-sizing: border-box;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+}
+
+.profile-info-item span {
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+.profile-info-item strong {
+    color: #111827;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    word-break: break-word;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.profile-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding-top: 24px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.profile-edit-btn,
+.profile-password-btn {
+    padding: 11px 18px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.profile-edit-btn {
+    color: #ffffff;
+
+    background: #3159d8;
+
+    border: 1px solid #3159d8;
+}
+
+.profile-edit-btn:hover {
+    background: #2648b5;
+
+    border-color: #2648b5;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   PASSWORD BUTTON
+========================================= */
+
+.profile-password-btn {
+    color: #334155;
+
+    background: #ffffff;
+
+    border: 1px solid #cbd5e1;
+}
+
+.profile-password-btn:hover {
+    background: #f8fafc;
+
+    border-color: #94a3b8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   LOADING STATE
+========================================= */
+
+.profile-state {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 400px;
+
+    color: #64748b;
+
+    text-align: center;
+}
+
+.profile-state p {
+    margin: 0;
+
+    font-size: 14px;
+}
+
+.profile-spinner {
+    width: 34px;
+    height: 34px;
+
+    margin-bottom: 14px;
+
+    border: 4px solid #e5e7eb;
+
+    border-top-color: #3159d8;
+
+    border-radius: 50%;
+
+    animation: profile-spin 0.8s linear infinite;
+}
+
+@keyframes profile-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================
+   ERROR STATE
+========================================= */
+
+.profile-error-state {
+    color: #64748b;
+}
+
+.profile-error-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+
+    margin-bottom: 14px;
+
+    color: #dc2626;
+
+    background: #fef2f2;
+
+    border-radius: 50%;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.profile-error-state h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+}
+
+.profile-error-state p {
+    margin: 8px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .profile-page {
+        padding: 20px;
+    }
+
+    .profile-header h1 {
+        font-size: 26px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-card-top {
+        align-items: flex-start;
+    }
+
+    .profile-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .profile-page {
+        padding: 16px;
+    }
+
+    .profile-card {
+        padding: 18px;
+    }
+
+    .profile-card-top {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 14px;
+    }
+
+    .profile-avatar {
+        width: 70px;
+        height: 70px;
+
+        font-size: 26px;
+    }
+
+    .profile-main-info h2 {
+        font-size: 21px;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .profile-edit-btn,
+    .profile-password-btn {
+        width: 100%;
+    }
+
+}
+/* =========================================
+   PROFILE PAGE
+========================================= */
+
+.profile-page {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.profile-header {
+    margin-bottom: 30px;
+}
+
+.profile-eyebrow {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #3159d8;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.profile-header h1 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.profile-header p {
+    margin: 8px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   SUCCESS MESSAGE
+========================================= */
+
+.profile-success-message {
+    width: 100%;
+    max-width: 900px;
+
+    box-sizing: border-box;
+
+    margin-bottom: 18px;
+    padding: 13px 16px;
+
+    color: #166534;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   ERROR MESSAGE
+========================================= */
+
+.profile-error-message {
+    width: 100%;
+    max-width: 900px;
+
+    box-sizing: border-box;
+
+    margin-bottom: 18px;
+    padding: 13px 16px;
+
+    color: #b91c1c;
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   PROFILE CARD
+========================================= */
+
+.profile-card {
+    width: 100%;
+    max-width: 900px;
+
+    box-sizing: border-box;
+
+    padding: 28px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+
+/* =========================================
+   PROFILE CARD TOP
+========================================= */
+
+.profile-card-top {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding-bottom: 28px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+/* =========================================
+   AVATAR
+========================================= */
+
+.profile-avatar {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 86px;
+    height: 86px;
+
+    flex-shrink: 0;
+
+    color: #ffffff;
+
+    background: #3159d8;
+
+    border-radius: 50%;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    box-shadow:
+        0 6px 16px rgba(49, 89, 216, 0.22);
+}
+
+
+/* =========================================
+   MAIN PROFILE INFO
+========================================= */
+
+.profile-main-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.profile-main-info h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.profile-main-info p {
+    margin: 0;
+
+    color: #3159d8;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-main-info span {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   PROFILE SECTION
+========================================= */
+
+.profile-section {
+    padding: 28px 0;
+}
+
+.profile-section h3 {
+    margin: 0 0 20px;
+
+    color: #111827;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   INFORMATION GRID
+========================================= */
+
+.profile-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+/* =========================================
+   INFORMATION ITEM
+========================================= */
+
+.profile-info-item {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    min-height: 70px;
+
+    padding: 16px;
+
+    box-sizing: border-box;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+}
+
+.profile-info-item span {
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+.profile-info-item strong {
+    color: #111827;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    word-break: break-word;
+}
+
+
+/* =========================================
+   EDIT PROFILE FORM
+========================================= */
+
+.profile-edit-form {
+    width: 100%;
+}
+
+
+/* =========================================
+   EDIT HEADER
+========================================= */
+
+.profile-edit-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 24px;
+
+    margin-bottom: 26px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.profile-edit-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.profile-edit-header p {
+    margin: 7px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.profile-form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+.profile-form-group label {
+    color: #334155;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   FORM INPUT
+========================================= */
+
+.profile-form-group input {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    color: #111827;
+
+    background: #ffffff;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.profile-form-group input::placeholder {
+    color: #94a3b8;
+}
+
+.profile-form-group input:hover {
+    border-color: #94a3b8;
+}
+
+.profile-form-group input:focus {
+    border-color: #3159d8;
+
+    box-shadow:
+        0 0 0 3px rgba(49, 89, 216, 0.12);
+}
+
+
+/* =========================================
+   INVALID INPUT
+========================================= */
+
+.profile-form-group input:invalid:not(:placeholder-shown) {
+    border-color: #ef4444;
+}
+
+.profile-form-group input:invalid:not(:placeholder-shown):focus {
+    box-shadow:
+        0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.profile-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding-top: 24px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+
+/* =========================================
+   EDIT / SAVE BUTTON
+========================================= */
+
+.profile-edit-btn,
+.profile-password-btn {
+    padding: 11px 18px;
+
+    border-radius: 9px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.profile-edit-btn {
+    color: #ffffff;
+
+    background: #3159d8;
+
+    border: 1px solid #3159d8;
+}
+
+.profile-edit-btn:hover:not(:disabled) {
+    background: #2648b5;
+
+    border-color: #2648b5;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 10px rgba(49, 89, 216, 0.18);
+}
+
+
+/* =========================================
+   DISABLED BUTTON
+========================================= */
+
+.profile-edit-btn:disabled,
+.profile-password-btn:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================
+   SECONDARY BUTTON
+========================================= */
+
+.profile-password-btn {
+    color: #334155;
+
+    background: #ffffff;
+
+    border: 1px solid #cbd5e1;
+}
+
+.profile-password-btn:hover:not(:disabled) {
+    background: #f8fafc;
+
+    border-color: #94a3b8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   LOADING STATE
+========================================= */
+
+.profile-state {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 400px;
+
+    color: #64748b;
+
+    text-align: center;
+}
+
+.profile-state p {
+    margin: 0;
+
+    font-size: 14px;
+}
+
+.profile-spinner {
+    width: 34px;
+    height: 34px;
+
+    margin-bottom: 14px;
+
+    border: 4px solid #e5e7eb;
+
+    border-top-color: #3159d8;
+
+    border-radius: 50%;
+
+    animation: profile-spin 0.8s linear infinite;
+}
+
+@keyframes profile-spin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================
+   ERROR STATE
+========================================= */
+
+.profile-error-state {
+    color: #64748b;
+}
+
+.profile-error-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+
+    margin-bottom: 14px;
+
+    color: #dc2626;
+
+    background: #fef2f2;
+
+    border-radius: 50%;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.profile-error-state h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+}
+
+.profile-error-state p {
+    margin: 8px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .profile-page {
+        padding: 20px;
+    }
+
+    .profile-header h1 {
+        font-size: 26px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-card-top {
+        align-items: flex-start;
+    }
+
+    .profile-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .profile-page {
+        padding: 16px;
+    }
+
+    .profile-card {
+        padding: 18px;
+    }
+
+    .profile-card-top {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 14px;
+    }
+
+    .profile-avatar {
+        width: 70px;
+        height: 70px;
+
+        font-size: 26px;
+    }
+
+    .profile-main-info h2 {
+        font-size: 21px;
+    }
+
+    .profile-edit-header h2 {
+        font-size: 20px;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .profile-edit-btn,
+    .profile-password-btn {
+        width: 100%;
+    }
+
+}

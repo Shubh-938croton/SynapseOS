@@ -7,6 +7,7 @@ import {
     FaBookOpen,
     FaClock,
     FaChartBar,
+    FaUser,
     FaCog,
     FaSignOutAlt
 } from "react-icons/fa";
@@ -14,67 +15,91 @@ import {
 import "./Sidebar.css";
 
 function Sidebar() {
-
     return (
-
         <aside className="sidebar">
 
+            {/* LOGO */}
             <div className="sidebar-logo">
                 🧠 SynapseOS
             </div>
 
+            {/* MENU */}
             <nav className="sidebar-menu">
 
-                <a href="/dashboard" className="active">
+                {/* DASHBOARD */}
+                <a href="/dashboard">
                     <FaHome />
                     <span>Dashboard</span>
                 </a>
 
-                <a href="#">
+                {/* TASKS */}
+                <a href="/tasks">
                     <FaTasks />
                     <span>Tasks</span>
                 </a>
 
-                <a href="#">
+                {/* NOTES */}
+                <a href="/notes">
                     <FaStickyNote />
                     <span>Notes</span>
                 </a>
 
-                <a href="#">
+                {/* GOALS */}
+                <a href="/goals">
                     <FaBullseye />
                     <span>Goals</span>
                 </a>
 
-                <a href="#">
+                {/* CALENDAR */}
+                <a href="/calendar">
                     <FaCalendarAlt />
                     <span>Calendar</span>
                 </a>
 
-                <a href="#">
+                {/* STUDY SESSIONS */}
+                <a href="/study-sessions">
                     <FaBookOpen />
                     <span>Study Sessions</span>
                 </a>
 
-                <a href="#">
+                {/* POMODORO */}
+                <a href="/pomodoro">
                     <FaClock />
                     <span>Pomodoro</span>
                 </a>
 
-                <a href="#">
+                {/* ANALYTICS */}
+                <a href="/analytics">
                     <FaChartBar />
                     <span>Analytics</span>
                 </a>
 
-                <a href="#">
+                {/* PROFILE */}
+                <a href="/profile">
+                    <FaUser />
+                    <span>Profile</span>
+                </a>
+
+                {/* SETTINGS */}
+                <a href="/settings">
                     <FaCog />
                     <span>Settings</span>
                 </a>
 
             </nav>
 
+            {/* LOGOUT */}
             <div className="sidebar-footer">
 
-                <button className="logout-btn">
+                <button
+                    className="logout-btn"
+                    onClick={() => {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("user");
+
+                        window.location.href = "/login";
+                    }}
+                >
                     <FaSignOutAlt />
                     <span>Logout</span>
                 </button>
@@ -82,9 +107,7 @@ function Sidebar() {
             </div>
 
         </aside>
-
     );
-
 }
 
 export default Sidebar;
