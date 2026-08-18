@@ -1,110 +1,44 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 
-// Get logged-in user's profile
+
+// =======================================
+// Get Logged-In User Profile
+// =======================================
+
 const getUserProfile = (req, res) => {
 
     try {
 
-        // Get authenticated user's ID from JWT
         const userId = req.user.user_id;
 
-        userModel.getUserProfile(userId, (err, results) => {
-
-            if (err) {
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
-                });
-            }
-
-            if (results.length === 0) {
-                return res.status(404).json({
-                    message: "User not found"
-                });
-            }
-
-            return res.status(200).json({
-                message: "Profile fetched successfully",
-                profile: results[0]
-            });
-
-        });
-
-    } catch (error) {
-
-        return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
-        });
-
-    }
-
-};
-
-// update profile
-const updateProfile = (req, res) => {
-
-    try {
-
-        // Authenticated user's ID from JWT
-        const userId = req.user.user_id;
-
-        const {
-            full_name,
-            username,
-            email
-        } = req.body;
-
-        // Check if email or username already exists
-        userModel.findUserByEmailOrUsernameForUpdate(
+        userModel.getUserProfile(
             userId,
-            email,
-            username,
-            (err, users) => {
+            (err, results) => {
 
                 if (err) {
+
                     return res.status(500).json({
                         message: "Database error",
                         error: err.message
                     });
+
                 }
 
-                if (users.length > 0) {
+                if (results.length === 0) {
 
-                    const existingUser = users[0];
-
-                    if (existingUser.email === email) {
-                        return res.status(409).json({
-                            message: "Email already exists"
-                        });
-                    }
-
-                    if (existingUser.username === username) {
-                        return res.status(409).json({
-                            message: "Username already exists"
-                        });
-                    }
-                }
-
-                const userData = {
-                    full_name,
-                    username,
-                    email
-                };
-
-                userModel.updateProfile(userId, userData, (err, result) => {
-
-                    if (err) {
-                        return res.status(500).json({
-                            message: "Failed to update profile",
-                            error: err.message
-                        });
-                    }
-
-                    return res.status(200).json({
-                        message: "Profile updated successfully"
+                    return res.status(404).json({
+                        message: "User not found"
                     });
+
+                }
+
+                return res.status(200).json({
+
+                    message:
+                        "Profile fetched successfully",
+
+                    profile: results[0]
 
                 });
 
@@ -114,15 +48,217 @@ const updateProfile = (req, res) => {
     } catch (error) {
 
         return res.status(500).json({
+
             message: "Internal server error",
+
             error: error.message
+
         });
 
     }
 
 };
 
-// change password 
+
+// =======================================
+// Update Profile
+// =======================================
+
+const updateProfile = (req, res) => {
+
+    try {
+
+        const userId = req.user.user_id;
+
+        const {
+            full_name,
+            username,
+            email,
+            profile_picture,
+            bio
+        } = req.body;
+
+
+        // =======================================
+        // Validation
+        // =======================================
+
+        if (
+            !full_name ||
+            !username ||
+            !email
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Full name, username and email are required"
+
+            });
+
+        }
+
+
+        // =======================================
+        // Check Duplicate Email / Username
+        // =======================================
+
+        userModel.findUserByEmailOrUsernameForUpdate(
+
+            userId,
+            email,
+            username,
+
+            (err, users) => {
+
+                if (err) {
+
+                    return res.status(500).json({
+
+                        message: "Database error",
+
+                        error: err.message
+
+                    });
+
+                }
+
+
+                if (users.length > 0) {
+
+                    const existingUser = users[0];
+
+
+                    if (
+                        existingUser.email === email
+                    ) {
+
+                        return res.status(409).json({
+
+                            message:
+                                "Email already exists"
+
+                        });
+
+                    }
+
+
+                    if (
+                        existingUser.username === username
+                    ) {
+
+                        return res.status(409).json({
+
+                            message:
+                                "Username already exists"
+
+                        });
+
+                    }
+
+                }
+
+
+                // =======================================
+                // Prepare Profile Data
+                // =======================================
+
+                const userData = {
+
+                    full_name:
+                        full_name.trim(),
+
+                    username:
+                        username.trim(),
+
+                    email:
+                        email.trim(),
+
+                    profile_picture:
+                        profile_picture || null,
+
+                    bio:
+                        bio || null
+
+                };
+
+
+                // =======================================
+                // Update Database
+                // =======================================
+
+                userModel.updateProfile(
+
+                    userId,
+                    userData,
+
+                    (err, result) => {
+
+                        if (err) {
+
+                            return res.status(500).json({
+
+                                message:
+                                    "Failed to update profile",
+
+                                error:
+                                    err.message
+
+                            });
+
+                        }
+
+
+                        if (
+                            result.affectedRows === 0
+                        ) {
+
+                            return res.status(404).json({
+
+                                message:
+                                    "User not found"
+
+                            });
+
+                        }
+
+
+                        return res.status(200).json({
+
+                            message:
+                                "Profile updated successfully"
+
+                        });
+
+                    }
+
+                );
+
+            }
+
+        );
+
+    } catch (error) {
+
+        return res.status(500).json({
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
+        });
+
+    }
+
+};
+
+
+// =======================================
+// Change Password
+// =======================================
+
 const changePassword = async (req, res) => {
 
     try {
@@ -134,74 +270,178 @@ const changePassword = async (req, res) => {
             new_password
         } = req.body;
 
-        // Find user
-        userModel.findUserById(userId, async (err, users) => {
 
-            if (err) {
-                return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
-                });
-            }
+        // =======================================
+        // Validate Input
+        // =======================================
 
-            if (users.length === 0) {
-                return res.status(404).json({
-                    message: "User not found"
-                });
-            }
+        if (
+            !current_password ||
+            !new_password
+        ) {
 
-            const user = users[0];
+            return res.status(400).json({
 
-            // Verify current password
-            const isMatch = await bcrypt.compare(
-                current_password,
-                user.password_hash
-            );
+                message:
+                    "Current password and new password are required"
 
-            if (!isMatch) {
-                return res.status(401).json({
-                    message: "Current password is incorrect"
-                });
-            }
+            });
 
-            // Hash new password
-            const passwordHash = await bcrypt.hash(new_password, 10);
+        }
 
-            // Update password
-            userModel.updatePassword(
-                userId,
-                passwordHash,
-                (err, result) => {
 
-                    if (err) {
-                        return res.status(500).json({
-                            message: "Failed to update password",
-                            error: err.message
-                        });
-                    }
+        if (new_password.length < 8) {
 
-                    return res.status(200).json({
-                        message: "Password changed successfully"
+            return res.status(400).json({
+
+                message:
+                    "New password must be at least 8 characters"
+
+            });
+
+        }
+
+
+        // =======================================
+        // Find User
+        // =======================================
+
+        userModel.findUserById(
+
+            userId,
+
+            async (err, users) => {
+
+                if (err) {
+
+                    return res.status(500).json({
+
+                        message:
+                            "Database error",
+
+                        error:
+                            err.message
+
                     });
 
                 }
-            );
 
-        });
+
+                if (users.length === 0) {
+
+                    return res.status(404).json({
+
+                        message:
+                            "User not found"
+
+                    });
+
+                }
+
+
+                const user = users[0];
+
+
+                // =======================================
+                // Verify Current Password
+                // =======================================
+
+                const isMatch =
+                    await bcrypt.compare(
+                        current_password,
+                        user.password_hash
+                    );
+
+
+                if (!isMatch) {
+
+                    return res.status(401).json({
+
+                        message:
+                            "Current password is incorrect"
+
+                    });
+
+                }
+
+
+                // =======================================
+                // Hash New Password
+                // =======================================
+
+                const passwordHash =
+                    await bcrypt.hash(
+                        new_password,
+                        10
+                    );
+
+
+                // =======================================
+                // Update Password
+                // =======================================
+
+                userModel.updatePassword(
+
+                    userId,
+                    passwordHash,
+
+                    (err, result) => {
+
+                        if (err) {
+
+                            return res.status(500).json({
+
+                                message:
+                                    "Failed to update password",
+
+                                error:
+                                    err.message
+
+                            });
+
+                        }
+
+
+                        return res.status(200).json({
+
+                            message:
+                                "Password changed successfully"
+
+                        });
+
+                    }
+
+                );
+
+            }
+
+        );
 
     } catch (error) {
 
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+
+            message:
+                "Internal server error",
+
+            error:
+                error.message
+
         });
 
     }
 
 };
 
+
+// =======================================
+// EXPORT
+// =======================================
+
 module.exports = {
+
     getUserProfile,
     updateProfile,
     changePassword
+
 };

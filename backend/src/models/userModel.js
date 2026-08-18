@@ -1,6 +1,9 @@
 const db = require("../config/database");
 
-// Get user profile
+// =======================================
+// Get User Profile
+// =======================================
+
 const getUserProfile = (userId, callback) => {
 
     const query = `
@@ -9,7 +12,10 @@ const getUserProfile = (userId, callback) => {
             full_name,
             username,
             email,
-            created_at
+            profile_picture,
+            bio,
+            created_at,
+            updated_at
         FROM users
         WHERE user_id = ?
     `;
@@ -27,37 +33,63 @@ const getUserProfile = (userId, callback) => {
 };
 
 
-// Check if email or username already exists
-const findUserByEmailOrUsernameForUpdate = (userId, email, username, callback) => {
+// =======================================
+// Check Email / Username Availability
+// =======================================
+
+const findUserByEmailOrUsernameForUpdate = (
+    userId,
+    email,
+    username,
+    callback
+) => {
 
     const query = `
-        SELECT user_id, email, username
+        SELECT
+            user_id,
+            email,
+            username
         FROM users
-        WHERE (email = ? OR username = ?)
-        AND user_id != ?
+        WHERE
+            (email = ? OR username = ?)
+            AND user_id != ?
     `;
 
-    db.query(query, [email, username, userId], (err, results) => {
+    db.query(
+        query,
+        [email, username, userId],
+        (err, results) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, results);
+
         }
-
-        callback(null, results);
-
-    });
+    );
 
 };
 
+
+// =======================================
 // Update Profile
-const updateProfile = (userId, userData, callback) => {
+// =======================================
+
+const updateProfile = (
+    userId,
+    userData,
+    callback
+) => {
 
     const query = `
         UPDATE users
         SET
             full_name = ?,
             username = ?,
-            email = ?
+            email = ?,
+            profile_picture = ?,
+            bio = ?
         WHERE user_id = ?
     `;
 
@@ -67,6 +99,8 @@ const updateProfile = (userId, userData, callback) => {
             userData.full_name,
             userData.username,
             userData.email,
+            userData.profile_picture,
+            userData.bio,
             userId
         ],
         (err, result) => {
@@ -82,8 +116,16 @@ const updateProfile = (userId, userData, callback) => {
 
 };
 
-// Find user by ID
-const findUserById = (userId, callback) => {
+
+// =======================================
+// Find User By ID
+// Used For Password Change
+// =======================================
+
+const findUserById = (
+    userId,
+    callback
+) => {
 
     const query = `
         SELECT
@@ -93,21 +135,32 @@ const findUserById = (userId, callback) => {
         WHERE user_id = ?
     `;
 
-    db.query(query, [userId], (err, results) => {
+    db.query(
+        query,
+        [userId],
+        (err, results) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, results);
+
         }
-
-        callback(null, results);
-
-    });
+    );
 
 };
 
 
-// Update user password
-const updatePassword = (userId, passwordHash, callback) => {
+// =======================================
+// Update Password
+// =======================================
+
+const updatePassword = (
+    userId,
+    passwordHash,
+    callback
+) => {
 
     const query = `
         UPDATE users
@@ -115,22 +168,33 @@ const updatePassword = (userId, passwordHash, callback) => {
         WHERE user_id = ?
     `;
 
-    db.query(query, [passwordHash, userId], (err, result) => {
+    db.query(
+        query,
+        [passwordHash, userId],
+        (err, result) => {
 
-        if (err) {
-            return callback(err, null);
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, result);
+
         }
-
-        callback(null, result);
-
-    });
+    );
 
 };
 
+
+// =======================================
+// EXPORT
+// =======================================
+
 module.exports = {
+
     getUserProfile,
     findUserByEmailOrUsernameForUpdate,
     updateProfile,
     findUserById,
     updatePassword
+
 };

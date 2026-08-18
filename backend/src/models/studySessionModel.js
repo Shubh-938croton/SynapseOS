@@ -1,136 +1,53 @@
-const studySessionModel = require("../models/studySessionModel");
-
+const db = require("../config/database");
 
 // =======================================
 // CREATE STUDY SESSION
 // =======================================
 
-const createStudySession = async (req, res) => {
+const createStudySession = (
+    userId,
+    subjectId,
+    topic,
+    startTime,
+    endTime,
+    durationMinutes,
+    sessionNotes,
+    callback
+) => {
 
-    try {
-
-        const userId = req.user.user_id;
-
-        const {
+    const sql = `
+        INSERT INTO study_sessions
+        (
+            user_id,
             subject_id,
             topic,
             start_time,
             end_time,
+            duration_minutes,
             session_notes
-        } = req.body;
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
 
+    const values = [
+        userId,
+        subjectId,
+        topic,
+        startTime,
+        endTime,
+        durationMinutes,
+        sessionNotes || null
+    ];
 
-        // =======================================
-        // VALIDATION
-        // =======================================
+    db.query(sql, values, (err, result) => {
 
-        if (
-            !subject_id ||
-            !topic ||
-            !start_time ||
-            !end_time
-        ) {
-
-            return res.status(400).json({
-                message: "Subject, topic, start time and end time are required"
-            });
-
+        if (err) {
+            return callback(err, null);
         }
 
+        return callback(null, result);
 
-        // =======================================
-        // CALCULATE DURATION
-        // =======================================
-
-        const start = new Date(start_time);
-        const end = new Date(end_time);
-
-        const durationMinutes =
-            Math.floor(
-                (end - start) / (1000 * 60)
-            );
-
-
-        // =======================================
-        // VALIDATE DURATION
-        // =======================================
-
-        if (durationMinutes <= 0) {
-
-            return res.status(400).json({
-                message: "End time must be after start time"
-            });
-
-        }
-
-
-        if (durationMinutes > 1440) {
-
-            return res.status(400).json({
-                message: "Study session cannot exceed 24 hours"
-            });
-
-        }
-
-
-        // =======================================
-        // CREATE SESSION
-        // =======================================
-
-        studySessionModel.createStudySession(
-
-            userId,
-            subject_id,
-            topic,
-            start_time,
-            end_time,
-            durationMinutes,
-            session_notes,
-
-            (err, result) => {
-
-                if (err) {
-
-                    console.error(
-                        "Create Study Session Error:",
-                        err
-                    );
-
-                    return res.status(500).json({
-                        message: "Failed to create study session",
-                        error: err.message
-                    });
-
-                }
-
-
-                return res.status(201).json({
-
-                    message: "Study session created successfully",
-
-                    session_id:
-                        result.insertId
-
-                });
-
-            }
-
-        );
-
-    } catch (err) {
-
-        console.error(
-            "Create Study Session Controller Error:",
-            err
-        );
-
-        return res.status(500).json({
-            message: "Server error",
-            error: err.message
-        });
-
-    }
-
+    });
 };
 
 
@@ -138,61 +55,46 @@ const createStudySession = async (req, res) => {
 // GET ALL STUDY SESSIONS
 // =======================================
 
-const getAllStudySessions = async (req, res) => {
+const getAllStudySessions = (
+    userId,
+    callback
+) => {
 
-    try {
+    const sql = `
+        SELECT
+            ss.session_id,
+            ss.user_id,
+            ss.subject_id,
+            s.subject_name,
+            ss.topic,
+            ss.start_time,
+            ss.end_time,
+            ss.duration_minutes,
+            ss.session_notes,
+            ss.created_at
+        FROM study_sessions ss
 
-        const userId = req.user.user_id;
+        LEFT JOIN subjects s
+            ON ss.subject_id = s.subject_id
 
+        WHERE ss.user_id = ?
 
-        studySessionModel.getAllStudySessions(
+        ORDER BY ss.start_time DESC
+    `;
 
-            userId,
+    db.query(
+        sql,
+        [userId],
+        (err, results) => {
 
-            (err, results) => {
-
-                if (err) {
-
-                    console.error(
-                        "Get Study Sessions Error:",
-                        err
-                    );
-
-                    return res.status(500).json({
-                        message: "Failed to fetch study sessions",
-                        error: err.message
-                    });
-
-                }
-
-
-                return res.status(200).json({
-
-                    message:
-                        "Study sessions fetched successfully",
-
-                    sessions: results
-
-                });
-
+            if (err) {
+                return callback(err, null);
             }
 
-        );
+            return callback(null, results);
 
-    } catch (err) {
-
-        console.error(
-            "Get Study Sessions Controller Error:",
-            err
-        );
-
-        return res.status(500).json({
-            message: "Server error",
-            error: err.message
-        });
-
-    }
-
+        }
+    );
 };
 
 
@@ -200,73 +102,47 @@ const getAllStudySessions = async (req, res) => {
 // GET STUDY SESSION BY ID
 // =======================================
 
-const getStudySessionById = async (req, res) => {
+const getStudySessionById = (
+    userId,
+    sessionId,
+    callback
+) => {
 
-    try {
+    const sql = `
+        SELECT
+            ss.session_id,
+            ss.user_id,
+            ss.subject_id,
+            s.subject_name,
+            ss.topic,
+            ss.start_time,
+            ss.end_time,
+            ss.duration_minutes,
+            ss.session_notes,
+            ss.created_at
+        FROM study_sessions ss
 
-        const userId = req.user.user_id;
+        LEFT JOIN subjects s
+            ON ss.subject_id = s.subject_id
 
-        const sessionId = req.params.id;
+        WHERE
+            ss.session_id = ?
+            AND ss.user_id = ?
+    `;
 
+    db.query(
+        sql,
+        [sessionId, userId],
+        (err, results) => {
 
-        studySessionModel.getStudySessionById(
-
-            userId,
-            sessionId,
-
-            (err, result) => {
-
-                if (err) {
-
-                    console.error(
-                        "Get Study Session Error:",
-                        err
-                    );
-
-                    return res.status(500).json({
-                        message: "Failed to fetch study session",
-                        error: err.message
-                    });
-
-                }
-
-
-                if (!result || result.length === 0) {
-
-                    return res.status(404).json({
-                        message: "Study session not found"
-                    });
-
-                }
-
-
-                return res.status(200).json({
-
-                    message:
-                        "Study session fetched successfully",
-
-                    session: result[0]
-
-                });
-
+            if (err) {
+                return callback(err, null);
             }
 
-        );
+            return callback(null, results);
 
-    } catch (err) {
-
-        console.error(
-            "Get Study Session By ID Controller Error:",
-            err
-        );
-
-        return res.status(500).json({
-            message: "Server error",
-            error: err.message
-        });
-
-    }
-
+        }
+    );
 };
 
 
@@ -274,143 +150,58 @@ const getStudySessionById = async (req, res) => {
 // UPDATE STUDY SESSION
 // =======================================
 
-const updateStudySession = async (req, res) => {
+const updateStudySession = (
+    userId,
+    sessionId,
+    subjectId,
+    topic,
+    startTime,
+    endTime,
+    durationMinutes,
+    sessionNotes,
+    callback
+) => {
 
-    try {
+    const sql = `
+        UPDATE study_sessions
 
-        const userId = req.user.user_id;
+        SET
+            subject_id = ?,
+            topic = ?,
+            start_time = ?,
+            end_time = ?,
+            duration_minutes = ?,
+            session_notes = ?
 
-        const sessionId = req.params.id;
+        WHERE
+            session_id = ?
+            AND user_id = ?
+    `;
 
+    const values = [
+        subjectId,
+        topic,
+        startTime,
+        endTime,
+        durationMinutes,
+        sessionNotes || null,
+        sessionId,
+        userId
+    ];
 
-        const {
-            subject_id,
-            topic,
-            start_time,
-            end_time,
-            session_notes
-        } = req.body;
+    db.query(
+        sql,
+        values,
+        (err, result) => {
 
-
-        // =======================================
-        // VALIDATION
-        // =======================================
-
-        if (
-            !subject_id ||
-            !topic ||
-            !start_time ||
-            !end_time
-        ) {
-
-            return res.status(400).json({
-                message: "Subject, topic, start time and end time are required"
-            });
-
-        }
-
-
-        // =======================================
-        // RECALCULATE DURATION
-        // =======================================
-
-        const start = new Date(start_time);
-        const end = new Date(end_time);
-
-        const durationMinutes =
-            Math.floor(
-                (end - start) / (1000 * 60)
-            );
-
-
-        // =======================================
-        // VALIDATE DURATION
-        // =======================================
-
-        if (durationMinutes <= 0) {
-
-            return res.status(400).json({
-                message: "End time must be after start time"
-            });
-
-        }
-
-
-        if (durationMinutes > 1440) {
-
-            return res.status(400).json({
-                message: "Study session cannot exceed 24 hours"
-            });
-
-        }
-
-
-        // =======================================
-        // UPDATE SESSION
-        // =======================================
-
-        studySessionModel.updateStudySession(
-
-            userId,
-            sessionId,
-            subject_id,
-            topic,
-            start_time,
-            end_time,
-            durationMinutes,
-            session_notes,
-
-            (err, result) => {
-
-                if (err) {
-
-                    console.error(
-                        "Update Study Session Error:",
-                        err
-                    );
-
-                    return res.status(500).json({
-                        message: "Failed to update study session",
-                        error: err.message
-                    });
-
-                }
-
-
-                if (result.affectedRows === 0) {
-
-                    return res.status(404).json({
-                        message: "Study session not found"
-                    });
-
-                }
-
-
-                return res.status(200).json({
-
-                    message:
-                        "Study session updated successfully"
-
-                });
-
+            if (err) {
+                return callback(err, null);
             }
 
-        );
+            return callback(null, result);
 
-    } catch (err) {
-
-        console.error(
-            "Update Study Session Controller Error:",
-            err
-        );
-
-        return res.status(500).json({
-            message: "Server error",
-            error: err.message
-        });
-
-    }
-
+        }
+    );
 };
 
 
@@ -418,71 +209,33 @@ const updateStudySession = async (req, res) => {
 // DELETE STUDY SESSION
 // =======================================
 
-const deleteStudySession = async (req, res) => {
+const deleteStudySession = (
+    userId,
+    sessionId,
+    callback
+) => {
 
-    try {
+    const sql = `
+        DELETE FROM study_sessions
 
-        const userId = req.user.user_id;
+        WHERE
+            session_id = ?
+            AND user_id = ?
+    `;
 
-        const sessionId = req.params.id;
+    db.query(
+        sql,
+        [sessionId, userId],
+        (err, result) => {
 
-
-        studySessionModel.deleteStudySession(
-
-            userId,
-            sessionId,
-
-            (err, result) => {
-
-                if (err) {
-
-                    console.error(
-                        "Delete Study Session Error:",
-                        err
-                    );
-
-                    return res.status(500).json({
-                        message: "Failed to delete study session",
-                        error: err.message
-                    });
-
-                }
-
-
-                if (result.affectedRows === 0) {
-
-                    return res.status(404).json({
-                        message: "Study session not found"
-                    });
-
-                }
-
-
-                return res.status(200).json({
-
-                    message:
-                        "Study session deleted successfully"
-
-                });
-
+            if (err) {
+                return callback(err, null);
             }
 
-        );
+            return callback(null, result);
 
-    } catch (err) {
-
-        console.error(
-            "Delete Study Session Controller Error:",
-            err
-        );
-
-        return res.status(500).json({
-            message: "Server error",
-            error: err.message
-        });
-
-    }
-
+        }
+    );
 };
 
 
@@ -491,11 +244,9 @@ const deleteStudySession = async (req, res) => {
 // =======================================
 
 module.exports = {
-
     createStudySession,
     getAllStudySessions,
     getStudySessionById,
     updateStudySession,
     deleteStudySession
-
 };
