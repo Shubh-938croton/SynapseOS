@@ -448,3 +448,48 @@ Uses
 - AVG()
 - CASE WHEN
 - IFNULL()
+
+# Current Database Status — August 2026
+
+## Current Application Data Model
+
+The relational database now supports the core productivity modules:
+
+- users
+- subjects
+- tasks
+- notes
+- calendar_events
+- goals
+- study_sessions
+- pomodoro_sessions
+
+Dashboard and analytics are derived from existing transactional tables rather than duplicated into a separate analytics table.
+
+## User Profile
+
+Profile management currently uses the existing `users` table.
+
+Profile fields in the current `users` table include:
+
+- `user_id`
+- `full_name`
+- `username`
+- `email`
+- `password_hash`
+- `profile_picture` (optional)
+- `bio` (optional)
+- `created_at`
+- `updated_at`
+
+No separate profile table is required.
+
+### Avatar
+
+The database already contains an optional `profile_picture` field, but the avatar upload/storage flow is **not yet integrated into the application**. Avatar support is intentionally deferred to final polishing.
+
+## Security
+
+User-owned records are scoped using the authenticated JWT `user_id`.
+
+Passwords are stored as bcrypt hashes.

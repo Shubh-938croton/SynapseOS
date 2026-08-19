@@ -764,3 +764,87 @@ Generate Recommendation Message
 ↓
 
 Return JSON Response
+
+# Current API Flow Status — August 2026
+
+## User Profile Flow
+
+```text
+Client
+   ↓
+JWT Authentication
+   ↓
+User Routes
+   ↓
+User Controller
+   ↓
+User Model
+   ↓
+MySQL users table
+   ↓
+JSON Response
+```
+
+Profile update performs duplicate username/email validation before updating the user.
+
+Password change:
+
+```text
+Client
+   ↓
+JWT Authentication
+   ↓
+User Controller
+   ↓
+Find current password hash
+   ↓
+bcrypt.compare()
+   ↓
+bcrypt.hash(new password)
+   ↓
+Update users.password_hash
+   ↓
+JSON Response
+```
+
+## Notifications Flow
+
+```text
+Client
+   ↓
+JWT Authentication
+   ↓
+Notification Routes
+   ↓
+Notification Controller
+   ↓
+Notification Model
+   ↓
+MySQL
+   ↓
+JSON Response
+```
+
+Notification fetching has been tested successfully.
+
+## YouTube Productivity — Planned Flow
+
+```text
+React YouTube Page
+        ↓
+SynapseOS Backend
+        ↓
+YouTube Controller
+        ↓
+YouTube Service
+        ↓
+YouTube Data API v3
+        ↓
+Search Results
+        ↓
+JSON Response
+        ↓
+React UI
+```
+
+The YouTube API credential is stored server-side in `.env`.

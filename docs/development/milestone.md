@@ -494,3 +494,70 @@ SynapseOS has progressed from a basic Express + MySQL backend into a multi-modul
 **AI Recommendation Engine:** ⬜ Next major feature
 
 **Deployment:** ⬜ Future phase
+
+# 📌 Current Project Status — August 2026
+
+## Stable Milestone
+
+**Current release:** `v1.2.0`
+
+The `v1.2.0` milestone represents the completed User Profile Management module.
+
+### Completed Core Modules
+
+- [x] Authentication
+- [x] User Profile
+- [x] Subjects
+- [x] Tasks
+- [x] Notes
+- [x] Calendar
+- [x] Goals
+- [x] Study Sessions
+- [x] Pomodoro
+- [x] Dashboard Summary
+- [x] Analytics
+- [x] Notifications
+- [x] Frontend routing/navigation integration
+
+### Profile Module
+
+- [x] View profile
+- [x] Edit profile
+- [x] Update full name
+- [x] Update username
+- [x] Update email
+- [x] Duplicate username/email validation
+- [x] Change password
+- [x] Current-password verification
+- [x] bcrypt password hashing
+
+### Deferred to Final Polishing
+
+- [ ] Avatar upload/storage
+- [ ] Dark theme
+- [ ] Final responsive/UI refinement
+
+### Next Active Feature
+
+**YouTube Productivity Module**
+
+Initial step:
+
+- [ ] Create Google Cloud project
+- [ ] Enable YouTube Data API v3
+- [ ] Create/restrict API key
+- [ ] Add `YOUTUBE_API_KEY` to backend `.env`
+- [ ] Test YouTube API from backend
+- [ ] Build YouTube search
+- [ ] Build embedded video player
+- [ ] Build learning library
+- [ ] Add video notes/completion tracking
+- [ ] Add learning/watch-time analytics
+
+### Version History
+
+- `v1.0.0` — initial release milestone
+- `v1.0-backend-core` — backend core milestone
+- `v1.1.0` — existing feature milestone
+- `v1.1.1` — existing patch milestone
+- `v1.2.0` — Profile Management completed

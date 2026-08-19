@@ -222,5 +222,55 @@ frontend/
 - Axios interceptors simplify authenticated API requests.
 - Protected APIs require JWT in Authorization header.
 
+# Current Frontend Status — August 2026
 
+## Completed
 
+- [x] Authentication pages
+- [x] Protected routing
+- [x] Dashboard layout
+- [x] Sidebar navigation
+- [x] Navbar
+- [x] Tasks page
+- [x] Notes page
+- [x] Calendar page
+- [x] Goals page
+- [x] Study Sessions page
+- [x] Pomodoro page
+- [x] Analytics page
+- [x] Notifications integration
+- [x] Profile page
+- [x] Profile editing
+- [x] Change password
+- [x] Logout flow
+- [x] Sidebar route links
+
+## Profile UI
+
+The profile module currently supports:
+
+- Viewing user information
+- Editing full name, username, and email
+- Changing password
+- Displaying a fallback user initial/avatar
+
+## Deferred
+
+- [ ] Real avatar upload
+- [ ] Dark theme
+- [ ] Final responsive polishing
+
+## Next Frontend Feature
+
+**YouTube Productivity UI**
+
+Planned:
+
+- Search interface
+- Video result cards
+- Embedded player
+- Save-to-library action
+- Learning library
+- Video notes
+- Completion status
+- Watch-time display

@@ -601,3 +601,72 @@ Dashboard Module
 ├── Pomodoro Analytics
 
 └── Productivity Score
+
+# Current Architecture Snapshot — August 2026
+
+## Current Backend Modules
+
+```text
+controllers/
+├── authController.js
+├── userController.js
+├── subjectController.js
+├── taskController.js
+├── noteController.js
+├── calendarController.js
+├── goalController.js
+├── studySessionController.js
+├── pomodoroController.js
+├── dashboardController.js
+└── notificationController.js
+```
+
+```text
+models/
+├── authModel.js
+├── userModel.js
+├── subjectModel.js
+├── taskModel.js
+├── noteModel.js
+├── calendarModel.js
+├── goalModel.js
+├── studySessionModel.js
+├── pomodoroModel.js
+├── dashboardModel.js
+└── notificationModel.js
+```
+
+```text
+routes/
+├── authRoutes.js
+├── userRoutes.js
+├── subjectRoutes.js
+├── taskRoutes.js
+├── noteRoutes.js
+├── calendarRoutes.js
+├── goalRoutes.js
+├── studySessionRoutes.js
+├── pomodoroRoutes.js
+├── dashboardRoutes.js
+└── notificationRoutes.js
+```
+
+## Current Status
+
+The core backend productivity architecture is implemented.
+
+The next planned external integration is YouTube Data API v3.
+
+YouTube will follow the existing separation-of-concerns pattern:
+
+```text
+Route
+  ↓
+Controller
+  ↓
+Service
+  ↓
+YouTube API
+```
+
+Persistent SynapseOS learning-library data will continue to use MySQL.

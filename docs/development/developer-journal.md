@@ -1731,3 +1731,58 @@ MySQL
 
 **Next milestone: Frontend module documentation and continued
 integration of the remaining productivity features.**
+
+# Latest Development Checkpoint — August 2026
+
+## Profile Management
+
+Completed:
+
+- Profile retrieval
+- Profile editing
+- Username/email duplicate validation
+- Password change
+- Current-password verification
+- bcrypt password hashing
+- Frontend profile integration
+
+The profile module was committed and the project was tagged at `v1.2.0`.
+
+Avatar support was intentionally deferred to the final polishing phase.
+
+## Notifications
+
+The notification backend was completed and notification fetching was successfully verified.
+
+## Frontend Navigation
+
+Sidebar navigation was updated so the major dashboard sections use their actual React Router paths. Logout now removes the JWT token and stored user data before redirecting to login.
+
+## YouTube Productivity — Starting
+
+The next major feature is YouTube Productivity.
+
+The first implementation task is configuring YouTube Data API v3 credentials.
+
+Planned architecture:
+
+```text
+React
+  ↓
+SynapseOS Backend
+  ↓
+YouTube Data API v3
+```
+
+The API key must remain server-side in `.env`.
+
+## Current Development Principle
+
+Core functionality is being completed before final polishing.
+
+Deferred polishing work includes:
+
+- Avatar
+- Dark theme
+- Responsive refinement
+- Final UI/UX improvements

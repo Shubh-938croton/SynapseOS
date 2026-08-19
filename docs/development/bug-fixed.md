@@ -1395,3 +1395,87 @@ The most important recurring themes have been:
 7. **Frequent testing and commits**.
 
 **Current major milestone: Calendar CRUD is complete and stable.**
+
+# Recent Bugs — August 2026
+
+## Bug — Study Session Model Used Controller Response Object
+
+**Issue**
+
+```text
+TypeError: res.status is not a function
+```
+
+**Cause**
+
+The study-session model contained controller-style response handling and attempted to call `res.status()`.
+
+Models should not receive or use Express `res`.
+
+**Solution**
+
+Moved HTTP response handling into `studySessionController.js` and kept the model responsible only for database operations and callbacks.
+
+**Lesson**
+
+Controllers handle HTTP responses; models handle database queries.
+
+**Status**
+
+✅ Fixed
+
+---
+
+## Bug — Study Session Model MODULE_NOT_FOUND
+
+**Issue**
+
+```text
+Cannot find module ...
+studySessionModel.js
+```
+
+**Cause**
+
+Incorrect module import/path in the model.
+
+**Solution**
+
+Corrected the import path and synchronized the model with the actual database configuration file.
+
+**Status**
+
+✅ Fixed
+
+---
+
+## Bug — Sidebar Links Not Working
+
+**Issue**
+
+Dashboard sidebar items used:
+
+```html
+<a href="#">
+```
+
+so clicking Tasks, Notes, Goals, etc. did not navigate to their pages.
+
+**Solution**
+
+Connected links to the actual application routes such as:
+
+```text
+/tasks
+/notes
+/goals
+/calendar
+/study-sessions
+/pomodoro
+/analytics
+/profile
+```
+
+**Status**
+
+✅ Fixed
