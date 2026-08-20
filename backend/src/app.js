@@ -22,6 +22,7 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const contestRoutes = require("./routes/contestRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
+const settingsRoutes = require("./routes/settingsRoutes");
 
 app.use(express.json());
 
@@ -38,5 +39,6 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/contests", contestRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/settings", settingsRoutes);
 
 module.exports = app;
