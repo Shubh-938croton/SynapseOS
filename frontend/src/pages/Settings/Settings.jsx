@@ -1,93 +1,54 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
     FaCog,
     FaMoon,
-    FaSun,
     FaBell,
     FaClock,
     FaBullseye,
     FaSave,
-    FaRedo,
-    FaCheck,
-    FaFire
+    FaUndo
 } from "react-icons/fa";
 
-import Sidebar from "../../components/Sidebar/Sidebar";
-
-import {
-    getSettings,
-    updateSettings
-} from "../../services/settingsService";
+import DashboardLayout from "../../components/DashboardLayout/DashboardLayout";
+import { useSettings } from "../../context/SettingsContext";
 
 import "./Settings.css";
 
 
-const DEFAULT_SETTINGS = {
-    theme: "Light",
-    notification_enabled: true,
-    daily_goal_minutes: 120,
-    pomodoro_duration: 25,
-    short_break_duration: 5,
-    long_break_duration: 15
-};
-
-
 function Settings() {
 
-    const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+    // =======================================
+    // GLOBAL SETTINGS CONTEXT
+    // =======================================
 
-    const [loading, setLoading] = useState(true);
+    const {
+        settings,
+        loading,
+        updateLocalSettings,
+        saveSettings,
+        resetSettings
+    } = useSettings();
+
+
+    // =======================================
+    // LOCAL UI STATE
+    // =======================================
+
     const [saving, setSaving] = useState(false);
-
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
 
     // =======================================
-    // LOAD SETTINGS
-    // =======================================
-
-    useEffect(() => {
-
-        const loadSettings = async () => {
-
-            try {
-
-                const data = await getSettings();
-
-                setSettings({
-                    ...DEFAULT_SETTINGS,
-                    ...data.settings
-                });
-
-            } catch (err) {
-
-                setError(err.message);
-
-            } finally {
-
-                setLoading(false);
-
-            }
-
-        };
-
-        loadSettings();
-
-    }, []);
-
-
-    // =======================================
-    // HANDLE CHANGE
+    // HANDLE SETTING CHANGE
     // =======================================
 
     const handleChange = (name, value) => {
 
-        setSettings((previous) => ({
-            ...previous,
+        updateLocalSettings({
             [name]: value
-        }));
+        });
 
         setMessage("");
         setError("");
@@ -107,13 +68,17 @@ function Settings() {
             setMessage("");
             setError("");
 
-            await updateSettings(settings);
+            await saveSettings(settings);
 
             setMessage("Settings saved successfully.");
 
         } catch (err) {
 
-            setError(err.message);
+            console.error("Save settings error:", err);
+
+            setError(
+                err.message || "Failed to save settings."
+            );
 
         } finally {
 
@@ -128,26 +93,35 @@ function Settings() {
     // RESET SETTINGS
     // =======================================
 
-    const handleReset = () => {
+    const handleReset = async () => {
 
-        setSettings(DEFAULT_SETTINGS);
+        try {
 
-        setMessage("Settings reset to defaults.");
+            setSaving(true);
+            setMessage("");
+            setError("");
 
-        setError("");
+            await resetSettings();
+
+            setMessage(
+                "Settings reset to default values."
+            );
+
+        } catch (err) {
+
+            console.error("Reset settings error:", err);
+
+            setError(
+                err.message || "Failed to reset settings."
+            );
+
+        } finally {
+
+            setSaving(false);
+
+        }
 
     };
-
-
-    // =======================================
-    // DAILY GOAL DISPLAY
-    // =======================================
-
-    const hours = Math.floor(
-        settings.daily_goal_minutes / 60
-    );
-
-    const minutes = settings.daily_goal_minutes % 60;
 
 
     // =======================================
@@ -157,128 +131,105 @@ function Settings() {
     if (loading) {
 
         return (
-            <div className="settings-container">
+            <DashboardLayout>
 
-                <Sidebar />
-
-                <main className="settings-content">
+                <div className="settings-page">
 
                     <div className="settings-loading">
-                        Loading settings...
+
+                        <FaCog className="settings-loading-icon" />
+
+                        <p>
+                            Loading settings...
+                        </p>
+
                     </div>
 
-                </main>
+                </div>
 
-            </div>
+            </DashboardLayout>
         );
 
     }
 
 
+    // =======================================
+    // SETTINGS PAGE
+    // =======================================
+
     return (
 
-        <div
-            className={`settings-container ${
-                settings.theme === "Dark"
-                    ? "settings-dark"
-                    : ""
-            }`}
-        >
+        <DashboardLayout>
 
-            <Sidebar />
+            <div className="settings-page">
 
+                {/* =======================================
+                    HEADER
+                ======================================= */}
 
-            <main className="settings-content">
+                <div className="settings-header">
 
-                <div className="settings-page">
+                    <div>
 
+                        <h1>
+                            <FaCog />
+                            Settings
+                        </h1>
 
-                    {/* ===================================
-                        HEADER
-                    =================================== */}
-
-                    <div className="settings-header">
-
-                        <div>
-
-                            <div className="settings-title">
-
-                                <div className="title-icon">
-                                    <FaCog />
-                                </div>
-
-                                <div>
-
-                                    <h1>
-                                        Settings
-                                    </h1>
-
-                                    <p>
-                                        Customize your SynapseOS experience.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <button
-                            className="header-save-btn"
-                            onClick={handleSave}
-                            disabled={saving}
-                        >
-
-                            <FaSave />
-
-                            {saving
-                                ? "Saving..."
-                                : "Save Changes"}
-
-                        </button>
+                        <p>
+                            Customize your SynapseOS experience.
+                        </p>
 
                     </div>
 
-
-                    {/* ===================================
-                        MESSAGES
-                    =================================== */}
-
-                    {message && (
-
-                        <div className="settings-message success">
-
-                            <FaCheck />
-
-                            {message}
-
-                        </div>
-
-                    )}
+                </div>
 
 
-                    {error && (
+                {/* =======================================
+                    SUCCESS MESSAGE
+                ======================================= */}
 
-                        <div className="settings-message error">
+                {message && (
 
-                            {error}
+                    <div className="settings-message success">
 
-                        </div>
+                        {message}
 
-                    )}
+                    </div>
+
+                )}
 
 
-                    {/* ===================================
+                {/* =======================================
+                    ERROR MESSAGE
+                ======================================= */}
+
+                {error && (
+
+                    <div className="settings-message error">
+
+                        {error}
+
+                    </div>
+
+                )}
+
+
+                <div className="settings-grid">
+
+
+                    {/* =======================================
                         APPEARANCE
-                    =================================== */}
+                    ======================================= */}
 
                     <section className="settings-card">
 
-                        <div className="section-heading">
+                        <div className="settings-card-header">
 
-                            <div className="section-icon blue">
+                            <div className="settings-card-icon">
+
                                 <FaMoon />
+
                             </div>
 
                             <div>
@@ -288,7 +239,7 @@ function Settings() {
                                 </h2>
 
                                 <p>
-                                    Choose how SynapseOS looks.
+                                    Customize how SynapseOS looks.
                                 </p>
 
                             </div>
@@ -296,106 +247,83 @@ function Settings() {
                         </div>
 
 
-                        <div className="theme-options">
+                        <div className="setting-item">
 
-                            {/* LIGHT */}
+                            <div className="setting-info">
 
-                            <button
-                                type="button"
-                                className={`theme-option ${
-                                    settings.theme === "Light"
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                onClick={() =>
-                                    handleChange(
-                                        "theme",
-                                        "Light"
-                                    )
-                                }
-                            >
+                                <h3>
+                                    Theme
+                                </h3>
 
-                                <div className="theme-preview light-preview">
+                                <p>
+                                    Choose your preferred interface theme.
+                                </p>
 
-                                    <FaSun />
+                            </div>
 
-                                </div>
 
-                                <div className="theme-info">
+                            <div className="theme-options">
 
-                                    <strong>
+                                <button
+                                    type="button"
+                                    className={
+                                        settings.theme === "Light"
+                                            ? "theme-option active"
+                                            : "theme-option"
+                                    }
+                                    onClick={() =>
+                                        handleChange(
+                                            "theme",
+                                            "Light"
+                                        )
+                                    }
+                                >
+                                    ☀️
+                                    <span>
                                         Light
-                                    </strong>
-
-                                    <span>
-                                        Clean and bright
                                     </span>
-
-                                </div>
-
-                                {settings.theme === "Light" && (
-                                    <FaCheck className="theme-check" />
-                                )}
-
-                            </button>
+                                </button>
 
 
-                            {/* DARK */}
-
-                            <button
-                                type="button"
-                                className={`theme-option dark-option ${
-                                    settings.theme === "Dark"
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                onClick={() =>
-                                    handleChange(
-                                        "theme",
-                                        "Dark"
-                                    )
-                                }
-                            >
-
-                                <div className="theme-preview dark-preview">
-
-                                    <FaMoon />
-
-                                </div>
-
-                                <div className="theme-info">
-
-                                    <strong>
+                                <button
+                                    type="button"
+                                    className={
+                                        settings.theme === "Dark"
+                                            ? "theme-option active"
+                                            : "theme-option"
+                                    }
+                                    onClick={() =>
+                                        handleChange(
+                                            "theme",
+                                            "Dark"
+                                        )
+                                    }
+                                >
+                                    🌙
+                                    <span>
                                         Dark
-                                    </strong>
-
-                                    <span>
-                                        Focused and easy on the eyes
                                     </span>
+                                </button>
 
-                                </div>
-
-                                {settings.theme === "Dark" && (
-                                    <FaCheck className="theme-check" />
-                                )}
-
-                            </button>
+                            </div>
 
                         </div>
 
                     </section>
 
 
-                    {/* ===================================
+                    {/* =======================================
                         NOTIFICATIONS
-                    =================================== */}
+                    ======================================= */}
 
                     <section className="settings-card">
 
-                        <div className="section-heading">
+                        <div className="settings-card-header">
 
-                            <div className="section-icon purple">
+                            <div className="settings-card-icon">
+
                                 <FaBell />
+
                             </div>
 
                             <div>
@@ -405,7 +333,7 @@ function Settings() {
                                 </h2>
 
                                 <p>
-                                    Control your productivity reminders.
+                                    Control productivity notifications.
                                 </p>
 
                             </div>
@@ -413,55 +341,59 @@ function Settings() {
                         </div>
 
 
-                        <div className="interactive-row">
+                        <div className="setting-item">
 
-                            <div className="setting-description">
+                            <div className="setting-info">
 
-                                <strong>
-                                    Productivity Notifications
-                                </strong>
+                                <h3>
+                                    Notifications
+                                </h3>
 
-                                <span>
-                                    Receive reminders and productivity alerts.
-                                </span>
+                                <p>
+                                    Receive reminders and productivity notifications.
+                                </p>
 
                             </div>
 
 
-                            <button
-                                type="button"
-                                className={`switch ${
-                                    settings.notification_enabled
-                                        ? "active"
-                                        : ""
-                                }`}
-                                onClick={() =>
-                                    handleChange(
-                                        "notification_enabled",
-                                        !settings.notification_enabled
-                                    )
-                                }
-                            >
+                            <label className="switch">
 
-                                <span className="switch-circle"></span>
+                                <input
+                                    type="checkbox"
+                                    checked={
+                                        Boolean(
+                                            settings.notification_enabled
+                                        )
+                                    }
+                                    onChange={(e) =>
+                                        handleChange(
+                                            "notification_enabled",
+                                            e.target.checked
+                                        )
+                                    }
+                                />
 
-                            </button>
+                                <span className="slider"></span>
+
+                            </label>
 
                         </div>
 
                     </section>
 
 
-                    {/* ===================================
+                    {/* =======================================
                         DAILY GOAL
-                    =================================== */}
+                    ======================================= */}
 
                     <section className="settings-card">
 
-                        <div className="section-heading">
+                        <div className="settings-card-header">
 
-                            <div className="section-icon green">
+                            <div className="settings-card-icon">
+
                                 <FaBullseye />
+
                             </div>
 
                             <div>
@@ -471,7 +403,7 @@ function Settings() {
                                 </h2>
 
                                 <p>
-                                    Set how much time you want to study each day.
+                                    Set your daily study target.
                                 </p>
 
                             </div>
@@ -479,81 +411,84 @@ function Settings() {
                         </div>
 
 
-                        <div className="goal-display">
+                        <div className="setting-item vertical">
 
-                            <div>
+                            <div className="setting-info">
 
-                                <span className="goal-number">
-                                    {settings.daily_goal_minutes}
-                                </span>
+                                <h3>
+                                    Daily Goal
+                                </h3>
 
-                                <span className="goal-unit">
-                                    minutes
-                                </span>
-
-                            </div>
-
-
-                            <div className="goal-time">
-
-                                {hours > 0 && (
-                                    <span>
-                                        {hours} hour{hours > 1 ? "s" : ""}
-                                    </span>
-                                )}
-
-                                {minutes > 0 && (
-                                    <span>
-                                        {minutes} min
-                                    </span>
-                                )}
+                                <p>
+                                    Target study time per day.
+                                </p>
 
                             </div>
 
-                        </div>
+
+                            <div className="range-container">
+
+                                <div className="range-value">
+
+                                    <strong>
+                                        {settings.daily_goal_minutes}
+                                    </strong>
+
+                                    <span>
+                                        minutes
+                                    </span>
+
+                                </div>
 
 
-                        <input
-                            className="range-input"
-                            type="range"
-                            min="30"
-                            max="600"
-                            step="15"
-                            value={settings.daily_goal_minutes}
-                            onChange={(e) =>
-                                handleChange(
-                                    "daily_goal_minutes",
-                                    Number(e.target.value)
-                                )
-                            }
-                        />
+                                <input
+                                    type="range"
+                                    min="30"
+                                    max="600"
+                                    step="15"
+                                    value={
+                                        settings.daily_goal_minutes
+                                    }
+                                    onChange={(e) =>
+                                        handleChange(
+                                            "daily_goal_minutes",
+                                            Number(e.target.value)
+                                        )
+                                    }
+                                />
 
 
-                        <div className="range-labels">
+                                <div className="range-labels">
 
-                            <span>
-                                30 min
-                            </span>
+                                    <span>
+                                        30 min
+                                    </span>
 
-                            <span>
-                                10 hours
-                            </span>
+                                    <span>
+                                        10 hours
+                                    </span>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
                     </section>
 
 
-                    {/* ===================================
+                    {/* =======================================
                         POMODORO
-                    =================================== */}
+                    ======================================= */}
 
                     <section className="settings-card">
 
-                        <div className="section-heading">
+                        <div className="settings-card-header">
 
-                            <div className="section-icon orange">
+                            <div className="settings-card-icon">
+
                                 <FaClock />
+
                             </div>
 
                             <div>
@@ -563,7 +498,7 @@ function Settings() {
                                 </h2>
 
                                 <p>
-                                    Customize your focus and break sessions.
+                                    Configure your focus sessions and breaks.
                                 </p>
 
                             </div>
@@ -571,168 +506,159 @@ function Settings() {
                         </div>
 
 
-                        {/* FOCUS */}
+                        {/* FOCUS DURATION */}
 
-                        <div className="slider-setting">
+                        <div className="setting-item vertical">
 
-                            <div className="slider-header">
+                            <div className="setting-info">
 
-                                <div>
+                                <h3>
+                                    Focus Duration
+                                </h3>
 
-                                    <strong>
-                                        Focus Duration
-                                    </strong>
-
-                                    <span>
-                                        Length of each focus session.
-                                    </span>
-
-                                </div>
-
-                                <div className="value-badge">
-                                    {settings.pomodoro_duration} min
-                                </div>
+                                <p>
+                                    Length of each Pomodoro session.
+                                </p>
 
                             </div>
 
 
-                            <input
-                                className="range-input"
-                                type="range"
-                                min="5"
-                                max="90"
-                                step="5"
-                                value={settings.pomodoro_duration}
-                                onChange={(e) =>
-                                    handleChange(
-                                        "pomodoro_duration",
-                                        Number(e.target.value)
-                                    )
-                                }
-                            />
+                            <div className="range-container">
+
+                                <div className="range-value">
+
+                                    <strong>
+                                        {settings.pomodoro_duration}
+                                    </strong>
+
+                                    <span>
+                                        minutes
+                                    </span>
+
+                                </div>
+
+
+                                <input
+                                    type="range"
+                                    min="5"
+                                    max="60"
+                                    step="5"
+                                    value={
+                                        settings.pomodoro_duration
+                                    }
+                                    onChange={(e) =>
+                                        handleChange(
+                                            "pomodoro_duration",
+                                            Number(e.target.value)
+                                        )
+                                    }
+                                />
+
+                            </div>
 
                         </div>
 
 
                         {/* SHORT BREAK */}
 
-                        <div className="slider-setting">
+                        <div className="setting-item vertical">
 
-                            <div className="slider-header">
+                            <div className="setting-info">
 
-                                <div>
+                                <h3>
+                                    Short Break
+                                </h3>
 
-                                    <strong>
-                                        Short Break
-                                    </strong>
-
-                                    <span>
-                                        Duration of short breaks.
-                                    </span>
-
-                                </div>
-
-                                <div className="value-badge">
-                                    {settings.short_break_duration} min
-                                </div>
+                                <p>
+                                    Duration of your short break.
+                                </p>
 
                             </div>
 
 
-                            <input
-                                className="range-input"
-                                type="range"
-                                min="1"
-                                max="30"
-                                step="1"
-                                value={settings.short_break_duration}
-                                onChange={(e) =>
-                                    handleChange(
-                                        "short_break_duration",
-                                        Number(e.target.value)
-                                    )
-                                }
-                            />
+                            <div className="range-container">
+
+                                <div className="range-value">
+
+                                    <strong>
+                                        {settings.short_break_duration}
+                                    </strong>
+
+                                    <span>
+                                        minutes
+                                    </span>
+
+                                </div>
+
+
+                                <input
+                                    type="range"
+                                    min="1"
+                                    max="15"
+                                    step="1"
+                                    value={
+                                        settings.short_break_duration
+                                    }
+                                    onChange={(e) =>
+                                        handleChange(
+                                            "short_break_duration",
+                                            Number(e.target.value)
+                                        )
+                                    }
+                                />
+
+                            </div>
 
                         </div>
 
 
                         {/* LONG BREAK */}
 
-                        <div className="slider-setting">
+                        <div className="setting-item vertical">
 
-                            <div className="slider-header">
+                            <div className="setting-info">
 
-                                <div>
+                                <h3>
+                                    Long Break
+                                </h3>
+
+                                <p>
+                                    Duration of your long break.
+                                </p>
+
+                            </div>
+
+
+                            <div className="range-container">
+
+                                <div className="range-value">
 
                                     <strong>
-                                        Long Break
+                                        {settings.long_break_duration}
                                     </strong>
 
                                     <span>
-                                        Duration after multiple focus sessions.
+                                        minutes
                                     </span>
 
                                 </div>
 
-                                <div className="value-badge">
-                                    {settings.long_break_duration} min
-                                </div>
 
-                            </div>
-
-
-                            <input
-                                className="range-input"
-                                type="range"
-                                min="5"
-                                max="60"
-                                step="5"
-                                value={settings.long_break_duration}
-                                onChange={(e) =>
-                                    handleChange(
-                                        "long_break_duration",
-                                        Number(e.target.value)
-                                    )
-                                }
-                            />
-
-                        </div>
-
-
-                        {/* POMODORO PREVIEW */}
-
-                        <div className="pomodoro-preview">
-
-                            <div className="preview-icon">
-                                <FaFire />
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Your Pomodoro Cycle
-                                </strong>
-
-                                <p>
-
-                                    {settings.pomodoro_duration} min focus
-
-                                    <span> → </span>
-
-                                    {settings.short_break_duration} min break
-
-                                    <span> → </span>
-
-                                    repeat
-
-                                </p>
-
-                                <small>
-                                    After 4 sessions, take a{" "}
-                                    {settings.long_break_duration}-minute
-                                    long break.
-                                </small>
+                                <input
+                                    type="range"
+                                    min="5"
+                                    max="30"
+                                    step="5"
+                                    value={
+                                        settings.long_break_duration
+                                    }
+                                    onChange={(e) =>
+                                        handleChange(
+                                            "long_break_duration",
+                                            Number(e.target.value)
+                                        )
+                                    }
+                                />
 
                             </div>
 
@@ -741,48 +667,51 @@ function Settings() {
                     </section>
 
 
-                    {/* ===================================
-                        FOOTER ACTIONS
-                    =================================== */}
-
-                    <div className="settings-footer">
-
-                        <button
-                            type="button"
-                            className="reset-btn"
-                            onClick={handleReset}
-                        >
-
-                            <FaRedo />
-
-                            Reset to Defaults
-
-                        </button>
+                </div>
 
 
-                        <button
-                            type="button"
-                            className="save-settings-btn"
-                            onClick={handleSave}
-                            disabled={saving}
-                        >
+                {/* =======================================
+                    ACTIONS
+                ======================================= */}
 
-                            <FaSave />
+                <div className="settings-actions">
 
-                            {saving
-                                ? "Saving..."
-                                : "Save Settings"}
+                    <button
+                        type="button"
+                        className="reset-settings-btn"
+                        onClick={handleReset}
+                        disabled={saving}
+                    >
 
-                        </button>
+                        <FaUndo />
 
-                    </div>
+                        Reset Defaults
 
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="save-settings-btn"
+                        onClick={handleSave}
+                        disabled={saving}
+                    >
+
+                        <FaSave />
+
+                        {saving
+                            ? "Saving..."
+                            : "Save Settings"
+                        }
+
+                    </button>
 
                 </div>
 
-            </main>
 
-        </div>
+            </div>
+
+        </DashboardLayout>
 
     );
 
