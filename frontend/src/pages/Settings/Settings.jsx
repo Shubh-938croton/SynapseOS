@@ -10,7 +10,7 @@ import {
     FaUndo
 } from "react-icons/fa";
 
-import DashboardLayout from "../../components/DashboardLayout/DashboardLayout";
+import DashboardLayout from "../../components/Layout/DashboardLayout";
 import { useSettings } from "../../context/SettingsContext";
 
 import "./Settings.css";

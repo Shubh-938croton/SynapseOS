@@ -1,0 +1,128 @@
+/* =======================================
+   LIGHT THEME
+======================================= */
+
+:root {
+
+    --bg-primary: #f5f7fb;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f3f5;
+
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+
+    --border-color: #e5e7eb;
+
+    --accent-color: #4f46e5;
+    --accent-hover: #4338ca;
+
+    --success-color: #22c55e;
+    --danger-color: #ef4444;
+
+    --card-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.05);
+
+    --input-background: #ffffff;
+
+}
+
+
+/* =======================================
+   DARK THEME
+======================================= */
+
+html[data-theme="dark"] {
+
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-tertiary: #374151;
+
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+
+    --border-color: #374151;
+
+    --accent-color: #6366f1;
+    --accent-hover: #818cf8;
+
+    --success-color: #4ade80;
+    --danger-color: #f87171;
+
+    --card-shadow:
+        0 6px 25px rgba(0, 0, 0, 0.3);
+
+    --input-background: #111827;
+
+}
+
+
+/* =======================================
+   GLOBAL
+======================================= */
+
+html,
+body,
+#root {
+
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+
+}
+
+
+html {
+
+    background: var(--bg-primary);
+
+    transition:
+        background-color 0.25s ease;
+
+}
+
+
+body {
+
+    background: var(--bg-primary);
+    color: var(--text-primary);
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+
+}
+
+
+/* =======================================
+   COMMON ELEMENTS
+======================================= */
+
+input,
+textarea,
+select {
+
+    background: var(--input-background);
+    color: var(--text-primary);
+
+    border-color: var(--border-color);
+
+}
+
+
+button {
+
+    font-family: inherit;
+
+}
+
+
+/* =======================================
+   SELECTION
+======================================= */
+
+::selection {
+
+    background: var(--accent-color);
+    color: #ffffff;
+
+}

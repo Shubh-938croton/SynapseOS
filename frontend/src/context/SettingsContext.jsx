@@ -1,9 +1,15 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState
+} from "react";
 
 import {
     getSettings,
     updateSettings
 } from "../services/settingsService";
+
 
 const DEFAULT_SETTINGS = {
     theme: "Light",
@@ -14,12 +20,41 @@ const DEFAULT_SETTINGS = {
     long_break_duration: 15
 };
 
+
 const SettingsContext = createContext(null);
+
+
+// =======================================
+// SETTINGS PROVIDER
+// =======================================
 
 export const SettingsProvider = ({ children }) => {
 
-    const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+    const [settings, setSettings] = useState(
+        DEFAULT_SETTINGS
+    );
+
     const [loading, setLoading] = useState(true);
+
+
+    // =======================================
+    // APPLY THEME GLOBALLY
+    // =======================================
+
+    useEffect(() => {
+
+        const theme =
+            settings.theme === "Dark"
+                ? "dark"
+                : "light";
+
+        document.documentElement.setAttribute(
+            "data-theme",
+            theme
+        );
+
+    }, [settings.theme]);
+
 
     // =======================================
     // LOAD SETTINGS
@@ -33,14 +68,19 @@ export const SettingsProvider = ({ children }) => {
 
             const data = await getSettings();
 
-            setSettings({
+            const loadedSettings = {
                 ...DEFAULT_SETTINGS,
                 ...data.settings
-            });
+            };
+
+            setSettings(loadedSettings);
 
         } catch (error) {
 
-            console.error("Failed to load settings:", error);
+            console.error(
+                "Failed to load settings:",
+                error
+            );
 
         } finally {
 
@@ -60,9 +100,13 @@ export const SettingsProvider = ({ children }) => {
         const token = localStorage.getItem("token");
 
         if (token) {
+
             loadSettings();
+
         } else {
+
             setLoading(false);
+
         }
 
     }, []);
@@ -102,6 +146,25 @@ export const SettingsProvider = ({ children }) => {
     };
 
 
+    // =======================================
+    // RESET SETTINGS
+    // =======================================
+
+    const resetSettings = async () => {
+
+        await updateSettings(DEFAULT_SETTINGS);
+
+        setSettings(DEFAULT_SETTINGS);
+
+        return DEFAULT_SETTINGS;
+
+    };
+
+
+    // =======================================
+    // PROVIDER
+    // =======================================
+
     return (
         <SettingsContext.Provider
             value={{
@@ -109,6 +172,7 @@ export const SettingsProvider = ({ children }) => {
                 loading,
                 updateLocalSettings,
                 saveSettings,
+                resetSettings,
                 reloadSettings: loadSettings
             }}
         >
