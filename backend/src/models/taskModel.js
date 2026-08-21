@@ -70,28 +70,58 @@ const createTask = (task, callback) => {
 // =========================
 // Get Task By ID
 // =========================
-const getTaskById = (id, callback) => {
+const getTaskById = (userIdOrId, idOrCallback, callback) => {
 
-    const query = `
+    let userId, id, cb;
+
+    if (typeof callback === "function") {
+        userId = userIdOrId;
+        id = idOrCallback;
+        cb = callback;
+    } else {
+        id = userIdOrId;
+        cb = idOrCallback;
+    }
+
+    let query = `
         SELECT *
         FROM tasks
         WHERE task_id = ?
     `;
+    const params = [id];
 
-    db.query(query, [id], (err, results) => {
+    if (userId !== undefined) {
+        query += ` AND user_id = ?`;
+        params.push(userId);
+    }
+
+    db.query(query, params, (err, results) => {
 
         if (err) {
-            return callback(err, null);
+            return cb(err, null);
         }
 
-        callback(null, results);
+        cb(null, results);
 
     });
 
 };
 
 // update task 
-const updateTask = (id, task, callback) => {
+const updateTask = (userIdOrId, idOrTask, taskOrCallback, callback) => {
+
+    let userId, id, task, cb;
+
+    if (typeof callback === "function") {
+        userId = userIdOrId;
+        id = idOrTask;
+        task = taskOrCallback;
+        cb = callback;
+    } else {
+        id = userIdOrId;
+        task = idOrTask;
+        cb = taskOrCallback;
+    }
 
     const fields = [];
     const values = [];
@@ -127,47 +157,68 @@ const updateTask = (id, task, callback) => {
     }
 
     if (fields.length === 0) {
-        return callback(
+        return cb(
             new Error("No fields provided for update"),
             null
         );
     }
 
-    const query = `
+    let query = `
         UPDATE tasks
         SET ${fields.join(", ")}
         WHERE task_id = ?
     `;
-
     values.push(id);
+
+    if (userId !== undefined) {
+        query += ` AND user_id = ?`;
+        values.push(userId);
+    }
 
     db.query(query, values, (err, result) => {
 
         if (err) {
-            return callback(err, null);
+            return cb(err, null);
         }
 
-        callback(null, result);
+        cb(null, result);
 
     });
 
 };
 
 // delete task 
-const deleteTask = (id, callback) => {
+const deleteTask = (userIdOrId, idOrCallback, callback) => {
 
-    const query = `
+    let userId, id, cb;
+
+    if (typeof callback === "function") {
+        userId = userIdOrId;
+        id = idOrCallback;
+        cb = callback;
+    } else {
+        id = userIdOrId;
+        cb = idOrCallback;
+    }
+
+    let query = `
         DELETE FROM tasks
         WHERE task_id = ?
     `;
+    const params = [id];
 
-    db.query(query, [id], (err, result) => {
+    if (userId !== undefined) {
+        query += ` AND user_id = ?`;
+        params.push(userId);
+    }
+
+    db.query(query, params, (err, result) => {
 
         if (err) {
-            return callback(err, null);
+            return cb(err, null);
         }
 
-        callback(null, result);
+        cb(null, result);
 
     });
 

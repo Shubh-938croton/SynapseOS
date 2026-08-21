@@ -65,9 +65,10 @@ const createTask = (req, res) => {
 
 const getTaskById = (req, res) => {
 
+    const user_id = req.user.user_id;
     const id = req.params.id;
 
-    taskModel.getTaskById(id, (err, results) => {
+    taskModel.getTaskById(user_id, id, (err, results) => {
 
         if (err) {
             return res.status(500).json({
@@ -92,10 +93,11 @@ const getTaskById = (req, res) => {
 
 const updateTask = (req, res) => {
 
+    const user_id = req.user.user_id;
     const id = req.params.id;
     const task = req.body;
 
-    taskModel.updateTask(id, task, (err, result) => {
+    taskModel.updateTask(user_id, id, task, (err, result) => {
 
         if (err) {
             return res.status(500).json({
@@ -120,9 +122,10 @@ const updateTask = (req, res) => {
 
 const deleteTask = (req, res) => {
 
+    const user_id = req.user.user_id;
     const id = req.params.id;
 
-    taskModel.deleteTask(id, (err, result) => {
+    taskModel.deleteTask(user_id, id, (err, result) => {
 
         if (err) {
             return res.status(500).json({

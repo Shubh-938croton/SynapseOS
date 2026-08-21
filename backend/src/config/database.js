@@ -2,20 +2,25 @@ require("dotenv").config();
 
 const mysql = require("mysql2");
 
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
+const pool = mysql.createPool({
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME || "synapseos",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-connection.connect((err) => {
+// Test initial connectivity
+pool.getConnection((err, connection) => {
     if (err) {
         console.error("❌ Database Connection Failed:", err.message);
         return;
     }
 
-    console.log("✅ Connected to MySQL Database (synapseos)");
+    console.log("✅ Connected to MySQL Database Pool (synapseos)");
+    connection.release();
 });
 
-module.exports = connection;
+module.exports = pool;

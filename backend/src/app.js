@@ -23,6 +23,9 @@ const contestRoutes = require("./routes/contestRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
+const errorHandler = require("./middleware/errorHandler");
+const youtubeRoutes =
+    require("./routes/youtubeRoutes");
 
 app.use(express.json());
 
@@ -40,5 +43,16 @@ app.use("/api/contests", contestRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/settings", settingsRoutes);
+
+  app.use(
+    "/api/youtube",
+    youtubeRoutes
+);
+
+// Global Error Handler
+app.use(errorHandler);
+
+
+  
 
 module.exports = app;

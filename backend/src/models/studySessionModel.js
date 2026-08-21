@@ -5,8 +5,8 @@ const db = require("../config/database");
 // =======================================
 
 const createStudySession = (
-    userId,
-    subjectId,
+    sessionOrUserId,
+    subjectIdOrCallback,
     topic,
     startTime,
     endTime,
@@ -14,6 +14,27 @@ const createStudySession = (
     sessionNotes,
     callback
 ) => {
+    let userId, subjectId, top, start, end, duration, notes, cb;
+
+    if (typeof sessionOrUserId === "object" && sessionOrUserId !== null) {
+        userId = sessionOrUserId.user_id;
+        subjectId = sessionOrUserId.subject_id;
+        top = sessionOrUserId.topic;
+        start = sessionOrUserId.start_time;
+        end = sessionOrUserId.end_time;
+        duration = sessionOrUserId.duration_minutes;
+        notes = sessionOrUserId.session_notes;
+        cb = subjectIdOrCallback;
+    } else {
+        userId = sessionOrUserId;
+        subjectId = subjectIdOrCallback;
+        top = topic;
+        start = startTime;
+        end = endTime;
+        duration = durationMinutes;
+        notes = sessionNotes;
+        cb = callback;
+    }
 
     const sql = `
         INSERT INTO study_sessions
@@ -32,21 +53,19 @@ const createStudySession = (
     const values = [
         userId,
         subjectId,
-        topic,
-        startTime,
-        endTime,
-        durationMinutes,
-        sessionNotes || null
+        top,
+        start,
+        end,
+        duration,
+        notes || null
     ];
 
     db.query(sql, values, (err, result) => {
-
         if (err) {
-            return callback(err, null);
+            return cb(err, null);
         }
 
-        return callback(null, result);
-
+        return cb(null, result);
     });
 };
 
@@ -151,8 +170,8 @@ const getStudySessionById = (
 // =======================================
 
 const updateStudySession = (
-    userId,
-    sessionId,
+    sessionOrUserId,
+    sessionIdOrCallback,
     subjectId,
     topic,
     startTime,
@@ -161,6 +180,29 @@ const updateStudySession = (
     sessionNotes,
     callback
 ) => {
+    let userId, sessionId, subId, top, start, end, duration, notes, cb;
+
+    if (typeof sessionOrUserId === "object" && sessionOrUserId !== null) {
+        sessionId = sessionOrUserId.session_id;
+        userId = sessionOrUserId.user_id;
+        subId = sessionOrUserId.subject_id;
+        top = sessionOrUserId.topic;
+        start = sessionOrUserId.start_time;
+        end = sessionOrUserId.end_time;
+        duration = sessionOrUserId.duration_minutes;
+        notes = sessionOrUserId.session_notes;
+        cb = sessionIdOrCallback;
+    } else {
+        userId = sessionOrUserId;
+        sessionId = sessionIdOrCallback;
+        subId = subjectId;
+        top = topic;
+        start = startTime;
+        end = endTime;
+        duration = durationMinutes;
+        notes = sessionNotes;
+        cb = callback;
+    }
 
     const sql = `
         UPDATE study_sessions
@@ -179,12 +221,12 @@ const updateStudySession = (
     `;
 
     const values = [
-        subjectId,
-        topic,
-        startTime,
-        endTime,
-        durationMinutes,
-        sessionNotes || null,
+        subId,
+        top,
+        start,
+        end,
+        duration,
+        notes || null,
         sessionId,
         userId
     ];
@@ -195,10 +237,10 @@ const updateStudySession = (
         (err, result) => {
 
             if (err) {
-                return callback(err, null);
+                return cb(err, null);
             }
 
-            return callback(null, result);
+            return cb(null, result);
 
         }
     );
