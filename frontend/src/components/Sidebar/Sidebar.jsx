@@ -9,7 +9,8 @@ import {
     FaChartBar,
     FaUser,
     FaCog,
-    FaSignOutAlt
+    FaSignOutAlt,
+    FaUsers
 } from "react-icons/fa";
 
 import "./Sidebar.css";
