@@ -365,7 +365,8 @@ const formatTime = (time) => {
 
                                             <h2>
 
-                                                {session.title ||
+                                                {session.topic ||
+                                                    session.title ||
                                                     "Study Session"}
 
                                             </h2>
@@ -386,14 +387,14 @@ const formatTime = (time) => {
 
 
                                     {/* =========================
-                                        DESCRIPTION
+                                        SESSION NOTES / DESCRIPTION
                                     ========================= */}
 
-                                    {session.description && (
+                                    {(session.session_notes || session.description) && (
 
                                         <p className="study-session-description">
 
-                                            {session.description}
+                                            {session.session_notes || session.description}
 
                                         </p>
 

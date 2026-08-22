@@ -1,3 +1,4 @@
+import { NavLink, useNavigate } from "react-router-dom";
 import {
     FaHome,
     FaTasks,
@@ -7,15 +8,23 @@ import {
     FaBookOpen,
     FaClock,
     FaChartBar,
+    FaTrophy,
     FaUser,
     FaCog,
-    FaSignOutAlt,
-    FaUsers
+    FaSignOutAlt
 } from "react-icons/fa";
 
 import "./Sidebar.css";
 
 function Sidebar() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/login");
+    };
+
     return (
         <aside className="sidebar">
 
@@ -28,64 +37,70 @@ function Sidebar() {
             <nav className="sidebar-menu">
 
                 {/* DASHBOARD */}
-                <a href="/dashboard">
+                <NavLink to="/dashboard">
                     <FaHome />
                     <span>Dashboard</span>
-                </a>
+                </NavLink>
 
                 {/* TASKS */}
-                <a href="/tasks">
+                <NavLink to="/tasks">
                     <FaTasks />
                     <span>Tasks</span>
-                </a>
+                </NavLink>
 
                 {/* NOTES */}
-                <a href="/notes">
+                <NavLink to="/notes">
                     <FaStickyNote />
                     <span>Notes</span>
-                </a>
+                </NavLink>
 
                 {/* GOALS */}
-                <a href="/goals">
+                <NavLink to="/goals">
                     <FaBullseye />
                     <span>Goals</span>
-                </a>
+                </NavLink>
 
                 {/* CALENDAR */}
-                <a href="/calendar">
+                <NavLink to="/calendar">
                     <FaCalendarAlt />
                     <span>Calendar</span>
-                </a>
+                </NavLink>
 
                 {/* STUDY SESSIONS */}
-                <a href="/study-sessions">
+                <NavLink to="/study-sessions">
                     <FaBookOpen />
                     <span>Study Sessions</span>
-                </a>
+                </NavLink>
 
                 {/* POMODORO */}
-                <a href="/pomodoro">
+                <NavLink to="/pomodoro">
                     <FaClock />
                     <span>Pomodoro</span>
-                </a>
+                </NavLink>
+
+                {/* CONTESTS */}
+                <NavLink to="/contests">
+                    <FaTrophy />
+                    <span>Contests</span>
+                </NavLink>
 
                 {/* ANALYTICS */}
-                <a href="/analytics">
+                <NavLink to="/analytics">
                     <FaChartBar />
                     <span>Analytics</span>
-                </a>
+                </NavLink>
 
                 {/* PROFILE */}
-                <a href="/profile">
+                <NavLink to="/profile">
                     <FaUser />
                     <span>Profile</span>
-                </a>
+                </NavLink>
 
                 {/* SETTINGS */}
-                <a href="/settings">
+                <NavLink to="/settings">
                     <FaCog />
                     <span>Settings</span>
-                </a>
+                </NavLink>
 
             </nav>
 
@@ -94,12 +109,7 @@ function Sidebar() {
 
                 <button
                     className="logout-btn"
-                    onClick={() => {
-                        localStorage.removeItem("token");
-                        localStorage.removeItem("user");
-
-                        window.location.href = "/login";
-                    }}
+                    onClick={handleLogout}
                 >
                     <FaSignOutAlt />
                     <span>Logout</span>

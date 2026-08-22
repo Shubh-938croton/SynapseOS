@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 
-import ContestModal from "../../components/Contest/ContestModal";
+import AddContestModal from "../../components/Contest/AddContestModal";
 
 import {
     getAllContests,
     deleteContest
 } from "../../services/contestService";
 
-import "./Contests.css";
+import "./Contest.css";
 
 
 function Contests() {
@@ -245,17 +245,20 @@ function Contests() {
                 CONTEST MODAL
             ========================= */}
 
-            <ContestModal
-
-                isOpen={showModal}
-
-                contest={contestToEdit}
-
-                onClose={handleCloseModal}
-
-                onContestSaved={fetchContests}
-
-            />
+            {showModal && (
+                <AddContestModal
+                    contest={contestToEdit}
+                    onClose={handleCloseModal}
+                    onContestAdded={() => {
+                        handleCloseModal();
+                        fetchContests();
+                    }}
+                    onContestUpdated={() => {
+                        handleCloseModal();
+                        fetchContests();
+                    }}
+                />
+            )}
 
 
             {/* =========================

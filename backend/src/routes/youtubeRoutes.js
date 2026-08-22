@@ -1,9 +1,9 @@
 const express = require("express");
 
 const {
-    searchYouTubeVideos
+    searchYouTubeVideos,
+    getYouTubeVideoDetails
 } = require("../controllers/youtubeController");
-
 
 const router = express.Router();
 
@@ -15,6 +15,16 @@ const router = express.Router();
 router.get(
     "/search",
     searchYouTubeVideos
+);
+
+
+// =======================================
+// GET VIDEO DETAILS
+// =======================================
+
+router.get(
+    "/video/:videoId",
+    getYouTubeVideoDetails
 );
 
 

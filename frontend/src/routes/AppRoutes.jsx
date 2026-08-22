@@ -17,10 +17,14 @@ import Settings from "../pages/Settings/Settings";
 import Profile from "../pages/Profile/Profile";
 
 // Contest
-import ContestList from "../components/Contest/ContestList";
+import Contests from "../pages/Contests/Contests";
 
 // Authentication protection
 import ProtectedRoute from "../components/ProtectedRoute";
+
+import YouTube from "../pages/YouTube/YouTube";
+
+
 
 
 function AppRoutes() {
@@ -204,10 +208,15 @@ function AppRoutes() {
                     path="/contests"
                     element={
                         <ProtectedRoute>
-                            <ContestList />
+                            <Contests />
                         </ProtectedRoute>
                     }
                 />
+
+                <Route
+    path="/youtube"
+    element={<YouTube />}
+/>
 
             </Routes>
 

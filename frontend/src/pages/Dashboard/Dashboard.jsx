@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
-import SummaryCard from "../../components/SummaryCard/SummaryCard";
+import SummaryCard from "../../components/Summarycard/SummaryCard";
 import { getDashboardSummary } from "../../services/dashboardService";
 
 import {
