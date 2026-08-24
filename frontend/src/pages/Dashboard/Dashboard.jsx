@@ -12,9 +12,9 @@ import {
 
 import "./Dashboard.css";
 
+
 function Dashboard() {
 
-    
     const [summary, setSummary] = useState({
         totalSubjects: 0,
         totalTasks: 0,
@@ -22,7 +22,7 @@ function Dashboard() {
         totalPomodoroHours: 0
     });
 
-    
+
     useEffect(() => {
 
         async function fetchDashboard() {
@@ -37,7 +37,10 @@ function Dashboard() {
 
             } catch (error) {
 
-                console.error("Dashboard Error:", error);
+                console.error(
+                    "Dashboard Error:",
+                    error
+                );
 
             }
 
@@ -47,36 +50,98 @@ function Dashboard() {
 
     }, []);
 
-    
+
     return (
 
         <DashboardLayout>
 
-            <div className="summary-grid">
+            <div className="dashboard-page">
 
-                <SummaryCard
-                    title="Subjects"
-                    value={summary.totalSubjects}
-                    icon={<FaBook />}
-                />
+                {/* =================================
+                    HERO
+                ================================= */}
 
-                <SummaryCard
-                    title="Tasks"
-                    value={summary.totalTasks}
-                    icon={<FaTasks />}
-                />
+                <section className="dashboard-hero">
 
-                <SummaryCard
-                    title="Study Hours"
-                    value={summary.totalStudyHours}
-                    icon={<FaClock />}
-                />
+                    <div className="dashboard-hero-content">
 
-                <SummaryCard
-                    title="Pomodoro Hours"
-                    value={summary.totalPomodoroHours}
-                    icon={<FaChartLine />}
-                />
+                        <p className="dashboard-eyebrow">
+                            Your productivity overview
+                        </p>
+
+                        <h1 className="dashboard-title">
+                            Welcome back <span>👋</span>
+                        </h1>
+
+                        <p className="dashboard-subtitle">
+                            Stay focused, track your progress,
+                            and make today productive.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                {/* =================================
+                    OVERVIEW
+                ================================= */}
+
+                <section className="dashboard-overview">
+
+                    <div className="dashboard-section-header">
+
+                        <div>
+
+                            <h2 className="dashboard-section-title">
+                                Overview
+                            </h2>
+
+                            <p className="dashboard-section-description">
+                                A quick look at your productivity.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    {/* =================================
+                        SUMMARY CARDS
+                    ================================= */}
+
+                    <div className="summary-grid">
+
+                        <SummaryCard
+                            title="Subjects"
+                            value={summary.totalSubjects}
+                            icon={<FaBook />}
+                        />
+
+
+                        <SummaryCard
+                            title="Tasks"
+                            value={summary.totalTasks}
+                            icon={<FaTasks />}
+                        />
+
+
+                        <SummaryCard
+                            title="Study Hours"
+                            value={summary.totalStudyHours}
+                            icon={<FaClock />}
+                        />
+
+
+                        <SummaryCard
+                            title="Pomodoro Hours"
+                            value={summary.totalPomodoroHours}
+                            icon={<FaChartLine />}
+                        />
+
+                    </div>
+
+                </section>
 
             </div>
 
@@ -85,5 +150,6 @@ function Dashboard() {
     );
 
 }
+
 
 export default Dashboard;

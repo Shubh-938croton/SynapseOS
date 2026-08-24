@@ -1,11 +1,670 @@
-.summary-grid{
+/* =========================================
+   DASHBOARD PAGE
+========================================= */
 
-    display:grid;
+.dashboard-page {
 
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    width: 100%;
+    min-height: 100%;
 
-    gap:25px;
+    padding: 30px;
 
-    margin-top:30px;
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.dashboard-hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 190px;
+
+    padding: 42px 44px;
+
+    margin-bottom: 34px;
+
+    display: flex;
+    align-items: center;
+
+    border-radius: 24px;
+
+    background:
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(59, 130, 246, 0.20),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 75% 100%,
+            rgba(99, 102, 241, 0.15),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #172554
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    box-shadow:
+        0 20px 45px rgba(15, 23, 42, 0.16);
+
+    animation:
+        dashboardFadeUp 0.6s ease both;
+
+}
+
+
+/* Decorative circles */
+
+.dashboard-hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 190px;
+    height: 190px;
+
+    right: -65px;
+    top: -75px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(59, 130, 246, 0.10);
+
+}
+
+
+.dashboard-hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: 90px;
+    bottom: -70px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(96, 165, 250, 0.08);
+
+}
+
+
+/* =========================================
+   HERO CONTENT
+========================================= */
+
+.dashboard-hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.dashboard-eyebrow {
+
+    margin: 0 0 10px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.6px;
+
+    text-transform: uppercase;
+
+    color: #60a5fa;
+
+}
+
+
+.dashboard-title {
+
+    margin: 0;
+
+    font-size: clamp(
+        32px,
+        4vw,
+        46px
+    );
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    letter-spacing: -1.5px;
+
+    color: #ffffff;
+
+}
+
+
+.dashboard-title span {
+
+    display: inline-block;
+
+    animation:
+        dashboardWave 1.8s ease-in-out infinite;
+
+}
+
+
+.dashboard-subtitle {
+
+    margin: 14px 0 0;
+
+    max-width: 620px;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    color: #cbd5e1;
+
+}
+
+
+/* =========================================
+   OVERVIEW HEADER
+========================================= */
+
+.dashboard-overview {
+
+    width: 100%;
+
+}
+
+
+.dashboard-section-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+
+    animation:
+        dashboardFadeUp 0.7s ease both;
+
+}
+
+
+.dashboard-section-title {
+
+    margin: 0;
+
+    font-size: 23px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.4px;
+
+    color: #0f172a;
+
+}
+
+
+.dashboard-section-description {
+
+    margin: 6px 0 0;
+
+    font-size: 14px;
+
+    color: #64748b;
+
+}
+
+
+/* =========================================
+   SUMMARY GRID
+========================================= */
+
+.summary-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+
+    width: 100%;
+
+}
+
+
+/* =========================================
+   SUMMARY CARD
+========================================= */
+
+.summary-card {
+
+    position: relative;
+
+    min-height: 145px;
+
+    padding: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+
+    background:
+        rgba(255, 255, 255, 0.98);
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 24px rgba(
+            15,
+            23,
+            42,
+            0.055
+        );
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+
+    animation:
+        cardFadeUp 0.6s ease both;
+
+}
+
+
+/* subtle top accent */
+
+.summary-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #60a5fa
+        );
+
+    opacity: 0;
+
+    transition:
+        opacity 0.25s ease;
+
+}
+
+
+.summary-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    border-color:
+        #bfdbfe;
+
+    box-shadow:
+        0 18px 38px
+        rgba(
+            37,
+            99,
+            235,
+            0.12
+        );
+
+}
+
+
+.summary-card:hover::before {
+
+    opacity: 1;
+
+}
+
+
+/* =========================================
+   CARD ANIMATION DELAYS
+========================================= */
+
+.summary-card:nth-child(1) {
+
+    animation-delay: 0.05s;
+
+}
+
+
+.summary-card:nth-child(2) {
+
+    animation-delay: 0.10s;
+
+}
+
+
+.summary-card:nth-child(3) {
+
+    animation-delay: 0.15s;
+
+}
+
+
+.summary-card:nth-child(4) {
+
+    animation-delay: 0.20s;
+
+}
+
+
+/* =========================================
+   CARD ICON
+========================================= */
+
+.summary-card-icon {
+
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #3b82f6
+        );
+
+    color: #ffffff;
+
+    font-size: 21px;
+
+    box-shadow:
+        0 8px 18px
+        rgba(
+            37,
+            99,
+            235,
+            0.22
+        );
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+}
+
+
+.summary-card:hover
+.summary-card-icon {
+
+    transform:
+        scale(1.08)
+        rotate(-3deg);
+
+    box-shadow:
+        0 12px 24px
+        rgba(
+            37,
+            99,
+            235,
+            0.30
+        );
+
+}
+
+
+/* =========================================
+   CARD CONTENT
+========================================= */
+
+.summary-card-content {
+
+    min-width: 0;
+
+}
+
+
+.summary-card-title {
+
+    margin: 0 0 7px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #64748b;
+
+}
+
+
+.summary-card-value {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+
+    color: #0f172a;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1200px) {
+
+    .summary-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .dashboard-page {
+
+        padding: 22px;
+
+    }
+
+
+    .dashboard-hero {
+
+        padding: 32px;
+
+    }
+
+
+    .dashboard-title {
+
+        font-size: 34px;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .dashboard-page {
+
+        padding: 16px;
+
+    }
+
+
+    .dashboard-hero {
+
+        min-height: auto;
+
+        padding: 28px 24px;
+
+        border-radius: 20px;
+
+    }
+
+
+    .dashboard-title {
+
+        font-size: 30px;
+
+    }
+
+
+    .dashboard-subtitle {
+
+        font-size: 14px;
+
+    }
+
+
+    .summary-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+
+    }
+
+
+    .summary-card {
+
+        min-height: 125px;
+
+    }
+
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes dashboardFadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(18px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes cardFadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(22px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes dashboardWave {
+
+    0%,
+    100% {
+
+        transform:
+            rotate(0deg);
+
+    }
+
+    25% {
+
+        transform:
+            rotate(12deg);
+
+    }
+
+    50% {
+
+        transform:
+            rotate(-5deg);
+
+    }
+
+    75% {
+
+        transform:
+            rotate(10deg);
+
+    }
 
 }

@@ -1,88 +1,153 @@
-.sidebar{
-    width:260px;
-    min-height:100vh;
-    background:#0f172a;
-    color:white;
+/* =========================================================
+   SYNAPSEOS - SIDEBAR
+   ========================================================= */
 
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    min-height: 100vh;
 
-    padding:25px 15px;
+    box-sizing: border-box;
+
+    background: #0f172a;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 25px 15px;
+
+    position: sticky;
+    top: 0;
+
+    flex-shrink: 0;
 }
 
-.sidebar-logo{
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:40px;
-    text-align:center;
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.sidebar-logo {
+    font-size: 24px;
+    font-weight: 700;
+
+    margin-bottom: 40px;
+
+    text-align: center;
+
+    white-space: nowrap;
 }
 
-.sidebar-menu{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
 }
 
-.sidebar-menu a{
-    text-decoration:none;
-    color:#cbd5e1;
 
-    display:flex;
-    align-items:center;
-    gap:15px;
+/* =========================================================
+   MENU LINKS
+   ========================================================= */
 
-    padding:12px 16px;
+.sidebar-menu a {
+    text-decoration: none;
 
-    border-radius:10px;
+    color: #cbd5e1;
 
-    transition:0.3s;
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 12px 16px;
+
+    border-radius: 10px;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.2s ease;
 }
 
-.sidebar-menu a:hover{
-    background:#334155;
-    color:white;
+
+.sidebar-menu a:hover {
+    background: #1e293b;
+    color: white;
+
+    transform: translateX(3px);
 }
 
-.sidebar-menu a.active{
-    background:#2563eb;
-    color:white;
+
+.sidebar-menu a.active {
+    background: #2563eb;
+    color: white;
+
+    box-shadow:
+        0 6px 15px rgba(37, 99, 235, 0.25);
 }
 
-.sidebar-footer{
-    margin-top:30px;
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 30px;
 }
 
-.logout-btn{
 
-    width:100%;
+/* =========================================================
+   LOGOUT
+   ========================================================= */
 
-    border:none;
+.logout-btn {
+    width: 100%;
 
-    background:#ef4444;
+    border: none;
 
-    color:white;
+    background: #ef4444;
+    color: white;
 
-    padding:12px;
+    padding: 12px;
 
-    border-radius:10px;
+    border-radius: 10px;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    display:flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    justify-content:center;
+    gap: 10px;
 
-    align-items:center;
+    font-size: 15px;
+    font-weight: 600;
 
-    gap:10px;
-
-    font-size:15px;
-
+    transition:
+        background 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
 }
 
-.logout-btn:hover{
 
-    background:#dc2626;
+.logout-btn:hover {
+    background: #dc2626;
 
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(239, 68, 68, 0.25);
+}
+
+
+.logout-btn:active {
+    transform: translateY(0);
 }
