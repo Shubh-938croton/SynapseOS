@@ -1479,3 +1479,401 @@ Connected links to the actual application routes such as:
 **Status**
 
 ✅ Fixed
+
+
+
+
+Bug #25 --- SettingsContext Import Error
+
+Issue
+
+Vite reported:
+
+Failed to resolve import "./context/SettingsContext"
+from "src/App.jsx"
+
+Reason
+
+The Settings context file did not exist at the expected frontend path.
+
+Solution
+
+Created/placed:
+
+frontend/src/context/SettingsContext.jsx
+
+and connected the provider to the application.
+
+Status
+
+✅ Fixed
+
+Bug #26 --- Incorrect DashboardLayout Import Path
+
+Issue
+
+Vite reported:
+
+Failed to resolve import
+"../../components/DashboardLayout/DashboardLayout"
+
+Reason
+
+The actual component was located under:
+
+frontend/src/components/Layout/
+
+rather than:
+
+frontend/src/components/DashboardLayout/
+
+Solution
+
+Verified the actual file location and corrected the Settings page
+import.
+
+Actual component location:
+
+frontend/src/components/Layout/DashboardLayout.jsx
+
+Lesson
+
+Always verify the real filesystem structure before changing import
+paths.
+
+Status
+
+✅ Fixed
+
+Bug #27 --- Settings Dark Mode Did Not Toggle Globally
+
+Issue
+
+Selecting Dark Mode from Settings did not reliably change the whole
+application theme.
+
+Investigation
+
+The Settings page and context were connected, but the theme state was
+not consistently propagated to the global application/page styling.
+
+Current Status
+
+🟡 Partially resolved / deferred
+
+The Settings system exists, but global theme propagation requires
+another focused UI pass.
+
+Bug #28 --- Settings Page Responsiveness
+
+Issue
+
+The Settings page was initially not responsive across screen sizes.
+
+Solution
+
+Settings CSS was iteratively adjusted for responsive layouts.
+
+Remaining
+
+Final tablet testing
+
+Laptop-width testing
+
+Mobile testing
+
+Global theme compatibility
+
+Status
+
+🟡 Improved, final polish pending
+
+YouTube Integration Bugs
+
+Bug #29 --- YouTube API Key / Consumer Identity Error
+
+Issue
+
+Backend testing returned:
+
+{
+  "success": false,
+  "message": "Method doesn't allow unregistered callers (callers without established identity). Please use API Key or other form of API consumer identity to call this API."
+}
+
+Reason
+
+The YouTube Data API request was not sending a valid API key.
+
+Solution
+
+Added the API key to the Axios request parameters:
+
+key: process.env.YOUTUBE_API_KEY
+
+and configured the Google Cloud YouTube Data API v3 credentials.
+
+Status
+
+✅ Fixed
+
+Bug #30 --- Invalid YouTube API Key
+
+Issue
+
+The API initially returned:
+
+{
+  "success": false,
+  "message": "API key not valid. Please pass a valid API key."
+}
+
+Reason
+
+The configured credential was invalid/not correctly configured for the
+API request.
+
+Solution
+
+Created/configured the appropriate Google Cloud API credential and
+restricted it to the required API.
+
+Status
+
+✅ Fixed
+
+Bug #31 --- Duplicate searchYouTubeVideos Declaration
+
+Issue
+
+Node.js crashed with:
+
+SyntaxError: Identifier 'searchYouTubeVideos' has already been declared
+
+Reason
+
+youtubeRoutes.js imported searchYouTubeVideos once near the top and
+then declared another destructuring import containing the same
+identifier later in the same file.
+
+Incorrect structure
+
+const {
+    searchYouTubeVideos
+} = require("../controllers/youtubeController");
+
+...
+
+const {
+    searchYouTubeVideos,
+    getYouTubeVideoDetails
+} = require("../controllers/youtubeController");
+
+Solution
+
+Combined the controller imports into a single destructuring statement.
+
+Lesson
+
+Avoid declaring the same const identifier more than once in the same
+JavaScript scope.
+
+Status
+
+✅ Fixed
+
+Bug #32 --- YouTube Controller Export Incomplete
+
+Issue
+
+The controller contained a video-details function but initially exported
+only:
+
+module.exports = {
+    searchYouTubeVideos
+};
+
+Reason
+
+getYouTubeVideoDetails was implemented but not included in
+module.exports.
+
+Solution
+
+Exported both controller functions.
+
+Status
+
+✅ Fixed
+
+Bug #33 --- YouTube Routes Import Structure
+
+Issue
+
+The YouTube routes file contained duplicated controller imports and
+incomplete route configuration.
+
+Solution
+
+Consolidated controller imports and kept route definitions in one
+router.
+
+Expected structure:
+
+GET /api/youtube/search
+        ↓
+searchYouTubeVideos
+
+GET /api/youtube/video/:videoId
+        ↓
+getYouTubeVideoDetails
+
+Status
+
+✅ Fixed
+
+Bug #34 --- YouTube Page Initially Did Not Render
+
+Issue
+
+The frontend route:
+
+http://localhost:5173/youtube
+
+initially did not display the YouTube page.
+
+Solution
+
+Verified the React route configuration and YouTube page component
+integration.
+
+Result
+
+The YouTube page now renders successfully.
+
+Status
+
+✅ Fixed
+
+Bug #35 --- YouTube UI Still Appears Too Empty
+
+Issue
+
+The current YouTube page renders correctly but contains a large empty
+area before search results.
+
+Reason
+
+The page currently has an empty state but does not yet have a polished
+video-card result layout.
+
+Planned Solution
+
+Implement:
+
+responsive video grid
+
+thumbnails
+
+video metadata
+
+loading skeleton
+
+better empty state
+
+error state
+
+improved spacing and typography
+
+Status
+
+🟡 UI improvement in progress
+
+Git / Environment Variable Security
+
+Bug #36 --- .env Tracking Cleanup
+
+Issue
+
+The backend .env file had been tracked by Git and needed to be removed
+from repository tracking.
+
+Solution
+
+Added:
+
+.env
+
+to .gitignore.
+
+Then removed the tracked file from Git's index using:
+
+git rm --cached backend/.env
+
+Important Security Note
+
+The API key was removed from the local .env before the cleanup commit.
+The cleanup was therefore performed without intentionally committing the
+secret in the new commit.
+
+Lesson
+
+.gitignore only affects untracked files. A file already tracked by Git
+must be removed from the Git index explicitly.
+
+Status
+
+✅ Fixed
+
+Updated Debugging Lessons
+
+Check the exact filesystem path before fixing imports.
+
+Search the project for duplicate JavaScript identifiers when Node
+reports a duplicate declaration.
+
+Keep controller exports synchronized with route imports.
+
+Keep third-party API credentials on the backend.
+
+Verify Google Cloud API enablement and credential restrictions when
+external APIs return identity errors.
+
+Test external API endpoints independently with Postman before
+debugging the React UI.
+
+Keep .env ignored from the beginning.
+
+A .gitignore entry does not remove an already tracked file.
+
+Test the complete flow:
+
+Frontend
+   ↓
+Frontend service
+   ↓
+Backend route
+   ↓
+Controller
+   ↓
+External API service
+   ↓
+YouTube API
+
+After backend success, debug frontend rendering separately from API
+connectivity.
+
+Current Bug Status
+
+Area                          Status
+
+Settings import path          ✅ Fixed
+DashboardLayout import path   ✅ Fixed
+Settings responsive layout    🟡 Needs final polish
+Global dark mode              🟡 Deferred
+YouTube API credential        ✅ Working
+YouTube search backend        ✅ Working
+YouTube controller            ✅ Fixed
+YouTube routes                ✅ Fixed
+YouTube frontend route        ✅ Working
+YouTube UI                    🟡 Polishing

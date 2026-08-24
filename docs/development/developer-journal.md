@@ -1786,3 +1786,496 @@ Deferred polishing work includes:
 - Dark theme
 - Responsive refinement
 - Final UI/UX improvements
+
+
+
+
+37. Settings Integration
+
+Objective
+
+Connect the Settings page to the SynapseOS application so user settings
+can affect the wider application.
+
+Completed
+
+Created frontend Settings API service.
+
+Implemented getSettings().
+
+Implemented updateSettings(settings).
+
+Created SettingsContext.
+
+Connected SettingsProvider to the React application.
+
+Connected the Settings page to the shared context.
+
+Added settings UI for appearance/preferences.
+
+Improved Settings page responsiveness.
+
+Architecture
+
+Settings Page
+      ↓
+SettingsContext
+      ↓
+Settings Service
+      ↓
+REST API
+      ↓
+Settings Backend
+      ↓
+MySQL
+
+Current Limitation
+
+The global dark-mode toggle has not yet been made fully reliable across
+the entire application.
+
+The remaining task is to make the theme state propagate consistently to
+the application root and all page/component styles.
+
+38. YouTube Productivity --- Planning
+
+Objective
+
+Create a YouTube experience focused on learning and productivity instead
+of unrestricted entertainment browsing.
+
+The feature is intended to support:
+
+educational video discovery
+
+programming tutorials
+
+AI/ML learning
+
+DSA learning
+
+DBMS learning
+
+study resources
+
+future notes
+
+watch-time tracking
+
+completion tracking
+
+learning analytics
+
+Initial Architecture
+
+React YouTube UI
+       ↓
+Frontend Service
+       ↓
+REST API
+       ↓
+YouTube Controller
+       ↓
+YouTube Service
+       ↓
+YouTube Data API v3
+
+39. Google Cloud / YouTube Data API v3
+
+Objective
+
+Connect SynapseOS to the public YouTube Data API.
+
+Completed
+
+Selected the Google Cloud project.
+
+Located YouTube Data API v3 in the API Library.
+
+Selected public data access.
+
+Created API credentials.
+
+Restricted the API key to the required YouTube API.
+
+Stored the API key in backend environment variables.
+
+Verified the credential using backend API testing.
+
+Security Rule
+
+The YouTube API key is never placed in React frontend code.
+
+The frontend communicates only with the SynapseOS backend.
+
+40. YouTube Backend Service
+
+Created:
+
+backend/src/services/youtubeService.js
+
+The service uses Axios to communicate with:
+
+https://www.googleapis.com/youtube/v3/search
+
+Search Parameters
+
+The backend sends:
+
+part=snippet
+
+search query
+
+type=video
+
+maxResults
+
+regionCode=IN
+
+relevanceLanguage=en
+
+safeSearch=moderate
+
+API key
+
+optional pageToken
+
+The service limits maxResults to 50.
+
+Response Normalization
+
+The backend converts YouTube API results into a frontend-friendly
+format:
+
+videoId
+title
+description
+thumbnail
+channelTitle
+channelId
+publishedAt
+
+Pagination information is returned separately.
+
+41. YouTube Controller
+
+Created:
+
+backend/src/controllers/youtubeController.js
+
+The controller handles:
+
+searchYouTubeVideos()
+getYouTubeVideoDetails()
+
+Search Flow
+
+GET /api/youtube/search?q=...
+        ↓
+Controller validates query
+        ↓
+youtubeService.searchVideos()
+        ↓
+YouTube Data API
+        ↓
+Normalized response
+        ↓
+JSON response
+
+The controller validates that the search query exists and is not empty.
+
+42. YouTube Routes
+
+Created:
+
+backend/src/routes/youtubeRoutes.js
+
+The route layer connects YouTube endpoints to the controller.
+
+Current intended routes:
+
+GET /api/youtube/search
+GET /api/youtube/video/:videoId
+
+The route import structure was debugged after a duplicate declaration
+error.
+
+43. YouTube Backend Debugging
+
+Several API and JavaScript issues were encountered.
+
+API Identity Error
+
+The backend initially returned an error stating that the caller had no
+established identity.
+
+This was caused by the YouTube API request not including a valid API
+key.
+
+The service was corrected to send:
+
+key: process.env.YOUTUBE_API_KEY
+
+Invalid API Key
+
+The API initially rejected the credential.
+
+The Google Cloud credential configuration was corrected and the API key
+was restricted appropriately.
+
+Duplicate JavaScript Declaration
+
+Node.js reported:
+
+Identifier 'searchYouTubeVideos' has already been declared
+
+The cause was duplicate destructuring imports in youtubeRoutes.js.
+
+The route file was corrected so the controller is imported once.
+
+Testing
+
+The backend YouTube search endpoint was successfully tested using
+Postman.
+
+44. YouTube Frontend
+
+Objective
+
+Build a focused learning interface inside SynapseOS.
+
+Created:
+
+frontend/src/pages/YouTube/YouTube.jsx
+frontend/src/pages/YouTube/YouTube.css
+frontend/src/pages/YouTube/YouTubeWatch.jsx
+frontend/src/pages/YouTube/YoutubeWatch.css
+frontend/src/services/youtubeService.js
+
+Added the YouTube route to:
+
+frontend/src/routes/AppRoutes.jsx
+
+Current Page
+
+The YouTube page is available at:
+
+http://localhost:5173/youtube
+
+The page now renders successfully.
+
+Current UI
+
+The current interface contains:
+
+YouTube Focus heading
+
+productivity-focused subtitle
+
+search field
+
+search button
+
+popular learning categories
+
+empty-state learning message
+
+YouTube watch-page component
+
+Example categories:
+
+C++ DSA
+Machine Learning
+DBMS
+Java
+Web Development
+
+45. Current YouTube UI State
+
+The UI is functional but is currently in the visual-polishing phase.
+
+The current design has a large empty state when no search has been
+performed.
+
+The next improvement is a responsive video-card grid.
+
+Target layout:
+
+Search
+   ↓
+Video results
+   ↓
+┌────────────┐ ┌────────────┐ ┌────────────┐
+│ Thumbnail  │ │ Thumbnail  │ │ Thumbnail  │
+│            │ │            │ │            │
+└────────────┘ └────────────┘ └────────────┘
+  Title          Title          Title
+  Channel        Channel        Channel
+  Views          Views          Views
+
+The UI should eventually support:
+
+responsive cards
+
+loading skeletons
+
+search errors
+
+empty search results
+
+video metadata
+
+watch page
+
+save video
+
+study resources
+
+notes
+
+focus mode
+
+46. Git and Environment Security
+
+During YouTube development, environment-variable handling was reviewed.
+
+The repository contains:
+
+node_modules/
+.env
+
+The backend API key is kept locally in:
+
+backend/.env
+
+and is not intended to be committed.
+
+The tracked .env file was removed from Git tracking during cleanup.
+
+Important Development Lesson
+
+.gitignore prevents future tracking of matching untracked files. It
+does not automatically remove a file that Git is already tracking.
+
+The correct cleanup command is:
+
+git rm --cached backend/.env
+
+The API key was removed from the local .env before the cleanup commit.
+
+47. Current Development Workflow
+
+The project continues to use feature-based development:
+
+Implement
+   ↓
+Test backend/API
+   ↓
+Connect frontend service
+   ↓
+Build UI
+   ↓
+Debug
+   ↓
+Test again
+   ↓
+Git commit
+
+This approach has been especially useful during YouTube development
+because API errors can be isolated from frontend rendering errors.
+
+48. Current Project Status
+
+Backend
+
+Authentication        ✅
+User Profile          ✅
+Subjects              ✅
+Tasks                 ✅
+Notes                 ✅
+Calendar              ✅
+Goals                 ✅
+Study Sessions        ✅
+Pomodoro              ✅
+Dashboard             ✅
+Analytics             ✅
+Notifications         ✅
+Settings API          ✅
+YouTube Search API    ✅
+
+Frontend
+
+Dashboard              ✅
+Tasks                  ✅
+Notes                  ✅
+Calendar               ✅
+Goals                  ✅
+Study Sessions         ✅
+Pomodoro               ✅
+Analytics              ✅
+Notifications          ✅
+Settings               🟡
+YouTube page           ✅
+YouTube search UI      🟡
+YouTube video cards    ⬜
+YouTube watch UI       🟡
+
+49. Immediate Next Steps
+
+YouTube
+
+Polish YouTube page UI.
+
+Implement responsive video cards.
+
+Display thumbnails and metadata.
+
+Improve loading and empty states.
+
+Complete video-details/watch flow.
+
+Add save-to-learning functionality.
+
+Add notes integration.
+
+Add watch-time tracking.
+
+Add focus mode.
+
+Settings
+
+After the YouTube UI reaches a stable point:
+
+Fix global dark-mode propagation.
+
+Apply settings across all pages.
+
+Complete responsive testing.
+
+Perform a final theme regression test.
+
+Project-wide
+
+Full regression testing
+
+Final responsive pass
+
+Accessibility pass
+
+Documentation refinement
+
+Final Git milestones
+
+Deployment preparation
+
+50. Current Milestone
+
+🎯 YouTube Productivity --- Backend Complete, Frontend UI In Progress
+
+The current project has successfully moved beyond YouTube API setup.
+
+The backend integration is working and the /youtube frontend route is
+rendering.
+
+The next development focus is therefore frontend UI/UX, not API
+credential setup.

@@ -535,24 +535,317 @@ The `v1.2.0` milestone represents the completed User Profile Management module.
 
 - [ ] Avatar upload/storage
 - [ ] Dark theme
-- [ ] Final responsive/UI refinement
+- [ ] Final responsive/UI refinement 
+### 
 
-### Next Active Feature
+Milestone 21 --- YouTube Productivity Module 🚧
 
-**YouTube Productivity Module**
+Objective
 
-Initial step:
+Build a productivity-focused YouTube experience inside SynapseOS rather
+than exposing the YouTube API directly from the React frontend.
 
-- [ ] Create Google Cloud project
-- [ ] Enable YouTube Data API v3
-- [ ] Create/restrict API key
-- [ ] Add `YOUTUBE_API_KEY` to backend `.env`
-- [ ] Test YouTube API from backend
-- [ ] Build YouTube search
-- [ ] Build embedded video player
-- [ ] Build learning library
-- [ ] Add video notes/completion tracking
-- [ ] Add learning/watch-time analytics
+Backend --- Completed
+
+Google Cloud project selected for the YouTube integration
+
+YouTube Data API v3 located and enabled
+
+API-key authentication selected for public YouTube data
+
+API key created and restricted
+
+API key stored in backend environment variables
+
+youtubeService.js created
+
+YouTube search integration using Axios
+
+youtubeController.js created
+
+YouTube routes created
+
+/api/youtube/search endpoint implemented
+
+Search query validation
+
+maxResults handling with a maximum of 50
+
+pageToken support for pagination
+
+Region set to India (IN)
+
+English relevance language configured
+
+YouTube API response normalized for frontend use
+
+Postman/backend API testing completed
+
+YouTube search API confirmed working
+
+Backend Response Data
+
+The search service normalizes video data into:
+
+videoId
+
+title
+
+description
+
+thumbnail
+
+channelTitle
+
+channelId
+
+publishedAt
+
+Pagination information includes:
+
+nextPageToken
+
+totalResults
+
+Planned / In Progress
+
+Complete and verify video-details API flow
+
+Search result refinements
+
+Saved learning library
+
+Learning playlists
+
+Notes attached to videos
+
+Mark videos as completed
+
+Watch-time tracking
+
+Focus/distraction-free mode
+
+Connect videos with goals
+
+YouTube learning analytics
+
+YouTube Frontend --- Current State
+
+Completed
+
+/youtube route added
+
+YouTube page created
+
+YouTube page stylesheet created
+
+YouTube frontend service created
+
+Backend search connected to frontend
+
+YouTube page successfully renders at
+http://localhost:5173/youtube
+
+Search interface created
+
+Popular learning categories added
+
+YouTube Focus branding added
+
+Watch-page component created
+
+Watch-page stylesheet created
+
+Current UI
+
+The current page contains:
+
+YouTube Focus heading
+
+Productivity-oriented subtitle
+
+Search field
+
+Search button
+
+Popular categories such as C++ DSA, Machine Learning, DBMS, Java,
+and Web Development
+
+Empty-state learning message
+
+Current UI Improvement Stage
+
+The current YouTube page is functional but still requires visual
+refinement.
+
+Next UI work:
+
+Responsive video-card grid
+
+Better thumbnail presentation
+
+Video title/channel/view metadata
+
+Loading skeletons
+
+Search results empty state
+
+Search error state
+
+Better spacing and typography
+
+Dark-theme compatibility
+
+Laptop/tablet/mobile responsive layouts
+
+Save-video interaction
+
+Focus-mode interaction
+
+Settings Integration --- Current State
+
+Completed
+
+Settings API service created
+
+getSettings() frontend service
+
+updateSettings() frontend service
+
+Settings page created
+
+Settings context introduced
+
+Settings provider connected to the React application
+
+Settings page connected to the shared application architecture
+
+Deferred
+
+Fully reliable global dark-mode toggle
+
+Apply appearance settings consistently across every page
+
+Final responsive Settings UI polish
+
+Final global theme regression testing
+
+The Settings feature should be considered partially integrated, not
+fully complete, until the theme state reliably propagates throughout the
+application.
+
+Git and Environment Variable Security Update
+
+The YouTube API key is intentionally kept in the backend environment
+configuration.
+
+Current rule:
+
+backend/.env
+    ↓
+local development only
+    ↓
+.gitignore
+    ↓
+never commit secrets
+
+The repository .gitignore contains:
+
+node_modules/
+.env
+
+The .env file was removed from Git tracking during cleanup.
+
+Important distinction:
+
+The API key was removed from the local .env before the cleanup
+commit.
+
+The key was therefore not intentionally included in the cleanup
+commit.
+
+The local .env remains ignored by Git.
+
+A safe .env.example should be maintained without real credentials.
+
+Current Overall Status
+
+Module                     Status
+
+Authentication             Complete
+User Profile               Complete
+Subjects                   Complete
+Tasks                      Complete
+Notes                      Complete
+Calendar                   Complete
+Goals                      Complete
+Study Sessions             Complete
+Pomodoro                   Complete
+Dashboard                  Complete
+Analytics                  Complete
+Notifications              Complete
+Settings                   Partially integrated
+YouTube Backend            Working
+YouTube Frontend           Working, UI polishing in progress
+AI Recommendation Engine   Future
+Deployment                 Future
+
+Current Priority
+
+The immediate development priority is:
+
+Polish YouTube frontend UI.
+
+Build responsive video cards.
+
+Improve YouTube watch/details page.
+
+Add SynapseOS-specific learning features.
+
+Return to Settings global theme integration.
+
+Perform full regression testing.
+
+Commit stable milestones.
+
+Updated Architecture
+
+For YouTube, the architecture is:
+
+React YouTube UI
+       ↓
+youtubeService.js
+       ↓
+SynapseOS REST API
+       ↓
+youtubeRoutes.js
+       ↓
+youtubeController.js
+       ↓
+youtubeService.js
+       ↓
+YouTube Data API v3
+
+The Google API key remains on the backend and is not exposed to React.
+
+Next YouTube Milestone
+
+The next target is to transform the current functional YouTube page into
+a polished learning interface with:
+
+Search
+  ↓
+Video Cards
+  ↓
+Video Details / Watch
+  ↓
+Save
+  ↓
+Notes
+  ↓
+Learning Progress
+  ↓
+Study Analytics
 
 ### Version History
 
