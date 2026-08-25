@@ -3,12 +3,16 @@
    ========================================================= */
 
 .note-card {
-
     position: relative;
 
     width: 100%;
 
-    background: #ffffff;
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fbfdff
+        );
 
     border: 1px solid #e2e8f0;
 
@@ -19,13 +23,32 @@
     box-sizing: border-box;
 
     box-shadow:
-        0 4px 16px rgba(15, 23, 42, 0.05);
+        0 4px 16px rgba(15, 23, 42, 0.045);
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.2s ease;
+        transform 0.25s cubic-bezier(.2,.8,.2,1),
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
 
+    animation:
+        noteCardEnter 0.45s ease both;
+}
+
+
+/* =========================================================
+   CARD ENTRY
+   ========================================================= */
+
+@keyframes noteCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
@@ -34,14 +57,12 @@
    ========================================================= */
 
 .note-card:hover {
-
-    transform: translateY(-3px);
+    transform: translateY(-5px);
 
     border-color: #cbd5e1;
 
     box-shadow:
-        0 10px 28px rgba(15, 23, 42, 0.09);
-
+        0 14px 32px rgba(15, 23, 42, 0.09);
 }
 
 
@@ -50,12 +71,24 @@
    ========================================================= */
 
 .note-card.pinned {
-
     border-color: #bfdbfe;
 
-    box-shadow:
-        0 6px 20px rgba(37, 99, 235, 0.08);
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f8fbff
+        );
 
+    box-shadow:
+        0 7px 22px rgba(37, 99, 235, 0.07);
+}
+
+.note-card.pinned:hover {
+    border-color: #93c5fd;
+
+    box-shadow:
+        0 15px 34px rgba(37, 99, 235, 0.12);
 }
 
 
@@ -64,7 +97,6 @@
    ========================================================= */
 
 .pinned-badge {
-
     position: absolute;
 
     top: 14px;
@@ -87,7 +119,6 @@
     font-size: 12px;
 
     font-weight: 600;
-
 }
 
 
@@ -96,7 +127,6 @@
    ========================================================= */
 
 .note-card-header {
-
     display: flex;
 
     align-items: flex-start;
@@ -106,19 +136,15 @@
     gap: 20px;
 
     padding-right: 5px;
-
 }
 
 
 .note-title-section {
-
     min-width: 0;
-
 }
 
 
 .note-title-section h2 {
-
     margin: 0 0 8px;
 
     color: #0f172a;
@@ -131,6 +157,7 @@
 
     word-break: break-word;
 
+    letter-spacing: -0.2px;
 }
 
 
@@ -139,7 +166,6 @@
    ========================================================= */
 
 .note-subject {
-
     display: inline-block;
 
     padding: 5px 10px;
@@ -154,6 +180,15 @@
 
     font-weight: 600;
 
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.note-card:hover .note-subject {
+    background: #e8f0ff;
+
+    color: #2563eb;
 }
 
 
@@ -162,9 +197,7 @@
    ========================================================= */
 
 .pin-btn {
-
     width: 38px;
-
     height: 38px;
 
     flex-shrink: 0;
@@ -172,7 +205,6 @@
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border: 1px solid #e2e8f0;
@@ -190,31 +222,28 @@
         color 0.2s ease,
         border-color 0.2s ease,
         transform 0.2s ease;
-
 }
 
-
 .pin-btn:hover {
-
-    transform: translateY(-1px);
+    transform: translateY(-2px) rotate(-5deg);
 
     background: #eff6ff;
 
     border-color: #bfdbfe;
 
     color: #2563eb;
-
 }
 
+.pin-btn:active {
+    transform: scale(0.94);
+}
 
 .pin-btn.active {
-
     background: #eff6ff;
 
     border-color: #93c5fd;
 
     color: #2563eb;
-
 }
 
 
@@ -223,27 +252,31 @@
    ========================================================= */
 
 .note-content {
-
     margin-top: 18px;
 
     padding-top: 17px;
 
     border-top: 1px solid #f1f5f9;
-
 }
 
 
 .note-content p {
     margin: 0;
+
     color: #475569;
+
     font-size: 14px;
+
     line-height: 1.7;
 
     display: -webkit-box;
+
     -webkit-line-clamp: 4;
+
     -webkit-box-orient: vertical;
 
     overflow: hidden;
+
     white-space: pre-wrap;
 }
 
@@ -253,7 +286,6 @@
    ========================================================= */
 
 .note-card-footer {
-
     display: flex;
 
     align-items: center;
@@ -267,7 +299,6 @@
     padding-top: 16px;
 
     border-top: 1px solid #f1f5f9;
-
 }
 
 
@@ -276,7 +307,6 @@
    ========================================================= */
 
 .note-date {
-
     display: flex;
 
     align-items: center;
@@ -286,14 +316,10 @@
     color: #94a3b8;
 
     font-size: 13px;
-
 }
 
-
 .note-date svg {
-
     font-size: 13px;
-
 }
 
 
@@ -302,18 +328,15 @@
    ========================================================= */
 
 .note-actions {
-
     display: flex;
 
     align-items: center;
 
     gap: 8px;
-
 }
 
 
 .note-action {
-
     display: flex;
 
     align-items: center;
@@ -338,14 +361,16 @@
         transform 0.2s ease,
         box-shadow 0.2s ease,
         background 0.2s ease;
-
 }
 
 
 .note-action:hover {
+    transform: translateY(-2px);
+}
 
-    transform: translateY(-1px);
 
+.note-action:active {
+    transform: translateY(0) scale(0.97);
 }
 
 
@@ -354,21 +379,16 @@
    ========================================================= */
 
 .edit-note-btn {
-
     background: #eff6ff;
 
     color: #2563eb;
-
 }
 
-
 .edit-note-btn:hover {
-
     background: #dbeafe;
 
     box-shadow:
-        0 4px 12px rgba(37, 99, 235, 0.12);
-
+        0 5px 14px rgba(37, 99, 235, 0.12);
 }
 
 
@@ -377,21 +397,16 @@
    ========================================================= */
 
 .delete-note-btn {
-
     background: #fef2f2;
 
     color: #dc2626;
-
 }
 
-
 .delete-note-btn:hover {
-
     background: #fee2e2;
 
     box-shadow:
-        0 4px 12px rgba(220, 38, 38, 0.12);
-
+        0 5px 14px rgba(220, 38, 38, 0.12);
 }
 
 
@@ -402,46 +417,48 @@
 @media (max-width: 600px) {
 
     .note-card {
-
         padding: 18px;
-
     }
-
 
     .note-card-header {
-
         gap: 10px;
-
     }
-
 
     .note-title-section h2 {
-
         font-size: 18px;
-
     }
 
-
     .note-card-footer {
-
         align-items: flex-start;
 
         flex-direction: column;
-
     }
-
 
     .note-actions {
-
         width: 100%;
-
     }
-
 
     .note-action {
-
         flex: 1;
+    }
+}
 
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .note-card {
+        animation: none;
+
+        transition: none;
     }
 
+    .pin-btn,
+    .note-action,
+    .note-subject {
+        transition: none;
+    }
 }
