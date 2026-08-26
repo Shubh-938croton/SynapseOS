@@ -1,153 +1,326 @@
-.edit-study-session-overlay {
+/* =========================================================
+   SYNAPSEOS - EDIT STUDY SESSION MODAL
+========================================================= */
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.study-session-modal-overlay {
     position: fixed;
-
     inset: 0;
-
     z-index: 1000;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    padding: 20px;
+    padding: 24px;
 
-    background: rgba(15, 23, 42, 0.55);
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 
-    backdrop-filter: blur(4px);
+    animation: studyOverlayIn 0.18s ease-out;
 }
 
-.edit-study-session-modal {
-    width: 100%;
 
-    max-width: 620px;
+/* =========================================================
+   MODAL
+========================================================= */
 
-    max-height: 90vh;
+.study-session-modal {
+    width: min(100%, 640px);
+    max-height: min(90vh, 760px);
 
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 
     background: #ffffff;
 
-    border-radius: 18px;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 22px;
 
     box-shadow:
-        0 25px 60px rgba(15, 23, 42, 0.25);
+        0 30px 80px rgba(15, 23, 42, 0.24),
+        0 10px 30px rgba(15, 23, 42, 0.10);
+
+    overflow: hidden;
+
+    animation: studyModalIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.edit-study-session-header {
-    display: flex;
 
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes studyOverlayIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes studyModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.study-session-modal-header {
+    display: flex;
     align-items: flex-start;
     justify-content: space-between;
 
-    padding: 24px;
+    gap: 24px;
 
-    border-bottom: 1px solid #e2e8f0;
+    padding: 26px 28px 22px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #fbfdff 100%
+        );
+
+    border-bottom: 1px solid #eef2f7;
 }
 
-.edit-study-session-header h2 {
-    margin: 0 0 6px;
+
+/* Title */
+
+.study-session-modal-header h2 {
+    margin: 0;
 
     color: #0f172a;
 
-    font-size: 22px;
+    font-size: 23px;
+    font-weight: 750;
+
+    letter-spacing: -0.025em;
+    line-height: 1.25;
 }
 
-.edit-study-session-header p {
-    margin: 0;
+
+/* Subtitle */
+
+.study-session-modal-header p {
+    margin: 6px 0 0;
 
     color: #64748b;
 
     font-size: 13px;
+    line-height: 1.5;
 }
 
-.edit-study-session-close {
-    width: 36px;
-    height: 36px;
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.study-session-modal-close {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    border: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
 
-    background: #f1f5f9;
-
-    color: #475569;
-
-    border-radius: 8px;
+    background: #f8fafc;
+    color: #64748b;
 
     cursor: pointer;
-}
-
-.edit-study-session-close:hover {
-    background: #fee2e2;
-
-    color: #dc2626;
-}
-
-.edit-study-session-form {
-    padding: 24px;
-}
-
-.edit-study-session-form-group {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 7px;
-
-    margin-bottom: 18px;
-}
-
-.edit-study-session-form-group label {
-    color: #334155;
-
-    font-size: 13px;
-
-    font-weight: 600;
-}
-
-.edit-study-session-form-group input,
-.edit-study-session-form-group textarea {
-    width: 100%;
-
-    box-sizing: border-box;
-
-    padding: 11px 13px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 9px;
-
-    outline: none;
-
-    color: #1e293b;
-
-    font-family: inherit;
 
     font-size: 14px;
 
-    background: #ffffff;
-
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease;
 }
 
-.edit-study-session-form-group textarea {
+
+.study-session-modal-close:hover {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #dc2626;
+
+    transform: rotate(3deg);
+}
+
+
+.study-session-modal-close:active {
+    transform: scale(0.94);
+}
+
+
+.study-session-modal-close:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.study-session-modal-form {
+    padding: 26px 28px 28px;
+
+    overflow-y: auto;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.study-session-form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+
+.study-session-form-group label {
+    color: #334155;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 0.01em;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.study-session-form-group input,
+.study-session-form-group textarea,
+.study-session-form-group select {
+
+    width: 100%;
+    box-sizing: border-box;
+
+    border: 1px solid #dbe3ee;
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+    color: #0f172a;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease;
+}
+
+
+/* Inputs */
+
+.study-session-form-group input,
+.study-session-form-group select {
+    height: 46px;
+    padding: 0 13px;
+}
+
+
+/* Textarea */
+
+.study-session-form-group textarea {
+    min-height: 105px;
+
+    padding: 12px 13px;
+
+    line-height: 1.55;
+
     resize: vertical;
 }
 
-.edit-study-session-form-group input:focus,
-.edit-study-session-form-group textarea:focus {
-    border-color: #2563eb;
 
-    box-shadow:
-        0 0 0 3px rgba(37, 99, 235, 0.1);
+/* =========================================================
+   HOVER
+========================================================= */
+
+.study-session-form-group input:hover,
+.study-session-form-group textarea:hover,
+.study-session-form-group select:hover {
+    border-color: #cbd5e1;
+    background: #ffffff;
 }
 
-.edit-study-session-time-grid {
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.study-session-form-group input:focus,
+.study-session-form-group textarea:focus,
+.study-session-form-group select:focus {
+
+    border-color: #4f46e5;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(79, 70, 229, 0.10);
+}
+
+
+/* =========================================================
+   DISABLED
+========================================================= */
+
+.study-session-form-group input:disabled,
+.study-session-form-group textarea:disabled,
+.study-session-form-group select:disabled {
+
+    background: #f1f5f9;
+
+    color: #94a3b8;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   TIME GRID
+========================================================= */
+
+.study-session-time-grid {
+
     display: grid;
 
     grid-template-columns: 1fr 1fr;
@@ -155,76 +328,242 @@
     gap: 16px;
 }
 
-.edit-study-session-actions {
+
+/* Remove bottom spacing inside time groups */
+
+.study-session-time-grid .study-session-form-group {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   ACTION AREA
+========================================================= */
+
+.study-session-modal-actions {
+
     display: flex;
 
+    align-items: center;
     justify-content: flex-end;
 
     gap: 10px;
 
-    padding-top: 8px;
+    margin-top: 26px;
+    padding-top: 20px;
+
+    border-top: 1px solid #eef2f7;
 }
 
-.edit-study-session-cancel-btn,
-.edit-study-session-save-btn {
-    border-radius: 9px;
 
-    padding: 10px 16px;
+/* =========================================================
+   CANCEL
+========================================================= */
 
-    font-size: 13px;
+.study-session-cancel-btn {
 
-    font-weight: 600;
+    min-width: 92px;
 
-    cursor: pointer;
-}
+    height: 42px;
 
-.edit-study-session-cancel-btn {
-    border: 1px solid #cbd5e1;
+    padding: 0 16px;
+
+    border: 1px solid #dbe3ee;
+    border-radius: 11px;
 
     background: #ffffff;
-
     color: #475569;
+
+    font-size: 13px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease;
 }
 
-.edit-study-session-cancel-btn:hover {
+
+.study-session-cancel-btn:hover {
+
     background: #f8fafc;
+
+    border-color: #cbd5e1;
+
+    color: #1e293b;
 }
 
-.edit-study-session-save-btn {
-    display: flex;
 
+.study-session-cancel-btn:active {
+    transform: scale(0.97);
+}
+
+
+.study-session-cancel-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   SAVE / UPDATE
+========================================================= */
+
+.study-session-save-btn {
+
+    min-width: 150px;
+
+    height: 42px;
+
+    display: flex;
     align-items: center;
+    justify-content: center;
 
     gap: 8px;
 
-    border: none;
+    padding: 0 18px;
 
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #4f46e5
-    );
+    border: none;
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb 0%,
+            #4f46e5 100%
+        );
 
     color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 14px rgba(79, 70, 229, 0.22);
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        filter 0.18s ease;
 }
 
-.edit-study-session-save-btn:hover {
-    opacity: 0.92;
+
+.study-session-save-btn:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(79, 70, 229, 0.28);
+
+    filter: brightness(1.03);
 }
+
+
+.study-session-save-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+
+.study-session-save-btn:disabled {
+
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.study-session-form-group select {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   DATETIME INPUT
+========================================================= */
+
+.study-session-form-group input[type="datetime-local"] {
+    color-scheme: light;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.study-session-modal-form::-webkit-scrollbar {
+    width: 6px;
+}
+
+.study-session-modal-form::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.study-session-modal-form::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+}
+
+.study-session-modal-form::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 600px) {
 
-    .edit-study-session-time-grid {
+    .study-session-modal-overlay {
+        padding: 12px;
+    }
+
+    .study-session-modal {
+        max-height: 94vh;
+        border-radius: 18px;
+    }
+
+    .study-session-modal-header {
+        padding: 21px 20px 18px;
+    }
+
+    .study-session-modal-header h2 {
+        font-size: 20px;
+    }
+
+    .study-session-modal-form {
+        padding: 21px 20px 22px;
+    }
+
+    .study-session-time-grid {
         grid-template-columns: 1fr;
+        gap: 0;
     }
 
-    .edit-study-session-actions {
-        flex-direction: column;
+    .study-session-time-grid .study-session-form-group {
+        margin-bottom: 20px;
     }
 
-    .edit-study-session-cancel-btn,
-    .edit-study-session-save-btn {
+    .study-session-modal-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .study-session-cancel-btn,
+    .study-session-save-btn {
         width: 100%;
     }
-
 }

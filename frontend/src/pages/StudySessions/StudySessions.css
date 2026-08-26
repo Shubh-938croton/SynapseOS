@@ -1,12 +1,14 @@
 /* =========================================================
-   STUDY SESSIONS PAGE
+   SYNAPSEOS — STUDY SESSIONS
 ========================================================= */
 
 .study-sessions-page {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1440px;
     margin: 0 auto;
+
     padding: 36px 40px 60px;
+
     box-sizing: border-box;
 }
 
@@ -17,21 +19,23 @@
 
 .study-sessions-header {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
 
     gap: 30px;
-
-    margin-bottom: 32px;
+    margin-bottom: 30px;
 }
 
 .study-sessions-header h1 {
-    margin: 0 0 8px;
+    margin: 0 0 7px;
 
-    color: #111827;
+    color: #0f172a;
 
     font-size: 32px;
-    font-weight: 700;
+    font-weight: 750;
+
+    letter-spacing: -0.7px;
+    line-height: 1.2;
 }
 
 .study-sessions-header p {
@@ -39,16 +43,26 @@
 
     color: #64748b;
 
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 
 /* =========================================================
-   ADD BUTTON
+   ADD SESSION BUTTON
 ========================================================= */
 
 .add-study-session-btn {
-    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 11px 18px;
+
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 10px;
 
     background: linear-gradient(
         135deg,
@@ -56,28 +70,36 @@
         #4f46e5
     );
 
-    color: white;
-
-    padding: 12px 20px;
-
-    border-radius: 10px;
+    color: #ffffff;
 
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 650;
 
     cursor: pointer;
 
     box-shadow:
-        0 5px 15px rgba(37, 99, 235, 0.2);
+        0 5px 14px rgba(37, 99, 235, 0.18);
 
-    transition: all 0.2s ease;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        filter 0.18s ease;
 }
 
 .add-study-session-btn:hover {
     transform: translateY(-2px);
 
+    filter: brightness(1.03);
+
     box-shadow:
-        0 8px 20px rgba(37, 99, 235, 0.3);
+        0 9px 22px rgba(37, 99, 235, 0.25);
+}
+
+.add-study-session-btn:active {
+    transform: translateY(0);
+
+    box-shadow:
+        0 4px 10px rgba(37, 99, 235, 0.18);
 }
 
 
@@ -86,19 +108,23 @@
 ========================================================= */
 
 .study-sessions-loading {
-    min-height: 280px;
+    min-height: 300px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: white;
-
     border: 1px solid #e2e8f0;
+    border-radius: 18px;
 
-    border-radius: 16px;
+    background: #ffffff;
 
     color: #64748b;
+
+    font-size: 14px;
+
+    box-shadow:
+        0 4px 18px rgba(15, 23, 42, 0.04);
 }
 
 
@@ -107,7 +133,7 @@
 ========================================================= */
 
 .study-sessions-empty {
-    min-height: 300px;
+    min-height: 320px;
 
     display: flex;
     flex-direction: column;
@@ -117,37 +143,47 @@
 
     text-align: center;
 
-    background: white;
+    padding: 45px;
 
     border: 1px solid #e2e8f0;
+    border-radius: 18px;
 
-    border-radius: 16px;
-
-    padding: 40px;
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f8fafc 100%
+        );
 
     box-shadow:
-        0 5px 20px rgba(15, 23, 42, 0.05);
+        0 6px 24px rgba(15, 23, 42, 0.05);
 }
 
 .study-sessions-empty h2 {
-    margin: 0 0 10px;
+    margin: 0 0 9px;
 
-    color: #1e293b;
+    color: #0f172a;
 
-    font-size: 22px;
+    font-size: 21px;
+    font-weight: 700;
+
+    letter-spacing: -0.2px;
 }
 
 .study-sessions-empty p {
+    max-width: 420px;
+
     margin: 0;
 
     color: #64748b;
 
     font-size: 14px;
+    line-height: 1.6;
 }
 
 
 /* =========================================================
-   GRID
+   SESSION GRID
 ========================================================= */
 
 .study-sessions-grid {
@@ -156,36 +192,47 @@
     grid-template-columns:
         repeat(auto-fill, minmax(310px, 1fr));
 
-    gap: 24px;
+    gap: 20px;
 }
 
 
 /* =========================================================
-   CARD
+   SESSION CARD
 ========================================================= */
 
 .study-session-card {
-    background: white;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    padding: 22px;
 
     border: 1px solid #e2e8f0;
-
     border-radius: 16px;
 
-    padding: 24px;
+    background: #ffffff;
+
+    box-sizing: border-box;
 
     box-shadow:
-        0 6px 20px rgba(15, 23, 42, 0.06);
+        0 5px 18px rgba(15, 23, 42, 0.045);
 
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .study-session-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
+
+    border-color: #d6deea;
 
     box-shadow:
-        0 12px 30px rgba(15, 23, 42, 0.10);
+        0 12px 30px rgba(15, 23, 42, 0.09);
 }
 
 
@@ -194,36 +241,50 @@
 ========================================================= */
 
 .study-session-card-header {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .study-session-card-header h2 {
-    margin: 0 0 8px;
+    margin: 0 0 9px;
 
     color: #0f172a;
 
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 700;
+
+    line-height: 1.35;
+
+    letter-spacing: -0.2px;
+
+    word-break: break-word;
 }
 
 
 /* =========================================================
-   SUBJECT
+   SUBJECT BADGE
 ========================================================= */
 
 .study-session-subject {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
 
-    padding: 5px 10px;
+    max-width: 100%;
+
+    padding: 5px 9px;
+
+    border: 1px solid #dbeafe;
+    border-radius: 999px;
 
     background: #eff6ff;
 
     color: #2563eb;
 
-    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 650;
 
-    font-size: 12px;
-    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -232,18 +293,20 @@
 ========================================================= */
 
 .study-session-description {
-    margin: 0 0 20px;
+    margin: 0 0 18px;
 
     color: #64748b;
 
-    font-size: 14px;
+    font-size: 13px;
 
-    line-height: 1.6;
+    line-height: 1.65;
+
+    min-height: 42px;
 }
 
 
 /* =========================================================
-   INFO
+   SESSION INFORMATION
 ========================================================= */
 
 .study-session-info {
@@ -251,31 +314,44 @@
 
     grid-template-columns: 1fr 1fr;
 
-    gap: 12px;
+    gap: 1px;
 
-    padding: 15px 0;
+    margin: 0;
 
-    border-top: 1px solid #e2e8f0;
-    border-bottom: 1px solid #e2e8f0;
+    overflow: hidden;
+
+    border: 1px solid #e8edf3;
+    border-radius: 11px;
+
+    background: #e8edf3;
 }
 
 .study-session-info div {
     display: flex;
     flex-direction: column;
 
-    gap: 5px;
+    gap: 4px;
+
+    padding: 12px;
+
+    background: #f8fafc;
 }
 
 .study-session-info span {
     color: #94a3b8;
 
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 500;
+
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
 }
 
 .study-session-info strong {
     color: #1e293b;
 
     font-size: 13px;
+    font-weight: 650;
 }
 
 
@@ -289,19 +365,23 @@
     align-items: center;
     justify-content: space-between;
 
-    padding: 16px 0;
+    padding: 16px 2px 14px;
 }
 
 .study-session-duration span {
     color: #64748b;
 
     font-size: 13px;
+    font-weight: 500;
 }
 
 .study-session-duration strong {
     color: #2563eb;
 
-    font-size: 16px;
+    font-size: 17px;
+    font-weight: 750;
+
+    letter-spacing: -0.2px;
 }
 
 
@@ -312,76 +392,134 @@
 .study-session-actions {
     display: flex;
 
-    gap: 10px;
+    gap: 9px;
+
+    margin-top: auto;
 }
 
 
 /* =========================================================
-   EDIT
+   EDIT BUTTON
 ========================================================= */
 
 .edit-study-session-btn {
     flex: 1;
 
-    padding: 9px 14px;
+    padding: 9px 13px;
 
-    border: 1px solid #2563eb;
+    border: 1px solid #bfdbfe;
+    border-radius: 9px;
 
     background: #eff6ff;
 
     color: #2563eb;
 
-    border-radius: 8px;
-
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 650;
 
     cursor: pointer;
 
-    transition: all 0.2s ease;
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
 }
 
 .edit-study-session-btn:hover {
+    border-color: #2563eb;
+
     background: #2563eb;
 
-    color: white;
+    color: #ffffff;
+
+    transform: translateY(-1px);
+}
+
+.edit-study-session-btn:active {
+    transform: translateY(0);
 }
 
 
 /* =========================================================
-   DELETE
+   DELETE BUTTON
 ========================================================= */
 
 .delete-study-session-btn {
     flex: 1;
 
-    padding: 9px 14px;
+    padding: 9px 13px;
 
-    border: 1px solid #ef4444;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
 
     background: #fef2f2;
 
     color: #dc2626;
 
-    border-radius: 8px;
-
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 650;
 
     cursor: pointer;
 
-    transition: all 0.2s ease;
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
 }
 
 .delete-study-session-btn:hover {
+    border-color: #dc2626;
+
     background: #dc2626;
 
-    color: white;
+    color: #ffffff;
+
+    transform: translateY(-1px);
+}
+
+.delete-study-session-btn:active {
+    transform: translateY(0);
 }
 
 
 /* =========================================================
-   RESPONSIVE
+   FOCUS STATES
+========================================================= */
+
+.add-study-session-btn:focus-visible,
+.edit-study-session-btn:focus-visible,
+.delete-study-session-btn:focus-visible {
+    outline: none;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.16);
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .study-sessions-page {
+        padding: 30px 24px 50px;
+    }
+
+    .study-sessions-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 18px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
 ========================================================= */
 
 @media (max-width: 700px) {
@@ -394,6 +532,18 @@
         flex-direction: column;
 
         align-items: flex-start;
+
+        gap: 18px;
+
+        margin-bottom: 24px;
+    }
+
+    .study-sessions-header h1 {
+        font-size: 27px;
+    }
+
+    .study-sessions-header p {
+        font-size: 13px;
     }
 
     .add-study-session-btn {
@@ -402,6 +552,42 @@
 
     .study-sessions-grid {
         grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .study-session-card {
+        padding: 20px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .study-sessions-page {
+        padding: 20px 12px 32px;
+    }
+
+    .study-session-card {
+        padding: 18px;
+    }
+
+    .study-session-info div {
+        padding: 10px;
+    }
+
+    .study-session-actions {
+        gap: 8px;
+    }
+
+    .edit-study-session-btn,
+    .delete-study-session-btn {
+        padding: 9px 10px;
     }
 
 }
