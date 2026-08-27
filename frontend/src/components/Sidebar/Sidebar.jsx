@@ -65,6 +65,7 @@ function Sidebar() {
                     <FaCalendarAlt />
                     <span>Calendar</span>
                 </NavLink>
+                
 
                 {/* STUDY SESSIONS */}
                 <NavLink to="/study-sessions">
