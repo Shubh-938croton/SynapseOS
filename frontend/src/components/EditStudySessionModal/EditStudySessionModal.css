@@ -1,560 +1,238 @@
-/* =========================================================
-   SYNAPSEOS - EDIT STUDY SESSION MODAL
-========================================================= */
-
-/* =========================================================
-   OVERLAY
-========================================================= */
+/* ==========================================================================
+   EDIT STUDY SESSION MODAL - MODERN DIALOG
+   ========================================================================== */
 
 .study-session-modal-overlay {
     position: fixed;
     inset: 0;
     z-index: 1000;
-
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
 
-    padding: 24px;
-
-    background: rgba(15, 23, 42, 0.62);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-
-    animation: studyOverlayIn 0.18s ease-out;
+    animation: studyOverlayIn 0.2s ease;
 }
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-.study-session-modal {
-    width: min(100%, 640px);
-    max-height: min(90vh, 760px);
-
-    display: flex;
-    flex-direction: column;
-
-    background: #ffffff;
-
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    border-radius: 22px;
-
-    box-shadow:
-        0 30px 80px rgba(15, 23, 42, 0.24),
-        0 10px 30px rgba(15, 23, 42, 0.10);
-
-    overflow: hidden;
-
-    animation: studyModalIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-
-/* =========================================================
-   ANIMATIONS
-========================================================= */
 
 @keyframes studyOverlayIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
+.study-session-modal {
+    width: 100%;
+    max-width: 580px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--modal-shadow);
+    overflow: hidden;
+    animation: studyModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 @keyframes studyModalIn {
     from {
         opacity: 0;
-        transform: translateY(12px) scale(0.97);
+        transform: translateY(-16px) scale(0.96);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 }
 
-
-/* =========================================================
-   HEADER
-========================================================= */
-
+/* Header */
 .study-session-modal-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-
-    gap: 24px;
-
-    padding: 26px 28px 22px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff 0%,
-            #fbfdff 100%
-        );
-
-    border-bottom: 1px solid #eef2f7;
+    gap: 20px;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--border-color);
 }
-
-
-/* Title */
 
 .study-session-modal-header h2 {
     margin: 0;
-
-    color: #0f172a;
-
-    font-size: 23px;
-    font-weight: 750;
-
-    letter-spacing: -0.025em;
-    line-height: 1.25;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
-
-
-/* Subtitle */
 
 .study-session-modal-header p {
-    margin: 6px 0 0;
-
-    color: #64748b;
-
+    margin: 4px 0 0;
+    color: var(--text-secondary);
     font-size: 13px;
-    line-height: 1.5;
 }
 
-
-/* =========================================================
-   CLOSE BUTTON
-========================================================= */
-
 .study-session-modal-close {
-    width: 38px;
-    height: 38px;
-
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border: 1px solid #e2e8f0;
-    border-radius: 11px;
-
-    background: #f8fafc;
-    color: #64748b;
-
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
     cursor: pointer;
-
-    font-size: 14px;
-
-    transition:
-        background 0.18s ease,
-        border-color 0.18s ease,
-        color 0.18s ease,
-        transform 0.18s ease;
+    font-size: 16px;
+    transition: all var(--transition-fast);
 }
-
 
 .study-session-modal-close:hover {
-    background: #fef2f2;
-    border-color: #fecaca;
-    color: #dc2626;
-
-    transform: rotate(3deg);
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
+    color: var(--danger-color);
 }
-
-
-.study-session-modal-close:active {
-    transform: scale(0.94);
-}
-
 
 .study-session-modal-close:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-
-/* =========================================================
-   FORM
-========================================================= */
-
+/* Form */
 .study-session-modal-form {
-    padding: 26px 28px 28px;
-
+    padding: 24px 28px 28px;
     overflow-y: auto;
 }
-
-
-/* =========================================================
-   FORM GROUP
-========================================================= */
 
 .study-session-form-group {
     display: flex;
     flex-direction: column;
-
-    gap: 8px;
-
-    margin-bottom: 20px;
+    gap: 6px;
+    margin-bottom: 18px;
 }
-
 
 .study-session-form-group label {
-    color: #334155;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: 0.01em;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
 }
-
-
-/* =========================================================
-   INPUTS
-========================================================= */
 
 .study-session-form-group input,
 .study-session-form-group textarea,
 .study-session-form-group select {
-
     width: 100%;
     box-sizing: border-box;
-
-    border: 1px solid #dbe3ee;
-    border-radius: 12px;
-
-    background: #f8fafc;
-
-    color: #0f172a;
-
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-background);
+    color: var(--text-primary);
     font-family: inherit;
-    font-size: 14px;
-
+    font-size: 13.5px;
+    padding: 11px 14px;
     outline: none;
-
-    transition:
-        border-color 0.18s ease,
-        background 0.18s ease,
-        box-shadow 0.18s ease,
-        transform 0.18s ease;
+    transition: all var(--transition-fast);
 }
-
-
-/* Inputs */
-
-.study-session-form-group input,
-.study-session-form-group select {
-    height: 46px;
-    padding: 0 13px;
-}
-
-
-/* Textarea */
 
 .study-session-form-group textarea {
-    min-height: 105px;
-
-    padding: 12px 13px;
-
-    line-height: 1.55;
-
+    min-height: 90px;
     resize: vertical;
 }
-
-
-/* =========================================================
-   HOVER
-========================================================= */
-
-.study-session-form-group input:hover,
-.study-session-form-group textarea:hover,
-.study-session-form-group select:hover {
-    border-color: #cbd5e1;
-    background: #ffffff;
-}
-
-
-/* =========================================================
-   FOCUS
-========================================================= */
 
 .study-session-form-group input:focus,
 .study-session-form-group textarea:focus,
 .study-session-form-group select:focus {
-
-    border-color: #4f46e5;
-
-    background: #ffffff;
-
-    box-shadow:
-        0 0 0 4px rgba(79, 70, 229, 0.10);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
 }
-
-
-/* =========================================================
-   DISABLED
-========================================================= */
 
 .study-session-form-group input:disabled,
 .study-session-form-group textarea:disabled,
 .study-session-form-group select:disabled {
-
-    background: #f1f5f9;
-
-    color: #94a3b8;
-
+    opacity: 0.6;
     cursor: not-allowed;
 }
 
-
-/* =========================================================
-   TIME GRID
-========================================================= */
-
 .study-session-time-grid {
-
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 16px;
 }
 
-
-/* Remove bottom spacing inside time groups */
-
 .study-session-time-grid .study-session-form-group {
-    margin-bottom: 0;
+    margin-bottom: 18px;
 }
 
-
-/* =========================================================
-   ACTION AREA
-========================================================= */
-
+/* Actions */
 .study-session-modal-actions {
-
     display: flex;
-
     align-items: center;
     justify-content: flex-end;
-
-    gap: 10px;
-
-    margin-top: 26px;
-    padding-top: 20px;
-
-    border-top: 1px solid #eef2f7;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-color);
 }
-
-
-/* =========================================================
-   CANCEL
-========================================================= */
 
 .study-session-cancel-btn {
-
-    min-width: 92px;
-
-    height: 42px;
-
-    padding: 0 16px;
-
-    border: 1px solid #dbe3ee;
-    border-radius: 11px;
-
-    background: #ffffff;
-    color: #475569;
-
-    font-size: 13px;
-    font-weight: 650;
-
+    min-width: 90px;
+    padding: 10px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    font-weight: 600;
     cursor: pointer;
-
-    transition:
-        background 0.18s ease,
-        border-color 0.18s ease,
-        color 0.18s ease,
-        transform 0.18s ease;
+    transition: all var(--transition-fast);
 }
-
 
 .study-session-cancel-btn:hover {
-
-    background: #f8fafc;
-
-    border-color: #cbd5e1;
-
-    color: #1e293b;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 }
-
-
-.study-session-cancel-btn:active {
-    transform: scale(0.97);
-}
-
 
 .study-session-cancel-btn:disabled {
-    opacity: 0.55;
+    opacity: 0.5;
     cursor: not-allowed;
 }
-
-
-/* =========================================================
-   SAVE / UPDATE
-========================================================= */
 
 .study-session-save-btn {
-
-    min-width: 150px;
-
-    height: 42px;
-
-    display: flex;
+    min-width: 130px;
+    padding: 10px 22px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-
     gap: 8px;
-
-    padding: 0 18px;
-
     border: none;
-    border-radius: 11px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb 0%,
-            #4f46e5 100%
-        );
-
+    border-radius: var(--radius-md);
+    background: var(--accent-gradient);
     color: #ffffff;
-
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 700;
-
     cursor: pointer;
-
-    box-shadow:
-        0 5px 14px rgba(79, 70, 229, 0.22);
-
-    transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        filter 0.18s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    transition: all var(--transition-fast);
 }
-
 
 .study-session-save-btn:hover {
-
     transform: translateY(-1px);
-
-    box-shadow:
-        0 8px 20px rgba(79, 70, 229, 0.28);
-
-    filter: brightness(1.03);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
 }
-
-
-.study-session-save-btn:active {
-    transform: translateY(0) scale(0.98);
-}
-
 
 .study-session-save-btn:disabled {
-
-    opacity: 0.65;
-
+    opacity: 0.5;
     cursor: not-allowed;
-
-    transform: none;
-
-    box-shadow: none;
 }
-
-
-/* =========================================================
-   SELECT
-========================================================= */
-
-.study-session-form-group select {
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   DATETIME INPUT
-========================================================= */
-
-.study-session-form-group input[type="datetime-local"] {
-    color-scheme: light;
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-.study-session-modal-form::-webkit-scrollbar {
-    width: 6px;
-}
-
-.study-session-modal-form::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.study-session-modal-form::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 999px;
-}
-
-.study-session-modal-form::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
 
 @media (max-width: 600px) {
-
-    .study-session-modal-overlay {
-        padding: 12px;
-    }
-
-    .study-session-modal {
-        max-height: 94vh;
-        border-radius: 18px;
-    }
-
-    .study-session-modal-header {
-        padding: 21px 20px 18px;
-    }
-
-    .study-session-modal-header h2 {
-        font-size: 20px;
-    }
-
+    .study-session-modal-header,
     .study-session-modal-form {
-        padding: 21px 20px 22px;
+        padding: 20px;
     }
 
     .study-session-time-grid {
         grid-template-columns: 1fr;
         gap: 0;
-    }
-
-    .study-session-time-grid .study-session-form-group {
-        margin-bottom: 20px;
     }
 
     .study-session-modal-actions {
@@ -565,5 +243,6 @@
     .study-session-cancel-btn,
     .study-session-save-btn {
         width: 100%;
+        text-align: center;
     }
 }

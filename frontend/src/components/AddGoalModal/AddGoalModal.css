@@ -1,444 +1,241 @@
-/* =========================================
-   ADD GOAL MODAL OVERLAY
-========================================= */
+/* ==========================================================================
+   ADD GOAL MODAL - MODERN DIALOG
+   ========================================================================== */
 
 .goal-modal-overlay {
     position: fixed;
     inset: 0;
-
     width: 100%;
     height: 100%;
 
-    background: rgba(15, 23, 42, 0.55);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 
     display: flex;
     align-items: center;
     justify-content: center;
-
-    padding: 24px;
-
-    z-index: 9999;
-
-    backdrop-filter: blur(4px);
+    padding: 20px;
+    z-index: 1000;
+    animation: goalOverlayFade 0.2s ease;
 }
 
-
-/* =========================================
-   MODAL
-========================================= */
+@keyframes goalOverlayFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
 .goal-modal {
     width: 100%;
     max-width: 560px;
-
     max-height: 90vh;
 
-    background: #ffffff;
-
-    border-radius: 16px;
-
-    box-shadow:
-        0 25px 50px rgba(15, 23, 42, 0.25);
-
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--modal-shadow);
     overflow-y: auto;
-
-    animation: goalModalAppear 0.2s ease-out;
+    animation: goalModalAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-
-/* =========================================
-   MODAL ANIMATION
-========================================= */
-
 @keyframes goalModalAppear {
-
     from {
         opacity: 0;
-        transform: translateY(15px) scale(0.98);
+        transform: translateY(-16px) scale(0.96);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
-
 }
 
-
-/* =========================================
-   HEADER
-========================================= */
-
+/* Header */
 .goal-modal-header {
     display: flex;
-
     align-items: flex-start;
     justify-content: space-between;
-
     gap: 20px;
-
-    padding: 24px 28px 20px;
-
-    border-bottom: 1px solid #e5e7eb;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--border-color);
 }
-
-
-/* =========================================
-   HEADER TITLE
-========================================= */
 
 .goal-modal-header h2 {
     margin: 0;
-
-    font-size: 24px;
-    font-weight: 700;
-
-    color: #111827;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
 }
-
 
 .goal-modal-header p {
-    margin: 6px 0 0;
-
-    font-size: 14px;
-
-    color: #6b7280;
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--text-secondary);
 }
 
-
-/* =========================================
-   CLOSE BUTTON
-========================================= */
-
 .goal-modal-close {
-    width: 36px;
-    height: 36px;
-
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border: none;
-
-    border-radius: 8px;
-
-    background: transparent;
-
-    color: #6b7280;
-
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
     cursor: pointer;
-
     font-size: 16px;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease;
+    transition: all var(--transition-fast);
 }
-
 
 .goal-modal-close:hover {
-    background: #f3f4f6;
-    color: #111827;
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border-color: var(--danger-border);
 }
-
 
 .goal-modal-close:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-
-/* =========================================
-   FORM
-========================================= */
-
+/* Form */
 .goal-modal-form {
     padding: 24px 28px 28px;
 }
 
-
-/* =========================================
-   FORM GROUP
-========================================= */
-
 .goal-form-group {
     display: flex;
-
     flex-direction: column;
-
-    gap: 7px;
-
+    gap: 6px;
     margin-bottom: 18px;
 }
 
-
-/* =========================================
-   LABEL
-========================================= */
-
 .goal-form-group label {
-    font-size: 14px;
-
+    font-size: 13px;
     font-weight: 600;
-
-    color: #374151;
+    color: var(--text-secondary);
 }
-
-
-/* =========================================
-   INPUTS
-========================================= */
 
 .goal-form-group input,
 .goal-form-group textarea,
 .goal-form-group select {
     width: 100%;
-
     box-sizing: border-box;
+    padding: 11px 14px;
 
-    padding: 11px 13px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 8px;
-
-    background: #ffffff;
-
-    color: #111827;
-
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-background);
+    color: var(--text-primary);
     font-family: inherit;
-
-    font-size: 14px;
-
+    font-size: 13.5px;
     outline: none;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: all var(--transition-fast);
 }
-
-
-/* =========================================
-   TEXTAREA
-========================================= */
 
 .goal-form-group textarea {
     min-height: 100px;
-
     resize: vertical;
-
-    line-height: 1.5;
+    line-height: 1.55;
 }
-
-
-/* =========================================
-   FOCUS
-========================================= */
 
 .goal-form-group input:focus,
 .goal-form-group textarea:focus,
 .goal-form-group select:focus {
-
-    border-color: #4f46e5;
-
-    box-shadow:
-        0 0 0 3px rgba(79, 70, 229, 0.12);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
 }
-
-
-/* =========================================
-   DISABLED
-========================================= */
 
 .goal-form-group input:disabled,
 .goal-form-group textarea:disabled,
 .goal-form-group select:disabled {
-
-    background: #f3f4f6;
-
-    color: #6b7280;
-
+    opacity: 0.6;
     cursor: not-allowed;
 }
 
-
-/* =========================================
-   ACTIONS
-========================================= */
-
+/* Actions */
 .goal-modal-actions {
-
     display: flex;
-
     justify-content: flex-end;
-
-    gap: 10px;
-
-    padding-top: 6px;
-
-    margin-top: 8px;
-
-    border-top: 1px solid #e5e7eb;
-
-    padding-top: 20px;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-color);
 }
-
-
-/* =========================================
-   CANCEL BUTTON
-========================================= */
 
 .goal-cancel-btn {
-
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
-
     min-width: 90px;
+    padding: 10px 18px;
 
-    padding: 10px 16px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 8px;
-
-    background: #ffffff;
-
-    color: #374151;
-
-    font-size: 14px;
-
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 13.5px;
     font-weight: 600;
-
     cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease;
+    transition: all var(--transition-fast);
 }
-
 
 .goal-cancel-btn:hover {
-
-    background: #f9fafb;
-
-    border-color: #9ca3af;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 }
-
 
 .goal-cancel-btn:disabled {
-
     opacity: 0.5;
-
     cursor: not-allowed;
 }
-
-
-/* =========================================
-   SAVE BUTTON
-========================================= */
 
 .goal-save-btn {
-
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
-
     gap: 8px;
-
-    min-width: 125px;
-
-    padding: 10px 16px;
+    min-width: 120px;
+    padding: 10px 22px;
 
     border: none;
-
-    border-radius: 8px;
-
-    background: #4f46e5;
-
+    border-radius: var(--radius-md);
+    background: var(--accent-gradient);
     color: #ffffff;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
+    font-size: 13.5px;
+    font-weight: 700;
     cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        transform 0.15s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    transition: all var(--transition-fast);
 }
-
 
 .goal-save-btn:hover {
-
-    background: #4338ca;
-
     transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
 }
-
-
-.goal-save-btn:active {
-
-    transform: translateY(0);
-}
-
 
 .goal-save-btn:disabled {
-
-    opacity: 0.6;
-
+    opacity: 0.5;
     cursor: not-allowed;
-
-    transform: none;
 }
 
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
 @media (max-width: 600px) {
-
-    .goal-modal-overlay {
-        padding: 12px;
-    }
-
-
-    .goal-modal {
-        max-height: 95vh;
-
-        border-radius: 12px;
-    }
-
-
-    .goal-modal-header {
-        padding: 20px;
-    }
-
-
+    .goal-modal-header,
     .goal-modal-form {
         padding: 20px;
     }
-
-
-    .goal-modal-header h2 {
-        font-size: 21px;
-    }
-
 
     .goal-modal-actions {
         flex-direction: column-reverse;
     }
 
-
     .goal-cancel-btn,
     .goal-save-btn {
         width: 100%;
+        text-align: center;
     }
-
 }

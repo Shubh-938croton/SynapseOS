@@ -1,508 +1,244 @@
-/* =========================================
-   TASK CARD
-========================================= */
+/* ==========================================================================
+   TASK CARD - MODERN PRODUCTIVITY TILE
+   ========================================================================== */
 
 .task-card {
-
     width: 100%;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    box-shadow: var(--card-shadow);
 
-    background: rgba(255, 255, 255, 0.95);
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 20px;
-
-    padding: 24px;
-
-    margin-bottom: 20px;
-
-    box-shadow:
-        0 8px 25px rgba(15, 23, 42, 0.06);
-
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.25s ease;
-
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
     box-sizing: border-box;
-
 }
-
-
-/* =========================================
-   HOVER
-========================================= */
 
 .task-card:hover {
-
-    transform: translateY(-4px);
-
-    box-shadow:
-        0 15px 35px rgba(15, 23, 42, 0.10);
-
-    border-color: #dbeafe;
-
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--border-hover);
 }
 
-
-/* =========================================
-   HEADER
-========================================= */
-
+/* Header & Title */
 .task-header {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: flex-start;
-
-    gap: 20px;
-
+    gap: 16px;
 }
-
-
-/* =========================================
-   TITLE
-========================================= */
 
 .task-title-section {
-
     min-width: 0;
-
+    flex: 1;
 }
-
 
 .task-title-section h2 {
-
-    margin: 0 0 8px 0;
-
-    color: #1e293b;
-
-    font-size: 21px;
-
+    margin: 0 0 6px 0;
+    color: var(--text-primary);
+    font-size: 17px;
     font-weight: 700;
-
-    line-height: 1.3;
-
+    line-height: 1.35;
     word-break: break-word;
-
 }
-
 
 .task-title-section p {
-
     margin: 0;
-
-    color: #64748b;
-
-    font-size: 15px;
-
-    line-height: 1.6;
-
-    max-width: 700px;
-
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    line-height: 1.5;
+    max-width: 800px;
     word-break: break-word;
-
 }
 
-
-/* =========================================
-   PRIORITY
-========================================= */
-
+/* Priority Badges */
 .priority {
-
     flex-shrink: 0;
-
-    padding: 6px 13px;
-
-    border-radius: 999px;
-
-    font-size: 13px;
-
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11.5px;
     font-weight: 700;
-
-    text-transform: capitalize;
-
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border: 1px solid transparent;
 }
-
-
-/* High */
 
 .priority.high {
-
-    background: #fee2e2;
-
-    color: #dc2626;
-
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border-color: var(--danger-border);
 }
-
-
-/* Medium */
 
 .priority.medium {
-
-    background: #fef3c7;
-
-    color: #d97706;
-
+    background: var(--warning-bg);
+    color: var(--warning-color);
+    border-color: var(--warning-border);
 }
-
-
-/* Low */
 
 .priority.low {
-
-    background: #dcfce7;
-
-    color: #16a34a;
-
+    background: var(--accent-subtle);
+    color: var(--accent-color);
+    border-color: var(--border-color);
 }
 
-
-/* =========================================
-   META
-========================================= */
-
+/* Meta Bar (Due Date & Status) */
 .task-meta {
-
-    margin-top: 22px;
-
-    padding-top: 17px;
-
-    border-top: 1px solid #eef2f7;
-
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-color);
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
-    gap: 15px;
-
+    gap: 14px;
 }
-
 
 .due-date {
-
     display: flex;
-
     align-items: center;
-
-    gap: 9px;
-
-    color: #64748b;
-
-    font-size: 14px;
-
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 12.5px;
+    font-family: "JetBrains Mono", monospace;
 }
-
 
 .due-date svg {
-
-    color: #64748b;
-
+    color: var(--text-muted);
+    font-size: 13px;
 }
-
-
-/* =========================================
-   STATUS
-========================================= */
 
 .task-status {
-
     display: flex;
-
     align-items: center;
-
-    gap: 8px;
-
-    font-size: 14px;
-
+    gap: 6px;
 }
-
 
 .task-status > svg {
-
-    color: #94a3b8;
-
+    color: var(--text-muted);
+    font-size: 12px;
 }
-
 
 .status {
-
-    padding: 6px 13px;
-
-    border-radius: 999px;
-
-    font-size: 13px;
-
-    font-weight: 700;
-
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    font-size: 11.5px;
+    font-weight: 600;
     text-transform: capitalize;
-
 }
-
-
-/* Pending */
 
 .status.pending {
-
-    background: #dbeafe;
-
-    color: #2563eb;
-
+    background: var(--warning-bg);
+    color: var(--warning-color);
+    border: 1px solid var(--warning-border);
 }
-
-
-/* Completed */
 
 .status.completed {
-
-    background: #dcfce7;
-
-    color: #16a34a;
-
+    background: var(--success-bg);
+    color: var(--success-color);
+    border: 1px solid var(--success-border);
 }
-
-
-/* In Progress */
 
 .status.in-progress {
-
-    background: #fef3c7;
-
-    color: #d97706;
-
+    background: var(--accent-subtle);
+    color: var(--accent-color);
+    border: 1px solid var(--border-color);
 }
 
-
-/* =========================================
-   ACTIONS
-========================================= */
-
+/* Action Buttons */
 .task-actions {
-
     display: flex;
-
     align-items: center;
-
-    gap: 10px;
-
-    margin-top: 20px;
-
+    gap: 8px;
+    margin-top: 16px;
 }
-
 
 .task-action {
-
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
-
-    gap: 8px;
-
-    padding: 10px 15px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 12.5px;
     font-weight: 600;
-
     cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
-
+    border: 1px solid transparent;
+    transition: all var(--transition-fast);
 }
-
 
 .task-action:hover {
-
-    transform: translateY(-2px);
-
+    transform: translateY(-1px);
 }
 
-
-/* =========================================
-   EDIT
-========================================= */
-
+/* Edit Action */
 .edit-btn {
-
-    background: #eff6ff;
-
-    color: #2563eb;
-
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
 }
-
 
 .edit-btn:hover {
-
-    background: #dbeafe;
-
-    box-shadow:
-        0 5px 15px rgba(37, 99, 235, 0.15);
-
+    background: var(--bg-elevated);
+    border-color: var(--border-hover);
+    color: var(--accent-color);
 }
 
-
-/* =========================================
-   DELETE
-========================================= */
-
+/* Delete Action */
 .delete-btn {
-
-    background: #fef2f2;
-
-    color: #dc2626;
-
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border-color: var(--danger-border);
 }
-
 
 .delete-btn:hover {
-
-    background: #fee2e2;
-
-    box-shadow:
-        0 5px 15px rgba(220, 38, 38, 0.15);
-
+    background: var(--danger-color);
+    color: #ffffff;
 }
 
-
-/* =========================================
-   COMPLETE
-========================================= */
-
+/* Complete Action */
 .complete-btn {
-
-    background: #ecfdf5;
-
-    color: #059669;
-
+    background: var(--success-bg);
+    color: var(--success-color);
+    border-color: var(--success-border);
 }
 
-
-.complete-btn:hover {
-
-    background: #d1fae5;
-
-    box-shadow:
-        0 5px 15px rgba(5, 150, 105, 0.15);
-
+.complete-btn:hover:not(:disabled) {
+    background: var(--success-color);
+    color: #ffffff;
 }
-
-
-/* =========================================
-   DISABLED COMPLETE
-========================================= */
 
 .complete-btn:disabled {
-
-    background: #f1f5f9;
-
-    color: #94a3b8;
-
+    opacity: 0.5;
     cursor: not-allowed;
-
     transform: none;
-
-    box-shadow: none;
-
 }
 
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
+/* Responsive */
 @media (max-width: 650px) {
-
     .task-card {
-
-        padding: 20px;
-
+        padding: 16px;
     }
-
 
     .task-header {
-
         flex-direction: column;
-
-        gap: 12px;
-
+        gap: 8px;
     }
-
 
     .priority {
-
         align-self: flex-start;
-
     }
-
 
     .task-meta {
-
-        align-items: flex-start;
-
         flex-direction: column;
-
+        align-items: flex-start;
+        gap: 8px;
     }
-
 
     .task-actions {
-
         flex-wrap: wrap;
-
     }
-
 
     .task-action {
-
         flex: 1;
-
-        min-width: 100px;
-
     }
-
-}
-
-
-@media (max-width: 420px) {
-
-    .task-card {
-
-        padding: 17px;
-
-    }
-
-
-    .task-title-section h2 {
-
-        font-size: 18px;
-
-    }
-
-
-    .task-title-section p {
-
-        font-size: 14px;
-
-    }
-
-
-    .task-action span {
-
-        font-size: 13px;
-
-    }
-
 }

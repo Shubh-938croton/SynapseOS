@@ -1,428 +1,228 @@
-/* =========================
-   OVERLAY
-========================= */
+/* ==========================================================================
+   EDIT EVENT MODAL - MODERN DIALOG
+   ========================================================================== */
 
 .edit-event-overlay {
     position: fixed;
     inset: 0;
-
     z-index: 1000;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 20px;
 
-    background: rgba(15, 23, 42, 0.65);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: editEventOverlayFade 0.2s ease;
 }
 
-
-/* =========================
-   MODAL
-========================= */
+@keyframes editEventOverlayFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
 .edit-event-modal {
     width: 100%;
     max-width: 520px;
     max-height: 90vh;
-
-    background: #ffffff;
-
-    border-radius: 16px;
-
-    box-shadow:
-        0 25px 60px rgba(0, 0, 0, 0.25);
-
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--modal-shadow);
     overflow-y: auto;
-
-    animation: editModalOpen 0.2s ease;
+    animation: editEventModalAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-
-/* =========================
-   ANIMATION
-========================= */
-
-@keyframes editModalOpen {
-
+@keyframes editEventModalAppear {
     from {
         opacity: 0;
-        transform: translateY(-15px) scale(0.98);
+        transform: translateY(-16px) scale(0.96);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
-
 }
 
-
-/* =========================
-   HEADER
-========================= */
-
+/* Header */
 .edit-event-header {
-
     display: flex;
-
     align-items: flex-start;
-
     justify-content: space-between;
-
-    padding: 24px 26px;
-
-    border-bottom: 1px solid #e5e7eb;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--border-color);
 }
-
 
 .edit-event-header h2 {
-
     margin: 0;
-
-    font-size: 22px;
-
-    font-weight: 700;
-
-    color: #111827;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
 }
-
 
 .edit-event-header p {
-
-    margin: 6px 0 0;
-
-    font-size: 14px;
-
-    color: #6b7280;
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--text-secondary);
 }
-
-
-/* =========================
-   CLOSE BUTTON
-========================= */
 
 .edit-event-close {
-
-    width: 36px;
-    height: 36px;
-
+    width: 32px;
+    height: 32px;
     display: flex;
-
     align-items: center;
     justify-content: center;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: transparent;
-
-    color: #6b7280;
-
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
     font-size: 16px;
-
     cursor: pointer;
-
-    transition: 0.2s ease;
+    transition: all var(--transition-fast);
 }
-
 
 .edit-event-close:hover {
-
-    background: #f3f4f6;
-
-    color: #111827;
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border-color: var(--danger-border);
 }
 
-
 .edit-event-close:disabled {
-
     opacity: 0.5;
-
     cursor: not-allowed;
 }
 
-
-/* =========================
-   FORM
-========================= */
-
+/* Form */
 .edit-event-form {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 18px;
-
-    padding: 24px 26px 26px;
+    padding: 24px 28px 28px;
 }
-
-
-/* =========================
-   FORM GROUP
-========================= */
 
 .edit-form-group {
-
     display: flex;
-
     flex-direction: column;
-
-    gap: 7px;
+    gap: 6px;
 }
-
 
 .edit-form-group label {
-
-    font-size: 14px;
-
+    font-size: 13px;
     font-weight: 600;
-
-    color: #374151;
+    color: var(--text-secondary);
 }
-
-
-/* =========================
-   INPUT / TEXTAREA / SELECT
-========================= */
 
 .edit-form-group input,
 .edit-form-group textarea,
 .edit-form-group select {
-
     width: 100%;
-
     box-sizing: border-box;
-
-    padding: 11px 13px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 9px;
-
-    background: #ffffff;
-
-    color: #111827;
-
+    padding: 11px 14px;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-background);
+    color: var(--text-primary);
     font-family: inherit;
-
-    font-size: 14px;
-
+    font-size: 13.5px;
     outline: none;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+    transition: all var(--transition-fast);
 }
 
-
-/* =========================
-   FOCUS
-========================= */
+.edit-form-group textarea {
+    min-height: 90px;
+    resize: vertical;
+}
 
 .edit-form-group input:focus,
 .edit-form-group textarea:focus,
 .edit-form-group select:focus {
-
-    border-color: #6366f1;
-
-    box-shadow:
-        0 0 0 3px rgba(99, 102, 241, 0.12);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
 }
-
-
-/* =========================
-   TEXTAREA
-========================= */
-
-.edit-form-group textarea {
-
-    min-height: 90px;
-
-    resize: vertical;
-}
-
-
-/* =========================
-   DISABLED
-========================= */
 
 .edit-form-group input:disabled,
 .edit-form-group textarea:disabled,
 .edit-form-group select:disabled {
-
-    background: #f3f4f6;
-
+    opacity: 0.6;
     cursor: not-allowed;
 }
 
-
-/* =========================
-   ACTIONS
-========================= */
-
+/* Actions */
 .edit-event-actions {
-
     display: flex;
-
     justify-content: flex-end;
-
     align-items: center;
-
     gap: 12px;
-
-    padding-top: 8px;
-
-    border-top: 1px solid #f1f5f9;
+    margin-top: 10px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-color);
 }
-
-
-/* =========================
-   CANCEL BUTTON
-========================= */
 
 .edit-cancel-btn {
-
-    padding: 11px 18px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 9px;
-
-    background: #ffffff;
-
-    color: #374151;
-
-    font-size: 14px;
-
+    padding: 10px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 13.5px;
     font-weight: 600;
-
     cursor: pointer;
-
-    transition: 0.2s ease;
+    transition: all var(--transition-fast);
 }
-
 
 .edit-cancel-btn:hover {
-
-    background: #f3f4f6;
-
-    border-color: #cbd5e1;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 }
-
 
 .edit-cancel-btn:disabled {
-
-    opacity: 0.6;
-
+    opacity: 0.5;
     cursor: not-allowed;
 }
-
-
-/* =========================
-   SAVE BUTTON
-========================= */
 
 .edit-save-btn {
-
-    display: flex;
-
+    display: inline-flex;
     align-items: center;
-
     justify-content: center;
-
     gap: 8px;
-
-    padding: 11px 18px;
-
+    padding: 10px 22px;
     border: none;
-
-    border-radius: 9px;
-
-    background: #4f46e5;
-
+    border-radius: var(--radius-md);
+    background: var(--accent-gradient);
     color: #ffffff;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
+    font-size: 13.5px;
+    font-weight: 700;
     cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        transform 0.1s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    transition: all var(--transition-fast);
 }
-
 
 .edit-save-btn:hover {
-
-    background: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
 }
-
-
-.edit-save-btn:active {
-
-    transform: scale(0.98);
-}
-
 
 .edit-save-btn:disabled {
-
-    opacity: 0.65;
-
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
-
-/* =========================
-   MOBILE
-========================= */
-
 @media (max-width: 600px) {
-
-    .edit-event-overlay {
-
-        padding: 12px;
-    }
-
-
-    .edit-event-modal {
-
-        max-height: 94vh;
-
-        border-radius: 13px;
-    }
-
-
-    .edit-event-header {
-
-        padding: 20px;
-    }
-
-
+    .edit-event-header,
     .edit-event-form {
-
         padding: 20px;
     }
-
 
     .edit-event-actions {
-
         flex-direction: column-reverse;
-
         align-items: stretch;
     }
 
-
     .edit-cancel-btn,
     .edit-save-btn {
-
         width: 100%;
+        text-align: center;
     }
-
 }

@@ -1,170 +1,123 @@
-/* =========================================
-   CONTEST MODAL OVERLAY
-========================================= */
+/* ==========================================================================
+   ADD CONTEST MODAL - MODERN DIALOG
+   ========================================================================== */
 
 .contest-modal-overlay {
     position: fixed;
     inset: 0;
-
-    background: rgba(15, 23, 42, 0.45);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 20px;
-
     z-index: 1000;
-
     animation: contestModalFadeIn 0.2s ease;
 }
 
-
-/* =========================================
-   MODAL
-========================================= */
+@keyframes contestModalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
 .contest-modal {
     width: 100%;
     max-width: 520px;
-
     max-height: 90vh;
     overflow-y: auto;
 
-    background: #ffffff;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 16px;
-
-    box-shadow:
-        0 20px 45px rgba(15, 23, 42, 0.18);
-
-    animation: contestModalSlideUp 0.25s ease;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--modal-shadow);
+    animation: contestModalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@keyframes contestModalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(-16px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
 
-/* =========================================
-   MODAL HEADER
-========================================= */
-
+/* Modal Header */
 .contest-modal-header {
     display: flex;
-
     justify-content: space-between;
     align-items: flex-start;
-
     gap: 20px;
-
-    padding: 24px 26px 20px;
-
-    border-bottom: 1px solid #e2e8f0;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .contest-modal-label {
     display: block;
-
-    margin-bottom: 5px;
-
-    color: #4f46e5;
-
+    margin-bottom: 4px;
+    color: var(--accent-color);
     font-size: 11px;
-
     font-weight: 700;
-
-    letter-spacing: 1.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
 .contest-modal-header h2 {
-    margin: 0 0 6px;
-
-    color: #111827;
-
-    font-size: 22px;
-
-    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 .contest-modal-header p {
     margin: 0;
-
-    color: #64748b;
-
+    color: var(--text-secondary);
     font-size: 13px;
-
     line-height: 1.5;
 }
 
-
-/* =========================================
-   CLOSE BUTTON
-========================================= */
-
 .contest-modal-close {
-    width: 34px;
-    height: 34px;
-
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #f8fafc;
-
-    color: #64748b;
-
-    font-size: 24px;
-
-    line-height: 1;
-
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    font-size: 18px;
     cursor: pointer;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease;
+    transition: all var(--transition-fast);
 }
 
 .contest-modal-close:hover {
-    background: #f1f5f9;
-    color: #111827;
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
+    color: var(--danger-color);
 }
 
-
-/* =========================================
-   ERROR
-========================================= */
-
+/* Error */
 .contest-modal-error {
-    margin: 18px 26px 0;
-
-    padding: 11px 13px;
-
-    background: #fef2f2;
-
-    border: 1px solid #fecaca;
-
-    border-radius: 9px;
-
-    color: #dc2626;
-
+    margin: 18px 28px 0;
+    padding: 11px 14px;
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-border);
+    border-radius: var(--radius-md);
+    color: var(--danger-color);
     font-size: 13px;
-
     line-height: 1.4;
 }
 
-
-/* =========================================
-   FORM
-========================================= */
-
+/* Form */
 .contest-modal-form {
-    padding: 24px 26px 26px;
+    padding: 24px 28px 28px;
 }
 
 .contest-form-group {
@@ -173,297 +126,95 @@
 
 .contest-form-group label {
     display: block;
-
-    margin-bottom: 7px;
-
-    color: #334155;
-
+    margin-bottom: 6px;
+    color: var(--text-secondary);
     font-size: 13px;
-
     font-weight: 600;
 }
 
 .contest-form-group label span {
-    color: #94a3b8;
-
+    color: var(--text-muted);
     font-weight: 400;
 }
-
-
-/* =========================================
-   INPUTS
-========================================= */
 
 .contest-form-group input,
 .contest-form-group select {
     width: 100%;
-
     height: 42px;
-
-    padding: 0 12px;
-
+    padding: 0 14px;
     box-sizing: border-box;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 9px;
-
-    background: #ffffff;
-
-    color: #1e293b;
-
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-background);
+    color: var(--text-primary);
     font-family: inherit;
-
-    font-size: 13px;
-
+    font-size: 13.5px;
     outline: none;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+    transition: all var(--transition-fast);
 }
-
-
-/* =========================================
-   INPUT FOCUS
-========================================= */
 
 .contest-form-group input:focus,
 .contest-form-group select:focus {
-    border-color: #2563eb;
-
-    box-shadow:
-        0 0 0 3px rgba(37, 99, 235, 0.10);
-
-    background: #ffffff;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
-
-/* =========================================
-   PLACEHOLDER
-========================================= */
-
-.contest-form-group input::placeholder {
-    color: #94a3b8;
-}
-
-
-/* =========================================
-   SELECT
-========================================= */
-
-.contest-form-group select {
-    cursor: pointer;
-
-    appearance: auto;
-}
-
-
-/* =========================================
-   DATETIME INPUT
-========================================= */
-
-.contest-form-group input[type="datetime-local"] {
-    color: #334155;
-}
-
-
-/* =========================================
-   URL INPUT
-========================================= */
-
-.contest-form-group input[type="url"] {
-    font-size: 13px;
-}
-
-
-/* =========================================
-   ACTIONS
-========================================= */
-
+/* Actions */
 .contest-modal-actions {
     display: flex;
-
     justify-content: flex-end;
-
     align-items: center;
-
-    gap: 10px;
-
-    margin-top: 25px;
-
-    padding-top: 20px;
-
-    border-top: 1px solid #e2e8f0;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-color);
 }
-
-
-/* =========================================
-   CANCEL
-========================================= */
 
 .contest-modal-cancel {
     height: 40px;
-
-    padding: 0 17px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 9px;
-
-    background: #ffffff;
-
-    color: #475569;
-
-    font-size: 13px;
-
+    padding: 0 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 13.5px;
     font-weight: 600;
-
     cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease;
+    transition: all var(--transition-fast);
 }
 
 .contest-modal-cancel:hover {
-    background: #f8fafc;
-
-    border-color: #94a3b8;
-
-    color: #1e293b;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 }
-
-
-/* =========================================
-   SUBMIT
-========================================= */
 
 .contest-modal-submit {
     height: 40px;
-
-    padding: 0 18px;
-
+    padding: 0 22px;
     border: none;
-
-    border-radius: 9px;
-
-    background: #2563eb;
-
+    border-radius: var(--radius-md);
+    background: var(--accent-gradient);
     color: #ffffff;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
+    font-size: 13.5px;
+    font-weight: 700;
     cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    transition: all var(--transition-fast);
 }
 
 .contest-modal-submit:hover:not(:disabled) {
-    background: #1d4ed8;
-
     transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
 }
-
-
-/* =========================================
-   DISABLED
-========================================= */
 
 .contest-modal-submit:disabled,
 .contest-modal-cancel:disabled {
-    opacity: 0.6;
-
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
-.contest-modal-submit:disabled {
-    transform: none;
-}
-
-
-/* =========================================
-   SCROLLBAR
-========================================= */
-
-.contest-modal::-webkit-scrollbar {
-    width: 7px;
-}
-
-.contest-modal::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.contest-modal::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-
-    border-radius: 10px;
-}
-
-.contest-modal::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
-
-
-/* =========================================
-   ANIMATIONS
-========================================= */
-
-@keyframes contestModalFadeIn {
-
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-
-}
-
-@keyframes contestModalSlideUp {
-
-    from {
-        opacity: 0;
-
-        transform: translateY(15px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-
-        transform: translateY(0) scale(1);
-    }
-
-}
-
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
 @media (max-width: 600px) {
-
-    .contest-modal-overlay {
-        padding: 12px;
-    }
-
-    .contest-modal {
-        max-width: 100%;
-
-        border-radius: 14px;
-    }
-
-    .contest-modal-header {
-        padding: 20px;
-    }
-
+    .contest-modal-header,
     .contest-modal-form {
         padding: 20px;
     }
@@ -475,6 +226,6 @@
     .contest-modal-cancel,
     .contest-modal-submit {
         width: 100%;
+        text-align: center;
     }
-
 }

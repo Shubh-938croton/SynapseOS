@@ -1,442 +1,210 @@
-/* =========================================================
-   SYNAPSEOS - ADD EVENT MODAL
-   ========================================================= */
-
-/* =========================================================
-   OVERLAY
-   ========================================================= */
+/* ==========================================================================
+   ADD EVENT MODAL - MODERN DIALOG
+   ========================================================================== */
 
 .event-modal-overlay {
     position: fixed;
     inset: 0;
-
     z-index: 1000;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 20px;
 
-    background: rgba(15, 23, 42, 0.55);
-
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: eventOverlayFade 0.2s ease;
 }
 
-
-/* =========================================================
-   MODAL
-   ========================================================= */
+@keyframes eventOverlayFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
 .event-modal {
     width: 100%;
-    max-width: 620px;
-
+    max-width: 580px;
     max-height: 90vh;
-
-    background: #ffffff;
-
-    border-radius: 18px;
-
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
     overflow-y: auto;
-
-    box-shadow:
-        0 20px 60px rgba(15, 23, 42, 0.22);
-
-    animation: eventModalAppear 0.2s ease;
+    box-shadow: var(--modal-shadow);
+    animation: eventModalAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-
 @keyframes eventModalAppear {
-
     from {
         opacity: 0;
-        transform: translateY(10px) scale(0.98);
+        transform: translateY(-16px) scale(0.96);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
-
 }
 
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
+/* Header */
 .event-modal-header {
-
     display: flex;
-
     align-items: flex-start;
-
     justify-content: space-between;
-
     gap: 20px;
-
-    padding: 24px 26px;
-
-    border-bottom: 1px solid #e2e8f0;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--border-color);
 }
-
 
 .event-modal-header h2 {
-
-    margin: 0 0 5px;
-
-    color: #0f172a;
-
-    font-size: 24px;
-
-    font-weight: 700;
-
-    line-height: 1.3;
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
-
 
 .event-modal-header p {
-
-    margin: 0;
-
-    color: #64748b;
-
-    font-size: 14px;
+    margin: 4px 0 0;
+    color: var(--text-secondary);
+    font-size: 13px;
 }
-
-
-/* =========================================================
-   CLOSE BUTTON
-   ========================================================= */
 
 .event-modal-close {
-
-    width: 36px;
-    height: 36px;
-
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: #f8fafc;
-
-    color: #64748b;
-
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
     cursor: pointer;
-
     font-size: 16px;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+    transition: all var(--transition-fast);
 }
-
 
 .event-modal-close:hover {
-
-    background: #f1f5f9;
-
-    color: #0f172a;
-
-    transform: translateY(-1px);
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border-color: var(--danger-border);
 }
 
-
-/* =========================================================
-   FORM
-   ========================================================= */
-
+/* Form */
 .event-modal-form {
-
-    padding: 24px 26px;
+    padding: 24px 28px 28px;
 }
-
-
-/* =========================================================
-   FORM GROUP
-   ========================================================= */
 
 .event-form-group {
-
     margin-bottom: 18px;
 }
 
-
 .event-form-group label {
-
     display: block;
-
-    margin-bottom: 7px;
-
-    color: #334155;
-
-    font-size: 14px;
-
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
     font-weight: 600;
 }
-
-
-/* =========================================================
-   INPUTS
-   ========================================================= */
 
 .event-form-group input,
 .event-form-group textarea,
 .event-form-group select {
-
     width: 100%;
-
     box-sizing: border-box;
-
-    padding: 11px 13px;
-
-    border: 1px solid #dbe3ee;
-
-    border-radius: 10px;
-
-    background: #f8fafc;
-
-    color: #0f172a;
-
+    padding: 11px 14px;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-background);
+    color: var(--text-primary);
     font-family: inherit;
-
-    font-size: 14px;
-
+    font-size: 13.5px;
     outline: none;
-
-    transition:
-        border-color 0.2s ease,
-        background 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: all var(--transition-fast);
 }
-
-
-.event-form-group input {
-
-    height: 44px;
-}
-
 
 .event-form-group textarea {
-
-    min-height: 100px;
-
+    min-height: 90px;
     resize: vertical;
 }
-
-
-.event-form-group select {
-
-    height: 44px;
-
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   INPUT FOCUS
-   ========================================================= */
 
 .event-form-group input:focus,
 .event-form-group textarea:focus,
 .event-form-group select:focus {
-
-    border-color: #6366f1;
-
-    background: #ffffff;
-
-    box-shadow:
-        0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
-
-/* =========================================================
-   ACTIONS
-   ========================================================= */
-
+/* Actions */
 .event-modal-actions {
-
     display: flex;
-
     align-items: center;
-
     justify-content: flex-end;
-
-    gap: 10px;
-
+    gap: 12px;
     margin-top: 24px;
-
-    padding-top: 20px;
-
-    border-top: 1px solid #f1f5f9;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-color);
 }
-
-
-/* =========================================================
-   CANCEL BUTTON
-   ========================================================= */
 
 .event-cancel-btn {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 7px;
-
-    padding: 10px 16px;
-
-    border: 1px solid #dbe3ee;
-
-    border-radius: 10px;
-
-    background: #ffffff;
-
-    color: #64748b;
-
-    font-size: 14px;
-
+    padding: 10px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 13.5px;
     font-weight: 600;
-
     cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease;
+    transition: all var(--transition-fast);
 }
-
 
 .event-cancel-btn:hover {
-
-    background: #f8fafc;
-
-    border-color: #cbd5e1;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 }
-
-
-/* =========================================================
-   SAVE BUTTON
-   ========================================================= */
 
 .event-save-btn {
-
-    display: flex;
-
+    display: inline-flex;
     align-items: center;
-
     justify-content: center;
-
-    gap: 7px;
-
-    padding: 10px 18px;
-
+    gap: 8px;
+    padding: 10px 22px;
     border: none;
-
-    border-radius: 10px;
-
-    background: #4f46e5;
-
+    border-radius: var(--radius-md);
+    background: var(--accent-gradient);
     color: #ffffff;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
+    font-size: 13.5px;
+    font-weight: 700;
     cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    transition: all var(--transition-fast);
 }
-
 
 .event-save-btn:hover {
-
-    background: #4338ca;
-
     transform: translateY(-1px);
-
-    box-shadow:
-        0 4px 12px rgba(79, 70, 229, 0.25);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
 }
-
 
 .event-save-btn:disabled {
-
-    opacity: 0.65;
-
+    opacity: 0.5;
     cursor: not-allowed;
-
-    transform: none;
-
-    box-shadow: none;
 }
 
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 650px) {
-
-    .event-modal-overlay {
-
-        padding: 12px;
-
-    }
-
-
-    .event-modal {
-
-        max-width: 100%;
-
-        max-height: 94vh;
-
-        border-radius: 14px;
-
-    }
-
-
-    .event-modal-header {
-
-        padding: 20px;
-
-    }
-
-
+@media (max-width: 600px) {
+    .event-modal-header,
     .event-modal-form {
-
         padding: 20px;
-
     }
-
 
     .event-modal-actions {
-
         flex-direction: column-reverse;
-
         align-items: stretch;
-
     }
-
 
     .event-cancel-btn,
     .event-save-btn {
-
         width: 100%;
-
+        text-align: center;
     }
-
 }

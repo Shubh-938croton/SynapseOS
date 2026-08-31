@@ -1,22 +1,20 @@
-/* =========================================================
-   SYNAPSEOS REGISTER PAGE
-   ========================================================= */
+/* ==========================================================================
+   SYNAPSEOS AUTH - MODERN DARK GLASS REGISTER
+   ========================================================================== */
 
 @import "../Login/Login.css";
 
 .register-card {
     width: 480px;
     max-width: 100%;
-    padding: 38px 42px;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 26px;
-    box-shadow:
-        0 25px 70px rgba(15, 23, 42, 0.14),
-        0 5px 20px rgba(37, 99, 235, 0.08);
-    animation: slideUp 0.8s ease forwards;
+    padding: 38px 40px;
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5), 0 0 40px rgba(59, 130, 246, 0.1);
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .register-form {
@@ -27,14 +25,14 @@
 .register-success {
     padding: 12px 14px;
     margin-bottom: 17px;
-    border-radius: 10px;
-    background: rgba(34, 197, 94, 0.1);
-    border: 1px solid rgba(34, 197, 94, 0.25);
-    color: #15803d;
-    font-size: 14px;
+    border-radius: var(--radius-md);
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
+    color: var(--success-color);
+    font-size: 13.5px;
     line-height: 1.4;
     text-align: center;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .form-row {
@@ -44,6 +42,10 @@
 }
 
 @media (max-width: 640px) {
+    .register-card {
+        padding: 24px 18px;
+    }
+
     .form-row {
         grid-template-columns: 1fr;
         gap: 0;

@@ -1,322 +1,200 @@
-/* =========================================================
-   ADD NOTE MODAL
-   ========================================================= */
+/* ==========================================================================
+   ADD NOTE MODAL - MODERN DIALOG
+   ========================================================================== */
 
 .note-modal-overlay {
     position: fixed;
     inset: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 20px;
 
-    background: rgba(15, 23, 42, 0.45);
-
-    backdrop-filter: blur(5px);
-
-    z-index: 9999;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    animation: noteOverlayFade 0.2s ease;
 }
 
-
-/* =========================================================
-   MODAL
-   ========================================================= */
+@keyframes noteOverlayFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
 .note-modal {
     width: 100%;
     max-width: 560px;
-
-    background: #ffffff;
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 25px 70px rgba(15, 23, 42, 0.2);
-
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--modal-shadow);
     overflow: hidden;
-
-    animation: noteModalAppear 0.25s ease;
+    animation: noteModalAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@keyframes noteModalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-16px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
 
-/* =========================================================
-   HEADER
-   ========================================================= */
-
+/* Header */
 .note-modal-header {
     display: flex;
-
     justify-content: space-between;
     align-items: flex-start;
-
-    padding: 24px 26px;
-
-    border-bottom: 1px solid #e2e8f0;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .note-modal-header h2 {
     margin: 0;
-
-    color: #0f172a;
-
-    font-size: 22px;
-    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 .note-modal-header p {
-    margin: 6px 0 0;
-
-    color: #64748b;
-
-    font-size: 14px;
+    margin: 4px 0 0;
+    color: var(--text-secondary);
+    font-size: 13px;
 }
 
-
-/* =========================================================
-   CLOSE BUTTON
-   ========================================================= */
-
 .note-modal-close {
-    width: 36px;
-    height: 36px;
-
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border: none;
-    border-radius: 10px;
-
-    background: #f1f5f9;
-
-    color: #64748b;
-
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
     cursor: pointer;
-
-    transition: 0.2s ease;
+    font-size: 16px;
+    transition: all var(--transition-fast);
 }
 
 .note-modal-close:hover {
-    background: #fee2e2;
-
-    color: #ef4444;
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border-color: var(--danger-border);
 }
 
-
-/* =========================================================
-   FORM
-   ========================================================= */
-
+/* Form */
 .note-modal-form {
-    padding: 26px;
+    padding: 24px 28px 28px;
 }
 
 .note-form-group {
     display: flex;
-
     flex-direction: column;
-
-    gap: 8px;
-
-    margin-bottom: 20px;
+    gap: 6px;
+    margin-bottom: 18px;
 }
 
 .note-form-group label {
-    color: #334155;
-
-    font-size: 14px;
+    color: var(--text-secondary);
+    font-size: 13px;
     font-weight: 600;
 }
-
-
-/* =========================================================
-   INPUTS
-   ========================================================= */
 
 .note-form-group input,
 .note-form-group select,
 .note-form-group textarea {
     width: 100%;
-
-    padding: 13px 14px;
-
+    padding: 11px 14px;
     box-sizing: border-box;
 
-    border: 1px solid #dbe4f0;
-
-    border-radius: 10px;
-
-    background: #f8fafc;
-
-    color: #1e293b;
-
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-background);
+    color: var(--text-primary);
     font-family: inherit;
-
-    font-size: 14px;
-
+    font-size: 13.5px;
     outline: none;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+    transition: all var(--transition-fast);
 }
 
 .note-form-group input:focus,
 .note-form-group select:focus,
 .note-form-group textarea:focus {
-    background: #ffffff;
-
-    border-color: #2563eb;
-
-    box-shadow:
-        0 0 0 3px rgba(37, 99, 235, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
 .note-form-group textarea {
-    min-height: 170px;
-
+    min-height: 140px;
     resize: vertical;
-
     line-height: 1.6;
 }
 
-.note-form-group input::placeholder,
-.note-form-group textarea::placeholder {
-    color: #94a3b8;
-}
-
-
-/* =========================================================
-   ACTIONS
-   ========================================================= */
-
+/* Actions */
 .note-modal-actions {
     display: flex;
-
     justify-content: flex-end;
-
     gap: 12px;
-
-    margin-top: 8px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-color);
 }
 
-
-/* =========================================================
-   CANCEL
-   ========================================================= */
-
 .note-cancel-btn {
-    padding: 12px 20px;
-
-    border: 1px solid #dbe4f0;
-
-    border-radius: 10px;
-
-    background: #ffffff;
-
-    color: #475569;
-
-    font-size: 14px;
+    padding: 10px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 13.5px;
     font-weight: 600;
-
     cursor: pointer;
-
-    transition: 0.2s ease;
+    transition: all var(--transition-fast);
 }
 
 .note-cancel-btn:hover {
-    background: #f8fafc;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 }
 
-
-/* =========================================================
-   SAVE
-   ========================================================= */
-
 .note-save-btn {
-    display: flex;
-
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-
     gap: 8px;
-
-    padding: 12px 20px;
-
+    padding: 10px 22px;
     border: none;
-
-    border-radius: 10px;
-
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #4f46e5
-    );
-
+    border-radius: var(--radius-md);
+    background: var(--accent-gradient);
     color: #ffffff;
-
-    font-size: 14px;
-    font-weight: 600;
-
+    font-size: 13.5px;
+    font-weight: 700;
     cursor: pointer;
-
-    transition: 0.2s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    transition: all var(--transition-fast);
 }
 
 .note-save-btn:hover {
     transform: translateY(-1px);
-
-    box-shadow:
-        0 8px 20px rgba(37, 99, 235, 0.25);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
 }
 
 .note-save-btn:disabled,
 .note-cancel-btn:disabled,
 .note-modal-close:disabled {
-    opacity: 0.6;
-
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
-
-/* =========================================================
-   ANIMATION
-   ========================================================= */
-
-@keyframes noteModalAppear {
-
-    from {
-        opacity: 0;
-
-        transform: translateY(15px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-
-        transform: translateY(0) scale(1);
-    }
-
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
 @media (max-width: 600px) {
-
-    .note-modal {
-        border-radius: 16px;
-    }
-
-    .note-modal-header {
-        padding: 20px;
-    }
-
+    .note-modal-header,
     .note-modal-form {
         padding: 20px;
     }
@@ -328,6 +206,6 @@
     .note-cancel-btn,
     .note-save-btn {
         width: 100%;
+        text-align: center;
     }
-
 }

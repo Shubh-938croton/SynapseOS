@@ -1,229 +1,217 @@
+/* ==========================================================================
+   ADD STUDY SESSION MODAL - MODERN DIALOG
+   ========================================================================== */
+
 .study-session-modal-overlay {
     position: fixed;
-
     inset: 0;
-
     z-index: 1000;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     padding: 20px;
 
-    background: rgba(15, 23, 42, 0.55);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: studyOverlayIn 0.2s ease;
+}
 
-    backdrop-filter: blur(4px);
+@keyframes studyOverlayIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .study-session-modal {
     width: 100%;
-    max-width: 620px;
-
+    max-width: 580px;
     max-height: 90vh;
-
     overflow-y: auto;
-
-    background: #ffffff;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 25px 60px rgba(15, 23, 42, 0.25);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--modal-shadow);
+    animation: studyModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@keyframes studyModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(-16px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Header */
 .study-session-modal-header {
     display: flex;
-
     align-items: flex-start;
     justify-content: space-between;
-
-    padding: 24px;
-
-    border-bottom: 1px solid #e2e8f0;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .study-session-modal-header h2 {
-    margin: 0 0 6px;
-
-    color: #0f172a;
-
-    font-size: 22px;
+    margin: 0 0 4px;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 .study-session-modal-header p {
     margin: 0;
-
-    color: #64748b;
-
+    color: var(--text-secondary);
     font-size: 13px;
 }
 
 .study-session-modal-close {
-    width: 36px;
-    height: 36px;
-
+    width: 32px;
+    height: 32px;
     display: flex;
-
     align-items: center;
     justify-content: center;
-
-    border: none;
-
-    background: #f1f5f9;
-
-    color: #475569;
-
-    border-radius: 8px;
-
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
     cursor: pointer;
+    font-size: 16px;
+    transition: all var(--transition-fast);
 }
 
 .study-session-modal-close:hover {
-    background: #fee2e2;
-
-    color: #dc2626;
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border-color: var(--danger-border);
 }
 
+/* Form */
 .study-session-modal-form {
-    padding: 24px;
+    padding: 24px 28px 28px;
 }
 
 .study-session-form-group {
     display: flex;
-
     flex-direction: column;
-
-    gap: 7px;
-
+    gap: 6px;
     margin-bottom: 18px;
 }
 
 .study-session-form-group label {
-    color: #334155;
-
+    color: var(--text-secondary);
     font-size: 13px;
-
     font-weight: 600;
 }
 
 .study-session-form-group input,
-.study-session-form-group textarea {
+.study-session-form-group textarea,
+.study-session-form-group select {
     width: 100%;
-
     box-sizing: border-box;
-
-    padding: 11px 13px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 9px;
-
+    padding: 11px 14px;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
     outline: none;
-
-    color: #1e293b;
-
+    color: var(--text-primary);
     font-family: inherit;
-
-    font-size: 14px;
-
-    background: #ffffff;
-
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
+    font-size: 13.5px;
+    background: var(--input-background);
+    transition: all var(--transition-fast);
 }
 
 .study-session-form-group textarea {
+    min-height: 90px;
     resize: vertical;
 }
 
 .study-session-form-group input:focus,
-.study-session-form-group textarea:focus {
-    border-color: #2563eb;
-
-    box-shadow:
-        0 0 0 3px rgba(37, 99, 235, 0.1);
+.study-session-form-group textarea:focus,
+.study-session-form-group select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
 .study-session-time-grid {
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 16px;
 }
 
-.study-session-modal-actions {
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 10px;
-
-    padding-top: 8px;
+.study-session-time-grid .study-session-form-group {
+    margin-bottom: 18px;
 }
 
-.study-session-cancel-btn,
-.study-session-save-btn {
-    border-radius: 9px;
-
-    padding: 10px 16px;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    cursor: pointer;
+/* Actions */
+.study-session-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-color);
 }
 
 .study-session-cancel-btn {
-    border: 1px solid #cbd5e1;
-
-    background: #ffffff;
-
-    color: #475569;
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
 }
 
 .study-session-cancel-btn:hover {
-    background: #f8fafc;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 }
 
 .study-session-save-btn {
-    display: flex;
-
+    display: inline-flex;
     align-items: center;
-
+    justify-content: center;
     gap: 8px;
-
+    padding: 10px 22px;
     border: none;
-
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #4f46e5
-    );
-
+    border-radius: var(--radius-md);
+    background: var(--accent-gradient);
     color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    transition: all var(--transition-fast);
 }
 
 .study-session-save-btn:hover {
-    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
 }
 
 @media (max-width: 600px) {
+    .study-session-modal-header,
+    .study-session-modal-form {
+        padding: 20px;
+    }
 
     .study-session-time-grid {
         grid-template-columns: 1fr;
+        gap: 0;
     }
 
     .study-session-modal-actions {
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 
     .study-session-cancel-btn,
     .study-session-save-btn {
         width: 100%;
+        text-align: center;
     }
-
 }

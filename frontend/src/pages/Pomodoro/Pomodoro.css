@@ -1,81 +1,66 @@
+/* ==========================================================================
+   POMODORO PAGE - MODERN FOCUS ENVIRONMENT
+   ========================================================================== */
+
 .pomodoro-page {
     width: 100%;
     min-height: 100%;
-    padding: 32px;
     box-sizing: border-box;
+    animation: pomodoroPageEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+@keyframes pomodoroPageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-/* =========================================
-   PAGE HEADER
-========================================= */
-
+/* Page Header */
 .pomodoro-page-header {
-    margin-bottom: 32px;
+    margin-bottom: 30px;
 }
 
 .pomodoro-page-label {
     display: inline-block;
-
-    margin-bottom: 8px;
-
-    font-size: 12px;
+    margin-bottom: 6px;
+    font-size: 11px;
     font-weight: 700;
-
-    letter-spacing: 1.5px;
-
-    color: #6366f1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-color);
 }
 
 .pomodoro-page-header h1 {
-    margin: 0 0 8px;
-
-    font-size: 32px;
-    font-weight: 700;
-
-    color: #111827;
+    margin: 0 0 6px;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
 }
 
 .pomodoro-page-header p {
     margin: 0;
-
     max-width: 600px;
-
-    font-size: 15px;
-
-    line-height: 1.6;
-
-    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-secondary);
 }
 
-
-/* =========================================
-   CONTENT
-========================================= */
-
+/* Content Area */
 .pomodoro-page-content {
     width: 100%;
-
     display: flex;
-
-    justify-content: center;
-
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
 }
 
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
 @media (max-width: 768px) {
-
-    .pomodoro-page {
-        padding: 24px 16px;
-    }
-
     .pomodoro-page-header h1 {
-        font-size: 28px;
+        font-size: 26px;
     }
-
 }

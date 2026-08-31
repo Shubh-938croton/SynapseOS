@@ -1,19 +1,12 @@
-/* =========================================
-   CONTEST PAGE
-========================================= */
+/* ==========================================================================
+   CONTEST LIST - MODERN COMPETITIVE PROGRAMMING GRID
+   ========================================================================== */
 
 .contest-page {
     width: 100%;
     min-height: 100%;
-    background: #f4f6f9;
-    padding: 32px 40px;
     box-sizing: border-box;
 }
-
-
-/* =========================================
-   CONTAINER
-========================================= */
 
 .contest-page-container {
     width: 100%;
@@ -21,269 +14,310 @@
     margin: 0 auto;
 }
 
-
-/* =========================================
-   HEADER
-========================================= */
-
+/* Header */
 .contest-page-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 20px;
     margin-bottom: 28px;
 }
 
 .contest-page-header h1 {
     margin: 4px 0 6px;
-    font-size: 30px;
-    font-weight: 700;
-    color: #111827;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
 }
 
 .contest-page-header p {
     margin: 0;
-    color: #64748b;
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
 .contest-section-label {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 1.5px;
-    color: #4f46e5;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-color);
 }
 
-
-/* =========================================
-   ADD BUTTON
-========================================= */
-
+/* Add Buttons */
 .contest-add-button,
 .contest-empty-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 42px;
+    padding: 0 20px;
+
+    background: var(--accent-gradient);
+    color: #ffffff;
     border: none;
-    background: #2563eb;
-    color: white;
-    font-weight: 600;
+    border-radius: var(--radius-md);
+
     font-size: 14px;
-    padding: 11px 18px;
-    border-radius: 10px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+    transition: all var(--transition-fast);
 }
 
 .contest-add-button:hover,
 .contest-empty-button:hover {
-    background: #1d4ed8;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.45);
+    filter: brightness(1.05);
 }
 
-
-/* =========================================
-   EMPTY STATE
-========================================= */
-
+/* Empty State */
 .contest-empty-state {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 15px;
-    min-height: 280px;
-
+    background: var(--bg-secondary);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    min-height: 260px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     text-align: center;
-
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    padding: 40px 20px;
 }
 
 .contest-empty-icon {
-    width: 52px;
-    height: 52px;
-
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background: #f1f5f9;
-    border-radius: 50%;
-
-    font-size: 25px;
-
-    margin-bottom: 15px;
+    background: var(--accent-subtle);
+    color: var(--accent-color);
+    border-radius: var(--radius-full);
+    font-size: 22px;
+    margin-bottom: 14px;
 }
 
 .contest-empty-state h2 {
-    margin: 0 0 8px;
-
-    color: #111827;
+    margin: 0 0 6px;
+    color: var(--text-primary);
     font-size: 18px;
+    font-weight: 700;
 }
 
 .contest-empty-state p {
     margin: 0 0 20px;
-
-    color: #64748b;
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
-
-/* =========================================
-   CONTEST GRID
-========================================= */
-
-.contest-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 20px;
+/* Controls Toolbar */
+.contest-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
 }
 
+.contest-search {
+    position: relative;
+    flex: 1;
+    max-width: 520px;
+}
 
-/* =========================================
-   CONTEST CARD
-========================================= */
+.contest-search input {
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    padding: 0 14px 0 40px;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-background);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 13.5px;
+    outline: none;
+    transition: all var(--transition-fast);
+}
+
+.contest-search input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.contest-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.contest-sort {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contest-sort label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.contest-sort select {
+    height: 42px;
+    min-width: 180px;
+    padding: 0 12px;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-background);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.contest-sort select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+/* Contest Grid */
+.contest-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
 
 .contest-card {
-    background: white;
-
-    border: 1px solid #e2e8f0;
-    border-radius: 15px;
-
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
     padding: 22px;
-
-    box-shadow:
-        0 4px 12px rgba(15, 23, 42, 0.05);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    box-shadow: var(--card-shadow);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .contest-card:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(15, 23, 42, 0.08);
+    transform: translateY(-3px);
+    border-color: var(--border-hover);
+    box-shadow: var(--card-shadow-hover);
 }
-
-
-/* =========================================
-   CARD HEADER
-========================================= */
 
 .contest-card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-
-    gap: 15px;
+    gap: 14px;
 }
 
 .contest-card-header h2 {
-    margin: 10px 0 0;
-
-    font-size: 19px;
-    color: #111827;
+    margin: 8px 0 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.35;
 }
 
-
-/* =========================================
-   PLATFORM
-========================================= */
-
+/* Platform Badges */
 .contest-platform {
     display: inline-flex;
-
-    padding: 5px 10px;
-
-    border-radius: 20px;
-
-    font-size: 12px;
-    font-weight: 600;
-
-    background: #eff6ff;
-    color: #2563eb;
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: var(--accent-subtle);
+    color: var(--accent-color);
+    border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
 .contest-platform-codeforces {
-    background: #fff7ed;
-    color: #ea580c;
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.3);
 }
 
 .contest-platform-codechef {
-    background: #fefce8;
-    color: #a16207;
+    background: rgba(168, 85, 247, 0.12);
+    color: #c084fc;
+    border-color: rgba(168, 85, 247, 0.3);
 }
 
 .contest-platform-hackerrank {
-    background: #f0fdf4;
-    color: #16a34a;
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
 }
 
 .contest-platform-atcoder {
-    background: #fef2f2;
-    color: #dc2626;
+    background: rgba(6, 182, 212, 0.12);
+    color: #22d3ee;
+    border-color: rgba(6, 182, 212, 0.3);
 }
 
 .contest-platform-other {
-    background: #f1f5f9;
-    color: #475569;
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    border-color: var(--border-color);
 }
 
-
-/* =========================================
-   STATUS
-========================================= */
-
+/* Status */
 .contest-status {
-    padding: 5px 10px;
-
-    border-radius: 20px;
-
-    font-size: 12px;
-    font-weight: 600;
-
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
     white-space: nowrap;
+    border: 1px solid transparent;
 }
 
 .contest-status-upcoming {
-    background: #eff6ff;
-    color: #2563eb;
+    background: var(--accent-subtle);
+    color: var(--accent-color);
+    border-color: rgba(59, 130, 246, 0.3);
 }
 
 .contest-status-participated {
-    background: #f0fdf4;
-    color: #16a34a;
+    background: var(--success-bg);
+    color: var(--success-color);
+    border-color: var(--success-border);
 }
 
 .contest-status-missed {
-    background: #fef2f2;
-    color: #dc2626;
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border-color: var(--danger-border);
 }
-
-
-/* =========================================
-   DIVIDER
-========================================= */
 
 .contest-divider {
     height: 1px;
-    background: #e2e8f0;
-    margin: 20px 0;
+    background: var(--border-color);
+    margin: 16px 0;
 }
 
-
-/* =========================================
-   DETAILS
-========================================= */
-
+/* Details */
 .contest-details {
     display: flex;
-    gap: 35px;
+    gap: 24px;
 }
 
 .contest-detail {
@@ -293,336 +327,154 @@
 }
 
 .contest-detail-icon {
-    width: 36px;
-    height: 36px;
-
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background: #f8fafc;
-    border-radius: 9px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    color: var(--accent-color);
 }
 
 .contest-detail-label {
     display: block;
-
-    font-size: 11px;
-    color: #94a3b8;
-
-    margin-bottom: 3px;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
 }
 
 .contest-detail-value {
     display: block;
-
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
-
-    color: #334155;
+    color: var(--text-primary);
+    font-family: "JetBrains Mono", monospace;
 }
 
-
-/* =========================================
-   CARD FOOTER
-========================================= */
-
+/* Footer & Actions */
 .contest-card-footer {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
-    margin-top: 22px;
-    padding-top: 16px;
-
-    border-top: 1px solid #e2e8f0;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-color);
 }
 
 .contest-open-button {
-    color: #2563eb;
-
-    background: #eff6ff;
-
+    color: #ffffff;
+    background: var(--accent-gradient);
     text-decoration: none;
-
-    padding: 8px 12px;
-
-    border-radius: 8px;
-
-    font-size: 13px;
-    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    transition: all var(--transition-fast);
 }
 
 .contest-open-button:hover {
-    background: #dbeafe;
+    filter: brightness(1.1);
+}
+
+.contest-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contest-edit-button {
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.contest-edit-button:hover {
+    background: var(--bg-elevated);
+    border-color: var(--border-hover);
+    color: var(--accent-color);
 }
 
 .contest-delete-button {
-    border: none;
-
-    background: #fef2f2;
-    color: #dc2626;
-
-    padding: 8px 12px;
-
-    border-radius: 8px;
-
-    font-size: 13px;
+    padding: 6px 12px;
+    border: 1px solid var(--danger-border);
+    border-radius: var(--radius-sm);
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    font-family: inherit;
+    font-size: 12px;
     font-weight: 600;
-
     cursor: pointer;
+    transition: all var(--transition-fast);
 }
 
 .contest-delete-button:hover {
-    background: #fee2e2;
+    background: var(--danger-color);
+    color: #ffffff;
 }
 
 .contest-no-link {
-    color: #94a3b8;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 12px;
 }
 
-
-/* =========================================
-   LOADING
-========================================= */
-
+/* Loading card */
 .contest-loading-card {
-    background: white;
-
-    min-height: 280px;
-
-    border: 1px solid #e2e8f0;
-    border-radius: 15px;
-
+    background: var(--bg-secondary);
+    min-height: 260px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
     display: flex;
     flex-direction: column;
-
     align-items: center;
     justify-content: center;
-
-    color: #64748b;
+    color: var(--text-muted);
+    font-size: 14px;
 }
 
 .contest-spinner {
-    width: 28px;
-    height: 28px;
-
-    border: 3px solid #e2e8f0;
-    border-top-color: #2563eb;
-
+    width: 26px;
+    height: 26px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-color);
     border-radius: 50%;
-
     animation: contest-spin 0.8s linear infinite;
-
     margin-bottom: 12px;
 }
 
 @keyframes contest-spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
-
-
-/* =========================================
-   ERROR
-========================================= */
 
 .contest-error {
-    background: #fef2f2;
-
-    color: #dc2626;
-
-    border: 1px solid #fecaca;
-
-    padding: 12px 15px;
-
-    border-radius: 10px;
-
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-border);
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
     margin-bottom: 20px;
-
-    font-size: 14px;
+    font-size: 13.5px;
 }
 
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
+/* Responsive */
 @media (max-width: 900px) {
-
     .contest-grid {
         grid-template-columns: 1fr;
     }
-
-    .contest-page {
-        padding: 25px;
-    }
-
 }
-
-@media (max-width: 600px) {
-
-    .contest-page {
-        padding: 20px 15px;
-    }
-
-    .contest-page-header {
-        flex-direction: column;
-        gap: 18px;
-    }
-
-    .contest-add-button {
-        width: 100%;
-    }
-
-    .contest-details {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-}
-/* =========================================
-   SEARCH + SORT CONTROLS
-========================================= */
-
-.contest-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 16px;
-
-    margin-bottom: 24px;
-}
-
-
-/* =========================================
-   SEARCH
-========================================= */
-
-.contest-search {
-    position: relative;
-
-    flex: 1;
-    max-width: 520px;
-}
-
-.contest-search input {
-    width: 100%;
-    height: 44px;
-
-    box-sizing: border-box;
-
-    padding: 0 14px 0 42px;
-
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-
-    background: #ffffff;
-
-    color: #1e293b;
-
-    font-family: inherit;
-    font-size: 13px;
-
-    outline: none;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.contest-search input::placeholder {
-    color: #94a3b8;
-}
-
-.contest-search input:focus {
-    border-color: #2563eb;
-
-    box-shadow:
-        0 0 0 3px rgba(37, 99, 235, 0.08);
-}
-
-.contest-search-icon {
-    position: absolute;
-
-    left: 14px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    font-size: 15px;
-
-    pointer-events: none;
-}
-
-
-/* =========================================
-   SORT
-========================================= */
-
-.contest-sort {
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-}
-
-.contest-sort label {
-    color: #64748b;
-
-    font-size: 13px;
-    font-weight: 600;
-
-    white-space: nowrap;
-}
-
-.contest-sort select {
-    height: 44px;
-
-    min-width: 190px;
-
-    padding: 0 12px;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 10px;
-
-    background: #ffffff;
-
-    color: #334155;
-
-    font-family: inherit;
-
-    font-size: 13px;
-    font-weight: 500;
-
-    outline: none;
-
-    cursor: pointer;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.contest-sort select:focus {
-    border-color: #2563eb;
-
-    box-shadow:
-        0 0 0 3px rgba(37, 99, 235, 0.08);
-}
-
-
-/* =========================================
-   RESPONSIVE
-========================================= */
 
 @media (max-width: 750px) {
-
     .contest-controls {
         flex-direction: column;
         align-items: stretch;
@@ -639,124 +491,30 @@
     .contest-sort select {
         flex: 1;
     }
-
 }
-/* =========================================
-   CONTEST CARD ACTIONS
-========================================= */
-
-.contest-card-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-
-/* =========================================
-   EDIT BUTTON
-========================================= */
-
-.contest-edit-button {
-    padding: 7px 13px;
-
-    border: 1px solid #dbe3ee;
-    border-radius: 8px;
-
-    background: #ffffff;
-    color: #475569;
-
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-
-.contest-edit-button:hover {
-    background: #f8fafc;
-    border-color: #2563eb;
-    color: #2563eb;
-}
-
-
-.contest-edit-button:active {
-    transform: scale(0.97);
-}
-
-
-.contest-edit-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-
-/* =========================================
-   DELETE BUTTON
-   Keep this if your current CSS does not
-   already define it.
-========================================= */
-
-.contest-delete-button {
-    padding: 7px 13px;
-
-    border: 1px solid #fecaca;
-    border-radius: 8px;
-
-    background: #ffffff;
-    color: #dc2626;
-
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-
-.contest-delete-button:hover {
-    background: #fef2f2;
-    border-color: #fca5a5;
-    color: #b91c1c;
-}
-
-
-.contest-delete-button:active {
-    transform: scale(0.97);
-}
-
-
-.contest-delete-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
 
 @media (max-width: 600px) {
+    .contest-page-header {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .contest-add-button {
+        width: 100%;
+    }
+
+    .contest-details {
+        flex-direction: column;
+        gap: 10px;
+    }
 
     .contest-card-footer {
         flex-wrap: wrap;
+        gap: 10px;
     }
 
     .contest-card-actions {
         width: 100%;
         justify-content: flex-end;
     }
-
 }
