@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/authService";
+import { triggerGoogleAuth } from "../../services/googleAuth";
 import "./Register.css";
 import hero from "../../assets/hero.png";
 
@@ -17,6 +18,7 @@ function Register() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
 
@@ -81,6 +83,25 @@ function Register() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleGoogleLogin = () => {
+        if (loading || googleLoading || Boolean(successMessage)) return;
+
+        setErrorMessage("");
+
+        triggerGoogleAuth({
+            onStart: () => setGoogleLoading(true),
+            onSuccess: (response) => {
+                console.log("Google Login/Register successful:", response);
+                setGoogleLoading(false);
+                navigate("/dashboard");
+            },
+            onError: (errMessage) => {
+                setGoogleLoading(false);
+                setErrorMessage(errMessage);
+            }
+        });
     };
 
     return (
@@ -259,6 +280,29 @@ function Register() {
                             )}
                         </button>
                     </form>
+
+                    {/* Divider */}
+                    <div className="divider">
+                        <span></span>
+                        <p>OR</p>
+                        <span></span>
+                    </div>
+
+                    {/* Google Button */}
+                    <button
+                        type="button"
+                        className="google-btn"
+                        onClick={handleGoogleLogin}
+                        disabled={loading || googleLoading || Boolean(successMessage)}
+                    >
+                        <img
+                            src="https://www.svgrepo.com/show/475656/google-color.svg"
+                            alt="Google"
+                        />
+                        <span>
+                            {googleLoading ? "Connecting with Google..." : "Continue with Google"}
+                        </span>
+                    </button>
 
                     {/* Sign In Link */}
                     <div className="signup-link">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/authService";
+import { triggerGoogleAuth } from "../../services/googleAuth";
 import "./Login.css";
 import hero from "../../assets/hero.png";
 
@@ -13,12 +14,13 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        if (loading) return;
+        if (loading || googleLoading) return;
 
         setErrorMessage("");
         setLoading(true);
@@ -76,9 +78,23 @@ function Login() {
     };
 
     const handleGoogleLogin = () => {
-        console.log("Google login clicked");
+        if (loading || googleLoading) return;
 
-        // Google OAuth will be implemented later.
+        setErrorMessage("");
+
+        triggerGoogleAuth({
+            onStart: () => setGoogleLoading(true),
+            onSuccess: (response) => {
+                console.log("Google Login successful:", response);
+                setGoogleLoading(false);
+                localStorage.setItem("rememberMe", JSON.stringify(rememberMe));
+                navigate("/dashboard");
+            },
+            onError: (errMessage) => {
+                setGoogleLoading(false);
+                setErrorMessage(errMessage);
+            }
+        });
     };
 
     return (
@@ -342,6 +358,7 @@ function Login() {
                         type="button"
                         className="google-btn"
                         onClick={handleGoogleLogin}
+                        disabled={loading || googleLoading}
                     >
 
                         <img
@@ -350,7 +367,7 @@ function Login() {
                         />
 
                         <span>
-                            Continue with Google
+                            {googleLoading ? "Connecting with Google..." : "Continue with Google"}
                         </span>
 
                     </button>

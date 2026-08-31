@@ -75,8 +75,66 @@ const findUserByEmail = (email, callback) => {
 
 };
 
+const findUserByUsername = (username, callback) => {
+
+    const query = `
+        SELECT *
+        FROM users
+        WHERE username = ?
+    `;
+
+    db.query(query, [username], (err, results) => {
+
+        if (err) {
+            return callback(err, null);
+        }
+
+        callback(null, results);
+
+    });
+
+};
+
+const registerGoogleUser = (user, callback) => {
+
+    const query = `
+        INSERT INTO users
+        (
+            full_name,
+            username,
+            email,
+            password_hash,
+            profile_picture
+        )
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    db.query(
+        query,
+        [
+            user.full_name,
+            user.username,
+            user.email,
+            user.password_hash,
+            user.profile_picture || null
+        ],
+        (err, result) => {
+
+            if (err) {
+                return callback(err, null);
+            }
+
+            callback(null, result);
+
+        }
+    );
+
+};
+
 module.exports = {
     registerUser,
+    registerGoogleUser,
     findUserByEmailOrUsername,
-    findUserByEmail
+    findUserByEmail,
+    findUserByUsername
 };
