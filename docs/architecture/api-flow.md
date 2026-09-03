@@ -1,850 +1,105 @@
-# API Flow Documentation
+# 🔄 SynapseOS API Request & Data Flow Architecture
 
-## Backend Architecture
+---
 
-The backend follows the MVC (Model-View-Controller) architecture.
-
-Request Flow
-
-Client (Postman / Frontend)
-        │
-        ▼
-Express Route
-        │
-        ▼
-Authentication Middleware (JWT)
-        │
-        ▼
-Controller
-        │
-        ▼
-Model
-        │
-        ▼
-MySQL Database
-        │
-        ▼
-Model
-        │
-        ▼
-Controller
-        │
-        ▼
-JSON Response
-        │
-        ▼
-Client
-
-
-## Authentication Flow
-
-User Login
-     │
-     ▼
-Verify Email
-     │
-Verify Password
-     │
-Generate JWT
-     │
-Return Token
-
-## Protected Route Flow
-Client Request
-      │
-Authorization Header
-      │
-verifyToken Middleware
-      │
-JWT Verification
-      │
-req.user
-      │
-Controller
-      │
-Database
-      │
-Response
-
-## Create Subject Flow
-POST /api/subjects
-      │
-JWT Authentication
-      │
-Extract user_id
-      │
-Insert Subject
-      │
-Return Success
-
-
-## Create Task Flow
-POST /api/tasks
-      │
-Verify JWT
-      │
-Verify Subject Ownership
-      │
-Insert Task
-      │
-Return Task ID
-
-
-## Create Note Flow
-POST /api/notes
-      │
-Verify JWT
-      │
-Verify Subject Ownership
-      │
-Insert Note
-      │
-Return Note ID
-
-
-## Folder Responsibilities
-Routes
-↓
-Receive Request
-
-Controllers
-↓
-Business Logic
-
-Models
-↓
-Database Queries
-
-Database
-↓
-Persistent Storage
-
-
-## Calendar Request Flow
-Client
-
-↓
-
-JWT Authentication
-
-↓
-
-Calendar Routes
-
-↓
-
-Calendar Controller
-
-↓
-
-Calendar Model
-
-↓
-
-MySQL Database
-
-↓
-
-JSON Response
-
-
-
-
-
-
-
-
-# Goals API Flow
-
-Create Goal
-
-Client
-    ↓
-POST /api/goals
-    ↓
-JWT Authentication
-    ↓
-Goal Controller
-    ↓
-Goal Model
-    ↓
-MySQL
-    ↓
-Success Response
-
------------------------------------------------------
-
-Get All Goals
-
-Client
-    ↓
-GET /api/goals
-    ↓
-JWT Authentication
-    ↓
-Goal Controller
-    ↓
-Goal Model
-    ↓
-Database
-    ↓
-Response
-
------------------------------------------------------
-
-Get Goal By ID
-
-Client
-    ↓
-GET /api/goals/:id
-    ↓
-JWT Authentication
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
------------------------------------------------------
-
-Update Goal
-
-Client
-    ↓
-PUT /api/goals/:id
-    ↓
-JWT Authentication
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
------------------------------------------------------
-
-Delete Goal
-
-Client
-    ↓
-DELETE /api/goals/:id
-    ↓
-JWT Authentication
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
-=====================================================
-
-# Study Sessions API Flow
-
-Create Study Session
-
-Client
-    ↓
-POST /api/study-sessions
-    ↓
-JWT Authentication
-    ↓
-Calculate Duration
-    ↓
-Validation
-    ↓
-Controller
-    ↓
-Model
-    ↓
-MySQL
-    ↓
-Success Response
-
------------------------------------------------------
-
-Get All Study Sessions
-
-Client
-    ↓
-GET /api/study-sessions
-    ↓
-JWT Authentication
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
------------------------------------------------------
-
-Get Study Session By ID
-
-Client
-    ↓
-GET /api/study-sessions/:id
-    ↓
-JWT Authentication
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
------------------------------------------------------
-
-Update Study Session
-
-Client
-    ↓
-PUT /api/study-sessions/:id
-    ↓
-JWT Authentication
-    ↓
-Calculate Duration
-    ↓
-Validation
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
------------------------------------------------------
-
-Delete Study Session
-
-Client
-    ↓
-DELETE /api/study-sessions/:id
-    ↓
-JWT Authentication
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
-
-
-
-# Pomodoro Sessions API Flow
-
----------------------------------------------------------
-
-Create Pomodoro Session
-
-Client
-    ↓
-POST /api/pomodoro
-    ↓
-JWT Authentication
-    ↓
-Extract Request Body
-    ↓
-Calculate duration automatically
-    ↓
-Validate session data
-    ↓
-pomodoroController.createPomodoroSession()
-    ↓
-pomodoroModel.createPomodoroSession()
-    ↓
-MySQL Database
-    ↓
-Success Response
-
----------------------------------------------------------
-
-Get All Pomodoro Sessions
-
-Client
-    ↓
-GET /api/pomodoro
-    ↓
-JWT Authentication
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
----------------------------------------------------------
-
-Get Pomodoro Session By ID
-
-Client
-    ↓
-GET /api/pomodoro/:id
-    ↓
-JWT Authentication
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
----------------------------------------------------------
-
-Update Pomodoro Session
-
-Client
-    ↓
-PUT /api/pomodoro/:id
-    ↓
-JWT Authentication
-    ↓
-Automatic Duration Calculation
-    ↓
-Validation
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
----------------------------------------------------------
-
-Delete Pomodoro Session
-
-Client
-    ↓
-DELETE /api/pomodoro/:id
-    ↓
-JWT Authentication
-    ↓
-Controller
-    ↓
-Model
-    ↓
-Database
-    ↓
-Response
-
-
-
-
-# Dashboard Summary API Flow
-
----------------------------------------------------------
-
-Client
-
-↓
-
-GET /api/dashboard/summary
-
-↓
-
-JWT Authentication
-
-↓
-
-dashboardController.getDashboardSummary()
-
-↓
-
-dashboardModel.getDashboardSummary()
-
-↓
-
-MySQL Database
-
-↓
-
-Collect Statistics
-
-• Subjects
-
-• Tasks
-
-• Notes
-
-• Goals
-
-• Study Sessions
-
-• Pomodoro Sessions
-
-↓
-
-Return Dashboard Summary
-
-↓
-
-JSON Response
-
-
-## Dashboard
-
-### Dashboard Summary
-
-GET /api/dashboard/summary
-
-Authentication
-
-Bearer Token Required
-
-Response
-
-- Total Subjects
-- Total Tasks
-- Completed Tasks
-- Pending Tasks
-- Total Notes
-- Total Goals
-- Completed Goals
-- Total Study Sessions
-- Total Study Hours
-- Total Pomodoro Sessions
-- Total Pomodoro Hours
-
-
-
-
-
-# Subject Analytics API Flow
-
-Client
-
-↓
-
-GET /api/dashboard/subject-analysis
-
-↓
-
-JWT Authentication
-
-↓
-
-dashboardController.getSubjectAnalytics()
-
-↓
-
-dashboardModel.getSubjectAnalytics()
-
-↓
-
-subjects
-
-↓
-
-study_sessions (Aggregated)
-
-↓
-
-pomodoro_sessions (Aggregated)
-
-↓
-
-Combine Results
-
-↓
-
-Return JSON
-
-
-# Weekly Analytics API Flow
-
----------------------------------------------------------
-
-Client
-
-↓
-
-GET /api/dashboard/weekly
-
-↓
-
-JWT Authentication
-
-↓
-
-dashboardController.getWeeklyAnalytics()
-
-↓
-
-dashboardModel.getWeeklyAnalytics()
-
-↓
-
-study_sessions
-
-↓
-
-Aggregate Data
-
-• DAYNAME()
-
-• WEEKDAY()
-
-• COUNT()
-
-• SUM()
-
-↓
-
-Generate Complete Week
-
-Monday
-
-Tuesday
-
-Wednesday
-
-Thursday
-
-Friday
-
-Saturday
-
-Sunday
-
-↓
-
-Return JSON Response
-
-
-# Goal Analytics API Flow
-
----------------------------------------------------------
-
-Client
-
-↓
-
-GET /api/dashboard/goals
-
-↓
-
-JWT Authentication
-
-↓
-
-dashboardController.getGoalAnalytics()
-
-↓
-
-dashboardModel.getGoalAnalytics()
-
-↓
-
-goals
-
-↓
-
-Aggregate Data
-
-• COUNT()
-
-• SUM(CASE WHEN)
-
-• AVG()
-
-↓
-
-Return JSON Response
-
-
-
-# Pomodoro Analytics API Flow
-
-Client
-
-↓
-
-GET /api/dashboard/pomodoro
-
-↓
-
-JWT Authentication
-
-↓
-
-dashboardController.getPomodoroAnalytics()
-
-↓
-
-dashboardModel.getPomodoroAnalytics()
-
-↓
-
-pomodoro_sessions
-
-↓
-
-Aggregate Statistics
-
-↓
-
-Return JSON Response
-
-
-
-# Productivity Score API Flow
-
-Client
-
-↓
-
-GET /api/dashboard/productivity
-
-↓
-
-JWT Authentication
-
-↓
-
-Dashboard Controller
-
-↓
-
-Dashboard Model
-
-↓
-
-Goals
-
-↓
-
-Study Sessions
-
-↓
-
-Pomodoro Sessions
-
-↓
-
-Tasks
-
-↓
-
-Business Logic
-
-↓
-
-Calculate Productivity Score
-
-↓
-
-Assign Grade
-
-↓
-
-Generate Recommendation Message
-
-↓
-
-Return JSON Response
-
-# Current API Flow Status — August 2026
-
-## User Profile Flow
+## 1. Google OAuth 2.0 Authentication Flow
 
 ```text
-Client
-   ↓
-JWT Authentication
-   ↓
-User Routes
-   ↓
-User Controller
-   ↓
-User Model
-   ↓
-MySQL users table
-   ↓
-JSON Response
+User                      React Client                SynapseOS Backend              Google OAuth / API             MySQL
+ │                             │                              │                              │                        │
+ │── Click "Google Sign-In" ──>│                              │                              │                        │
+ │                             │── google.accounts.oauth2 ───>│                              │                        │
+ │                             │   .initTokenClient()         │                              │                        │
+ │                             │                              │                              │                        │
+ │<────── OAuth Popup ─────────│                              │                              │                        │
+ │── Authorize Google Account ─│                              │                              │                        │
+ │                             │<── Returns Access/ID Token ──│                              │                        │
+ │                             │                              │                              │                        │
+ │                             │── POST /api/auth/google ────>│                              │                        │
+ │                             │   { access_token }           │                              │                        │
+ │                             │                              │── GET /oauth2/v3/userinfo ──>│                        │
+ │                             │                              │   Bearer access_token        │                        │
+ │                             │                              │<── Returns User Profile ─────│                        │
+ │                             │                              │   { email, name, picture }   │                        │
+ │                             │                              │                              │                        │
+ │                             │                              │── findUserByEmail(email) ────────────────────────────>│
+ │                             │                              │<── Result (Exists or Null) ───────────────────────────│
+ │                             │                              │                                                       │
+ │                             │                              │   [If New User]:                                      │
+ │                             │                              │   - Generate unique username                          │
+ │                             │                              │   - Hash random password (bcrypt)                     │
+ │                             │                              │── registerGoogleUser() ──────────────────────────────>│
+ │                             │                              │<── Result (Insert Success) ───────────────────────────│
+ │                             │                              │                                                       │
+ │                             │                              │── Issue SynapseOS JWT                                 │
+ │                             │                              │   jwt.sign({ user_id, email })                        │
+ │                             │<── JSON Response 200 OK ─────│                                                       │
+ │                             │    { token, user }           │                                                       │
+ │                             │                              │                                                       │
+ │── Redirect to /dashboard ──>│                              │                                                       │
 ```
 
-Profile update performs duplicate username/email validation before updating the user.
+---
 
-Password change:
+## 2. Protected Route & CRUD Request Flow
 
 ```text
-Client
-   ↓
-JWT Authentication
-   ↓
-User Controller
-   ↓
-Find current password hash
-   ↓
-bcrypt.compare()
-   ↓
-bcrypt.hash(new password)
-   ↓
-Update users.password_hash
-   ↓
-JSON Response
+React Component               Axios Service Interceptor          authMiddleware.js             Controller & Model               MySQL
+      │                                   │                              │                             │                          │
+      │── createEvent(eventData) ────────>│                              │                             │                          │
+      │                                   │── Inject Header: ───────────>│                             │                          │
+      │                                   │   Authorization:             │                             │                          │
+      │                                   │   Bearer <token>             │                             │                          │
+      │                                   │                              │── jwt.verify(token)         │                          │
+      │                                   │                              │   Extract req.user.user_id  │                          │
+      │                                   │                              │── next() ──────────────────>│                          │
+      │                                   │                              │                             │── Execute SQL: ─────────>│
+      │                                   │                              │                             │   INSERT INTO ...        │
+      │                                   │                              │                             │   VALUES (user_id, ...)  │
+      │                                   │                              │                             │<── Result (insertId) ────│
+      │                                   │<── Response 201 Created ─────┴─────────────────────────────│                          │
+      │<── Update State & Refresh UI ─────│                                                                                       │
 ```
 
-## Notifications Flow
+---
+
+## 3. YouTube Focus Search & Proxy Flow
 
 ```text
-Client
-   ↓
-JWT Authentication
-   ↓
-Notification Routes
-   ↓
-Notification Controller
-   ↓
-Notification Model
-   ↓
-MySQL
-   ↓
-JSON Response
+User Search                      React Client                   youtubeController.js          youtubeService.js          Google YouTube Data API v3
+     │                                │                                  │                            │                              │
+     │── Enter "C++ DSA" & Search ───>│                                  │                            │                              │
+     │                                │── GET /api/youtube/search ──────>│                            │                              │
+     │                                │   ?query=C%2B%2B+DSA             │                            │                              │
+     │                                │                                  │── searchVideos(query) ────>│                              │
+     │                                │                                  │                            │── Axios GET request ────────>│
+     │                                │                                  │                            │   https://www.googleapis...  │
+     │                                │                                  │                            │   key=YOUTUBE_API_KEY        │
+     │                                │                                  │                            │<── Raw YouTube Payload ──────│
+     │                                │                                  │<── Normalized JSON Array ──│                              │
+     │                                │<── HTTP 200 JSON Response ───────│                                                           │
+     │                                │    [{ videoId, title, thumb }]   │                                                           │
+     │<── Render Responsive Cards ────│                                                                                              
 ```
 
-Notification fetching has been tested successfully.
+---
 
-## YouTube Productivity — Planned Flow
+## 4. Dashboard Summary & Aggregation Flow
 
 ```text
-React YouTube Page
-        ↓
-SynapseOS Backend
-        ↓
-YouTube Controller
-        ↓
-YouTube Service
-        ↓
-YouTube Data API v3
-        ↓
-Search Results
-        ↓
-JSON Response
-        ↓
-React UI
+Dashboard.jsx                    api.js                         dashboardController.js        dashboardModel.js          MySQL (synapseos)
+      │                            │                                      │                           │                        │
+      │── getDashboardSummary() ──>│                                      │                           │                        │
+      │                            │── GET /api/dashboard/summary ───────>│                           │                        │
+      │                            │   (with Bearer token)                │                           │                        │
+      │                            │                                      │── getDashboardSummary() ─>│                        │
+      │                            │                                      │                           │── Run Aggregations ───>│
+      │                            │                                      │                           │   - COUNT(tasks)       │
+      │                            │                                      │                           │   - SUM(study_minutes) │
+      │                            │                                      │                           │   - COUNT(pomodoro)    │
+      │                            │                                      │                           │   - COUNT(subjects)    │
+      │                            │                                      │                           │<── Aggregated Row ─────│
+      │                            │<── HTTP 200 JSON ────────────────────┴───────────────────────────│                        │
+      │<── Populate Summary Cards ─│
 ```
 
-The YouTube API credential is stored server-side in `.env`.

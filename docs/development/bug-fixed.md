@@ -1863,17 +1863,61 @@ YouTube API
 After backend success, debug frontend rendering separately from API
 connectivity.
 
-Current Bug Status
+---
 
-Area                          Status
+# 15. UI Overhaul & Google OAuth Bug Fixes
 
-Settings import path          ✅ Fixed
-DashboardLayout import path   ✅ Fixed
-Settings responsive layout    🟡 Needs final polish
-Global dark mode              🟡 Deferred
-YouTube API credential        ✅ Working
-YouTube search backend        ✅ Working
-YouTube controller            ✅ Fixed
-YouTube routes                ✅ Fixed
-YouTube frontend route        ✅ Working
-YouTube UI                    🟡 Polishing
+## Bug #37 — Duplicate CSS Rules in `Profile.css`
+
+**Issue:** `Profile.css` had redundant, duplicate class definitions pasted twice at the top and bottom of the stylesheet, risking cascade overrides.  
+**Solution:** Cleaned and consolidated the single authoritative set of modern dark glassmorphic design token classes.  
+**Status:** ✅ Fixed
+
+---
+
+## Bug #38 — MySQL `password_hash` `NOT NULL` Constraint during Google Sign-In
+
+**Issue:** Google users do not provide a plaintext password to hash. Attempting to insert `NULL` into `users.password_hash` caused MySQL error: `ER_BAD_NULL_ERROR: Column 'password_hash' cannot be null`.  
+**Solution:** Generated a secure 32-byte cryptographic random string on the backend, hashed it with `bcrypt` (10 rounds), and stored it in `password_hash`. This allows Google users to securely satisfy the schema constraint while also enabling future password setup via "Change Password".  
+**Status:** ✅ Fixed
+
+---
+
+## Bug #39 — Dual Google Token Support (ID Token & Access Token)
+
+**Issue:** Google Identity Services popup token client returns an `access_token`, whereas Credential Manager returns an `id_token`. Relying only on one method caused signature validation errors when using the alternative flow.  
+**Solution:** Built a polymorphic verification handler in `authController.googleLogin`:
+1. If `id_token` is present, verify via `google-auth-library` (`client.verifyIdToken`).
+2. If `access_token` is present, fetch profile from `https://www.googleapis.com/oauth2/v3/userinfo` with Bearer auth.  
+**Status:** ✅ Fixed
+
+---
+
+## Bug #40 — Username Collision During Google User Creation
+
+**Issue:** If a user registered with email `john.doe@gmail.com` and username `johndoe` already exists, an automatic username extraction from Google email could fail with `ER_DUP_ENTRY`.  
+**Solution:** Added `findUserByUsername` in `authModel.js` and an auto-incrementing suffix algorithm (`johndoe`, `johndoe1`, `johndoe2`...) to guarantee a unique, clean username.  
+**Status:** ✅ Fixed
+
+---
+
+## Bug #41 — Google Script Loading & Rapid Multiple Clicks
+
+**Issue:** If a user clicked "Continue with Google" before `https://accounts.google.com/gsi/client` finished loading, `window.google` threw `TypeError: window.google is undefined`. Furthermore, rapid repeated clicks could spawn multiple popup windows.  
+**Solution:** Implemented `loadGoogleScript` promise loader and an active loading guard in `frontend/src/services/googleAuth.js`, disabling the button and displaying "Connecting with Google...".  
+**Status:** ✅ Fixed
+
+---
+
+# 📊 Current Bug Status Summary
+
+| Area | Status | Resolution |
+| :--- | :---: | :--- |
+| **Settings / Navigation Imports** | ✅ Fixed | Standardized lowercase `Summarycard` & absolute router paths |
+| **Timezone Date Offset in Calendar** | ✅ Fixed | Switched from `new Date()` to string date slicing `YYYY-MM-DD` |
+| **Task & Goal Multi-Tenant Scoping**| ✅ Fixed | Enforced `WHERE user_id = ?` on all database queries |
+| **StudySession Argument Mapping** | ✅ Fixed | Added dual object/positional argument adapter in model |
+| **YouTube API Server-Side Proxy** | ✅ Fixed | Protected API key in backend `.env` and added Axios proxy |
+| **Global Dark Theme System** | ✅ Fixed | Centralized CSS tokens in `theme.css` across all 12 modules |
+| **Google Sign-In Full-Stack Flow** | ✅ Fixed | Full token verification, safe user creation & JWT issuance |
+

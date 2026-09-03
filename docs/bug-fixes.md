@@ -150,6 +150,44 @@ During a comprehensive inspection of the SynapseOS codebase, several critical bu
 
 ---
 
+---
+
+## 10. Google OAuth User Provisioning & Password Constraint Handling
+
+* **Category:** Authentication / Database Schema Compatibility
+* **Impact:** Critical — Google sign-in attempts for new users threw MySQL `ER_BAD_NULL_ERROR: Column 'password_hash' cannot be null`.
+* **Affected Files:**
+  - `backend/src/models/authModel.js`
+  - `backend/src/controllers/authController.js`
+* **Root Cause:**
+  The `users` table requires `password_hash NOT NULL`. Google OAuth users do not supply passwords.
+* **Resolution:**
+  - Generated a cryptographically secure random 32-byte string on user creation.
+  - Hashed the random secret with `bcrypt` (10 rounds) before inserting via `registerGoogleUser`.
+  - Allowed seamless user creation while preserving database integrity.
+
+---
+
+## 11. Google Identity Services (GIS) Frontend Integration & Token Verification
+
+* **Category:** Authentication / Third-Party Integration
+* **Impact:** High — "Continue with Google" button on Login and Register pages was a non-functioning UI placeholder.
+* **Affected Files:**
+  - `frontend/src/services/googleAuth.js`
+  - `frontend/src/services/authService.js`
+  - `frontend/src/pages/Login/Login.jsx`
+  - `frontend/src/pages/Register/Register.jsx`
+  - `backend/src/controllers/authController.js`
+  - `backend/src/routes/authRoutes.js`
+* **Root Cause:**
+  Google Sign-In was neither wired to Google's Identity Services SDK on the frontend nor supported with a token verification endpoint on the backend.
+* **Resolution:**
+  - Integrated `google-auth-library` on the backend and added `POST /api/auth/google`.
+  - Built `frontend/src/services/googleAuth.js` with dynamic GIS SDK injection and interactive token popup handling.
+  - Connected loading indicators, error toast notifications, and automatic redirect to `/dashboard`.
+
+---
+
 ## Summary of Modified & Created Files
 
 | File | Type | Changes |
@@ -161,12 +199,20 @@ During a comprehensive inspection of the SynapseOS codebase, several critical bu
 | `backend/src/controllers/taskController.js` | Modify | Passed authenticated `user_id` to task model |
 | `backend/src/middleware/errorHandler.js` | Modify | Implemented standard Express error handler |
 | `backend/src/app.js` | Modify | Mounted global error handler |
+| `backend/src/models/authModel.js` | Modify | Added `registerGoogleUser` and `findUserByUsername` |
+| `backend/src/controllers/authController.js` | Modify | Added `googleLogin` supporting ID & Access token verification |
+| `backend/src/routes/authRoutes.js` | Modify | Mounted `POST /api/auth/google` route |
+| `backend/.env.example` | New | Environment variable template for backend |
 | `frontend/src/pages/StudySessions/StudySessions.jsx` | Modify | Fixed `topic` and `session_notes` field mapping |
 | `frontend/src/pages/Dashboard/Dashboard.jsx` | Modify | Fixed `Summarycard` import casing |
 | `frontend/src/pages/Contests/Contests.jsx` | Modify | Fixed `AddContestModal` & `Contest.css` imports and modal props |
 | `frontend/src/pages/Contests/Contest.css` | Modify | Added full styles for contest page elements |
 | `frontend/src/routes/AppRoutes.jsx` | Modify | Mounted `Contests` page on `/contests` |
 | `frontend/src/components/Sidebar/Sidebar.jsx` | Modify | Switched to `<NavLink>` and added Contests link |
-| `frontend/src/pages/Register/Register.jsx` | Modify | Implemented complete Register page with validation & authService |
-| `frontend/src/pages/Register/Register.css` | New | Styles for Register page |
-| `docs/bug-fixes.md` | New | Comprehensive bug diagnostic and fix documentation |
+| `frontend/src/pages/Register/Register.jsx` | Modify | Implemented complete Register page with validation & Google SSO |
+| `frontend/src/pages/Login/Login.jsx` | Modify | Connected Google SSO with active loading states |
+| `frontend/src/services/googleAuth.js` | New | Google Identity Services (GIS) loader and popup client |
+| `frontend/src/styles/theme.css` | Modify | Centralized Obsidian Dark SaaS design token system |
+| `frontend/.env.example` | New | Environment variable template for frontend |
+| `docs/bug-fixes.md` | Modify | Comprehensive bug diagnostic and fix documentation |
+
