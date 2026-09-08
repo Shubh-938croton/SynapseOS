@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiShield, FiZap, FiTarget, FiActivity } from "react-icons/fi";
 import { loginUser } from "../../services/authService";
 import { triggerGoogleAuth } from "../../services/googleAuth";
 import "./Login.css";
@@ -71,10 +72,7 @@ function Login() {
 
     const handleForgotPassword = (e) => {
         e.preventDefault();
-
         console.log("Forgot password clicked");
-
-        // We will implement this later.
     };
 
     const handleGoogleLogin = () => {
@@ -101,304 +99,265 @@ function Login() {
         <div className="login-page">
 
             {/* =========================
-                BACKGROUND
+                AMBIENT LIGHTING & GRID
             ========================= */}
-
+            <div className="login-grid-pattern"></div>
             <div className="background-orb orb-one"></div>
             <div className="background-orb orb-two"></div>
             <div className="background-orb orb-three"></div>
 
-
-            {/* =========================
-                LEFT SIDE
-            ========================= */}
-
-            <div className="login-left">
-
-                <div className="brand-content">
-
-                    <h1 className="logo">
-                        SynapseOS
-                    </h1>
-
-                    <h2>
-                        AI Powered Productivity
-                    </h2>
-
-                    <p>
-                        Organize your studies, manage tasks,
-                        build habits and let AI guide your
-                        productivity journey.
-                    </p>
-
-                </div>
-
+            <div className="login-container">
 
                 {/* =========================
-                    BRAIN
+                    LEFT SIDE: HERO & BRAND
                 ========================= */}
+                <div className="login-left">
 
-                <div className="brain-wrapper">
-
-                    <div className="brain-glow"></div>
-
-                    <img
-                        src={hero}
-                        alt="SynapseOS AI productivity"
-                        className="brain-image"
-                    />
-
-                </div>
-
-
-                <div className="product-tagline">
-
-                    <span>Plan</span>
-                    <span>•</span>
-                    <span>Learn</span>
-                    <span>•</span>
-                    <span>Analyze</span>
-                    <span>•</span>
-                    <span>Grow</span>
-
-                </div>
-
-            </div>
-
-
-            {/* =========================
-                RIGHT SIDE
-            ========================= */}
-
-            <div className="login-right">
-
-                <div className="login-card">
-
-                    {/* Heading */}
-
-                    <div className="login-heading">
-
-                        <h2>
-                            Welcome Back 👋
-                        </h2>
-
-                        <p>
-                            Login to continue to SynapseOS
-                        </p>
-
+                    <div className="brand-badge">
+                        <span className="badge-dot"></span>
+                        <FiZap className="badge-icon" />
+                        <span>AI-Powered Cognitive OS</span>
                     </div>
 
+                    <div className="brand-content">
+                        <h1 className="logo">SynapseOS</h1>
+                        <h2>Master Your Focus & Studies</h2>
+                        <p>
+                            The unified cognitive operating system for students and developers.
+                            Track tasks, deep work sessions, habits, and let intelligent analytics guide your journey.
+                        </p>
+                    </div>
 
-                    {/* =========================
-                        LOGIN FORM
-                    ========================= */}
+                    {/* Brain Visual with Floating Badges */}
+                    <div className="brain-wrapper">
+                        <div className="brain-glow"></div>
+                        <div className="brain-ambient-ring"></div>
 
-                    <form
-                        onSubmit={handleLogin}
-                        className="login-form"
-                    >
-
-                        {/* Email */}
-
-                        <div className="input-group">
-
-                            <label htmlFor="email">
-                                Email
-                            </label>
-
-                            <input
-                                id="email"
-                                type="email"
-                                placeholder="Enter your email"
-                                value={email}
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                    setErrorMessage("");
-                                }}
-                                autoComplete="email"
-                                required
-                            />
-
-                        </div>
-
-
-                        {/* Password */}
-
-                        <div className="input-group">
-
-                            <label htmlFor="password">
-                                Password
-                            </label>
-
-                            <div className="password-wrapper">
-
-                                <input
-                                    id="password"
-                                    type={
-                                        showPassword
-                                            ? "text"
-                                            : "password"
-                                    }
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChange={(e) => {
-                                        setPassword(e.target.value);
-                                        setErrorMessage("");
-                                    }}
-                                    autoComplete="current-password"
-                                    required
-                                />
-
-                                <button
-                                    type="button"
-                                    className="password-toggle"
-                                    onClick={() =>
-                                        setShowPassword(
-                                            !showPassword
-                                        )
-                                    }
-                                    aria-label={
-                                        showPassword
-                                            ? "Hide password"
-                                            : "Show password"
-                                    }
-                                >
-                                    {showPassword ? "🙈" : "👁️"}
-                                </button>
-
+                        {/* Floating Metric Chips */}
+                        <div className="floating-chip chip-one">
+                            <FiZap className="chip-icon zap" />
+                            <div className="chip-text">
+                                <strong>Deep Focus</strong>
+                                <span>Pomodoro Engine</span>
                             </div>
-
                         </div>
 
+                        <div className="floating-chip chip-two">
+                            <FiTarget className="chip-icon target" />
+                            <div className="chip-text">
+                                <strong>Smart Goals</strong>
+                                <span>Milestone Tracking</span>
+                            </div>
+                        </div>
 
-                        {/* Error */}
+                        <div className="floating-chip chip-three">
+                            <FiActivity className="chip-icon stats" />
+                            <div className="chip-text">
+                                <strong>Analytics</strong>
+                                <span>Real-Time Insights</span>
+                            </div>
+                        </div>
 
+                        <img
+                            src={hero}
+                            alt="SynapseOS AI productivity"
+                            className="brain-image"
+                        />
+                    </div>
+
+                    <div className="product-tagline">
+                        <div className="tagline-item">
+                            <span className="dot"></span>
+                            <span>Plan</span>
+                        </div>
+                        <div className="tagline-item">
+                            <span className="dot"></span>
+                            <span>Focus</span>
+                        </div>
+                        <div className="tagline-item">
+                            <span className="dot"></span>
+                            <span>Analyze</span>
+                        </div>
+                        <div className="tagline-item">
+                            <span className="dot"></span>
+                            <span>Excel</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                {/* =========================
+                    RIGHT SIDE: AUTH CARD
+                ========================= */}
+                <div className="login-right">
+
+                    <div className="login-card">
+                        <div className="card-glass-highlight"></div>
+
+                        {/* Heading */}
+                        <div className="login-heading">
+                            <div className="welcome-tag">
+                                <span>👋 Welcome Back</span>
+                            </div>
+                            <h2>Sign In to SynapseOS</h2>
+                            <p>Enter your credentials to access your productivity workspace</p>
+                        </div>
+
+                        {/* Error Alert */}
                         {errorMessage && (
-                            <div className="login-error">
-                                {errorMessage}
+                            <div className="login-error" role="alert">
+                                <span className="error-icon">⚠️</span>
+                                <span>{errorMessage}</span>
                             </div>
                         )}
 
-
-                        {/* Remember / Forgot */}
-
-                        <div className="login-options">
-
-                            <label className="remember-label">
-
-                                <input
-                                    type="checkbox"
-                                    checked={rememberMe}
-                                    onChange={(e) =>
-                                        setRememberMe(
-                                            e.target.checked
-                                        )
-                                    }
-                                />
-
-                                <span>
-                                    Remember me
-                                </span>
-
-                            </label>
-
-
-                            <a
-                                href="#"
-                                onClick={handleForgotPassword}
-                            >
-                                Forgot Password?
-                            </a>
-
-                        </div>
-
-
-                        {/* Sign In */}
-
-                        <button
-                            type="submit"
-                            className="login-btn"
-                            disabled={loading}
-                        >
-
-                            {loading ? (
-                                <>
-                                    <span className="loading-spinner"></span>
-                                    Signing In...
-                                </>
-                            ) : (
-                                "Sign In"
-                            )}
-
-                        </button>
-
-                    </form>
-
-
-                    {/* =========================
-                        DIVIDER
-                    ========================= */}
-
-                    <div className="divider">
-
-                        <span></span>
-
-                        <p>OR</p>
-
-                        <span></span>
-
-                    </div>
-
-
-                    {/* =========================
-                        GOOGLE
-                    ========================= */}
-
-                    <button
-                        type="button"
-                        className="google-btn"
-                        onClick={handleGoogleLogin}
-                        disabled={loading || googleLoading}
-                    >
-
-                        <img
-                            src="https://www.svgrepo.com/show/475656/google-color.svg"
-                            alt="Google"
-                        />
-
-                        <span>
-                            {googleLoading ? "Connecting with Google..." : "Continue with Google"}
-                        </span>
-
-                    </button>
-
-
-                    {/* =========================
-                        REGISTER
-                    ========================= */}
-
-                    <div className="signup-link">
-
-                        <span>
-                            Don't have an account?
-                        </span>
-
+                        {/* Google Quick Sign-In */}
                         <button
                             type="button"
-                            onClick={() =>
-                                navigate("/register")
-                            }
+                            className="google-btn"
+                            onClick={handleGoogleLogin}
+                            disabled={loading || googleLoading}
+                            aria-label="Continue with Google"
                         >
-                            Sign Up
+                            {googleLoading ? (
+                                <>
+                                    <span className="loading-spinner google-spinner"></span>
+                                    <span>Connecting with Google...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <img
+                                        src="https://www.svgrepo.com/show/475656/google-color.svg"
+                                        alt="Google logo"
+                                    />
+                                    <span>Continue with Google</span>
+                                </>
+                            )}
                         </button>
 
-                    </div>
+                        {/* Divider */}
+                        <div className="divider">
+                            <span></span>
+                            <p>Or continue with email</p>
+                            <span></span>
+                        </div>
 
+                        {/* Form */}
+                        <form onSubmit={handleLogin} className="login-form">
 
-                    {/* Security */}
+                            {/* Email */}
+                            <div className="input-group">
+                                <label htmlFor="email">Email Address</label>
+                                <div className="input-wrapper">
+                                    <FiMail className="field-icon" />
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        placeholder="name@example.com"
+                                        value={email}
+                                        onChange={(e) => {
+                                            setEmail(e.target.value);
+                                            setErrorMessage("");
+                                        }}
+                                        autoComplete="email"
+                                        required
+                                        disabled={loading || googleLoading}
+                                    />
+                                </div>
+                            </div>
 
-                    <div className="security-message">
-                        🔒 Your information is securely protected
+                            {/* Password */}
+                            <div className="input-group">
+                                <div className="label-row">
+                                    <label htmlFor="password">Password</label>
+                                    <a
+                                        href="#"
+                                        onClick={handleForgotPassword}
+                                        className="forgot-link"
+                                        tabIndex={0}
+                                    >
+                                        Forgot Password?
+                                    </a>
+                                </div>
+                                <div className="input-wrapper password-wrapper">
+                                    <FiLock className="field-icon" />
+                                    <input
+                                        id="password"
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Enter your password"
+                                        value={password}
+                                        onChange={(e) => {
+                                            setPassword(e.target.value);
+                                            setErrorMessage("");
+                                        }}
+                                        autoComplete="current-password"
+                                        required
+                                        disabled={loading || googleLoading}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="password-toggle"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        aria-label={showPassword ? "Hide password" : "Show password"}
+                                        tabIndex={0}
+                                    >
+                                        {showPassword ? <FiEyeOff /> : <FiEye />}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Remember Me */}
+                            <div className="login-options">
+                                <label className="remember-label">
+                                    <input
+                                        type="checkbox"
+                                        checked={rememberMe}
+                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                        disabled={loading || googleLoading}
+                                    />
+                                    <span className="checkbox-custom"></span>
+                                    <span className="remember-text">Remember me for 30 days</span>
+                                </label>
+                            </div>
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                className="login-btn"
+                                disabled={loading || googleLoading}
+                            >
+                                {loading ? (
+                                    <>
+                                        <span className="loading-spinner"></span>
+                                        <span>Signing In...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span>Sign In to Workspace</span>
+                                        <FiArrowRight className="btn-arrow" />
+                                    </>
+                                )}
+                            </button>
+                        </form>
+
+                        {/* Sign Up Link */}
+                        <div className="signup-link">
+                            <span>Don't have an account?</span>
+                            <button
+                                type="button"
+                                onClick={() => navigate("/register")}
+                                disabled={loading || googleLoading}
+                            >
+                                Create an Account
+                            </button>
+                        </div>
+
+                        {/* Security Badge */}
+                        <div className="security-message">
+                            <FiShield className="security-icon" />
+                            <span>256-Bit Encrypted &amp; Secure JWT Authentication</span>
+                        </div>
+
                     </div>
 
                 </div>
@@ -409,4 +368,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Login;
