@@ -3,24 +3,29 @@ import { useEffect, useState } from "react";
 import {
     createPomodoroSession
 } from "../../services/pomodoroService";
+import { useSettings } from "../../context/SettingsContext";
 
 import "./PomodoroTimer.css";
 
 
 function PomodoroTimer() {
 
+    const { settings } = useSettings();
+
     // =======================================
     // TIMER CONFIGURATION
     // =======================================
 
-    const FOCUS_DURATION = 25 * 60;
+    const durationMinutes = Math.max(1, Number(settings?.pomodoro_duration) || 25);
+    const breakMinutes = Math.max(1, Number(settings?.short_break_duration) || 5);
+    const focusDuration = durationMinutes * 60;
 
     // =======================================
     // STATE
     // =======================================
 
     const [timeLeft, setTimeLeft] =
-        useState(FOCUS_DURATION);
+        useState(focusDuration);
 
     const [isRunning, setIsRunning] =
         useState(false);
@@ -30,6 +35,13 @@ function PomodoroTimer() {
 
     const [loading, setLoading] =
         useState(false);
+
+    // Sync timeLeft when duration setting updates while timer is idle
+    useEffect(() => {
+        if (!isRunning && !startedAt) {
+            setTimeLeft(focusDuration);
+        }
+    }, [focusDuration, isRunning, startedAt]);
 
 
     // =======================================
@@ -94,7 +106,7 @@ function PomodoroTimer() {
         setIsRunning(false);
 
         setTimeLeft(
-            FOCUS_DURATION
+            focusDuration
         );
 
         setStartedAt(null);
@@ -125,7 +137,9 @@ function PomodoroTimer() {
 
                 task_id: null,
 
-                break_minutes: 5,
+                duration_minutes: durationMinutes,
+
+                break_minutes: breakMinutes,
 
                 session_status: status,
 
@@ -173,7 +187,7 @@ function PomodoroTimer() {
         );
 
         setTimeLeft(
-            FOCUS_DURATION
+            focusDuration
         );
 
         setStartedAt(null);

@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:5000/api/youtube";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = `${BASE_URL}/youtube`;
 
 
 // =======================================
@@ -55,63 +56,34 @@ export const searchYouTubeVideos = async (
 // GET VIDEO DETAILS
 // =======================================
 
-const getVideoDetails = async (videoId) => {
+export const getVideoDetails = async (videoId) => {
 
     if (!videoId || !videoId.trim()) {
         throw new Error("Video ID is required");
     }
 
-    const response = await axios.get(
-        "https://www.googleapis.com/youtube/v3/videos",
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        `${API_URL}/video/${videoId.trim()}`,
         {
-            params: {
-                part: "snippet,contentDetails,statistics",
-                id: videoId,
-                key: process.env.YOUTUBE_API_KEY
+            method: "GET",
+
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             }
         }
     );
 
-    const item = response.data.items?.[0];
+    const data = await response.json();
 
-    if (!item) {
-        throw new Error("Video not found");
+    if (!response.ok) {
+        throw new Error(
+            data.message ||
+            "Failed to fetch video details"
+        );
     }
 
-    return {
-        videoId: item.id,
-
-        title:
-            item.snippet?.title || "",
-
-        description:
-            item.snippet?.description || "",
-
-        thumbnail:
-            item.snippet?.thumbnails?.high?.url ||
-            item.snippet?.thumbnails?.medium?.url ||
-            item.snippet?.thumbnails?.default?.url ||
-            null,
-
-        channelTitle:
-            item.snippet?.channelTitle || "",
-
-        channelId:
-            item.snippet?.channelId || null,
-
-        publishedAt:
-            item.snippet?.publishedAt || null,
-
-        duration:
-            item.contentDetails?.duration || null,
-
-        viewCount:
-            item.statistics?.viewCount || "0",
-
-        likeCount:
-            item.statistics?.likeCount || "0",
-
-        commentCount:
-            item.statistics?.commentCount || "0"
-    };
+    return data;
 };

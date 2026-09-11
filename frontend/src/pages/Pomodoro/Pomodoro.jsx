@@ -1,5 +1,6 @@
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import PomodoroTimer from "../../components/Pomodoro/PomodoroTimer";
+import PomodoroHistory from "../../components/Pomodoro/PomodoroHistory";
 
 import "./Pomodoro.css";
 
@@ -37,6 +38,8 @@ function Pomodoro() {
                 <div className="pomodoro-page-content">
 
                     <PomodoroTimer />
+
+                    <PomodoroHistory />
 
                 </div>
 

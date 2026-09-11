@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     FaYoutube,
     FaSearch,
@@ -16,6 +17,8 @@ import "./YouTube.css";
 
 
 const YouTube = () => {
+
+    const navigate = useNavigate();
 
     const [query, setQuery] = useState("");
 
@@ -292,6 +295,20 @@ const YouTube = () => {
                         <article
                             className="youtube-card"
                             key={video.videoId}
+                            onClick={() => {
+                                if (video.videoId) {
+                                    navigate(`/youtube/watch/${video.videoId}`);
+                                }
+                            }}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    if (video.videoId) {
+                                        navigate(`/youtube/watch/${video.videoId}`);
+                                    }
+                                }
+                            }}
                         >
 
                             <div className="youtube-thumbnail">

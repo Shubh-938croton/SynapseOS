@@ -23,6 +23,7 @@ import Contests from "../pages/Contests/Contests";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 import YouTube from "../pages/YouTube/YouTube";
+import YouTubeWatch from "../pages/YouTube/YouTubeWatch";
 
 
 
@@ -214,10 +215,27 @@ function AppRoutes() {
                     }
                 />
 
+                {/* =======================================
+                    YOUTUBE
+                ======================================= */}
+
                 <Route
-    path="/youtube"
-    element={<YouTube />}
-/>
+                    path="/youtube"
+                    element={
+                        <ProtectedRoute>
+                            <YouTube />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/youtube/watch/:videoId"
+                    element={
+                        <ProtectedRoute>
+                            <YouTubeWatch />
+                        </ProtectedRoute>
+                    }
+                />
 
             </Routes>
 
