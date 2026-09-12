@@ -17,15 +17,28 @@ const createStudySession = (req, res) => {
             session_notes
         } = req.body;
 
-        const start = new Date(start_time);
-const end = new Date(end_time);
-const duration_minutes = Math.floor((end - start) / (1000 * 60));
+        if (!subject_id || !topic || !start_time || !end_time) {
+            return res.status(400).json({
+                message: "Subject, topic, start time, and end time are required"
+            });
+        }
 
-if (duration_minutes <= 0) {
-    return res.status(400).json({
-        message: "End time must be after start time"
-    });
-}
+        const start = new Date(start_time);
+        const end = new Date(end_time);
+
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            return res.status(400).json({
+                message: "Invalid date format for start time or end time"
+            });
+        }
+
+        const duration_minutes = Math.floor((end - start) / (1000 * 60));
+
+        if (duration_minutes <= 0) {
+            return res.status(400).json({
+                message: "End time must be after start time"
+            });
+        }
 
         const session = {
             user_id,
@@ -162,8 +175,20 @@ const updateStudySession = (req, res) => {
         } = req.body;
 
 
+        if (!start_time || !end_time) {
+            return res.status(400).json({
+                message: "Start time and end time are required"
+            });
+        }
+
         const start = new Date(start_time);
         const end = new Date(end_time);
+
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            return res.status(400).json({
+                message: "Invalid date format for start time or end time"
+            });
+        }
 
         const duration_minutes =
             Math.floor(

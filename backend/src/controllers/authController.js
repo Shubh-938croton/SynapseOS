@@ -11,8 +11,36 @@ const registerUser = async (req, res) => {
 
         const { full_name, username, email, password } = req.body;
 
+        if (!full_name || !full_name.trim()) {
+            return res.status(400).json({
+                message: "Full name is required"
+            });
+        }
+
+        if (!username || !username.trim()) {
+            return res.status(400).json({
+                message: "Username is required"
+            });
+        }
+
+        if (!email || !email.trim()) {
+            return res.status(400).json({
+                message: "Email is required"
+            });
+        }
+
+        if (!password || password.length < 8) {
+            return res.status(400).json({
+                message: "Password must be at least 8 characters long"
+            });
+        }
+
+        const trimmedFullName = full_name.trim();
+        const trimmedUsername = username.trim();
+        const trimmedEmail = email.trim().toLowerCase();
+
         // Check if email or username already exists
-        authModel.findUserByEmailOrUsername(email, username, async (err, users) => {
+        authModel.findUserByEmailOrUsername(trimmedEmail, trimmedUsername, async (err, users) => {
 
             if (err) {
                 return res.status(500).json({
@@ -21,17 +49,17 @@ const registerUser = async (req, res) => {
                 });
             }
 
-            if (users.length > 0) {
+            if (users && users.length > 0) {
 
                 const existingUser = users[0];
 
-                if (existingUser.email === email) {
+                if (existingUser.email.toLowerCase() === trimmedEmail) {
                     return res.status(409).json({
                         message: "Email already exists"
                     });
                 }
 
-                if (existingUser.username === username) {
+                if (existingUser.username.toLowerCase() === trimmedUsername) {
                     return res.status(409).json({
                         message: "Username already exists"
                     });
@@ -42,9 +70,9 @@ const registerUser = async (req, res) => {
             const password_hash = await bcrypt.hash(password, 10);
 
             const user = {
-                full_name,
-                username,
-                email,
+                full_name: trimmedFullName,
+                username: trimmedUsername,
+                email: trimmedEmail,
                 password_hash
             };
 
@@ -85,7 +113,21 @@ const loginUser = async (req, res) => {
 
         const { email, password } = req.body;
 
-        authModel.findUserByEmail(email, async (err, users) => {
+        if (!email || !email.trim()) {
+            return res.status(400).json({
+                message: "Email is required"
+            });
+        }
+
+        if (!password) {
+            return res.status(400).json({
+                message: "Password is required"
+            });
+        }
+
+        const trimmedEmail = email.trim().toLowerCase();
+
+        authModel.findUserByEmail(trimmedEmail, async (err, users) => {
 
             if (err) {
                 return res.status(500).json({
@@ -95,13 +137,20 @@ const loginUser = async (req, res) => {
             }
 
             // User not found
-            if (users.length === 0) {
+            if (!users || users.length === 0) {
                 return res.status(404).json({
                     message: "User not found"
                 });
             }
 
             const user = users[0];
+
+            // If account was created with Google OAuth and has no local password
+            if (user.password_hash === "GOOGLE_OAUTH_ACCOUNT") {
+                return res.status(400).json({
+                    message: "This account was created with Google Sign-In. Please sign in with Google or set a password in your Profile."
+                });
+            }
 
             // Compare entered password with hashed password
             const isMatch = await bcrypt.compare(password, user.password_hash);
@@ -112,9 +161,6 @@ const loginUser = async (req, res) => {
                 });
             }
 
-            console.log("JWT_SECRET:", process.env.JWT_SECRET);
-            console.log("JWT_EXPIRES_IN:", process.env.JWT_EXPIRES_IN);
-
             // Generate JWT
             const token = jwt.sign(
                 {
@@ -123,7 +169,7 @@ const loginUser = async (req, res) => {
                 },
                 process.env.JWT_SECRET,
                 {
-                    expiresIn: process.env.JWT_EXPIRES_IN
+                    expiresIn: process.env.JWT_EXPIRES_IN || "7d"
                 }
             );
 
@@ -135,7 +181,8 @@ const loginUser = async (req, res) => {
                     user_id: user.user_id,
                     full_name: user.full_name,
                     username: user.username,
-                    email: user.email
+                    email: user.email,
+                    profile_picture: user.profile_picture || null
                 }
             });
 

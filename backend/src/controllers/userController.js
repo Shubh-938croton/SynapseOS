@@ -275,93 +275,65 @@ const changePassword = async (req, res) => {
         // Validate Input
         // =======================================
 
-        if (
-            !current_password ||
-            !new_password
-        ) {
-
+        if (!new_password) {
             return res.status(400).json({
-
-                message:
-                    "Current password and new password are required"
-
+                message: "New password is required"
             });
-
         }
-
 
         if (new_password.length < 8) {
-
             return res.status(400).json({
-
-                message:
-                    "New password must be at least 8 characters"
-
+                message: "New password must be at least 8 characters"
             });
-
         }
-
 
         // =======================================
         // Find User
         // =======================================
 
         userModel.findUserById(
-
             userId,
-
             async (err, users) => {
-
                 if (err) {
-
                     return res.status(500).json({
-
-                        message:
-                            "Database error",
-
-                        error:
-                            err.message
-
+                        message: "Database error",
+                        error: err.message
                     });
-
                 }
-
 
                 if (users.length === 0) {
-
                     return res.status(404).json({
-
-                        message:
-                            "User not found"
-
+                        message: "User not found"
                     });
-
                 }
-
 
                 const user = users[0];
 
+                // If user registered with Google and has placeholder hash,
+                // allow them to set a password without current_password
+                const isGoogleAccount = user.password_hash === "GOOGLE_OAUTH_ACCOUNT";
 
-                // =======================================
-                // Verify Current Password
-                // =======================================
+                if (!isGoogleAccount) {
+                    if (!current_password) {
+                        return res.status(400).json({
+                            message: "Current password is required"
+                        });
+                    }
 
-                const isMatch =
-                    await bcrypt.compare(
+                    // =======================================
+                    // Verify Current Password
+                    // =======================================
+
+                    const isMatch = await bcrypt.compare(
                         current_password,
                         user.password_hash
                     );
 
-
-                if (!isMatch) {
-
-                    return res.status(401).json({
-
-                        message:
-                            "Current password is incorrect"
-
-                    });
-
+                    if (!isMatch) {
+                        return res.status(401).json({
+                            message: "Current password is incorrect"
+                        });
+                    }
                 }
 
 
