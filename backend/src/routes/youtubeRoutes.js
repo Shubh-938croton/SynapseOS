@@ -1,4 +1,5 @@
 const express = require("express");
+const verifyToken = require("../middleware/authMiddleware");
 
 const {
     searchYouTubeVideos,
@@ -7,6 +8,8 @@ const {
 
 const router = express.Router();
 
+// Protect all YouTube routes with JWT authentication
+router.use(verifyToken);
 
 // =======================================
 // SEARCH YOUTUBE VIDEOS
