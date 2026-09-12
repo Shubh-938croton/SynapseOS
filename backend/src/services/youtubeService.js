@@ -22,6 +22,12 @@ const searchVideos = async ({
     pageToken = null
 }) => {
 
+    if (!process.env.YOUTUBE_API_KEY) {
+        throw new Error(
+            "YouTube API key is not configured on the server"
+        );
+    }
+
     if (!query || !query.trim()) {
 
         throw new Error(
@@ -131,6 +137,12 @@ const searchVideos = async ({
 const getVideoDetails = async (
     videoId
 ) => {
+
+    if (!process.env.YOUTUBE_API_KEY) {
+        throw new Error(
+            "YouTube API key is not configured on the server"
+        );
+    }
 
     if (!videoId || !videoId.trim()) {
 
