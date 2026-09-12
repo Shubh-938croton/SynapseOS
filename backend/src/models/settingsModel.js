@@ -64,39 +64,56 @@ const createSettings = (userId, callback) => {
 // =======================================
 const updateSettings = (userId, settings, callback) => {
 
+    const fields = [];
+    const values = [];
+
+    if (settings.theme !== undefined) {
+        fields.push("theme = ?");
+        values.push(settings.theme);
+    }
+
+    if (settings.notification_enabled !== undefined) {
+        fields.push("notification_enabled = ?");
+        values.push(settings.notification_enabled);
+    }
+
+    if (settings.daily_goal_minutes !== undefined) {
+        fields.push("daily_goal_minutes = ?");
+        values.push(settings.daily_goal_minutes);
+    }
+
+    if (settings.pomodoro_duration !== undefined) {
+        fields.push("pomodoro_duration = ?");
+        values.push(settings.pomodoro_duration);
+    }
+
+    if (settings.short_break_duration !== undefined) {
+        fields.push("short_break_duration = ?");
+        values.push(settings.short_break_duration);
+    }
+
+    if (settings.long_break_duration !== undefined) {
+        fields.push("long_break_duration = ?");
+        values.push(settings.long_break_duration);
+    }
+
+    if (fields.length === 0) {
+        return callback(new Error("No fields provided for update"), null);
+    }
+
     const query = `
         UPDATE settings
-        SET
-            theme = ?,
-            notification_enabled = ?,
-            daily_goal_minutes = ?,
-            pomodoro_duration = ?,
-            short_break_duration = ?,
-            long_break_duration = ?
+        SET ${fields.join(", ")}
         WHERE user_id = ?
     `;
+    values.push(userId);
 
-    db.query(
-        query,
-        [
-            settings.theme,
-            settings.notification_enabled,
-            settings.daily_goal_minutes,
-            settings.pomodoro_duration,
-            settings.short_break_duration,
-            settings.long_break_duration,
-            userId
-        ],
-        (err, result) => {
-
-            if (err) {
-                return callback(err, null);
-            }
-
-            callback(null, result);
-
+    db.query(query, values, (err, result) => {
+        if (err) {
+            return callback(err, null);
         }
-    );
+        callback(null, result);
+    });
 
 };
 

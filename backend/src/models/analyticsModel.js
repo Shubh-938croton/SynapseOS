@@ -70,8 +70,11 @@ const getOverview = (userId, callback) => {
             ========================= */
 
             (
-                SELECT COALESCE(AVG(completion_percentage), 0)
-                FROM progress
+                SELECT COALESCE(
+                    ROUND(
+                        (COUNT(CASE WHEN status = 'Completed' THEN 1 END) * 100.0) / NULLIF(COUNT(*), 0)
+                    , 0), 0)
+                FROM tasks
                 WHERE user_id = ?
             ) AS average_progress,
 
@@ -421,18 +424,34 @@ const getProgressBySubject = (userId, callback) => {
     const query = `
         SELECT
             s.subject_name,
-            p.completion_percentage,
-            p.total_study_minutes,
-            p.tasks_completed,
-            p.notes_created
-        FROM progress p
-        INNER JOIN subjects s
-            ON p.subject_id = s.subject_id
-        WHERE p.user_id = ?
-        ORDER BY p.completion_percentage DESC
+            COALESCE(
+                ROUND(
+                    (COUNT(CASE WHEN t.status = 'Completed' THEN 1 END) * 100.0) / NULLIF(COUNT(t.task_id), 0)
+                , 0), 0) AS completion_percentage,
+            COALESCE(
+                (
+                    SELECT SUM(ss.duration_minutes)
+                    FROM study_sessions ss
+                    WHERE ss.subject_id = s.subject_id AND ss.user_id = ?
+                ), 0
+            ) AS total_study_minutes,
+            COUNT(CASE WHEN t.status = 'Completed' THEN 1 END) AS tasks_completed,
+            COALESCE(
+                (
+                    SELECT COUNT(*)
+                    FROM notes n
+                    WHERE n.subject_id = s.subject_id AND n.user_id = ?
+                ), 0
+            ) AS notes_created
+        FROM subjects s
+        LEFT JOIN tasks t
+            ON s.subject_id = t.subject_id AND t.user_id = ?
+        WHERE s.user_id = ?
+        GROUP BY s.subject_id, s.subject_name
+        ORDER BY completion_percentage DESC
     `;
 
-    db.query(query, [userId], (err, results) => {
+    db.query(query, [userId, userId, userId, userId], (err, results) => {
 
         if (err) {
             return callback(err, null);

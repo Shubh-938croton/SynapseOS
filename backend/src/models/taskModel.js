@@ -149,6 +149,16 @@ const updateTask = (userIdOrId, idOrTask, taskOrCallback, callback) => {
     if (task.status !== undefined) {
         fields.push("status = ?");
         values.push(task.status);
+        if (task.status === "Completed") {
+            fields.push("completed_at = CURRENT_TIMESTAMP");
+        } else {
+            fields.push("completed_at = NULL");
+        }
+    }
+
+    if (task.completed_at !== undefined) {
+        fields.push("completed_at = ?");
+        values.push(task.completed_at);
     }
 
     if (task.due_date !== undefined) {
