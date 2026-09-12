@@ -1,0 +1,38 @@
+{
+    "schema": "synapseos",
+    "includesDdl": true,
+    "includesViewsDdl": true,
+    "includesData": false,
+    "tables": [
+        "users",
+        "contests",
+        "subjects",
+        "study_sessions",
+        "pomodoro_sessions",
+        "progress",
+        "settings",
+        "tasks",
+        "notes",
+        "calendar_events",
+        "goals",
+        "notifications"
+    ],
+    "views": [],
+    "events": [],
+    "functions": [],
+    "procedures": [],
+    "basenames": {
+        "users": "synapseos@users",
+        "contests": "synapseos@contests",
+        "subjects": "synapseos@subjects",
+        "study_sessions": "synapseos@study_sessions",
+        "pomodoro_sessions": "synapseos@pomodoro_sessions",
+        "progress": "synapseos@progress",
+        "settings": "synapseos@settings",
+        "tasks": "synapseos@tasks",
+        "notes": "synapseos@notes",
+        "calendar_events": "synapseos@calendar_events",
+        "goals": "synapseos@goals",
+        "notifications": "synapseos@notifications"
+    }
+}

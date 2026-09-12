@@ -1,0 +1,34 @@
+{
+    "options": {
+        "schema": "synapseos",
+        "table": "study_sessions",
+        "columns": [
+            "session_id",
+            "user_id",
+            "subject_id",
+            "topic",
+            "start_time",
+            "end_time",
+            "duration_minutes",
+            "session_notes",
+            "created_at"
+        ],
+        "defaultCharacterSet": "utf8mb4",
+        "fieldsTerminatedBy": "\t",
+        "fieldsEnclosedBy": "",
+        "fieldsOptionallyEnclosed": false,
+        "fieldsEscapedBy": "\\",
+        "linesTerminatedBy": "\n"
+    },
+    "triggers": [],
+    "includesData": false,
+    "includesDdl": true,
+    "extension": "tsv.zst",
+    "chunking": true,
+    "compression": "zstd",
+    "primaryIndex": [
+        "session_id"
+    ],
+    "partitions": [],
+    "basenames": {}
+}

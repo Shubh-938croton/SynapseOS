@@ -1,0 +1,33 @@
+{
+    "options": {
+        "schema": "synapseos",
+        "table": "notes",
+        "columns": [
+            "note_id",
+            "user_id",
+            "subject_id",
+            "title",
+            "content",
+            "is_pinned",
+            "created_at",
+            "updated_at"
+        ],
+        "defaultCharacterSet": "utf8mb4",
+        "fieldsTerminatedBy": "\t",
+        "fieldsEnclosedBy": "",
+        "fieldsOptionallyEnclosed": false,
+        "fieldsEscapedBy": "\\",
+        "linesTerminatedBy": "\n"
+    },
+    "triggers": [],
+    "includesData": false,
+    "includesDdl": true,
+    "extension": "tsv.zst",
+    "chunking": true,
+    "compression": "zstd",
+    "primaryIndex": [
+        "note_id"
+    ],
+    "partitions": [],
+    "basenames": {}
+}

@@ -1,0 +1,31 @@
+{
+    "options": {
+        "schema": "synapseos",
+        "table": "subjects",
+        "columns": [
+            "subject_id",
+            "user_id",
+            "subject_name",
+            "description",
+            "color",
+            "created_at"
+        ],
+        "defaultCharacterSet": "utf8mb4",
+        "fieldsTerminatedBy": "\t",
+        "fieldsEnclosedBy": "",
+        "fieldsOptionallyEnclosed": false,
+        "fieldsEscapedBy": "\\",
+        "linesTerminatedBy": "\n"
+    },
+    "triggers": [],
+    "includesData": false,
+    "includesDdl": true,
+    "extension": "tsv.zst",
+    "chunking": true,
+    "compression": "zstd",
+    "primaryIndex": [
+        "subject_id"
+    ],
+    "partitions": [],
+    "basenames": {}
+}

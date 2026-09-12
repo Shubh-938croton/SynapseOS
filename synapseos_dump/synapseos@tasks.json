@@ -1,0 +1,35 @@
+{
+    "options": {
+        "schema": "synapseos",
+        "table": "tasks",
+        "columns": [
+            "task_id",
+            "user_id",
+            "subject_id",
+            "title",
+            "description",
+            "priority",
+            "status",
+            "due_date",
+            "completed_at",
+            "created_at"
+        ],
+        "defaultCharacterSet": "utf8mb4",
+        "fieldsTerminatedBy": "\t",
+        "fieldsEnclosedBy": "",
+        "fieldsOptionallyEnclosed": false,
+        "fieldsEscapedBy": "\\",
+        "linesTerminatedBy": "\n"
+    },
+    "triggers": [],
+    "includesData": false,
+    "includesDdl": true,
+    "extension": "tsv.zst",
+    "chunking": true,
+    "compression": "zstd",
+    "primaryIndex": [
+        "task_id"
+    ],
+    "partitions": [],
+    "basenames": {}
+}

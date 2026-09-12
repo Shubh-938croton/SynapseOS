@@ -1,0 +1,34 @@
+{
+    "options": {
+        "schema": "synapseos",
+        "table": "goals",
+        "columns": [
+            "goal_id",
+            "user_id",
+            "title",
+            "description",
+            "target_date",
+            "progress_percentage",
+            "status",
+            "created_at",
+            "updated_at"
+        ],
+        "defaultCharacterSet": "utf8mb4",
+        "fieldsTerminatedBy": "\t",
+        "fieldsEnclosedBy": "",
+        "fieldsOptionallyEnclosed": false,
+        "fieldsEscapedBy": "\\",
+        "linesTerminatedBy": "\n"
+    },
+    "triggers": [],
+    "includesData": false,
+    "includesDdl": true,
+    "extension": "tsv.zst",
+    "chunking": true,
+    "compression": "zstd",
+    "primaryIndex": [
+        "goal_id"
+    ],
+    "partitions": [],
+    "basenames": {}
+}

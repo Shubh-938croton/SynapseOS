@@ -1,0 +1,33 @@
+{
+    "options": {
+        "schema": "synapseos",
+        "table": "progress",
+        "columns": [
+            "progress_id",
+            "user_id",
+            "subject_id",
+            "completion_percentage",
+            "total_study_minutes",
+            "tasks_completed",
+            "notes_created",
+            "last_updated"
+        ],
+        "defaultCharacterSet": "utf8mb4",
+        "fieldsTerminatedBy": "\t",
+        "fieldsEnclosedBy": "",
+        "fieldsOptionallyEnclosed": false,
+        "fieldsEscapedBy": "\\",
+        "linesTerminatedBy": "\n"
+    },
+    "triggers": [],
+    "includesData": false,
+    "includesDdl": true,
+    "extension": "tsv.zst",
+    "chunking": true,
+    "compression": "zstd",
+    "primaryIndex": [
+        "progress_id"
+    ],
+    "partitions": [],
+    "basenames": {}
+}

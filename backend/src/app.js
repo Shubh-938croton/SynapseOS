@@ -3,10 +3,29 @@ const cors = require("cors");
 const app = express();
 
 
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
+    .split(",")
+    .map((origin) => origin.trim());
+
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+        // allow requests with no origin (like mobile apps, curl, Postman)
+        if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes("*")) {
+            return callback(null, true);
+        }
+        return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true
 }));
+
+// Health check endpoints
+app.get(["/health", "/api/health"], (req, res) => {
+    res.status(200).json({
+        status: "ok",
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString()
+    });
+});
 
 
 const taskRoutes = require("./routes/taskRoutes");

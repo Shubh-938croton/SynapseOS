@@ -1,0 +1,35 @@
+{
+    "options": {
+        "schema": "synapseos",
+        "table": "calendar_events",
+        "columns": [
+            "event_id",
+            "user_id",
+            "title",
+            "description",
+            "event_date",
+            "start_time",
+            "end_time",
+            "reminder_minutes",
+            "status",
+            "created_at"
+        ],
+        "defaultCharacterSet": "utf8mb4",
+        "fieldsTerminatedBy": "\t",
+        "fieldsEnclosedBy": "",
+        "fieldsOptionallyEnclosed": false,
+        "fieldsEscapedBy": "\\",
+        "linesTerminatedBy": "\n"
+    },
+    "triggers": [],
+    "includesData": false,
+    "includesDdl": true,
+    "extension": "tsv.zst",
+    "chunking": true,
+    "compression": "zstd",
+    "primaryIndex": [
+        "event_id"
+    ],
+    "partitions": [],
+    "basenames": {}
+}

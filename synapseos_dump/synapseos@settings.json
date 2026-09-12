@@ -1,0 +1,35 @@
+{
+    "options": {
+        "schema": "synapseos",
+        "table": "settings",
+        "columns": [
+            "setting_id",
+            "user_id",
+            "theme",
+            "notification_enabled",
+            "daily_goal_minutes",
+            "pomodoro_duration",
+            "short_break_duration",
+            "long_break_duration",
+            "created_at",
+            "updated_at"
+        ],
+        "defaultCharacterSet": "utf8mb4",
+        "fieldsTerminatedBy": "\t",
+        "fieldsEnclosedBy": "",
+        "fieldsOptionallyEnclosed": false,
+        "fieldsEscapedBy": "\\",
+        "linesTerminatedBy": "\n"
+    },
+    "triggers": [],
+    "includesData": false,
+    "includesDdl": true,
+    "extension": "tsv.zst",
+    "chunking": true,
+    "compression": "zstd",
+    "primaryIndex": [
+        "setting_id"
+    ],
+    "partitions": [],
+    "basenames": {}
+}

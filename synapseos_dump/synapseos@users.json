@@ -1,0 +1,34 @@
+{
+    "options": {
+        "schema": "synapseos",
+        "table": "users",
+        "columns": [
+            "user_id",
+            "full_name",
+            "username",
+            "email",
+            "password_hash",
+            "profile_picture",
+            "bio",
+            "created_at",
+            "updated_at"
+        ],
+        "defaultCharacterSet": "utf8mb4",
+        "fieldsTerminatedBy": "\t",
+        "fieldsEnclosedBy": "",
+        "fieldsOptionallyEnclosed": false,
+        "fieldsEscapedBy": "\\",
+        "linesTerminatedBy": "\n"
+    },
+    "triggers": [],
+    "includesData": false,
+    "includesDdl": true,
+    "extension": "tsv.zst",
+    "chunking": true,
+    "compression": "zstd",
+    "primaryIndex": [
+        "user_id"
+    ],
+    "partitions": [],
+    "basenames": {}
+}

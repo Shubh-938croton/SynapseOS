@@ -1,0 +1,30 @@
+{
+    "dumper": "mysqlsh Ver 8.0.46 for Win64 on x86_64 - for MySQL 8.0.46 (MySQL Community Server (GPL))",
+    "version": "2.0.1",
+    "origin": "dumpSchemas",
+    "options": {
+        "ddlOnly": true
+    },
+    "schemas": [
+        "synapseos"
+    ],
+    "basenames": {
+        "synapseos": "synapseos"
+    },
+    "defaultCharacterSet": "utf8mb4",
+    "tzUtc": true,
+    "bytesPerChunk": 64000000,
+    "user": "root",
+    "hostname": "LAPTOP-02A2H3LN",
+    "server": "LAPTOP-02A2H3LN",
+    "serverVersion": "8.0.46",
+    "binlogFile": "LAPTOP-02A2H3LN-bin.000042",
+    "binlogPosition": 721,
+    "gtidExecuted": "",
+    "gtidExecutedInconsistent": false,
+    "consistent": true,
+    "partialRevokes": false,
+    "compatibilityOptions": [],
+    "capabilities": [],
+    "begin": "2026-09-11 20:15:40"
+}
