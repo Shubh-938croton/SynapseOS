@@ -3,6 +3,10 @@ require("dotenv").config();
 const fs = require("fs");
 const mysql = require("mysql2");
 
+const sslCa = process.env.DB_SSL_CA
+    ? process.env.DB_SSL_CA
+    : fs.readFileSync(process.env.DB_SSL_CA_PATH, "utf8");
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST || "localhost",
     port: process.env.DB_PORT || 3306,
@@ -11,9 +15,9 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME || "synapseos",
 
     ssl: {
-        ca: fs.readFileSync(process.env.DB_SSL_CA_PATH),
-        rejectUnauthorized: true
-    },
+    ca: sslCa,
+    rejectUnauthorized: true
+},
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
