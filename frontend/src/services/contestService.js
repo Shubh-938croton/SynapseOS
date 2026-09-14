@@ -1,5 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-const API_URL = `${BASE_URL}/contests`;
+import api from "./api";
 
 
 // =======================================
@@ -7,27 +6,8 @@ const API_URL = `${BASE_URL}/contests`;
 // =======================================
 
 export const getAllContests = async () => {
-
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(API_URL, {
-        method: "GET",
-
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        }
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(
-            data.message || "Failed to fetch contests"
-        );
-    }
-
-    return data;
+    const response = await api.get("/contests");
+    return response.data?.contests || response.data || [];
 };
 
 
@@ -36,30 +16,8 @@ export const getAllContests = async () => {
 // =======================================
 
 export const getContestById = async (contestId) => {
-
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(
-        `${API_URL}/${contestId}`,
-        {
-            method: "GET",
-
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            }
-        }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(
-            data.message || "Failed to fetch contest"
-        );
-    }
-
-    return data;
+    const response = await api.get(`/contests/${contestId}`);
+    return response.data?.contest || response.data;
 };
 
 
@@ -68,29 +26,8 @@ export const getContestById = async (contestId) => {
 // =======================================
 
 export const createContest = async (contestData) => {
-
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(API_URL, {
-        method: "POST",
-
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
-
-        body: JSON.stringify(contestData)
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(
-            data.message || "Failed to create contest"
-        );
-    }
-
-    return data;
+    const response = await api.post("/contests", contestData);
+    return response.data;
 };
 
 
@@ -102,32 +39,11 @@ export const updateContest = async (
     contestId,
     contestData
 ) => {
-
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(
-        `${API_URL}/${contestId}`,
-        {
-            method: "PUT",
-
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-
-            body: JSON.stringify(contestData)
-        }
+    const response = await api.put(
+        `/contests/${contestId}`,
+        contestData
     );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(
-            data.message || "Failed to update contest"
-        );
-    }
-
-    return data;
+    return response.data;
 };
 
 
@@ -136,28 +52,8 @@ export const updateContest = async (
 // =======================================
 
 export const deleteContest = async (contestId) => {
-
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(
-        `${API_URL}/${contestId}`,
-        {
-            method: "DELETE",
-
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            }
-        }
+    const response = await api.delete(
+        `/contests/${contestId}`
     );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(
-            data.message || "Failed to delete contest"
-        );
-    }
-
-    return data;
+    return response.data;
 };

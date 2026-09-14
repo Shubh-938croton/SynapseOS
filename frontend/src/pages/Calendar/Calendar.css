@@ -391,3 +391,69 @@
         display: none;
     }
 }
+
+/* Contest Events in Calendar */
+.calendar-event.calendar-contest-event {
+    background: rgba(245, 158, 11, 0.1);
+    border-left: 3px solid #f59e0b;
+}
+
+.calendar-event.calendar-contest-event:hover {
+    background: rgba(245, 158, 11, 0.2);
+}
+
+.calendar-contest-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+
+.calendar-contest-badge .platform-pill {
+    display: inline-block;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 8.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.calendar-contest-badge .platform-pill.codeforces {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+}
+
+.calendar-contest-badge .platform-pill.codechef {
+    background: rgba(168, 85, 247, 0.2);
+    color: #c084fc;
+}
+
+.calendar-contest-badge .platform-pill.hackerrank {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+}
+
+.calendar-contest-badge .platform-pill.atcoder {
+    background: rgba(6, 182, 212, 0.2);
+    color: #22d3ee;
+}
+
+.calendar-contest-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: var(--accent-gradient);
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.calendar-contest-link:hover {
+    filter: brightness(1.1);
+}

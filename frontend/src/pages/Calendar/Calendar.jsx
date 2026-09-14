@@ -14,6 +14,10 @@ import {
     deleteEvent
 } from "../../services/calendarService";
 
+import {
+    getAllContests
+} from "../../services/contestService";
+
 import "./Calendar.css";
 
 
@@ -40,10 +44,11 @@ function Calendar() {
 
 
     // =========================
-    // EVENTS
+    // EVENTS & CONTESTS
     // =========================
 
     const [events, setEvents] = useState([]);
+    const [contests, setContests] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
@@ -65,7 +70,7 @@ function Calendar() {
 
 
     // =========================
-    // FETCH EVENTS
+    // FETCH EVENTS & CONTESTS
     // =========================
 
     const fetchEvents = async () => {
@@ -74,25 +79,36 @@ function Calendar() {
 
             setLoading(true);
 
-            const response = await getAllEvents();
+            const [eventsRes, contestsRes] = await Promise.allSettled([
+                getAllEvents(),
+                getAllContests()
+            ]);
 
-            console.log(
-                "Calendar events:",
-                response
-            );
+            if (eventsRes.status === "fulfilled") {
+                const rawEvents = eventsRes.value;
+                setEvents(Array.isArray(rawEvents) ? rawEvents : (rawEvents?.events || []));
+            } else {
+                console.error(
+                    "Error fetching calendar events:",
+                    eventsRes.reason
+                );
+            }
 
-            setEvents(response || []);
+            if (contestsRes.status === "fulfilled") {
+                const rawContests = contestsRes.value;
+                setContests(Array.isArray(rawContests) ? rawContests : (rawContests?.contests || []));
+            } else {
+                console.error(
+                    "Error fetching contests for calendar:",
+                    contestsRes.reason
+                );
+            }
 
         } catch (error) {
 
             console.error(
-                "Error fetching calendar events:",
+                "Error fetching calendar data:",
                 error
-            );
-
-            alert(
-                error.response?.data?.message ||
-                "Failed to fetch calendar events"
             );
 
         } finally {
@@ -297,62 +313,68 @@ function Calendar() {
     const getEventsForDay = (day) => {
 
         if (!day) {
-
             return [];
-
         }
-
-
-        /*
-         * Create the calendar date manually.
-         *
-         * Example:
-         * 20 August 2026
-         *
-         * becomes:
-         * 2026-08-20
-         */
 
         const dateString =
             `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
-
-        return events.filter(
-            (event) => {
-
-                if (!event.event_date) {
-
-                    return false;
-
-                }
-
-
-                /*
-                 * IMPORTANT:
-                 *
-                 * Do NOT use:
-                 *
-                 * new Date(event.event_date)
-                 *
-                 * because MySQL DATE values can
-                 * shift by one day because of timezone
-                 * conversion.
-                 *
-                 * We compare the YYYY-MM-DD portion
-                 * directly.
-                 */
-
-                const eventDate =
-                    String(event.event_date)
-                        .substring(0, 10);
-
-
-                return (
-                    eventDate === dateString
-                );
-
+        // Regular calendar events
+        const dayEvents = events.filter((event) => {
+            if (!event.event_date) {
+                return false;
             }
-        );
+            const eventDate = String(event.event_date).substring(0, 10);
+            return eventDate === dateString;
+        });
+
+        // Contests
+        const dayContests = contests.filter((contest) => {
+            if (!contest.contest_date) {
+                return false;
+            }
+
+            let cDate = new Date(contest.contest_date);
+            if (Number.isNaN(cDate.getTime()) && typeof contest.contest_date === "string") {
+                cDate = new Date(contest.contest_date.replace(" ", "T"));
+            }
+
+            if (Number.isNaN(cDate.getTime())) {
+                return String(contest.contest_date).substring(0, 10) === dateString;
+            }
+
+            const cYear = cDate.getFullYear();
+            const cMonth = String(cDate.getMonth() + 1).padStart(2, "0");
+            const cDay = String(cDate.getDate()).padStart(2, "0");
+
+            return `${cYear}-${cMonth}-${cDay}` === dateString;
+        }).map((contest) => {
+            let cDate = new Date(contest.contest_date);
+            if (Number.isNaN(cDate.getTime()) && typeof contest.contest_date === "string") {
+                cDate = new Date(contest.contest_date.replace(" ", "T"));
+            }
+
+            let timeStr = "";
+            if (!Number.isNaN(cDate.getTime())) {
+                timeStr = cDate.toLocaleTimeString("en-IN", {
+                    hour: "numeric",
+                    minute: "2-digit"
+                });
+            }
+
+            return {
+                event_id: `contest_${contest.contest_id}`,
+                title: contest.contest_name,
+                platform: contest.platform,
+                start_time: timeStr,
+                contest_url: contest.contest_url,
+                status: contest.participation_status,
+                isContest: true,
+                rawContest: contest
+            };
+        });
+
+        return [...dayEvents, ...dayContests];
 
     };
 
@@ -686,63 +708,90 @@ function Calendar() {
                                                         (event) => (
 
                                                             <div
-
                                                                 key={
                                                                     event.event_id
                                                                 }
-
                                                                 className={`
                                                                     calendar-event
                                                                     ${
+                                                                        event.isContest
+                                                                            ? "calendar-contest-event"
+                                                                            : ""
+                                                                    }
+                                                                    ${
                                                                         event.status ===
-                                                                        "Completed"
+                                                                        "Completed" ||
+                                                                        event.status ===
+                                                                        "Participated"
                                                                             ? "completed"
                                                                             : event.status ===
-                                                                              "Cancelled"
+                                                                              "Cancelled" ||
+                                                                              event.status ===
+                                                                              "Missed"
                                                                             ? "cancelled"
                                                                             : ""
                                                                     }
                                                                 `}
-
+                                                                title={
+                                                                    event.isContest
+                                                                        ? `[${event.platform}] ${event.title}`
+                                                                        : event.title
+                                                                }
+                                                                onClick={() => {
+                                                                    if (
+                                                                        event.isContest &&
+                                                                        event.contest_url
+                                                                    ) {
+                                                                        window.open(
+                                                                            event.contest_url,
+                                                                            "_blank",
+                                                                            "noopener,noreferrer"
+                                                                        );
+                                                                    }
+                                                                }}
                                                             >
 
+                                                                {/* CONTEST BADGE */}
+                                                                {event.isContest && (
+                                                                    <div className="calendar-contest-badge">
+                                                                        <span
+                                                                            className={`platform-pill ${
+                                                                                event.platform
+                                                                                    ?.toLowerCase()
+                                                                                    .replace(
+                                                                                        /\s+/g,
+                                                                                        "-"
+                                                                                    ) ||
+                                                                                "other"
+                                                                            }`}
+                                                                        >
+                                                                            {
+                                                                                event.platform
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                )}
 
                                                                 {/* EVENT TITLE */}
-
                                                                 <div
                                                                     className="calendar-event-title"
                                                                 >
-
                                                                     {
                                                                         event.title
                                                                     }
-
                                                                 </div>
 
-
                                                                 {/* EVENT TIME */}
-
                                                                 {event.start_time && (
-
                                                                     <div
                                                                         className="calendar-event-time"
                                                                     >
-
                                                                         {
-                                                                            String(
-                                                                                event.start_time
-                                                                            ).substring(
-                                                                                0,
-                                                                                5
-                                                                            )
+                                                                            event.start_time
                                                                         }
-
-
                                                                         {event.end_time && (
-
                                                                             <>
                                                                                 {" - "}
-
                                                                                 {
                                                                                     String(
                                                                                         event.end_time
@@ -752,79 +801,66 @@ function Calendar() {
                                                                                     )
                                                                                 }
                                                                             </>
-
                                                                         )}
-
                                                                     </div>
-
                                                                 )}
 
-
-                                                                {/* =========================
-                                                                    EVENT ACTIONS
-                                                                ========================= */}
-
+                                                                {/* EVENT ACTIONS */}
                                                                 <div
                                                                     className="calendar-event-actions"
                                                                 >
+                                                                    {!event.isContest ? (
+                                                                        <>
+                                                                            {/* EDIT */}
+                                                                            <button
+                                                                                type="button"
+                                                                                className="calendar-event-edit"
+                                                                                onClick={(
+                                                                                    e
+                                                                                ) => {
+                                                                                    e.stopPropagation();
+                                                                                    handleEditEvent(
+                                                                                        event
+                                                                                    );
+                                                                                }}
+                                                                            >
+                                                                                Edit
+                                                                            </button>
 
-
-                                                                    {/* EDIT */}
-
-                                                                    <button
-
-                                                                        type="button"
-
-                                                                        className="calendar-event-edit"
-
-                                                                        onClick={(
-                                                                            e
-                                                                        ) => {
-
-                                                                            e.stopPropagation();
-
-                                                                            handleEditEvent(
-                                                                                event
-                                                                            );
-
-                                                                        }}
-
-                                                                    >
-
-                                                                        Edit
-
-                                                                    </button>
-
-
-                                                                    {/* DELETE */}
-
-                                                                    <button
-
-                                                                        type="button"
-
-                                                                        className="calendar-event-delete"
-
-                                                                        onClick={(
-                                                                            e
-                                                                        ) => {
-
-                                                                            e.stopPropagation();
-
-                                                                            handleDeleteEvent(
-                                                                                event
-                                                                            );
-
-                                                                        }}
-
-                                                                    >
-
-                                                                        Delete
-
-                                                                    </button>
-
-
+                                                                            {/* DELETE */}
+                                                                            <button
+                                                                                type="button"
+                                                                                className="calendar-event-delete"
+                                                                                onClick={(
+                                                                                    e
+                                                                                ) => {
+                                                                                    e.stopPropagation();
+                                                                                    handleDeleteEvent(
+                                                                                        event
+                                                                                    );
+                                                                                }}
+                                                                            >
+                                                                                Delete
+                                                                            </button>
+                                                                        </>
+                                                                    ) : event.contest_url ? (
+                                                                        <a
+                                                                            href={
+                                                                                event.contest_url
+                                                                            }
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            className="calendar-contest-link"
+                                                                            onClick={(
+                                                                                e
+                                                                            ) =>
+                                                                                e.stopPropagation()
+                                                                            }
+                                                                        >
+                                                                            Open ↗
+                                                                        </a>
+                                                                    ) : null}
                                                                 </div>
-
 
                                                             </div>
 

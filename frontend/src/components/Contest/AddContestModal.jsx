@@ -104,14 +104,15 @@ function AddContestModal({
             return "";
         }
 
+        let parsedDate = new Date(date);
 
-        const parsedDate = new Date(date);
-
+        if (Number.isNaN(parsedDate.getTime()) && typeof date === "string") {
+            parsedDate = new Date(date.replace(" ", "T"));
+        }
 
         if (Number.isNaN(parsedDate.getTime())) {
             return "";
         }
-
 
         const year =
             parsedDate.getFullYear();
@@ -135,7 +136,6 @@ function AddContestModal({
             String(
                 parsedDate.getMinutes()
             ).padStart(2, "0");
-
 
         return `${year}-${month}-${day}T${hours}:${minutes}`;
 

@@ -22,6 +22,8 @@ function Contests() {
 
     const [loading, setLoading] = useState(true);
 
+    const [error, setError] = useState("");
+
     const [showModal, setShowModal] = useState(false);
 
     const [contestToEdit, setContestToEdit] = useState(null);
@@ -36,16 +38,27 @@ function Contests() {
         try {
 
             setLoading(true);
+            setError("");
 
             const data = await getAllContests();
 
-            setContests(data || []);
+            const contestList = Array.isArray(data)
+                ? data
+                : (data?.contests || []);
 
-        } catch (error) {
+            setContests(contestList);
+
+        } catch (err) {
 
             console.error(
                 "Failed to fetch contests:",
-                error
+                err
+            );
+
+            setError(
+                err?.response?.data?.message ||
+                err?.message ||
+                "Failed to load contests."
             );
 
         } finally {
@@ -127,19 +140,39 @@ function Contests() {
 
             await fetchContests();
 
-        } catch (error) {
+        } catch (err) {
 
             console.error(
                 "Delete contest error:",
-                error
+                err
             );
 
             alert(
-                error.response?.data?.message ||
+                err?.response?.data?.message ||
+                err?.message ||
                 "Failed to delete contest."
             );
 
         }
+
+    };
+
+
+    // =========================
+    // PARSE DATE SAFELY
+    // =========================
+
+    const parseDateSafe = (date) => {
+
+        if (!date) return null;
+
+        let parsed = new Date(date);
+
+        if (Number.isNaN(parsed.getTime()) && typeof date === "string") {
+            parsed = new Date(date.replace(" ", "T"));
+        }
+
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
 
     };
 
@@ -150,17 +183,9 @@ function Contests() {
 
     const formatDate = (date) => {
 
-        if (!date) {
-            return "--";
-        }
+        const parsedDate = parseDateSafe(date);
 
-        const parsedDate = new Date(date);
-
-        if (
-            Number.isNaN(
-                parsedDate.getTime()
-            )
-        ) {
+        if (!parsedDate) {
             return "--";
         }
 
@@ -182,17 +207,9 @@ function Contests() {
 
     const formatTime = (date) => {
 
-        if (!date) {
-            return "--";
-        }
+        const parsedDate = parseDateSafe(date);
 
-        const parsedDate = new Date(date);
-
-        if (
-            Number.isNaN(
-                parsedDate.getTime()
-            )
-        ) {
+        if (!parsedDate) {
             return "--";
         }
 
@@ -316,10 +333,34 @@ function Contests() {
 
 
                 {/* =========================
+                    ERROR STATE
+                ========================= */}
+
+                {!loading && error && (
+
+                    <div className="contests-empty">
+
+                        <h2>Error Loading Contests</h2>
+
+                        <p>{error}</p>
+
+                        <button
+                            type="button"
+                            onClick={fetchContests}
+                        >
+                            Retry
+                        </button>
+
+                    </div>
+
+                )}
+
+
+                {/* =========================
                     EMPTY STATE
                 ========================= */}
 
-                {!loading &&
+                {!loading && !error &&
                     contests.length === 0 && (
 
                         <div className="contests-empty">
