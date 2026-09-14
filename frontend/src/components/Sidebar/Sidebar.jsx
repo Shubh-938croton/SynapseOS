@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import {
     FaHome,
+    FaFolder,
     FaTasks,
     FaStickyNote,
     FaBullseye,
@@ -9,6 +10,7 @@ import {
     FaClock,
     FaChartBar,
     FaTrophy,
+    FaYoutube,
     FaUser,
     FaCog,
     FaSignOutAlt
@@ -40,6 +42,12 @@ function Sidebar() {
                 <NavLink to="/dashboard">
                     <FaHome />
                     <span>Dashboard</span>
+                </NavLink>
+
+                {/* SUBJECTS */}
+                <NavLink to="/subjects">
+                    <FaFolder />
+                    <span>Subjects</span>
                 </NavLink>
 
                 {/* TASKS */}
@@ -83,6 +91,12 @@ function Sidebar() {
                 <NavLink to="/contests">
                     <FaTrophy />
                     <span>Contests</span>
+                </NavLink>
+
+                {/* YOUTUBE */}
+                <NavLink to="/youtube">
+                    <FaYoutube />
+                    <span>YouTube</span>
                 </NavLink>
 
                 {/* ANALYTICS */}

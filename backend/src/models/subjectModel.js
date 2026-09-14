@@ -5,8 +5,8 @@ const createSubject = (subject, callback) => {
 
     const query = `
         INSERT INTO subjects
-        (user_id, subject_name, description)
-        VALUES (?, ?, ?)
+        (user_id, subject_name, description, color)
+        VALUES (?, ?, ?, ?)
     `;
 
     db.query(
@@ -14,7 +14,8 @@ const createSubject = (subject, callback) => {
         [
             subject.user_id,
             subject.subject_name,
-            subject.description
+            subject.description || null,
+            subject.color || null
         ],
         (err, result) => {
 
@@ -35,8 +36,10 @@ const getAllSubjects = (userId, callback) => {
     const query = `
         SELECT
             subject_id,
+            user_id,
             subject_name,
             description,
+            color,
             created_at
         FROM subjects
         WHERE user_id = ?
@@ -61,8 +64,10 @@ const getSubjectById = (userId, subjectId, callback) => {
     const query = `
         SELECT
             subject_id,
+            user_id,
             subject_name,
             description,
+            color,
             created_at
         FROM subjects
         WHERE subject_id = ?
@@ -88,7 +93,8 @@ const updateSubject = (userId, subjectId, subject, callback) => {
         UPDATE subjects
         SET
             subject_name = ?,
-            description = ?
+            description = ?,
+            color = ?
         WHERE subject_id = ?
         AND user_id = ?
     `;
@@ -97,7 +103,8 @@ const updateSubject = (userId, subjectId, subject, callback) => {
         query,
         [
             subject.subject_name,
-            subject.description,
+            subject.description || null,
+            subject.color || null,
             subjectId,
             userId
         ],

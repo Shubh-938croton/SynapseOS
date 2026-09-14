@@ -10,11 +10,12 @@ const createSubject = (req, res) => {
 
         const {
             subject_name,
-            description
+            description,
+            color
         } = req.body;
 
         // Basic validation
-        if (!subject_name) {
+        if (!subject_name || !subject_name.trim()) {
             return res.status(400).json({
                 message: "Subject name is required"
             });
@@ -22,8 +23,9 @@ const createSubject = (req, res) => {
 
         const subject = {
             user_id,
-            subject_name,
-            description
+            subject_name: subject_name.trim(),
+            description: description ? description.trim() : null,
+            color: color ? color.trim() : null
         };
 
         subjectModel.createSubject(subject, (err, result) => {
@@ -37,7 +39,14 @@ const createSubject = (req, res) => {
 
             return res.status(201).json({
                 message: "Subject created successfully",
-                subjectId: result.insertId
+                subjectId: result.insertId,
+                subject: {
+                    subject_id: result.insertId,
+                    user_id,
+                    subject_name: subject.subject_name,
+                    description: subject.description,
+                    color: subject.color
+                }
             });
 
         });
@@ -135,12 +144,20 @@ const updateSubject = (req, res) => {
 
         const {
             subject_name,
-            description
+            description,
+            color
         } = req.body;
 
+        if (!subject_name || !subject_name.trim()) {
+            return res.status(400).json({
+                message: "Subject name is required"
+            });
+        }
+
         const subject = {
-            subject_name,
-            description
+            subject_name: subject_name.trim(),
+            description: description ? description.trim() : null,
+            color: color ? color.trim() : null
         };
 
         subjectModel.updateSubject(

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { FaPlus } from "react-icons/fa";
 import "./AddTaskModal.css";
 
 import {
@@ -9,6 +10,7 @@ import {
 import {
     getAllSubjects
 } from "../../services/subjectService";
+import SubjectModal from "../SubjectModal/SubjectModal";
 
 function AddTaskModal({
     isOpen,
@@ -18,6 +20,7 @@ function AddTaskModal({
 }) {
 
     const [subjects, setSubjects] = useState([]);
+    const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
 
     const [formData, setFormData] = useState({
         subject_id: "",
@@ -31,33 +34,24 @@ function AddTaskModal({
     // -----------------------------
     // Fetch Subjects
     // -----------------------------
-    useEffect(() => {
-
-        async function fetchSubjects() {
-
-            try {
-
-                const response = await getAllSubjects();
-
-                // if controller returns { count, subjects }
-                if (response.subjects) {
-                    setSubjects(response.subjects);
-                }
-                else {
-                    setSubjects(response);
-                }
-
-            } catch (error) {
-
-                console.error("Failed to fetch subjects", error);
-
+    const fetchSubjects = async (selectedId = null) => {
+        try {
+            const response = await getAllSubjects();
+            const subjectList = response?.subjects ? response.subjects : (Array.isArray(response) ? response : []);
+            setSubjects(subjectList);
+            if (selectedId) {
+                setFormData(prev => ({ ...prev, subject_id: selectedId }));
             }
-
+        } catch (error) {
+            console.error("Failed to fetch subjects", error);
         }
+    };
 
-        fetchSubjects();
-
-    }, []);
+    useEffect(() => {
+        if (isOpen) {
+            fetchSubjects();
+        }
+    }, [isOpen]);
 
     // -----------------------------
     // Prefill while editing
@@ -195,7 +189,16 @@ function AddTaskModal({
 
                     <div className="form-group">
 
-                        <label>Subject</label>
+                        <div className="form-group-label-row">
+                            <label>Subject <span className="required-star">*</span></label>
+                            <button
+                                type="button"
+                                className="add-subject-inline-btn"
+                                onClick={() => setIsSubjectModalOpen(true)}
+                            >
+                                <FaPlus /> New Subject
+                            </button>
+                        </div>
 
                         <select
                             name="subject_id"
@@ -205,7 +208,7 @@ function AddTaskModal({
                         >
 
                             <option value="">
-                                Select Subject
+                                {subjects.length === 0 ? "No subjects available" : "Select Subject"}
                             </option>
 
                             {
@@ -226,6 +229,12 @@ function AddTaskModal({
                             }
 
                         </select>
+
+                        {subjects.length === 0 && (
+                            <div className="subject-empty-hint">
+                                No subjects found. <button type="button" onClick={() => setIsSubjectModalOpen(true)}>Create one</button> to assign to this task.
+                            </div>
+                        )}
 
                     </div>
 
@@ -339,6 +348,14 @@ function AddTaskModal({
                 </form>
 
             </div>
+
+            <SubjectModal
+                isOpen={isSubjectModalOpen}
+                onClose={() => setIsSubjectModalOpen(false)}
+                onSubjectCreated={(newSub) => {
+                    fetchSubjects(newSub.subject_id);
+                }}
+            />
 
         </div>
 

@@ -6,6 +6,7 @@ import Register from "../pages/Register/Register";
 
 // Main pages
 import Dashboard from "../pages/Dashboard/Dashboard";
+import Subjects from "../pages/Subjects/Subjects";
 import Tasks from "../pages/Tasks/Tasks";
 import Notes from "../pages/Notes/Notes";
 import Calendar from "../pages/Calendar/Calendar";
@@ -71,6 +72,20 @@ function AppRoutes() {
                     element={
                         <ProtectedRoute>
                             <Dashboard />
+                        </ProtectedRoute>
+                    }
+                />
+
+
+                {/* =======================================
+                    SUBJECTS
+                ======================================= */}
+
+                <Route
+                    path="/subjects"
+                    element={
+                        <ProtectedRoute>
+                            <Subjects />
                         </ProtectedRoute>
                     }
                 />

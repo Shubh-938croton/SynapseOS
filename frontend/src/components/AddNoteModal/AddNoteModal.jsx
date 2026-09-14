@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaTimes, FaSave } from "react-icons/fa";
+import { FaTimes, FaSave, FaPlus } from "react-icons/fa";
 
 import {
     createNote,
@@ -7,6 +7,7 @@ import {
 } from "../../services/noteService";
 
 import { getAllSubjects } from "../../services/subjectService";
+import SubjectModal from "../SubjectModal/SubjectModal";
 
 import "./AddNoteModal.css";
 
@@ -24,6 +25,7 @@ function AddNoteModal({
     const [isPinned, setIsPinned] = useState(false);
 
     const [subjects, setSubjects] = useState([]);
+    const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [subjectsLoading, setSubjectsLoading] =
@@ -34,19 +36,32 @@ function AddNoteModal({
     // LOAD SUBJECTS + SET FORM DATA
     // =====================================================
 
+    const loadSubjectsList = async (selectedId = null) => {
+        try {
+            setSubjectsLoading(true);
+            const subjectList = await getAllSubjects();
+            setSubjects(subjectList || []);
+            if (selectedId) {
+                setSubjectId(selectedId);
+            }
+        } catch (error) {
+            console.error("Failed to load subjects", error);
+        } finally {
+            setSubjectsLoading(false);
+        }
+    };
+
     useEffect(() => {
 
         if (!isOpen) {
             return;
         }
 
-
         const loadModalData = async () => {
 
             try {
 
                 setSubjectsLoading(true);
-
 
                 // =========================
                 // FETCH SUBJECTS
@@ -389,10 +404,18 @@ function AddNoteModal({
 
                     <div className="note-form-group">
 
-                        <label>
-                            Subject
-                        </label>
-
+                        <div className="form-group-label-row">
+                            <label>
+                                Subject <span className="required-star">*</span>
+                            </label>
+                            <button
+                                type="button"
+                                className="add-subject-inline-btn"
+                                onClick={() => setIsSubjectModalOpen(true)}
+                            >
+                                <FaPlus /> New Subject
+                            </button>
+                        </div>
 
                         <select
                             value={subjectId}
@@ -411,7 +434,7 @@ function AddNoteModal({
 
                                 {subjectsLoading
                                     ? "Loading subjects..."
-                                    : "Select a subject"
+                                    : (subjects.length === 0 ? "No subjects available" : "Select a subject")
                                 }
 
                             </option>
@@ -448,12 +471,9 @@ function AddNoteModal({
                         {!subjectsLoading &&
                             subjects.length === 0 && (
 
-                                <small className="no-subjects-message">
-
-                                    No subjects available.
-                                    Create a subject first.
-
-                                </small>
+                                <div className="subject-empty-hint">
+                                    No subjects found. <button type="button" onClick={() => setIsSubjectModalOpen(true)}>Create one</button> to assign to this note.
+                                </div>
 
                             )
                         }
@@ -567,6 +587,14 @@ function AddNoteModal({
                 </form>
 
             </div>
+
+            <SubjectModal
+                isOpen={isSubjectModalOpen}
+                onClose={() => setIsSubjectModalOpen(false)}
+                onSubjectCreated={(newSub) => {
+                    loadSubjectsList(newSub.subject_id);
+                }}
+            />
 
         </div>
 

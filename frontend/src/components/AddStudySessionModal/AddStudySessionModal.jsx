@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { FaTimes, FaSave } from "react-icons/fa";
+import { FaTimes, FaSave, FaPlus } from "react-icons/fa";
 
 import { createStudySession } from "../../services/studySessionService";
 import { getAllSubjects } from "../../services/subjectService";
+import SubjectModal from "../SubjectModal/SubjectModal";
 
 import "./AddStudySessionModal.css";
 
@@ -21,6 +22,7 @@ function AddStudySessionModal({
     const [endTime, setEndTime] = useState("");
 
     const [subjects, setSubjects] = useState([]);
+    const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [subjectsLoading, setSubjectsLoading] = useState(false);
@@ -30,41 +32,31 @@ function AddStudySessionModal({
     // LOAD SUBJECTS
     // =======================================
 
-    useEffect(() => {
+    const loadSubjects = async (selectedId = null) => {
+        try {
+            setSubjectsLoading(true);
+            const data = await getAllSubjects();
+            setSubjects(data || []);
+            if (selectedId) {
+                setSubjectId(String(selectedId));
+            }
+        } catch (error) {
+            console.error(
+                "Failed to load subjects:",
+                error
+            );
+            alert("Failed to load subjects.");
+        } finally {
+            setSubjectsLoading(false);
+        }
+    };
 
+    useEffect(() => {
         if (!isOpen) {
             return;
         }
 
-        const loadSubjects = async () => {
-
-            try {
-
-                setSubjectsLoading(true);
-
-                const data = await getAllSubjects();
-
-                setSubjects(data || []);
-
-            } catch (error) {
-
-                console.error(
-                    "Failed to load subjects:",
-                    error
-                );
-
-                alert("Failed to load subjects.");
-
-            } finally {
-
-                setSubjectsLoading(false);
-
-            }
-
-        };
-
         loadSubjects();
-
     }, [isOpen]);
 
 
@@ -392,9 +384,18 @@ function AddStudySessionModal({
 
                     <div className="study-session-form-group">
 
-                        <label>
-                            Subject
-                        </label>
+                        <div className="form-group-label-row">
+                            <label>
+                                Subject <span className="required-star">*</span>
+                            </label>
+                            <button
+                                type="button"
+                                className="add-subject-inline-btn"
+                                onClick={() => setIsSubjectModalOpen(true)}
+                            >
+                                <FaPlus /> New Subject
+                            </button>
+                        </div>
 
                         <select
                             value={subjectId}
@@ -410,10 +411,13 @@ function AddStudySessionModal({
                         >
 
                             <option value="">
-                                Select Subject
+                                {subjectsLoading
+                                    ? "Loading subjects..."
+                                    : (subjects.length === 0 ? "No subjects available" : "Select Subject")
+                                }
                             </option>
 
-                            {subjects.map((subject) => (
+                            {!subjectsLoading && subjects.map((subject) => (
 
                                 <option
                                     key={subject.subject_id}
@@ -427,6 +431,12 @@ function AddStudySessionModal({
                             ))}
 
                         </select>
+
+                        {!subjectsLoading && subjects.length === 0 && (
+                            <div className="subject-empty-hint">
+                                No subjects found. <button type="button" onClick={() => setIsSubjectModalOpen(true)}>Create one</button> to assign to this session.
+                            </div>
+                        )}
 
                     </div>
 
@@ -561,6 +571,14 @@ function AddStudySessionModal({
                 </form>
 
             </div>
+
+            <SubjectModal
+                isOpen={isSubjectModalOpen}
+                onClose={() => setIsSubjectModalOpen(false)}
+                onSubjectCreated={(newSub) => {
+                    loadSubjects(newSub.subject_id);
+                }}
+            />
 
         </div>
 
