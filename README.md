@@ -1,42 +1,40 @@
 # 🧠 SynapseOS
 
-> A full-stack cognitive productivity platform for learning, focus, progress tracking, and academic workflow management.
+> **A full-stack cognitive productivity platform for learning, focus, progress tracking, and academic workflow management.**
+
+[![Status](https://img.shields.io/badge/status-active%20development-blue)](https://github.com/Shubh-938croton/SynapseOS)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Shubh-938croton/SynapseOS)
+
+🌐 **Live:** https://synapse-os-kappa.vercel.app  
+💻 **GitHub:** https://github.com/Shubh-938croton/SynapseOS
 
 ---
 
 ## 📖 About
 
-SynapseOS is a personal productivity operating system designed for students and developers to manage their complete learning journey from a single dashboard.
+**SynapseOS** is a student-focused productivity platform built to bring learning, planning, study tracking, notes, tasks, academic events, coding contests, and personalization into one application.
 
-The platform brings together productivity, learning, planning, study tracking, coding contests, analytics, and personalization into one application.
+The project started as a learning and productivity idea and evolved into a deployed full-stack application with a React frontend, Node.js/Express backend, cloud-hosted MySQL database, authentication, REST APIs, and production deployment.
 
-SynapseOS is being developed as a long-term full-stack software engineering project, with a focus on:
-
-* Full-stack development
-* REST API design
-* Database architecture
-* Authentication and authorization
-* React frontend development
-* Backend engineering
-* Data-driven productivity features
-* Software engineering practices
+The project is also a long-term software engineering learning journey focused on building, debugging, deploying, and improving a real application rather than only creating isolated tutorials or prototypes.
 
 ---
 
 ## 🎯 Vision
 
-The goal of SynapseOS is to provide a centralized platform that helps users:
+SynapseOS aims to help students:
 
-* 🎯 Stay focused
-* 📚 Manage their learning
-* ✅ Organize tasks and goals
-* 📝 Maintain notes
-* 📅 Manage academic events
-* ⏱️ Track study sessions and focus time
-* 📊 Analyze productivity
-* 🏆 Track coding contests
-* ⚙️ Personalize their experience
-* 📈 Build long-term consistency
+- 🎯 Stay focused
+- 📚 Organize their learning
+- 📝 Maintain notes
+- ✅ Manage tasks and goals
+- 📅 Manage academic and personal events
+- ⏱️ Track study sessions and focus time
+- 📊 Understand productivity and study patterns
+- 🏆 Track coding contests
+- 📚 Organize work by subject
+- ⚙️ Personalize their experience
+- 📈 Build long-term consistency
 
 ---
 
@@ -44,13 +42,14 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## 📊 Dashboard
 
-* Personalized dashboard
-* Study summary
-* Productivity statistics
-* Daily information
-* Dashboard analytics
-* Summary cards
-* Integrated navigation
+- Personalized dashboard
+- Study summary
+- Productivity statistics
+- Daily information
+- Dashboard analytics
+- Summary cards
+- Quick actions
+- Integrated navigation
 
 **Status:** ✅ Completed
 
@@ -58,13 +57,32 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## 🔐 Authentication
 
-* User registration
-* User login
-* JWT-based authentication
-* Protected routes
-* Authenticated API requests
-* Logout functionality
-* Password hashing
+- User registration
+- User login
+- JWT-based authentication
+- Protected API routes
+- Authenticated API requests
+- Logout
+- Password hashing with bcrypt
+- Google authentication support through the existing backend flow
+
+**Status:** ✅ Completed
+
+---
+
+## 📚 Subject Management
+
+Subjects provide the organizational layer for subject-dependent features.
+
+Users can:
+
+- Create/add subjects
+- View subjects
+- Edit subjects
+- Delete subjects where supported
+- Select subjects while creating related content
+
+Subject relationships are integrated with features such as notes, tasks, and study sessions.
 
 **Status:** ✅ Completed
 
@@ -72,12 +90,14 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## ✅ Task Manager
 
-* Create tasks
-* View tasks
-* Update tasks
-* Delete tasks
-* Task organization
-* Priority and deadline support
+- Create tasks
+- View tasks
+- Update tasks
+- Delete tasks
+- Task organization
+- Priority support
+- Deadline support
+- Subject association
 
 **Status:** ✅ Completed
 
@@ -85,11 +105,12 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## 📝 Notes
 
-* Create notes
-* View notes
-* Update notes
-* Delete notes
-* Organized note management
+- Create notes
+- View notes
+- Update notes
+- Delete notes
+- Subject association
+- Organized note management
 
 **Status:** ✅ Completed
 
@@ -97,10 +118,10 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## 🎯 Goals
 
-* Goal management
-* Goal creation
-* Goal updates
-* Goal tracking
+- Goal creation
+- Goal updates
+- Goal tracking
+- Goal management
 
 **Status:** ✅ Completed
 
@@ -108,11 +129,13 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## 📅 Calendar
 
-* Academic events
-* Assignments
-* Exams
-* Calendar event management
-* Event creation, updating and deletion
+- Academic events
+- Assignments
+- Exams
+- Event creation
+- Event updating
+- Event deletion
+- Upcoming coding contests integrated into the calendar
 
 **Status:** ✅ Completed
 
@@ -120,13 +143,14 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## 📚 Study Sessions
 
-* Create study sessions
-* Track study topics
-* Record start and end time
-* Automatically calculate session duration
-* View study sessions
-* Update study sessions
-* Delete study sessions
+- Create study sessions
+- Track study topics
+- Record start and end time
+- Automatically calculate session duration
+- View study sessions
+- Update study sessions
+- Delete study sessions
+- Subject association
 
 **Status:** ✅ Completed
 
@@ -134,22 +158,22 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## 🍅 Pomodoro
 
-* Pomodoro focus sessions
-* Short breaks
-* Long breaks
-* Configurable Pomodoro durations
-* Productivity-focused workflow
+- Focus sessions
+- Short breaks
+- Long breaks
+- Configurable durations
+- Productivity-focused workflow
 
-**Status:** 🚧 Functional — settings synchronization is being refined
+**Status:** 🚧 Functional — settings synchronization and refinement continue
 
 ---
 
 ## 📈 Analytics
 
-* Study analytics
-* Productivity statistics
-* Backend analytics API
-* Frontend analytics dashboard
+- Study analytics
+- Productivity statistics
+- Backend analytics APIs
+- Frontend analytics dashboard
 
 **Status:** ✅ Completed
 
@@ -157,13 +181,13 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## 👤 Profile
 
-* View user profile
-* Edit profile information
-* Update username
-* Update email
-* Update full name
-* Change password
-* Password verification using bcrypt
+- View profile
+- Edit profile
+- Update username
+- Update email
+- Update full name
+- Change password
+- Password verification using bcrypt
 
 **Status:** ✅ Completed
 
@@ -171,37 +195,36 @@ The goal of SynapseOS is to provide a centralized platform that helps users:
 
 ## ⚙️ Settings
 
-SynapseOS includes an interactive settings system.
+Interactive settings include:
 
 ### Appearance
 
-* Light theme
-* Dark theme selection
-* Interactive theme selector
+- Light theme
+- Dark theme
+- Interactive theme selection
 
 ### Notifications
 
-* Enable/disable notifications
-* Interactive toggle
+- Enable/disable notifications
 
 ### Daily Study Goal
 
-* Configurable daily study goal
-* Interactive slider
-* Live time representation
+- Configurable daily study goal
+- Interactive control
+- Live time representation
 
 ### Pomodoro Configuration
 
-* Focus duration
-* Short break duration
-* Long break duration
-* Live Pomodoro cycle preview
+- Focus duration
+- Short break duration
+- Long break duration
+- Live Pomodoro cycle preview
 
-### Other
+### Persistence
 
-* Save settings
-* Reset settings to defaults
-* Persistent settings stored in MySQL
+- Save settings
+- Reset settings to defaults
+- Persistent settings stored in MySQL
 
 **Status:** ✅ Completed
 
@@ -209,30 +232,32 @@ SynapseOS includes an interactive settings system.
 
 ## 🏆 Coding Contest Tracker
 
-Planned support for:
+The contest module provides coding-contest tracking and connects upcoming contests with the calendar.
 
-* Codeforces
-* LeetCode
-* CodeChef
-* AtCoder
+Supported/planned contest sources include:
 
-**Status:** 🚧 In Development
+- Codeforces
+- LeetCode
+- CodeChef
+- AtCoder
+
+**Status:** 🚧 Active development / integration refinement
 
 ---
 
 ## 🎥 YouTube Focus Mode
 
-The YouTube module is intended to provide a productivity-focused YouTube experience.
+The YouTube module is designed as a productivity-focused learning experience.
 
-Planned functionality:
+Current/ongoing work includes:
 
-* Productive video search
-* Study-focused content
-* Study playlists
-* Embedded video player
-* Distraction-free experience
+- Productive video search
+- Study-focused content
+- Study playlists
+- Embedded video experience
+- Distraction-aware learning workflow
 
-**Status:** 🚧 Next Major Feature
+**Status:** 🚧 Next major feature / active development
 
 ---
 
@@ -240,10 +265,10 @@ Planned functionality:
 
 Planned functionality:
 
-* Contribution activity
-* Repository information
-* Coding statistics
-* GitHub activity tracking
+- Contribution activity
+- Repository information
+- Coding statistics
+- GitHub activity tracking
 
 **Status:** 📌 Planned
 
@@ -253,51 +278,61 @@ Planned functionality:
 
 Future versions of SynapseOS may include:
 
-* 🤖 AI Study Planner
-* 🔄 Smart Revision Scheduler
-* 🧠 AI Quiz Generator
-* 📝 Note Summarizer
-* 📊 Intelligent Productivity Analysis
-* 🎯 Personalized Learning Recommendations
+- 🤖 AI Study Planner
+- 🔄 Smart Revision Scheduler
+- 🧠 AI Quiz Generator
+- 📝 AI Note Summarization
+- 📊 Intelligent Productivity Analysis
+- 🎯 Personalized Learning Recommendations
 
-**Status:** 📌 Future Development
+**Status:** 📌 Future development
 
 ---
 
-# 🛠️ Tech Stack
+# 🛠️ Technology Stack
 
 ## Frontend
 
-* React
-* Vite
-* JavaScript
-* HTML5
-* CSS3
-* React Router
-* React Icons
+- React
+- Vite
+- JavaScript
+- HTML5
+- CSS3
+- React Router
+- React Icons
+- Axios
 
 ## Backend
 
-* Node.js
-* Express.js
-* JavaScript
-* REST APIs
-* JWT Authentication
-* bcrypt
+- Node.js
+- Express.js
+- JavaScript
+- REST APIs
+- JWT authentication
+- bcrypt
+- MySQL2
 
 ## Database
 
-* MySQL
-* MySQL Workbench
+- MySQL
+- Aiven Cloud
+- Relational database design
+- Primary/foreign-key relationships
 
-## Development Tools
+## Development & Version Control
 
-* Git
-* GitHub
-* VS Code
-* PowerShell
-* Git Bash
-* npm
+- Git
+- GitHub
+- VS Code
+- PowerShell
+- Git Bash
+- npm
+
+## Deployment
+
+- **Vercel** — React/Vite frontend
+- **Render** — Node.js/Express backend
+- **Aiven** — MySQL database
 
 ---
 
@@ -306,276 +341,24 @@ Future versions of SynapseOS may include:
 SynapseOS follows a client-server architecture:
 
 ```text
-┌─────────────────────────────┐
-│        React Frontend       │
-│          Vite               │
-└──────────────┬──────────────┘
+┌──────────────────────────────┐
+│       React Frontend         │
+│          Vite                │
+│       Vercel Hosting         │
+└──────────────┬───────────────┘
                │
-               │ REST API
-               │
-┌──────────────▼──────────────┐
-│       Node.js Backend       │
-│         Express.js          │
-└──────────────┬──────────────┘
+               │ HTTPS / REST API
+               ▼
+┌──────────────────────────────┐
+│       Node.js Backend        │
+│         Express.js           │
+│       Render Hosting         │
+└──────────────┬───────────────┘
                │
                │ SQL
-               │
-┌──────────────▼──────────────┐
-│          MySQL              │
-│        SynapseOS DB         │
-└─────────────────────────────┘
-```
-
-The backend is organized into:
-
-```text
-Routes
-   ↓
-Controllers
-   ↓
-Models
-   ↓
-MySQL Database
-```
-
-Authentication is handled through JWT middleware.
-
----
-
-# 📁 Project Structure
-
-```text
-SynapseOS/
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   └── ...
-│   │
-│   └── package.json
-│
-├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   ├── controllers/
-│   │   ├── middleware/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── app.js
-│   │   └── server.js
-│   │
-│   └── package.json
-│
-├── database/
-│   ├── schema.sql
-│   ├── seed.sql
-│   ├── queries.sql
-│   └── er-diagram.png
-│
-├── docs/
-│   ├── architecture/
-│   ├── development/
-│   ├── Frontend_Progress.md
-│   ├── api.md
-│   ├── features.md
-│   ├── roadmap.md
-│   └── vision.md
-│
-├── assets/
-│
-└── README.md
-```
-
----
-
-# 🚀 Development Roadmap
-
-## Phase 1 — Foundation
-
-* [x] Project planning
-* [x] Database design
-* [x] Backend architecture
-* [x] Frontend architecture
-* [x] Authentication
-* [x] JWT authentication
-* [x] Protected routes
-
-## Phase 2 — Core Productivity
-
-* [x] Dashboard
-* [x] Tasks
-* [x] Notes
-* [x] Goals
-* [x] Calendar
-* [x] Study Sessions
-* [x] Pomodoro
-* [x] Analytics
-
-## Phase 3 — Personalization
-
-* [x] Profile
-* [x] Edit profile
-* [x] Change password
-* [x] Settings
-* [x] Notification preferences
-* [x] Daily study goal
-* [x] Pomodoro preferences
-* [x] Theme selection
-
-## Phase 4 — External Integrations
-
-* [ ] YouTube Focus Mode
-* [ ] Coding Contest Integration
-* [ ] GitHub Integration
-
-## Phase 5 — Intelligence
-
-* [ ] AI Study Planner
-* [ ] Smart Revision Scheduler
-* [ ] AI Quiz Generator
-* [ ] AI Note Summarization
-* [ ] Intelligent Productivity Recommendations
-
-## Phase 6 — Production
-
-* [ ] Global theme system
-* [ ] Avatar upload
-* [ ] Advanced UI polishing
-* [ ] Loading states and skeletons
-* [ ] Error handling improvements
-* [ ] Security hardening
-* [ ] Testing
-* [ ] Production deployment
-
----
-
-# 📊 Current Development Status
-
-SynapseOS has moved beyond the initial prototype stage.
-
-### Backend
-
-* ✅ Express.js backend
-* ✅ REST API architecture
-* ✅ MySQL integration
-* ✅ Authentication APIs
-* ✅ JWT authentication
-* ✅ Protected API routes
-* ✅ User profile APIs
-* ✅ Password management
-* ✅ Task APIs
-* ✅ Notes APIs
-* ✅ Goals APIs
-* ✅ Calendar APIs
-* ✅ Study Session APIs
-* ✅ Analytics APIs
-* ✅ Settings APIs
-
-### Frontend
-
-* ✅ React + Vite
-* ✅ React Router
-* ✅ Authentication pages
-* ✅ Protected routes
-* ✅ Dashboard
-* ✅ Sidebar navigation
-* ✅ Tasks
-* ✅ Notes
-* ✅ Goals
-* ✅ Calendar
-* ✅ Study Sessions
-* ✅ Pomodoro
-* ✅ Analytics
-* ✅ Profile
-* ✅ Settings
-* 🚧 YouTube Focus Mode
-
----
-
-# 🏆 Completed Milestones
-
-* ✅ Project architecture established
-* ✅ MySQL database designed
-* ✅ Backend architecture implemented
-* ✅ Authentication system
-* ✅ JWT authentication
-* ✅ Protected routes
-* ✅ Dashboard layout
-* ✅ Sidebar
-* ✅ Navbar
-* ✅ Dashboard summary cards
-* ✅ Backend dashboard APIs
-* ✅ Frontend connected to backend APIs
-* ✅ Task management
-* ✅ Notes management
-* ✅ Goals management
-* ✅ Calendar management
-* ✅ Study session management
-* ✅ Pomodoro system
-* ✅ Analytics system
-* ✅ User profile management
-* ✅ Password change functionality
-* ✅ Interactive Settings system
-* ✅ Persistent user settings
-* ✅ Documentation structure
-* ✅ Git versioning and release tags
-
----
-
-# 🏷️ Version History
-
-### `v1.0-backend-core`
-
-Initial backend foundation and core backend architecture.
-
-### `v1.0.0`
-
-Initial SynapseOS release.
-
-### `v1.1.0`
-
-Major application feature development.
-
-### `v1.1.1`
-
-Feature improvements and fixes.
-
-### `v1.1.2`
-
-Interactive Settings system and personalization improvements.
-
----
-
-# 🎓 Purpose
-
-SynapseOS is being built to:
-
-* Learn full-stack development
-* Practice real-world software architecture
-* Build REST APIs
-* Work with relational databases
-* Practice authentication and authorization
-* Improve React development skills
-* Strengthen backend development skills
-* Practice Git and GitHub workflows
-* Build a production-oriented portfolio project
-* Develop a long-term software engineering project
-
----
-
-# 📌 Current Status
-
-> **SynapseOS is actively under development.**
-
-The core productivity platform is now functional, including authentication, dashboard, task management, notes, goals, calendar, study sessions, Pomodoro, analytics, profile management, and interactive settings.
-
-The next major feature is **YouTube Focus Mode**, followed by external integrations, UI polishing, testing, and deployment.
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
+               ▼
+┌──────────────────────────────┐
+│          MySQL               │
+│        Aiven Cloud           │
+│        SynapseOS DB          │
+└──────────────────────────────┘
