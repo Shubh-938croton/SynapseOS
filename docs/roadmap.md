@@ -1,73 +1,49 @@
-# 🗺️ SynapseOS Development Roadmap
+# 🗺️ SynapseOS Engineering Roadmap
 
-**Project:** SynapseOS — AI-Powered Cognitive Productivity Operating System  
-**Current Milestone:** `v1.3.0` (Core Platform, Dark SaaS Redesign & Google SSO Complete)  
-**Last Updated:** September 2026
+## 1. Roadmap Overview
 
----
-
-## Completed Phases ✅
-
-### 🏗️ Phase 1 — Backend & Database Foundation
-- [x] Node.js & Express RESTful architecture.
-- [x] MySQL database schema definition with foreign key constraints.
-- [x] Connection pooling (`mysql.createPool`) and environment variable management.
-- [x] MVC directory architecture (Routes, Controllers, Models, Middleware).
-
-### 🔐 Phase 2 — Authentication & Multi-Tenant Security
-- [x] Email & Password registration with bcrypt salt hashing.
-- [x] JWT token generation and authentication middleware (`verifyToken`).
-- [x] User Profile management (bio, avatar placeholder, password update).
-- [x] Strict user-scoped database queries (`WHERE user_id = ?`).
-
-### 📚 Phase 3 — Core Productivity Module Suite
-- [x] **Subjects Module**: Subject categories and color coding.
-- [x] **Task Management**: CRUD, priority levels, status checkboxes.
-- [x] **Notes Base**: Markdown notes with tags and pinned status.
-- [x] **Interactive Calendar**: Event scheduling with timezone-safe date parsing.
-- [x] **Goals & Milestones**: Progress percentage tracking with slider modals.
-- [x] **Study Sessions**: Deep work time logging with automated duration calculation.
-- [x] **Pomodoro Engine**: Digital focus clock (25/5/15) with session auditing.
-- [x] **Contests Tracker**: Competitive programming schedule (LeetCode, Codeforces, etc.).
-- [x] **Notification Alerts**: Read/unread alert drawer.
-
-### 📊 Phase 4 — Analytics & Aggregation Engine
-- [x] Real-time SQL aggregations for Dashboard summaries.
-- [x] Subject-wise productivity distribution.
-- [x] 7-day chronological study hour charts with zero-day filling.
-- [x] Multi-factor Productivity Score calculation algorithm.
-
-### 🎨 Phase 5 — Modern Dark SaaS UI/UX Redesign
-- [x] Global design system and theme tokens (`theme.css`) with Linear/Vercel aesthetic.
-- [x] Obsidian dark surfaces (`#090d16`), electric blue accents (`#3b82f6`), and subtle 1px border hierarchy.
-- [x] Glassmorphism overlays and responsive layouts across all 12 modules.
-- [x] Recharts visualization integration.
-
-### 🔑 Phase 6 — Google Single Sign-On (OAuth 2.0)
-- [x] Google Identity Services (GIS) client popup integration.
-- [x] Backend token verification using `google-auth-library` and Google userinfo API.
-- [x] Automated new user creation with secure password hashing for MySQL constraints.
-- [x] Safe environment templates (`.env.example`) for frontend and backend.
-
-### 🎥 Phase 7 — YouTube Focus Study Hub
-- [x] YouTube Data API v3 backend proxy integration.
-- [x] Server-side API key protection.
-- [x] 3-column video results grid with 16:9 thumbnail previews.
-- [x] Distraction-free embedded player watch view.
+The SynapseOS roadmap is organized into four distinct tiers:
+1. **Completed (v1.0.0 - v1.2.x):** Foundational architecture, core productivity modules, dual authentication, and cloud deployment.
+2. **In Active Development (v1.3.0):** Feature enhancements, YouTube Focus Hub, and interactive notifications.
+3. **Planned (v1.4.0+):** Developer integrations, GitHub activity tracking, and cross-platform export tools.
+4. **Future AI Vision (v2.0.0+):** Cognitive AI study scheduling, automated active recall, and adaptive learning workflows.
 
 ---
 
-## Active & Upcoming Phases 🚀
+## 2. Milestone Breakdown
 
-### 🤖 Phase 8 — AI Study & Recommendation Suite (Current Priority)
-- [ ] **Smart Study Planner**: Automated study timetable generation based on upcoming exams, deadlines, and subject performance.
-- [ ] **Note Summarization & Flashcards**: GenAI synthesis of study notes into bite-sized summaries and active recall quizzes.
-- [ ] **Predictive Productivity Modeling**: Machine learning insights on peak focus hours and burnout warning alerts.
+### ✅ Phase 1: Core Productivity Architecture (v1.0.0 — Completed)
+- [x] Relational MySQL 8 database schema with InnoDB foreign keys and cascading deletes.
+- [x] Stateless Node.js / Express 5 backend with 3-tier MVC architecture.
+- [x] Dual-channel authentication: Email/Password + Google OAuth 2.0 (`google-auth-library`).
+- [x] Cryptographic password security via `bcrypt` (10 salt rounds) and signed JWT tokens.
+- [x] Dedicated Subject management subsystem (`/subjects`) and in-modal inline creation lifecycle.
+- [x] Full CRUD modules: Tasks, Notes (Markdown), Goals, Study Sessions, Calendar Events, Pomodoro Logs.
+- [x] Real-time aggregated productivity scoring and Recharts analytics dashboards.
+- [x] Production cloud deployments: Vercel (Frontend), Render (Backend), Aiven (Cloud MySQL).
 
-### ☁️ Phase 9 — Production Deployment & Cloud DevOps
-- [ ] Docker containerization for frontend, backend, and MySQL.
-- [ ] Production cloud database configuration (Managed MySQL).
-- [ ] Automated CI/CD pipeline via GitHub Actions.
-- [ ] CDN-backed static frontend hosting (Vercel / Cloudflare Pages) and scalable backend hosting (Render / Railway / Cloud Run).
-- [ ] Production monitoring, rate limiting, and structured logging.
+---
 
+### 🚧 Phase 2: Refinement & Specialized Learning Hubs (v1.3.0 — In Progress)
+- [x] Competitive Programming Contest Tracker with platform badges (LeetCode, Codeforces, CodeChef, HackerRank, AtCoder).
+- [x] Dynamic Calendar integration aggregating academic events and coding contests from a single source of truth.
+- [x] YouTube Focus Study Hub: Distraction-free search proxy querying YouTube Data API v3 without recommendation rabbit holes.
+- [ ] User avatar upload and cloud storage integration (AWS S3 or Cloudinary).
+- [ ] Customizable sound alerts for Pomodoro work and break transitions.
+- [ ] Export study notes to Markdown (.md) and PDF formats.
+
+---
+
+### 📌 Phase 3: Developer & Academic Integrations (v1.4.0 — Planned)
+- [ ] **GitHub Activity Integration:** Embed real-time commit heatmaps and repository statistics onto the student dashboard.
+- [ ] **Spaced Repetition Flashcards:** Leitner 5-box spaced repetition system integrated directly with study notes.
+- [ ] **Offline PWA Support:** Service worker caching for local offline note-taking and Pomodoro tracking.
+- [ ] **Collaborative Study Rooms:** WebRTC-powered virtual study rooms for peer accountability.
+
+---
+
+### 🤖 Phase 4: Cognitive AI Study Suite (v2.0.0+ — Future Vision)
+- [ ] **AI Study Plan Optimizer:** Analyzes task deadlines, historical study velocity, and subject difficulty to generate optimized daily study schedules.
+- [ ] **Smart Quiz & Flashcard Synthesizer:** Automatically extracts key concepts from user notes and generates practice quizzes with multiple-choice and short-answer prompts.
+- [ ] **AI Note Summarizer:** Summarizes lecture notes into concise bulleted executive summaries.
+- [ ] **Predictive Burnout & Consistency Detection:** ML model monitoring focus patterns and providing actionable recovery suggestions before burnout occurs.

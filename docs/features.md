@@ -1,115 +1,118 @@
-# 🌟 SynapseOS Feature Catalog & Implementation Status
+# ✨ SynapseOS Feature Catalog & Capabilities
 
-**Last Updated:** September 2026  
-**Current Milestone:** `v1.3.0` (Core Productivity Platform, Dark UI/UX Redesign & Google Authentication Complete)
-
----
-
-## 1. Authentication & Security
-- **Dual Authentication Methods:**
-  - Standard Email + Password registration and login.
-  - **Google Single Sign-On (OAuth 2.0)**: Seamless 1-click popup authentication via official Google Identity Services SDK (`frontend/src/services/googleAuth.js`).
-- **Security Engineering:**
-  - `bcrypt` password hashing (salt factor 10) applied to all accounts.
-  - Signed JSON Web Tokens (JWT) with configurable expiration (`JWT_EXPIRES_IN`).
-  - Strict server-side resource scoping (`WHERE resource_id = ? AND user_id = ?`) preventing multi-tenant data leakage.
-  - Centralized Axios authorization interceptor injecting `Bearer <token>`.
-  - Client-side `ProtectedRoute` guards for authenticated app surfaces.
-  - Zero hardcoded secrets; credentials safely isolated in `.env.example` templates.
+SynapseOS is a complete, full-stack productivity and academic management platform. Below is the detailed catalog of all implemented and active features.
 
 ---
 
-## 2. Command Center Dashboard
-- **Welcome Hero Banner:** Dynamic contextual greeting, personalized username, and glowing AI theme aura.
-- **Real-Time Productivity Metric Cards:**
-  - Total active study subjects.
-  - Tasks pending vs completed.
-  - Total cumulative study hours logged.
-  - Total completed Pomodoro focus blocks.
-- **Quick Action Bar:** Direct access to schedule events, start Pomodoro timer, add tasks, and write markdown notes.
+## 1. 🔐 Dual-Channel Authentication & Security
+- **Email + Password Authentication:** Register and log in securely with `bcrypt` password encryption (salt rounds: 10).
+- **Google OAuth 2.0 Single Sign-On:** Official Google Identity Services SDK integration offering 1-click popup authentication.
+- **Stateless JWT Security:** Cryptographically signed tokens authorizing protected API routes.
+- **Multi-Tenant Data Isolation:** Enforced server-side `WHERE user_id = ?` scoping across all database operations.
+- **Client Route Guards:** Seamless navigation protection via `<ProtectedRoute>` wrapper.
 
 ---
 
-## 3. Task Management Engine
-- **Task Workspace:** Categorized by subject with visual priority badges (🔴 High, 🟡 Medium, 🟢 Low).
-- **Status Toggling:** Animated completion checkboxes dynamically updating database state.
-- **Search & Filtering:** Search by keyword, filter by priority level, and toggle pending/completed views.
-- **Task Modals:** Add Task and Edit Task frosted glass dialogs with deadline pickers.
+## 2. 📊 Command Center Dashboard
+- **Contextual Welcome Hero:** Dynamic greeting adjusting for time of day, displaying user handle and status.
+- **Live Productivity Metric Cards:**
+  - Active Subjects Count
+  - Pending vs Completed Task Counter
+  - Cumulative Study Hours Logged
+  - Completed Pomodoro Focus Blocks
+- **Quick Action Bar:** 1-click shortcuts to schedule calendar events, start a Pomodoro timer, create tasks, and write notes.
 
 ---
 
-## 4. Notes & Knowledge Base
-- **Masonry Layout:** Responsive 2-column note card layout.
-- **Pinning & Tagging:** Pin important notes to the top and organize with color tags.
-- **Markdown & Code Snippets:** Rich text presentation with monospace code blocks.
-- **Instant Search:** Real-time note filtering by title, topic, or content.
+## 3. 📚 Subject Management Subsystem
+- **Dedicated Subject Manager:** Create, view, edit, and delete academic courses and study domains.
+- **Color Coding:** Select distinct hex color tags to visually distinguish subjects across the entire application.
+- **Inline Modal Creation:** Create new subjects on the fly within Task, Note, and Study Session modals without context switching.
+- **Cascading Data Integrity:** Automatic MySQL cascading deletion of associated tasks, notes, and study logs upon subject removal.
 
 ---
 
-## 5. Goals & Milestone Tracking
-- **3-Column Goal Grid:** Visual goal cards with target deadlines.
-- **Electric Blue Gradient Progress Bars:** Dynamic progress meter tracking `0%` to `100%` completion.
-- **Goal Modification Modal:** Interactive progress sliders and milestone completion toggles.
+## 4. ✅ Task Management Engine
+- **Task Organization:** Categorized by subject with visual priority badges (🔴 High, 🟡 Medium, 🟢 Low).
+- **Status Toggling:** Animated completion checkboxes dynamically updating database records.
+- **Dynamic Filtering:** Filter tasks by priority level, completion status, or search keywords.
+- **Deadline Tracking:** Calendar date pickers for setting and monitoring due dates.
 
 ---
 
-## 6. Interactive Calendar & Scheduling
-- **Monthly Calendar Grid:** Month navigation, "Today" highlight pill, and clear cell borders.
-- **Timezone-Safe Synchronization:** Date string normalization (`YYYY-MM-DD`) eliminating timezone offset bugs.
-- **Full Event CRUD:** Add, view, edit, and delete events with start/end time validation and reminders.
+## 5. 📝 Notes & Knowledge Base
+- **Markdown Support:** Write notes with rich text styling, bullet lists, headers, and monospace code snippets.
+- **Pinning Mechanism:** Pin critical revision notes to the top of the masonry grid.
+- **Subject Association:** Organize notes by academic subject with color-coded badges.
+- **Real-Time Search:** Instant filtering across note titles and content.
 
 ---
 
-## 7. Deep Work & Study Sessions
-- **Session Logger:** Track study sessions by subject, topic, and timestamp.
-- **Automatic Duration Engine:** Computes elapsed time in minutes and displays in monospace `JetBrains Mono`.
-- **Session Notes:** Attach specific study takeaways and notes to every session.
+## 6. 🎯 Goals & Milestone Tracking
+- **Visual Goal Cards:** Grid view of learning targets with target completion dates.
+- **Interactive Progress Meters:** Gradient progress bars tracking completion percentages from `0%` to `100%`.
+- **Milestone Status Toggling:** Categorize goals as *Not Started*, *In Progress*, or *Completed*.
 
 ---
 
-## 8. Pomodoro Focus Timer
-- **Digital Clock Display:** Modern tabular numerals with ambient glowing accents.
-- **Interval Control:** Switch between Work (25m), Short Break (5m), and Long Break (15m).
-- **Session State Machine:** Start, Pause, Reset, and Interrupt session handlers.
-- **History Logs:** Comprehensive audit trail of completed and interrupted sessions with duration metrics.
+## 7. 📅 Calendar & Schedule Coordination
+- **Monthly Grid View:** Clear day cells, previous/next month navigation, and "Today" highlighting.
+- **Full Event CRUD:** Create, update, view, and delete academic milestones and assignment deadlines.
+- **Timezone-Safe Synchronization:** Normalized date strings (`YYYY-MM-DD`) preventing timezone drift.
+- **Dynamic Contest Integration:** Upcoming competitive programming contests appear directly on the calendar grid with platform badges and links.
 
 ---
 
-## 9. Competitive Programming Contest Tracker
-- **Multi-Platform Badging:** Custom badges for LeetCode, Codeforces, CodeChef, HackerRank, and AtCoder.
-- **Contest Scheduler:** Add upcoming contests with date/time, description, and direct external challenge URLs.
-- **Search & Sort:** Filter contests by upcoming dates and competitive programming platforms.
+## 8. ⏱️ Study Sessions & Deep Work Logger
+- **Deep Work Tracking:** Record focused study sessions by subject and topic.
+- **Automatic Duration Engine:** Automatically calculates total minutes elapsed between start and end timestamps.
+- **Session Notes:** Attach key takeaways and revision points to each logged study block.
 
 ---
 
-## 10. Analytics & Productivity Insights
-- **Recharts Data Visualizations:**
-  - Daily study hour vertical bar charts (Monday–Sunday activity).
-  - Subject study time distribution meters.
-- **Composite Metrics:** Goal progress averages, Pomodoro completion ratios, and task completion rates.
-- **Productivity Score:** Multi-factor algorithm scoring user efficiency with personalized grade feedback.
+## 9. 🍅 Pomodoro Focus Timer
+- **Precision Interval Control:** Switch between Focus (25m), Short Break (5m), and Long Break (15m).
+- **Interactive Controls:** Start, Pause, Resume, Reset, and Interrupt session handlers.
+- **Audit History Logs:** Chronological table of completed and interrupted sessions with duration metrics.
 
 ---
 
-## 11. YouTube Focus Study Hub
-- **Distraction-Free Video Search:** Curated search without algorithmic rabbit holes or irrelevant recommendations.
-- **Popular Study Categories:** Quick filter pills for C++ DSA, Machine Learning, DBMS, Java, and Web Development.
-- **Responsive Video Cards:** 3-column video grid with 16:9 thumbnail previews, channel metadata, and hover play triggers.
-- **Embedded 16:9 Player View:** Clean watch page with video descriptions and study actions.
-- **Backend API Proxy:** YouTube Data API v3 queried server-side with private API keys in `.env`.
+## 10. 🏆 Competitive Programming Contest Tracker
+- **Multi-Platform Badging:** Specialized badge colors and platform labels for LeetCode, Codeforces, CodeChef, HackerRank, AtCoder, and custom contests.
+- **Contest Scheduler:** Log upcoming contests with date, time, and direct external challenge URLs.
+- **Status Management:** Track competitions across *Upcoming*, *Participated*, and *Missed* statuses.
 
 ---
 
-## 12. User Profile & Settings
-- **Profile Hub:** Edit full name, username, email, and bio with duplicate validation.
-- **Password Security:** Change password form with current password verification and bcrypt hashing.
-- **Appearance & Preferences:** Centralized dark/light theme tokens and study preference controls.
+## 11. 📈 Analytics & Productivity Engine
+- **Recharts Visualizations:**
+  - Day-by-day weekly study activity histogram (Monday–Sunday).
+  - Subject study time distribution breakdown.
+- **Aggregated Performance Metrics:** Goal completion percentages, Pomodoro completion ratios, and task velocity.
+- **Productivity Scoring:** Dynamic algorithmic score (0–100) with grade evaluations and personalized recommendations.
 
 ---
 
-## 13. Upcoming / Next Phase Features (AI Study Suite)
-- **AI Study Planner:** Automated daily revision schedule generation based on task deadlines and subject load.
-- **Note Summarizer & Flashcard Generator:** AI-powered markdown synthesis and active recall questions.
-- **Predictive Performance Insights:** Machine learning analytics predicting goal completion likelihood.
-- **Cloud CI/CD & Deployment:** Docker containerization, cloud MySQL, and production hosting.
+## 12. 🎥 YouTube Focus Study Hub
+- **Distraction-Free Search:** Query educational videos via backend YouTube Data API v3 proxy without algorithmic rabbit holes.
+- **Study Category Quick Filters:** Instant searches for C++ DSA, Machine Learning, Operating Systems, DBMS, and Web Development.
+- **Embedded Player:** Clean 16:9 responsive video player view with channel details and descriptions.
 
+---
+
+## 13. 👤 User Profile & Security Settings
+- **Profile Hub:** Edit display name, username, email, and biography snippet.
+- **Password Security:** Change account password with current password verification and bcrypt encryption.
+
+---
+
+## 14. ⚙️ Application Preferences & Settings
+- **Theme Selection:** Dark and Light mode toggles.
+- **Daily Study Target:** Set daily study goal minutes with live visual feedback.
+- **Pomodoro Configuration:** Customize work interval and break durations saved directly to MySQL.
+
+---
+
+## 15. 🔔 Notifications & Alerts
+- **In-App Notification Center:** Dropdown alerts with unread badge counter.
+- **Read State Management:** Mark individual notifications or all notifications as read.

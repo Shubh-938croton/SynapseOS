@@ -1,364 +1,149 @@
 # 🧠 SynapseOS
 
-> **A full-stack cognitive productivity platform for learning, focus, progress tracking, and academic workflow management.**
+> **A full-stack cognitive productivity and academic workflow platform engineered for students, self-directed learners, and competitive programmers.**
 
-[![Status](https://img.shields.io/badge/status-active%20development-blue)](https://github.com/Shubh-938croton/SynapseOS)
-[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Shubh-938croton/SynapseOS)
+[![Status](https://img.shields.io/badge/status-active%20development-blue.svg)](https://github.com/Shubh-938croton/SynapseOS)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Shubh-938croton/SynapseOS/blob/main/LICENSE)
+[![React](https://img.shields.io/badge/frontend-React%2019%20%7C%20Vite%208-61dafb.svg)](https://react.dev/)
+[![Node](https://img.shields.io/badge/backend-Node.js%20%7C%20Express%205-339933.svg)](https://nodejs.org/)
+[![Database](https://img.shields.io/badge/database-MySQL%208%20%7C%20Aiven-4479a1.svg)](https://www.mysql.com/)
+[![Deployment](https://img.shields.io/badge/deployment-Vercel%20%7C%20Render-black.svg)](https://vercel.com/)
 
-🌐 **Live:** https://synapse-os-kappa.vercel.app  
-💻 **GitHub:** https://github.com/Shubh-938croton/SynapseOS
-
----
-
-## 📖 About
-
-**SynapseOS** is a student-focused productivity platform built to bring learning, planning, study tracking, notes, tasks, academic events, coding contests, and personalization into one application.
-
-The project started as a learning and productivity idea and evolved into a deployed full-stack application with a React frontend, Node.js/Express backend, cloud-hosted MySQL database, authentication, REST APIs, and production deployment.
-
-The project is also a long-term software engineering learning journey focused on building, debugging, deploying, and improving a real application rather than only creating isolated tutorials or prototypes.
+🌐 **Live Application:** [https://synapse-os-kappa.vercel.app](https://synapse-os-kappa.vercel.app)  
+💻 **GitHub Repository:** [https://github.com/Shubh-938croton/SynapseOS](https://github.com/Shubh-938croton/SynapseOS)  
+📚 **Complete Documentation Hub:** [docs/README.md](docs/README.md)
 
 ---
 
-## 🎯 Vision
+## 📖 About SynapseOS
 
-SynapseOS aims to help students:
+**SynapseOS** is an open-source productivity operating system designed to bring deep-work focus, structured academic planning, markdown notes, task execution, coding contest tracking, and cognitive analytics into a single cohesive workspace.
 
-- 🎯 Stay focused
-- 📚 Organize their learning
-- 📝 Maintain notes
-- ✅ Manage tasks and goals
-- 📅 Manage academic and personal events
-- ⏱️ Track study sessions and focus time
-- 📊 Understand productivity and study patterns
-- 🏆 Track coding contests
-- 📚 Organize work by subject
-- ⚙️ Personalize their experience
-- 📈 Build long-term consistency
+Instead of switching between disconnected tools for tasks, timers, notes, calendar schedules, and contest tracking, SynapseOS connects everything around **Subjects** — allowing students and developers to maintain momentum, measure study velocity, and build long-term consistency.
 
 ---
 
-# ✨ Features
+## ✨ Key Features
 
-## 📊 Dashboard
-
-- Personalized dashboard
-- Study summary
-- Productivity statistics
-- Daily information
-- Dashboard analytics
-- Summary cards
-- Quick actions
-- Integrated navigation
-
-**Status:** ✅ Completed
-
----
-
-## 🔐 Authentication
-
-- User registration
-- User login
-- JWT-based authentication
-- Protected API routes
-- Authenticated API requests
-- Logout
-- Password hashing with bcrypt
-- Google authentication support through the existing backend flow
-
-**Status:** ✅ Completed
+| Module | Description | Status |
+| :--- | :--- | :---: |
+| **📊 Command Center** | Contextual greeting, study summaries, task counters, and quick actions | ✅ Production Ready |
+| **🔐 Dual Authentication** | Email/Password with bcrypt + Google OAuth 2.0 Single Sign-On | ✅ Production Ready |
+| **📚 Subject Subsystem** | Course management, custom color tags, and inline modal creation | ✅ Production Ready |
+| **✅ Task Engine** | Subject-scoped tasks with priority badges, deadlines, and filters | ✅ Production Ready |
+| **📝 Knowledge Base** | Markdown-enabled revision notes with pinning and instant search | ✅ Production Ready |
+| **🎯 Goal Tracker** | Long-term target tracking with 0–100% interactive progress meters | ✅ Production Ready |
+| **📅 Smart Calendar** | Academic milestones integrated dynamically with coding contests | ✅ Production Ready |
+| **⏱️ Deep Work Sessions** | Study session logger with automatic start/end duration computation | ✅ Production Ready |
+| **🍅 Pomodoro Engine** | 25/5/15 focus intervals, cycle timers, and session audit history | ✅ Production Ready |
+| **🏆 Contest Tracker** | LeetCode, Codeforces, CodeChef, HackerRank, and AtCoder tracking | ✅ Production Ready |
+| **📈 Visual Analytics** | Day-by-day Recharts histograms, subject distribution, and productivity score | ✅ Production Ready |
+| **🎥 YouTube Focus Hub** | Distraction-free educational search proxy and embedded player | ✅ Production Ready |
+| **👤 Profile & Settings** | Account details, password security, dark/light theme, and timer configs | ✅ Production Ready |
 
 ---
 
-## 📚 Subject Management
+## 🏗️ System Architecture
 
-Subjects provide the organizational layer for subject-dependent features.
-
-Users can:
-
-- Create/add subjects
-- View subjects
-- Edit subjects
-- Delete subjects where supported
-- Select subjects while creating related content
-
-Subject relationships are integrated with features such as notes, tasks, and study sessions.
-
-**Status:** ✅ Completed
-
----
-
-## ✅ Task Manager
-
-- Create tasks
-- View tasks
-- Update tasks
-- Delete tasks
-- Task organization
-- Priority support
-- Deadline support
-- Subject association
-
-**Status:** ✅ Completed
-
----
-
-## 📝 Notes
-
-- Create notes
-- View notes
-- Update notes
-- Delete notes
-- Subject association
-- Organized note management
-
-**Status:** ✅ Completed
-
----
-
-## 🎯 Goals
-
-- Goal creation
-- Goal updates
-- Goal tracking
-- Goal management
-
-**Status:** ✅ Completed
-
----
-
-## 📅 Calendar
-
-- Academic events
-- Assignments
-- Exams
-- Event creation
-- Event updating
-- Event deletion
-- Upcoming coding contests integrated into the calendar
-
-**Status:** ✅ Completed
-
----
-
-## 📚 Study Sessions
-
-- Create study sessions
-- Track study topics
-- Record start and end time
-- Automatically calculate session duration
-- View study sessions
-- Update study sessions
-- Delete study sessions
-- Subject association
-
-**Status:** ✅ Completed
-
----
-
-## 🍅 Pomodoro
-
-- Focus sessions
-- Short breaks
-- Long breaks
-- Configurable durations
-- Productivity-focused workflow
-
-**Status:** 🚧 Functional — settings synchronization and refinement continue
-
----
-
-## 📈 Analytics
-
-- Study analytics
-- Productivity statistics
-- Backend analytics APIs
-- Frontend analytics dashboard
-
-**Status:** ✅ Completed
-
----
-
-## 👤 Profile
-
-- View profile
-- Edit profile
-- Update username
-- Update email
-- Update full name
-- Change password
-- Password verification using bcrypt
-
-**Status:** ✅ Completed
-
----
-
-## ⚙️ Settings
-
-Interactive settings include:
-
-### Appearance
-
-- Light theme
-- Dark theme
-- Interactive theme selection
-
-### Notifications
-
-- Enable/disable notifications
-
-### Daily Study Goal
-
-- Configurable daily study goal
-- Interactive control
-- Live time representation
-
-### Pomodoro Configuration
-
-- Focus duration
-- Short break duration
-- Long break duration
-- Live Pomodoro cycle preview
-
-### Persistence
-
-- Save settings
-- Reset settings to defaults
-- Persistent settings stored in MySQL
-
-**Status:** ✅ Completed
-
----
-
-## 🏆 Coding Contest Tracker
-
-The contest module provides coding-contest tracking and connects upcoming contests with the calendar.
-
-Supported/planned contest sources include:
-
-- Codeforces
-- LeetCode
-- CodeChef
-- AtCoder
-
-**Status:** 🚧 Active development / integration refinement
-
----
-
-## 🎥 YouTube Focus Mode
-
-The YouTube module is designed as a productivity-focused learning experience.
-
-Current/ongoing work includes:
-
-- Productive video search
-- Study-focused content
-- Study playlists
-- Embedded video experience
-- Distraction-aware learning workflow
-
-**Status:** 🚧 Next major feature / active development
-
----
-
-## 💻 GitHub Integration
-
-Planned functionality:
-
-- Contribution activity
-- Repository information
-- Coding statistics
-- GitHub activity tracking
-
-**Status:** 📌 Planned
-
----
-
-# 🤖 Future AI Features
-
-Future versions of SynapseOS may include:
-
-- 🤖 AI Study Planner
-- 🔄 Smart Revision Scheduler
-- 🧠 AI Quiz Generator
-- 📝 AI Note Summarization
-- 📊 Intelligent Productivity Analysis
-- 🎯 Personalized Learning Recommendations
-
-**Status:** 📌 Future development
-
----
-
-# 🛠️ Technology Stack
-
-## Frontend
-
-- React
-- Vite
-- JavaScript
-- HTML5
-- CSS3
-- React Router
-- React Icons
-- Axios
-
-## Backend
-
-- Node.js
-- Express.js
-- JavaScript
-- REST APIs
-- JWT authentication
-- bcrypt
-- MySQL2
-
-## Database
-
-- MySQL
-- Aiven Cloud
-- Relational database design
-- Primary/foreign-key relationships
-
-## Development & Version Control
-
-- Git
-- GitHub
-- VS Code
-- PowerShell
-- Git Bash
-- npm
-
-## Deployment
-
-- **Vercel** — React/Vite frontend
-- **Render** — Node.js/Express backend
-- **Aiven** — MySQL database
-
----
-
-# 🏗️ Architecture
-
-SynapseOS follows a client-server architecture:
+SynapseOS follows a modern, cloud-native 3-tier client-server architecture:
 
 ```text
-┌──────────────────────────────┐
-│       React Frontend         │
-│          Vite                │
-│       Vercel Hosting         │
-└──────────────┬───────────────┘
-               │
-               │ HTTPS / REST API
-               ▼
-┌──────────────────────────────┐
-│       Node.js Backend        │
-│         Express.js           │
-│       Render Hosting         │
-└──────────────┬───────────────┘
-               │
-               │ SQL
-               ▼
-┌──────────────────────────────┐
-│          MySQL               │
-│        Aiven Cloud           │
-│        SynapseOS DB          │
-└──────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│                    React 19 Frontend                    │
+│    (Vite 8 • React Router v7 • Axios • Recharts)        │
+│                Hosted on Vercel Edge                    │
+└───────────────────────────┬─────────────────────────────┘
+                            │
+                            │ HTTPS / REST API
+                            │ Authorization: Bearer <JWT>
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                   Express 5 Backend                     │
+│    (Node.js • MVC Architecture • Google Auth Library)   │
+│                 Hosted on Render Cloud                  │
+└───────────────────────────┬─────────────────────────────┘
+                            │
+                            │ TLS 1.3 / MySQL Protocol
+                            │ Parameterized SQL Queries
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                 Aiven Cloud MySQL 8                     │
+│    (14 Relational Tables • Foreign Keys • Cascades)     │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend:** React 19, Vite 8, React Router DOM v7, Axios, Recharts, React Icons, React Toastify
+- **Backend:** Node.js, Express 5, MySQL2 (Connection Pool), bcrypt (Salt rounds: 10), jsonwebtoken (JWT), google-auth-library
+- **Database:** MySQL 8 (InnoDB Engine with Foreign Keys & Cascade Deletion)
+- **Hosting & Infrastructure:** Vercel (Frontend), Render (Backend), Aiven Cloud (MySQL)
+
+---
+
+## ⚡ Quick Start Guide (Local Development)
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Shubh-938croton/SynapseOS.git
+cd SynapseOS
+```
+
+### 2. Start the Backend
+```bash
+cd backend
+npm install
+cp .env.example .env    # Configure your MySQL credentials and JWT_SECRET
+npm run dev             # Starts on http://localhost:5000
+```
+
+### 3. Start the Frontend
+```bash
+cd ../frontend
+npm install
+cp .env.example .env    # Set VITE_API_URL=http://localhost:5000/api
+npm run dev             # Starts on http://localhost:5173
+```
+
+👉 *For detailed database migration steps and cloud configuration, see the **[Local Setup Guide](docs/development/setup.md)**.*
+
+---
+
+## 📚 Documentation Index
+
+Explore our comprehensive documentation suite:
+
+- **Architecture:**
+  - 🏛️ [System Architecture Overview](docs/architecture/overview.md)
+  - ⚙️ [Backend MVC Architecture](docs/architecture/backend.md)
+  - 🎨 [Frontend SPA Architecture](docs/architecture/frontend.md)
+  - 🗄️ [Database Schema & ERD](docs/architecture/database.md)
+  - 🔐 [Authentication & Security Flow](docs/architecture/authentication.md)
+  - 📚 [Subject Subsystem & Lifecycle](docs/architecture/subjects.md)
+  - 🏆 [Contests & Calendar Integration](docs/architecture/contests-calendar.md)
+- **API Reference:**
+  - 📡 [Complete REST API Specification](docs/api.md)
+- **Development & Operations:**
+  - 💻 [Local Setup Guide](docs/development/setup.md)
+  - 🛠️ [Developer Workflow & Coding Standards](docs/development/workflow.md)
+  - 🚀 [Production Deployment (Vercel, Render, Aiven)](docs/development/deployment.md)
+  - 🔍 [Troubleshooting Guide](docs/development/troubleshooting.md)
+- **Roadmap & Contributing:**
+  - 🗺️ [Project Roadmap & AI Vision](docs/roadmap.md)
+  - ✨ [Full Feature Catalog](docs/features.md)
+  - 🤝 [Contributing Guidelines](CONTRIBUTING.md)
+  - 📜 [Changelog](CHANGELOG.md)
+
+---
+
+## 🤝 Contributing
+
+Contributions are always welcome! Please read our **[Contributing Guidelines](CONTRIBUTING.md)** before submitting pull requests.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
