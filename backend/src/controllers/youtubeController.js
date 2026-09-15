@@ -82,40 +82,19 @@ const searchYouTubeVideos = async (req, res) => {
             error.message
         );
 
-
-        // ===================================
-        // YOUTUBE API ERROR
-        // ===================================
-
         if (error.response) {
-
-            return res.status(
-                error.response.status || 500
-            ).json({
-
+            const status = error.response.status || 500;
+            return res.status(status).json({
                 success: false,
-
-                message:
-                    error.response.data?.error?.message ||
-                    "YouTube API request failed"
-
+                message: status === 429 || status === 403
+                    ? "YouTube service is currently unavailable. Please try again later."
+                    : "YouTube API request failed"
             });
-
         }
 
-
-        // ===================================
-        // SERVER ERROR
-        // ===================================
-
         return res.status(500).json({
-
             success: false,
-
-            message:
-                error.message ||
-                "Failed to search YouTube videos"
-
+            message: "Failed to search YouTube videos"
         });
 
     }
@@ -183,40 +162,17 @@ const getYouTubeVideoDetails = async (req, res) => {
             error.message
         );
 
-
-        // ===================================
-        // YOUTUBE API ERROR
-        // ===================================
-
         if (error.response) {
-
-            return res.status(
-                error.response.status || 500
-            ).json({
-
+            const status = error.response.status || 500;
+            return res.status(status).json({
                 success: false,
-
-                message:
-                    error.response.data?.error?.message ||
-                    "Failed to fetch video details"
-
+                message: "Failed to fetch video details"
             });
-
         }
 
-
-        // ===================================
-        // SERVER ERROR
-        // ===================================
-
         return res.status(404).json({
-
             success: false,
-
-            message:
-                error.message ||
-                "Video not found"
-
+            message: "Video not found"
         });
 
     }

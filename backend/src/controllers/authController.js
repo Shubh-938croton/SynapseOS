@@ -43,9 +43,9 @@ const registerUser = async (req, res) => {
         authModel.findUserByEmailOrUsername(trimmedEmail, trimmedUsername, async (err, users) => {
 
             if (err) {
+                console.error("Register check user database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Registration failed. Please try again later."
                 });
             }
 
@@ -80,9 +80,9 @@ const registerUser = async (req, res) => {
             authModel.registerUser(user, (err, result) => {
 
                 if (err) {
+                    console.error("Register insert user database error:", err);
                     return res.status(500).json({
-                        message: "Registration failed",
-                        error: err.message
+                        message: "Registration failed. Please try again later."
                     });
                 }
 
@@ -97,9 +97,9 @@ const registerUser = async (req, res) => {
 
     } catch (error) {
 
+        console.error("Register user unexpected error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -130,16 +130,16 @@ const loginUser = async (req, res) => {
         authModel.findUserByEmail(trimmedEmail, async (err, users) => {
 
             if (err) {
+                console.error("Login user database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Login failed. Please try again later."
                 });
             }
 
-            // User not found
+            // User not found -> Generic 401 to prevent account enumeration
             if (!users || users.length === 0) {
-                return res.status(404).json({
-                    message: "User not found"
+                return res.status(401).json({
+                    message: "Invalid email or password"
                 });
             }
 
@@ -155,9 +155,10 @@ const loginUser = async (req, res) => {
             // Compare entered password with hashed password
             const isMatch = await bcrypt.compare(password, user.password_hash);
 
+            // Invalid password -> Generic 401 to prevent account enumeration
             if (!isMatch) {
                 return res.status(401).json({
-                    message: "Invalid password"
+                    message: "Invalid email or password"
                 });
             }
 
@@ -190,9 +191,9 @@ const loginUser = async (req, res) => {
 
     } catch (error) {
 
+        console.error("Login user unexpected error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -274,9 +275,9 @@ const googleLogin = async (req, res) => {
         authModel.findUserByEmail(email, async (err, users) => {
 
             if (err) {
+                console.error("Google login check user database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Google authentication failed"
                 });
             }
 
@@ -322,6 +323,10 @@ const googleLogin = async (req, res) => {
             // Ensure username uniqueness
             authModel.findUserByUsername(baseUsername, async (uErr, existingUsernames) => {
 
+                if (uErr) {
+                    console.error("Google login find username error:", uErr);
+                }
+
                 let finalUsername = baseUsername;
 
                 if (existingUsernames && existingUsernames.length > 0) {
@@ -343,9 +348,9 @@ const googleLogin = async (req, res) => {
                 authModel.registerGoogleUser(newUserData, (regErr, result) => {
 
                     if (regErr) {
+                        console.error("Google register user error:", regErr);
                         return res.status(500).json({
-                            message: "Failed to create Google user account",
-                            error: regErr.message
+                            message: "Failed to create Google user account"
                         });
                     }
 
@@ -386,8 +391,7 @@ const googleLogin = async (req, res) => {
         console.error("Google authentication error:", error);
 
         return res.status(500).json({
-            message: "Google authentication failed",
-            error: error.message
+            message: "Google authentication failed"
         });
 
     }

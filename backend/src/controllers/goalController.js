@@ -138,10 +138,7 @@ const createGoal = (req, res) => {
                     );
 
                     return res.status(500).json({
-                        message:
-                            "Failed to create goal",
-                        error:
-                            err.message
+                        message: "Failed to create goal"
                     });
 
                 }
@@ -168,13 +165,7 @@ const createGoal = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -206,13 +197,7 @@ const getAllGoals = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Failed to fetch goals",
-
-                        error:
-                            err.message
-
+                        message: "Failed to fetch goals"
                     });
 
                 }
@@ -224,7 +209,7 @@ const getAllGoals = (req, res) => {
                         "Goals fetched successfully",
 
                     goals:
-                        goals
+                        goals || []
 
                 });
 
@@ -239,13 +224,7 @@ const getAllGoals = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -281,13 +260,7 @@ const getGoalById = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Failed to fetch goal",
-
-                        error:
-                            err.message
-
+                        message: "Failed to fetch goal"
                     });
 
                 }
@@ -329,13 +302,7 @@ const getGoalById = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -499,13 +466,7 @@ const updateGoal = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Failed to update goal",
-
-                        error:
-                            err.message
-
+                        message: "Failed to update goal"
                     });
 
                 }
@@ -543,13 +504,7 @@ const updateGoal = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -585,13 +540,7 @@ const deleteGoal = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Failed to delete goal",
-
-                        error:
-                            err.message
-
+                        message: "Failed to delete goal"
                     });
 
                 }
@@ -629,13 +578,7 @@ const deleteGoal = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }

@@ -160,13 +160,7 @@ const createPomodoroSession = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Database error",
-
-                        error:
-                            err.message
-
+                        message: "Failed to create Pomodoro session"
                     });
 
                 }
@@ -196,13 +190,7 @@ const createPomodoroSession = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -234,13 +222,7 @@ const getAllPomodoroSessions = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Database error",
-
-                        error:
-                            err.message
-
+                        message: "Failed to fetch Pomodoro sessions"
                     });
 
                 }
@@ -261,14 +243,9 @@ const getAllPomodoroSessions = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get all Pomodoro sessions controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -304,13 +281,7 @@ const getPomodoroSessionById = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Database error",
-
-                        error:
-                            err.message
-
+                        message: "Failed to fetch Pomodoro session"
                     });
 
                 }
@@ -346,14 +317,9 @@ const getPomodoroSessionById = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get Pomodoro session by ID controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -547,13 +513,7 @@ const updatePomodoroSession = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Database error",
-
-                        error:
-                            err.message
-
+                        message: "Failed to update Pomodoro session"
                     });
 
                 }
@@ -591,13 +551,7 @@ const updatePomodoroSession = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -633,13 +587,7 @@ const deletePomodoroSession = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Database error",
-
-                        error:
-                            err.message
-
+                        message: "Failed to delete Pomodoro session"
                     });
 
                 }
@@ -671,14 +619,9 @@ const deletePomodoroSession = (req, res) => {
 
     } catch (error) {
 
+        console.error("Delete Pomodoro session controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }

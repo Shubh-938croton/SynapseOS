@@ -57,8 +57,7 @@ const createNote = (req, res) => {
                     );
 
                     return res.status(500).json({
-                        message: "Database error",
-                        error: err.message
+                        message: "Failed to create note"
                     });
 
                 }
@@ -114,8 +113,7 @@ const createNote = (req, res) => {
                             );
 
                             return res.status(500).json({
-                                message: "Failed to create note",
-                                error: err.message
+                                message: "Failed to create note"
                             });
 
                         }
@@ -145,13 +143,7 @@ const createNote = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -182,8 +174,7 @@ const getAllNotes = (req, res) => {
                     );
 
                     return res.status(500).json({
-                        message: "Failed to fetch notes",
-                        error: err.message
+                        message: "Failed to fetch notes"
                     });
 
                 }
@@ -213,13 +204,7 @@ const getAllNotes = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -262,8 +247,7 @@ const getNoteById = (req, res) => {
                     );
 
                     return res.status(500).json({
-                        message: "Failed to fetch note",
-                        error: err.message
+                        message: "Failed to fetch note"
                     });
 
                 }
@@ -302,13 +286,7 @@ const getNoteById = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -384,8 +362,7 @@ const updateNote = (req, res) => {
                     );
 
                     return res.status(500).json({
-                        message: "Database error",
-                        error: err.message
+                        message: "Failed to update note"
                     });
 
                 }
@@ -446,9 +423,7 @@ const updateNote = (req, res) => {
 
                             return res.status(500).json({
                                 message:
-                                    "Failed to update note",
-                                error:
-                                    err.message
+                                    "Failed to update note"
                             });
 
                         }
@@ -488,13 +463,7 @@ const updateNote = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -538,9 +507,7 @@ const deleteNote = (req, res) => {
 
                     return res.status(500).json({
                         message:
-                            "Failed to delete note",
-                        error:
-                            err.message
+                            "Failed to delete note"
                     });
 
                 }
@@ -577,13 +544,7 @@ const deleteNote = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }

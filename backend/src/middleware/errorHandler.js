@@ -5,8 +5,17 @@
 const errorHandler = (err, req, res, next) => {
     console.error("❌ Unhandled Error:", err.stack || err.message || err);
 
+    if (err.message === "Not allowed by CORS") {
+        return res.status(403).json({
+            success: false,
+            message: "Not allowed by CORS"
+        });
+    }
+
     const statusCode = err.statusCode || err.status || 500;
-    const message = err.message || "Internal Server Error";
+    const message = statusCode >= 500
+        ? "Internal Server Error"
+        : (err.message || "An error occurred");
 
     res.status(statusCode).json({
         success: false,

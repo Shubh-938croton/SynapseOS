@@ -13,9 +13,9 @@ const getDashboardSummary = (req, res) => {
         dashboardModel.getDashboardSummary(userId, (err, summary) => {
 
             if (err) {
+                console.error("Get dashboard summary database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch dashboard summary"
                 });
             }
 
@@ -28,9 +28,9 @@ const getDashboardSummary = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get dashboard summary controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -51,9 +51,9 @@ const getSubjectAnalytics = (req, res) => {
         dashboardModel.getSubjectAnalytics(userId, (err, analytics) => {
 
             if (err) {
+                console.error("Get subject analytics database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch subject analytics"
                 });
             }
 
@@ -66,9 +66,9 @@ const getSubjectAnalytics = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get subject analytics controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -89,9 +89,9 @@ const getWeeklyAnalytics = (req, res) => {
         dashboardModel.getWeeklyAnalytics(userId, (err, analytics) => {
 
             if (err) {
+                console.error("Get weekly analytics database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch weekly analytics"
                 });
             }
 
@@ -104,9 +104,9 @@ const getWeeklyAnalytics = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get weekly analytics controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -126,9 +126,9 @@ const getGoalAnalytics = (req, res) => {
         dashboardModel.getGoalAnalytics(userId, (err, analytics) => {
 
             if (err) {
+                console.error("Get goal analytics database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch goal analytics"
                 });
             }
 
@@ -141,9 +141,9 @@ const getGoalAnalytics = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get goal analytics controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -164,9 +164,9 @@ const getPomodoroAnalytics = (req, res) => {
         dashboardModel.getPomodoroAnalytics(userId, (err, analytics) => {
 
             if (err) {
+                console.error("Get pomodoro analytics database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch pomodoro analytics"
                 });
             }
 
@@ -179,9 +179,9 @@ const getPomodoroAnalytics = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get pomodoro analytics controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -201,9 +201,9 @@ const getProductivityScore = (req, res) => {
         dashboardModel.getProductivityScore(userId, (err, productivity) => {
 
             if (err) {
+                console.error("Get productivity score database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to calculate productivity score"
                 });
             }
 
@@ -216,9 +216,9 @@ const getProductivityScore = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get productivity score controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }

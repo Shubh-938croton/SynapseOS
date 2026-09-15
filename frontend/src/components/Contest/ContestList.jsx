@@ -760,7 +760,7 @@ function ContestList() {
                                                         contest.contest_url
                                                     }
                                                     target="_blank"
-                                                    rel="noreferrer"
+                                                    rel="noopener noreferrer"
                                                     className="contest-open-button"
                                                 >
                                                     Open Contest ↗

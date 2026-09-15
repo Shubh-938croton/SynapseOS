@@ -188,31 +188,91 @@ During a comprehensive inspection of the SynapseOS codebase, several critical bu
 
 ---
 
+## 12. Security Remediation — Phase 1
+
+* **Category:** Security Hardening & Vulnerability Mitigation
+* **Date:** September 2026
+* **Status:** Resolved & Verified
+* **Scope:** Rate Limiting, HTTP Security Headers, Account Enumeration, Error Sanitization, URL Scheme Validation, CORS Hardening, Dependency Fixes
+
+### Overview of Phase 1 Remediations
+
+Following the comprehensive SynapseOS security audit, a targeted Phase 1 security remediation was implemented across the backend server and frontend client:
+
+1. **Express Rate Limiting:**
+   - Integrated `express-rate-limit` middleware in `backend/src/middleware/rateLimiter.js`.
+   - Applied `authRateLimiter` (15 requests per 15 minutes window) to sensitive authentication endpoints:
+     - `POST /api/auth/login`
+     - `POST /api/auth/register`
+     - `POST /api/auth/google`
+   - Applied `youtubeRateLimiter` (60 requests per 15 minutes window) to external API proxy endpoints:
+     - `GET /api/youtube/search`
+     - `GET /api/youtube/video/:id`
+   - Configured custom HTTP 429 JSON response: `{ "message": "Too many requests. Please try again later." }`.
+   - Kept `/health` unrestricted for cloud health probes.
+
+2. **HTTP Security Headers & Server Fingerprint Obfuscation:**
+   - Integrated `helmet` middleware in `backend/src/app.js` with cross-origin policies configured for Google OAuth popups (`crossOriginResourcePolicy: { policy: "cross-origin" }`, `crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }`).
+   - Disabled Express server fingerprinting via `app.disable("x-powered-by")`.
+   - Verified headers returned: `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Strict-Transport-Security`.
+
+3. **CORS Hardening:**
+   - Updated `backend/src/app.js` CORS configuration to disallow wildcard `*` reflection when `credentials: true` is enabled.
+   - Enforced strict origin matching against configured whitelist (`CORS_ORIGIN`).
+   - Updated global error handler `backend/src/middleware/errorHandler.js` to return a clean `403 Forbidden` (`{ "error": "CORS request rejected: Origin not allowed" }`) when unauthorized origins attempt access.
+
+4. **Login Account Enumeration Protection:**
+   - Modified `backend/src/controllers/authController.js` `loginUser` method to return uniform `HTTP 401 Unauthorized` with `{ "message": "Invalid email or password" }` regardless of whether the email is unregistered or the password is incorrect.
+   - Eliminates username/email enumeration vulnerabilities.
+
+5. **Controller 500 Error Sanitization:**
+   - Standardized error handling across all 15 backend controllers:
+     - `authController.js`, `userController.js`, `subjectController.js`, `taskController.js`, `noteController.js`, `calendarController.js`, `goalController.js`, `studySessionController.js`, `pomodoroController.js`, `contestController.js`, `dashboardController.js`, `analyticsController.js`, `notificationController.js`, `settingsController.js`, `youtubeController.js`.
+   - Eliminated leaking internal database error messages, raw SQL queries, and stack traces (`error: err.message`) to clients.
+   - Preserved `console.error` server-side logging for debugging and cloud monitoring.
+
+6. **Contest URL Protocol Validation & Target Blank Hardening:**
+   - Added regex and URL protocol validation (`^https?://`) in `backend/src/controllers/contestController.js` (`isValidContestUrl`).
+   - Added frontend validation in `frontend/src/components/Contest/AddContestModal.jsx` before dispatching requests.
+   - Verified `rel="noopener noreferrer"` attribute on external links in `frontend/src/components/Contest/ContestList.jsx` to prevent tab-nabbing and reverse tab-jacking.
+
+7. **Frontend Transitive Dependency Vulnerability Mitigation:**
+   - Executed `npm audit fix` in `frontend/` to upgrade `nanoid` from `3.3.17` to `3.3.19` (resolving DoS advisory `GHSA-2v37-7h3g-55p8`).
+   - Confirmed 0 remaining vulnerabilities in frontend and backend dependency trees.
+   - Verified clean production build (`npm run build`).
+
+8. **Token Lifecycle & HttpOnly Cookie Migration Documentation:**
+   - Documented token generation, expiration (`JWT_EXPIRES_IN`), authorization bearer transmission, client state synchronization, and the step-by-step roadmap for migrating from `localStorage` to `HttpOnly` / `SameSite=Strict` cookies in `docs/architecture/authentication.md`.
+
+---
+
 ## Summary of Modified & Created Files
 
 | File | Type | Changes |
 | :--- | :--- | :--- |
-| `backend/src/config/database.js` | Modify | Upgraded to `mysql.createPool` |
-| `backend/src/models/studySessionModel.js` | Modify | Flexible arguments support for session creation/updates |
-| `backend/src/controllers/studySessionController.js` | Modify | Parameter handling aligned with model |
-| `backend/src/models/taskModel.js` | Modify | Added `user_id` query scoping to task retrieval/updates/deletions |
-| `backend/src/controllers/taskController.js` | Modify | Passed authenticated `user_id` to task model |
-| `backend/src/middleware/errorHandler.js` | Modify | Implemented standard Express error handler |
-| `backend/src/app.js` | Modify | Mounted global error handler |
-| `backend/src/models/authModel.js` | Modify | Added `registerGoogleUser` and `findUserByUsername` |
-| `backend/src/controllers/authController.js` | Modify | Added `googleLogin` supporting ID & Access token verification |
-| `backend/src/routes/authRoutes.js` | Modify | Mounted `POST /api/auth/google` route |
-| `backend/.env.example` | New | Environment variable template for backend |
-| `frontend/src/pages/StudySessions/StudySessions.jsx` | Modify | Fixed `topic` and `session_notes` field mapping |
-| `frontend/src/pages/Dashboard/Dashboard.jsx` | Modify | Fixed `Summarycard` import casing |
-| `frontend/src/pages/Contests/Contests.jsx` | Modify | Fixed `AddContestModal` & `Contest.css` imports and modal props |
-| `frontend/src/pages/Contests/Contest.css` | Modify | Added full styles for contest page elements |
-| `frontend/src/routes/AppRoutes.jsx` | Modify | Mounted `Contests` page on `/contests` |
-| `frontend/src/components/Sidebar/Sidebar.jsx` | Modify | Switched to `<NavLink>` and added Contests link |
-| `frontend/src/pages/Register/Register.jsx` | Modify | Implemented complete Register page with validation & Google SSO |
-| `frontend/src/pages/Login/Login.jsx` | Modify | Connected Google SSO with active loading states |
-| `frontend/src/services/googleAuth.js` | New | Google Identity Services (GIS) loader and popup client |
-| `frontend/src/styles/theme.css` | Modify | Centralized Obsidian Dark SaaS design token system |
-| `frontend/.env.example` | New | Environment variable template for frontend |
-| `docs/bug-fixes.md` | Modify | Comprehensive bug diagnostic and fix documentation |
+| `backend/package.json` | Modify | Added `express-rate-limit` and `helmet` dependencies |
+| `backend/src/middleware/rateLimiter.js` | New | Rate limiting middleware for auth (15/15m) and YouTube (60/15m) |
+| `backend/src/app.js` | Modify | Added Helmet, disabled `x-powered-by`, hardened CORS, attached rate limiters |
+| `backend/src/middleware/errorHandler.js` | Modify | Added CORS rejection handling (403) and sanitized 500 responses |
+| `backend/src/controllers/authController.js` | Modify | Unified 401 login error responses and sanitized catch blocks |
+| `backend/src/controllers/userController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/subjectController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/taskController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/noteController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/calendarController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/goalController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/studySessionController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/pomodoroController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/contestController.js` | Modify | Added `isValidContestUrl` protocol validation & sanitized errors |
+| `backend/src/controllers/dashboardController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/analyticsController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/notificationController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/settingsController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/youtubeController.js` | Modify | Sanitized 500 error responses |
+| `frontend/src/components/Contest/AddContestModal.jsx` | Modify | Enforced `http:`/`https:` protocol validation before submit |
+| `frontend/src/components/Contest/ContestList.jsx` | Modify | Verified `rel="noopener noreferrer"` on external link targets |
+| `frontend/package-lock.json` | Modify | Upgraded `nanoid` to 3.3.19 (0 vulnerabilities) |
+| `docs/bug-fixes.md` | Modify | Documented Phase 1 Security Remediations and audit fixes |
+| `docs/security-audit.md` | Modify | Updated vulnerability findings matrix to reflect Phase 1 resolutions |
+| `docs/architecture/authentication.md` | Modify | Documented token lifecycle and HttpOnly cookie migration path |
 

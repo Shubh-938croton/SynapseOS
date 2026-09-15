@@ -17,10 +17,9 @@ const getUserProfile = (req, res) => {
             (err, results) => {
 
                 if (err) {
-
+                    console.error("Get user profile database error:", err);
                     return res.status(500).json({
-                        message: "Database error",
-                        error: err.message
+                        message: "Failed to fetch user profile"
                     });
 
                 }
@@ -47,12 +46,9 @@ const getUserProfile = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get user profile unexpected error:", error);
         return res.status(500).json({
-
-            message: "Internal server error",
-
-            error: error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -112,13 +108,9 @@ const updateProfile = (req, res) => {
             (err, users) => {
 
                 if (err) {
-
+                    console.error("Update profile check duplicate error:", err);
                     return res.status(500).json({
-
-                        message: "Database error",
-
-                        error: err.message
-
+                        message: "Failed to update profile"
                     });
 
                 }
@@ -195,15 +187,9 @@ const updateProfile = (req, res) => {
                     (err, result) => {
 
                         if (err) {
-
+                            console.error("Update profile database error:", err);
                             return res.status(500).json({
-
-                                message:
-                                    "Failed to update profile",
-
-                                error:
-                                    err.message
-
+                                message: "Failed to update profile"
                             });
 
                         }
@@ -240,14 +226,9 @@ const updateProfile = (req, res) => {
 
     } catch (error) {
 
+        console.error("Update profile unexpected error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -295,9 +276,9 @@ const changePassword = async (req, res) => {
             userId,
             async (err, users) => {
                 if (err) {
+                    console.error("Change password find user error:", err);
                     return res.status(500).json({
-                        message: "Database error",
-                        error: err.message
+                        message: "Failed to change password"
                     });
                 }
 
@@ -360,15 +341,9 @@ const changePassword = async (req, res) => {
                     (err, result) => {
 
                         if (err) {
-
+                            console.error("Change password database error:", err);
                             return res.status(500).json({
-
-                                message:
-                                    "Failed to update password",
-
-                                error:
-                                    err.message
-
+                                message: "Failed to update password"
                             });
 
                         }
@@ -391,14 +366,9 @@ const changePassword = async (req, res) => {
 
     } catch (error) {
 
+        console.error("Change password unexpected error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }

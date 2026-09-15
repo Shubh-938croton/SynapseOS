@@ -31,9 +31,9 @@ const createSubject = (req, res) => {
         subjectModel.createSubject(subject, (err, result) => {
 
             if (err) {
+                console.error("Create subject database error:", err);
                 return res.status(500).json({
-                    message: "Failed to create subject",
-                    error: err.message
+                    message: "Failed to create subject"
                 });
             }
 
@@ -53,9 +53,9 @@ const createSubject = (req, res) => {
 
     } catch (error) {
 
+        console.error("Create subject controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -72,24 +72,24 @@ const getAllSubjects = (req, res) => {
         subjectModel.getAllSubjects(userId, (err, subjects) => {
 
             if (err) {
+                console.error("Get all subjects database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch subjects"
                 });
             }
 
             return res.status(200).json({
                 count: subjects.length,
-                subjects
+                subjects: subjects || []
             });
 
         });
 
     } catch (error) {
 
+        console.error("Get all subjects controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -107,9 +107,9 @@ const getSubjectById = (req, res) => {
         subjectModel.getSubjectById(userId, subjectId, (err, results) => {
 
             if (err) {
+                console.error("Get subject by ID database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch subject"
                 });
             }
 
@@ -125,9 +125,9 @@ const getSubjectById = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get subject by ID controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -167,9 +167,9 @@ const updateSubject = (req, res) => {
             (err, result) => {
 
                 if (err) {
+                    console.error("Update subject database error:", err);
                     return res.status(500).json({
-                        message: "Database error",
-                        error: err.message
+                        message: "Failed to update subject"
                     });
                 }
 
@@ -188,9 +188,9 @@ const updateSubject = (req, res) => {
 
     } catch (error) {
 
+        console.error("Update subject controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -208,9 +208,9 @@ const deleteSubject = (req, res) => {
         subjectModel.deleteSubject(userId, subjectId, (err, result) => {
 
             if (err) {
+                console.error("Delete subject database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to delete subject"
                 });
             }
 
@@ -228,9 +228,9 @@ const deleteSubject = (req, res) => {
 
     } catch (error) {
 
+        console.error("Delete subject controller error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }

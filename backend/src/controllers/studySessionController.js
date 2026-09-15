@@ -53,9 +53,9 @@ const createStudySession = (req, res) => {
         studySessionModel.createStudySession(session, (err, result) => {
 
             if (err) {
+                console.error("Create study session database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to create study session"
                 });
             }
 
@@ -68,9 +68,9 @@ const createStudySession = (req, res) => {
 
     } catch (error) {
 
+        console.error("Create study session unexpected error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -89,24 +89,24 @@ const getAllStudySessions = (req, res) => {
         studySessionModel.getAllStudySessions(userId, (err, sessions) => {
 
             if (err) {
+                console.error("Get all study sessions database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch study sessions"
                 });
             }
 
             return res.status(200).json({
                 message: "Study sessions fetched successfully",
-                sessions
+                sessions: sessions || []
             });
 
         });
 
     } catch (error) {
 
+        console.error("Get all study sessions unexpected error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -126,13 +126,13 @@ const getStudySessionById = (req, res) => {
         studySessionModel.getStudySessionById(userId, sessionId, (err, sessions) => {
 
             if (err) {
+                console.error("Get study session by ID database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch study session"
                 });
             }
 
-            if (sessions.length === 0) {
+            if (!sessions || sessions.length === 0) {
                 return res.status(404).json({
                     message: "Study session not found"
                 });
@@ -147,9 +147,9 @@ const getStudySessionById = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get study session by ID unexpected error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -233,8 +233,7 @@ const updateStudySession = (req, res) => {
                     );
 
                     return res.status(500).json({
-                        message: "Database error",
-                        error: err.message
+                        message: "Failed to update study session"
                     });
 
                 }
@@ -270,13 +269,7 @@ const updateStudySession = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -296,9 +289,9 @@ const deleteStudySession = (req, res) => {
         studySessionModel.deleteStudySession(userId, sessionId, (err, result) => {
 
             if (err) {
+                console.error("Delete study session database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to delete study session"
                 });
             }
 
@@ -316,9 +309,9 @@ const deleteStudySession = (req, res) => {
 
     } catch (error) {
 
+        console.error("Delete study session unexpected error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }

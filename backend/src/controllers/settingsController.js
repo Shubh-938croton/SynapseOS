@@ -12,9 +12,9 @@ const getSettings = (req, res) => {
         settingsModel.getSettings(userId, (err, settings) => {
 
             if (err) {
+                console.error("Get settings database error:", err);
                 return res.status(500).json({
-                    message: "Database error",
-                    error: err.message
+                    message: "Failed to fetch settings"
                 });
             }
 
@@ -28,9 +28,9 @@ const getSettings = (req, res) => {
                     (err, result) => {
 
                         if (err) {
+                            console.error("Create default settings error:", err);
                             return res.status(500).json({
-                                message: "Failed to create default settings",
-                                error: err.message
+                                message: "Failed to create default settings"
                             });
                         }
 
@@ -40,9 +40,9 @@ const getSettings = (req, res) => {
                             (err, newSettings) => {
 
                                 if (err) {
+                                    console.error("Fetch new settings error:", err);
                                     return res.status(500).json({
-                                        message: "Failed to fetch settings",
-                                        error: err.message
+                                        message: "Failed to fetch settings"
                                     });
                                 }
 
@@ -72,9 +72,9 @@ const getSettings = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get settings unexpected error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -181,9 +181,9 @@ const updateSettings = (req, res) => {
 
                 if (err) {
 
+                    console.error("Update settings database error:", err);
                     return res.status(500).json({
-                        message: "Failed to update settings",
-                        error: err.message
+                        message: "Failed to update settings"
                     });
 
                 }
@@ -205,9 +205,9 @@ const updateSettings = (req, res) => {
 
     } catch (error) {
 
+        console.error("Update settings unexpected error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }
@@ -229,9 +229,9 @@ const deleteSettings = (req, res) => {
             (err, result) => {
 
                 if (err) {
+                    console.error("Delete settings database error:", err);
                     return res.status(500).json({
-                        message: "Database error",
-                        error: err.message
+                        message: "Failed to delete settings"
                     });
                 }
 
@@ -250,9 +250,9 @@ const deleteSettings = (req, res) => {
 
     } catch (error) {
 
+        console.error("Delete settings unexpected error:", error);
         return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
+            message: "Internal server error"
         });
 
     }

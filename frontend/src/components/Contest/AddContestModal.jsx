@@ -216,14 +216,21 @@ function AddContestModal({
 
             try {
 
-                new URL(
+                const parsedUrl = new URL(
                     formData.contest_url.trim()
                 );
+
+                if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+                    setError(
+                        "Contest URL must begin with http:// or https://"
+                    );
+                    return false;
+                }
 
             } catch {
 
                 setError(
-                    "Please enter a valid contest URL."
+                    "Please enter a valid contest URL (e.g. https://leetcode.com/contest/...)."
                 );
 
                 return false;

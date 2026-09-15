@@ -93,13 +93,7 @@ const createEvent = (req, res) => {
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Failed to create event",
-
-                        error:
-                            err.message
-
+                        message: "Failed to create event"
                     });
 
                 }
@@ -127,13 +121,7 @@ const createEvent = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -159,14 +147,9 @@ const getAllEvents = (req, res) => {
 
                 if (err) {
 
+                    console.error("Get all events database error:", err);
                     return res.status(500).json({
-
-                        message:
-                            "Failed to fetch events",
-
-                        error:
-                            err.message
-
+                        message: "Failed to fetch events"
                     });
 
                 }
@@ -175,9 +158,10 @@ const getAllEvents = (req, res) => {
                 return res.status(200).json({
 
                     count:
-                        events.length,
+                        events ? events.length : 0,
 
-                    events
+                    events:
+                        events || []
 
                 });
 
@@ -187,14 +171,9 @@ const getAllEvents = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get all events controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -224,20 +203,15 @@ const getEventById = (req, res) => {
 
                 if (err) {
 
+                    console.error("Get event by ID database error:", err);
                     return res.status(500).json({
-
-                        message:
-                            "Failed to fetch event",
-
-                        error:
-                            err.message
-
+                        message: "Failed to fetch event"
                     });
 
                 }
 
 
-                if (events.length === 0) {
+                if (!events || events.length === 0) {
 
                     return res.status(404).json({
 
@@ -262,14 +236,9 @@ const getEventById = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get event by ID controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -364,14 +333,9 @@ const updateEvent = (req, res) => {
 
                 if (err) {
 
+                    console.error("Update event database error:", err);
                     return res.status(500).json({
-
-                        message:
-                            "Failed to update event",
-
-                        error:
-                            err.message
-
+                        message: "Failed to update event"
                     });
 
                 }
@@ -402,14 +366,9 @@ const updateEvent = (req, res) => {
 
     } catch (error) {
 
+        console.error("Update event controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -439,14 +398,9 @@ const deleteEvent = (req, res) => {
 
                 if (err) {
 
+                    console.error("Delete event database error:", err);
                     return res.status(500).json({
-
-                        message:
-                            "Failed to delete event",
-
-                        error:
-                            err.message
-
+                        message: "Failed to delete event"
                     });
 
                 }
@@ -477,14 +431,9 @@ const deleteEvent = (req, res) => {
 
     } catch (error) {
 
+        console.error("Delete event controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }

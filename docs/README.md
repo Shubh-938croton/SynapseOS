@@ -31,6 +31,7 @@ Learn how SynapseOS is architected across client, server, and cloud infrastructu
 - **[Developer Workflow & Contribution Standards](./development/workflow.md)** — How to safely add features, modify database models, write endpoints, and maintain coding consistency.
 - **[Deployment & Production Operations](./development/deployment.md)** — Deploying the frontend to Vercel, backend to Render, configuring Aiven Cloud MySQL with TLS/SSL, and managing CORS.
 - **[Troubleshooting Guide](./development/troubleshooting.md)** — Real-world solutions for CORS mismatches, Aiven SSL connection errors, port conflicts, date timezone offsets, and token expiration.
+- **[Security Audit Report](./security-audit.md)** — Complete security evaluation, vulnerability assessment, endpoint security matrix, and remediation plan.
 
 ---
 

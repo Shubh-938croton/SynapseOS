@@ -402,11 +402,7 @@ const getAnalytics = async (req, res) => {
         );
 
         return res.status(500).json({
-
-            message: "Failed to fetch analytics",
-
-            error: err.message
-
+            message: "Failed to fetch analytics"
         });
 
     }

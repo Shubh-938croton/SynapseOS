@@ -22,6 +22,23 @@ const allowedStatuses = [
 
 
 // =========================
+// HELPER: VALIDATE CONTEST URL
+// =========================
+
+const isValidContestUrl = (url) => {
+    if (!url || !url.trim()) return true;
+    const trimmed = url.trim();
+    if (!/^https?:\/\//i.test(trimmed)) return false;
+    try {
+        const parsed = new URL(trimmed);
+        return parsed.protocol === "http:" || parsed.protocol === "https:";
+    } catch {
+        return false;
+    }
+};
+
+
+// =========================
 // CREATE CONTEST
 // =========================
 
@@ -108,6 +125,19 @@ const createContest = (req, res) => {
 
 
         // -------------------------
+        // Validate contest URL
+        // -------------------------
+
+        if (contest_url && !isValidContestUrl(contest_url)) {
+
+            return res.status(400).json({
+                message: "Contest URL must be a valid HTTP or HTTPS URL"
+            });
+
+        }
+
+
+        // -------------------------
         // Create contest object
         // -------------------------
 
@@ -142,18 +172,12 @@ const createContest = (req, res) => {
                 if (err) {
 
                     console.error(
-                        "Create contest error:",
+                        "Create contest database error:",
                         err
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Failed to create contest",
-
-                        error:
-                            err.message
-
+                        message: "Failed to create contest"
                     });
 
                 }
@@ -180,13 +204,7 @@ const createContest = (req, res) => {
         );
 
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -212,14 +230,9 @@ const getAllContests = (req, res) => {
 
                 if (err) {
 
+                    console.error("Get all contests database error:", err);
                     return res.status(500).json({
-
-                        message:
-                            "Failed to fetch contests",
-
-                        error:
-                            err.message
-
+                        message: "Failed to fetch contests"
                     });
 
                 }
@@ -231,7 +244,7 @@ const getAllContests = (req, res) => {
                         "Contests fetched successfully",
 
                     count:
-                        contests.length,
+                        contests ? contests.length : 0,
 
                     contests:
                         contests || []
@@ -243,14 +256,9 @@ const getAllContests = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get all contests controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -280,14 +288,9 @@ const getContestById = (req, res) => {
 
                 if (err) {
 
+                    console.error("Get contest by ID database error:", err);
                     return res.status(500).json({
-
-                        message:
-                            "Failed to fetch contest",
-
-                        error:
-                            err.message
-
+                        message: "Failed to fetch contest"
                     });
 
                 }
@@ -323,14 +326,9 @@ const getContestById = (req, res) => {
 
     } catch (error) {
 
+        console.error("Get contest by ID controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -445,6 +443,19 @@ const updateContest = (req, res) => {
 
 
         // -------------------------
+        // Validate contest URL
+        // -------------------------
+
+        if (contest_url && !isValidContestUrl(contest_url)) {
+
+            return res.status(400).json({
+                message: "Contest URL must be a valid HTTP or HTTPS URL"
+            });
+
+        }
+
+
+        // -------------------------
         // Update contest object
         // -------------------------
 
@@ -479,18 +490,12 @@ const updateContest = (req, res) => {
                 if (err) {
 
                     console.error(
-                        "Update contest error:",
+                        "Update contest database error:",
                         err
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Failed to update contest",
-
-                        error:
-                            err.message
-
+                        message: "Failed to update contest"
                     });
 
                 }
@@ -522,14 +527,9 @@ const updateContest = (req, res) => {
 
     } catch (error) {
 
+        console.error("Update contest controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }
@@ -560,18 +560,12 @@ const deleteContest = (req, res) => {
                 if (err) {
 
                     console.error(
-                        "Delete contest error:",
+                        "Delete contest database error:",
                         err
                     );
 
                     return res.status(500).json({
-
-                        message:
-                            "Failed to delete contest",
-
-                        error:
-                            err.message
-
+                        message: "Failed to delete contest"
                     });
 
                 }
@@ -603,14 +597,9 @@ const deleteContest = (req, res) => {
 
     } catch (error) {
 
+        console.error("Delete contest controller error:", error);
         return res.status(500).json({
-
-            message:
-                "Internal server error",
-
-            error:
-                error.message
-
+            message: "Internal server error"
         });
 
     }

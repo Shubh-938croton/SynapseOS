@@ -156,6 +156,41 @@ function ProtectedRoute({ children }) {
 ### 3. Automatic Token Injection (`services/api.js`)
 Axios interceptor attaches the bearer token to all outgoing requests without needing manual header configuration inside page components.
 
+### 4. Complete Token Lifecycle
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                             TOKEN LIFECYCLE                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+  1. ISSUANCE:
+     User logs in (Email/Password or Google SSO).
+     Backend signs JWT with payload { userId, email }, secret JWT_SECRET,
+     and expiry from JWT_EXPIRES_IN (default: 7d).
+
+  2. STORAGE:
+     Frontend receives token in response body: { token, user }.
+     Persisted in browser localStorage under key "token".
+
+  3. TRANSMISSION:
+     On every Axios request, request interceptor reads token from localStorage
+     and injects header: Authorization: Bearer <token>.
+
+  4. VERIFICATION:
+     Express authMiddleware intercepts request, verifies signature and expiry
+     using jwt.verify(token, JWT_SECRET).
+     - Valid: Populates req.user = { userId, email } and calls next().
+     - Invalid / Expired: Rejects with HTTP 403 Forbidden.
+     - Missing: Rejects with HTTP 401 Unauthorized.
+
+  5. SCOPED QUERY EXECUTION:
+     Controllers consume req.user.userId directly, executing parameterized SQL:
+     WHERE user_id = ?
+
+  6. INVALIDATION / LOGOUT:
+     Client removes "token" and "user" from localStorage and resets AuthContext.
+     Subsequent client requests fail fast on ProtectedRoute.
+```
+
 ---
 
 ## 5. Security & Isolation Guarantee
@@ -163,3 +198,42 @@ Axios interceptor attaches the bearer token to all outgoing requests without nee
 1. **Multi-Tenant Data Isolation:** Controllers never accept `userId` from request bodies. The `userId` is strictly extracted from `req.user.userId` (decoded from the verified JWT) and injected into SQL queries (`WHERE user_id = ?`).
 2. **Password Invariant:** The database schema enforces `password_hash NOT NULL`. Google OAuth users receive a cryptographically generated 32-character random string hashed with bcrypt, ensuring schema integrity while disabling standard password login until an explicit password is set.
 3. **No Secret Logging:** Server logs never print raw JWT secrets, passwords, or database credentials.
+4. **Rate Limiting Protection:** `authRateLimiter` restricts authentication endpoints (`/api/auth/login`, `/api/auth/register`, `/api/auth/google`) to 15 requests per 15 minutes per IP.
+5. **Account Enumeration Defense:** Failed logins uniformly return `401 Unauthorized` with `Invalid email or password`.
+6. **HTTP Security Headers:** Express is hardened with `helmet` and `app.disable("x-powered-by")`.
+
+---
+
+## 6. HttpOnly Cookie Migration Path (Phase 2 Roadmap)
+
+While storing tokens in `localStorage` provides simple stateless SPA authentication, transitioning to `HttpOnly` session cookies is the recommended long-term architectural enhancement to defend against Cross-Site Scripting (XSS) token exfiltration.
+
+### Planned Architecture:
+
+1. **Backend Cookie Dispatch:**
+   Instead of returning the token in the JSON response body, the backend sets an `HttpOnly`, `Secure`, `SameSite` cookie:
+   ```javascript
+   res.cookie("token", jwtToken, {
+       httpOnly: true,                                // Inaccessible to JavaScript (document.cookie)
+       secure: process.env.NODE_ENV === "production",  // HTTPS only in production
+       sameSite: "lax",                               // Defends against CSRF
+       maxAge: 7 * 24 * 60 * 60 * 1000                // 7 days
+   });
+   ```
+
+2. **Frontend Interceptor Updates:**
+   - Configure Axios with `withCredentials: true`.
+   - Remove manual `Authorization: Bearer <token>` header injection.
+   - The browser automatically transmits the cookie on every cross-origin request to the API.
+
+3. **CORS & Multi-Domain Hosting Configuration:**
+   - In cross-domain deployments (e.g. `synapseos.vercel.app` to `synapseos-api.onrender.com`):
+     - `sameSite` must be configured as `"none"` with `secure: true`.
+     - `credentials: true` must be enabled on both backend CORS and frontend Axios.
+
+4. **Session Verification Endpoint:**
+   - Add a lightweight `GET /api/auth/me` endpoint that checks the cookie session and returns the current user profile on initial app load, replacing local storage reads in `AuthContext.jsx`.
+
+5. **CSRF Token Defense:**
+   - For state-mutating requests (`POST`, `PUT`, `DELETE`), introduce a Double Submit Cookie or `csurf` token pattern to ensure complete CSRF immunity.
+
