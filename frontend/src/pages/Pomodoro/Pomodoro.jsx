@@ -1,3 +1,4 @@
+import { useState } from "react";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import PomodoroTimer from "../../components/Pomodoro/PomodoroTimer";
 import PomodoroHistory from "../../components/Pomodoro/PomodoroHistory";
@@ -6,6 +7,12 @@ import "./Pomodoro.css";
 
 
 function Pomodoro() {
+
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+    const handleSessionSaved = () => {
+        setRefreshTrigger((prev) => prev + 1);
+    };
 
     return (
 
@@ -37,9 +44,9 @@ function Pomodoro() {
 
                 <div className="pomodoro-page-content">
 
-                    <PomodoroTimer />
+                    <PomodoroTimer onSessionSaved={handleSessionSaved} />
 
-                    <PomodoroHistory />
+                    <PomodoroHistory refreshTrigger={refreshTrigger} />
 
                 </div>
 

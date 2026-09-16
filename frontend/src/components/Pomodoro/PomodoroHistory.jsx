@@ -8,7 +8,7 @@ import {
 import "./PomodoroHistory.css";
 
 
-function PomodoroHistory() {
+function PomodoroHistory({ refreshTrigger }) {
 
     const [sessions, setSessions] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -45,14 +45,14 @@ function PomodoroHistory() {
 
 
     // =======================================
-    // Initial Load
+    // Initial Load & Refresh on Trigger
     // =======================================
 
     useEffect(() => {
 
         fetchSessions();
 
-    }, []);
+    }, [refreshTrigger]);
 
 
     // =======================================
@@ -93,18 +93,33 @@ function PomodoroHistory() {
 
 
     // =======================================
+    // Safe Date Parsing Helper
+    // =======================================
+
+    const parseDateSafe = (date) => {
+
+        if (!date) return null;
+
+        let parsed = new Date(date);
+
+        if (Number.isNaN(parsed.getTime()) && typeof date === "string") {
+            parsed = new Date(date.replace(" ", "T"));
+        }
+
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+
+    };
+
+
+    // =======================================
     // Format Date
     // =======================================
 
     const formatDate = (date) => {
 
-        if (!date) {
-            return "--";
-        }
+        const parsedDate = parseDateSafe(date);
 
-        const parsedDate = new Date(date);
-
-        if (Number.isNaN(parsedDate.getTime())) {
+        if (!parsedDate) {
             return "--";
         }
 
@@ -126,13 +141,9 @@ function PomodoroHistory() {
 
     const formatTime = (date) => {
 
-        if (!date) {
-            return "--";
-        }
+        const parsedDate = parseDateSafe(date);
 
-        const parsedDate = new Date(date);
-
-        if (Number.isNaN(parsedDate.getTime())) {
+        if (!parsedDate) {
             return "--";
         }
 

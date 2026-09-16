@@ -246,6 +246,32 @@ Following the comprehensive SynapseOS security audit, a targeted Phase 1 securit
 
 ---
 
+## 13. Pomodoro Session Persistence Failure & Datetime Formatting Error
+
+* **Category:** Database Query Failure & UI State Synchronization
+* **Date:** September 2026
+* **Status:** Resolved & Verified
+* **Scope:** `backend/src/controllers/pomodoroController.js`, `frontend/src/pages/Pomodoro/Pomodoro.jsx`, `frontend/src/components/Pomodoro/PomodoroTimer.jsx`, `frontend/src/components/Pomodoro/PomodoroHistory.jsx`
+
+### Symptom & User Observation
+1. When a user started and completed or interrupted a Pomodoro focus timer session, the frontend displayed the error alert: `"Failed to create Pomodoro session"`.
+2. The completed session was never inserted into the MySQL `pomodoro_sessions` table and did not appear in Pomodoro History or Dashboard/Analytics focus metrics.
+
+### Root Cause
+1. **Datetime String Formatting Mismatch:** The frontend sent standard ISO 8601 strings (e.g. `'2026-09-16T03:09:12.028Z'`). `pomodoroController.js` parsed them into JavaScript `Date` objects (`start` and `end`) for duration calculation, but passed the raw ISO strings `started_at` and `ended_at` to `pomodoroModel.createPomodoroSession`. MySQL 8 in strict mode rejected the strings with `ER_TRUNCATED_WRONG_VALUE: Incorrect datetime value for column 'started_at'`, causing the database insert to fail with HTTP 500.
+2. **Premature Zero-Duration Rejection:** `duration_minutes` was computed with `Math.floor((end - start) / 60000)`. If a user completed a 25-minute timer with slight timing variance (e.g. 24.98 minutes) or interrupted a session under 60 seconds, `Math.floor` produced `0` and was rejected with HTTP 400.
+3. **Missing Real-Time UI Synchronization:** `PomodoroTimer` and `PomodoroHistory` were uncoordinated sibling components. Saving a session in `PomodoroTimer` had no callback to trigger a refresh in `PomodoroHistory`.
+
+### Resolution Applied
+1. **Backend Controller Datetime Objects:** Updated `createPomodoroSession` and `updatePomodoroSession` in `pomodoroController.js` to pass `Date` instances (`start` and `end`) to `pomodoroModel`, allowing `mysql2` to automatically and safely serialize them to valid MySQL `DATETIME` format.
+2. **Robust Duration Handling:** Added `Math.round` and preserved `req.body.duration_minutes` with fallback `Math.max(1, calculatedDuration)` for short/interrupted sessions, rejecting only when `end <= start`.
+3. **Frontend Real-Time Trigger:** Added `onSessionSaved` callback to `PomodoroTimer` and `refreshTrigger` prop to `PomodoroHistory` via `Pomodoro.jsx`, enabling automatic re-fetching upon session completion. Added `parseDateSafe` in `PomodoroHistory.jsx` for cross-browser date rendering.
+
+### Verification
+- Executed 26-test regression suite (`scratch/test_pomodoro_regression.js`) covering session creation, database verification, interrupted sessions, updates, deletions, multi-tenant user isolation, and analytics metric calculation. 26/26 passed with 0 failures.
+
+---
+
 ## Summary of Modified & Created Files
 
 | File | Type | Changes |
@@ -262,17 +288,21 @@ Following the comprehensive SynapseOS security audit, a targeted Phase 1 securit
 | `backend/src/controllers/calendarController.js` | Modify | Sanitized 500 error responses |
 | `backend/src/controllers/goalController.js` | Modify | Sanitized 500 error responses |
 | `backend/src/controllers/studySessionController.js` | Modify | Sanitized 500 error responses |
-| `backend/src/controllers/pomodoroController.js` | Modify | Sanitized 500 error responses |
+| `backend/src/controllers/pomodoroController.js` | Modify | Fixed MySQL datetime serialization & duration calculation |
 | `backend/src/controllers/contestController.js` | Modify | Added `isValidContestUrl` protocol validation & sanitized errors |
 | `backend/src/controllers/dashboardController.js` | Modify | Sanitized 500 error responses |
 | `backend/src/controllers/analyticsController.js` | Modify | Sanitized 500 error responses |
 | `backend/src/controllers/notificationController.js` | Modify | Sanitized 500 error responses |
 | `backend/src/controllers/settingsController.js` | Modify | Sanitized 500 error responses |
 | `backend/src/controllers/youtubeController.js` | Modify | Sanitized 500 error responses |
+| `frontend/src/pages/Pomodoro/Pomodoro.jsx` | Modify | Added refresh coordination between timer and history |
+| `frontend/src/components/Pomodoro/PomodoroTimer.jsx` | Modify | Added `onSessionSaved` trigger on successful save |
+| `frontend/src/components/Pomodoro/PomodoroHistory.jsx` | Modify | Added `refreshTrigger` listener & `parseDateSafe` helper |
 | `frontend/src/components/Contest/AddContestModal.jsx` | Modify | Enforced `http:`/`https:` protocol validation before submit |
 | `frontend/src/components/Contest/ContestList.jsx` | Modify | Verified `rel="noopener noreferrer"` on external link targets |
 | `frontend/package-lock.json` | Modify | Upgraded `nanoid` to 3.3.19 (0 vulnerabilities) |
-| `docs/bug-fixes.md` | Modify | Documented Phase 1 Security Remediations and audit fixes |
+| `docs/bug-fixes.md` | Modify | Documented Phase 1 Security Remediations and Pomodoro session bug fix |
 | `docs/security-audit.md` | Modify | Updated vulnerability findings matrix to reflect Phase 1 resolutions |
 | `docs/architecture/authentication.md` | Modify | Documented token lifecycle and HttpOnly cookie migration path |
+
 

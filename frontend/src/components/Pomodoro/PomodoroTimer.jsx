@@ -8,7 +8,7 @@ import { useSettings } from "../../context/SettingsContext";
 import "./PomodoroTimer.css";
 
 
-function PomodoroTimer() {
+function PomodoroTimer({ onSessionSaved }) {
 
     const { settings } = useSettings();
 
@@ -148,6 +148,10 @@ function PomodoroTimer() {
                 ended_at: endedAt
 
             });
+
+            if (typeof onSessionSaved === "function") {
+                onSessionSaved();
+            }
 
         } catch (error) {
 

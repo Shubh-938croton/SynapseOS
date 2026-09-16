@@ -49,22 +49,27 @@ const createPomodoroSession = (req, res) => {
         }
 
 
-        // =======================================
-        // Calculate duration
-        // =======================================
-
-        const duration_minutes = Math.floor(
-            (end - start) / (1000 * 60)
-        );
-
-
-        if (duration_minutes <= 0) {
+        if (end.getTime() <= start.getTime()) {
 
             return res.status(400).json({
                 message: "End time must be after start time"
             });
 
         }
+
+
+        // =======================================
+        // Calculate duration
+        // =======================================
+
+        const calculatedDuration = Math.round(
+            (end.getTime() - start.getTime()) / (1000 * 60)
+        );
+
+        const duration_minutes =
+            req.body.duration_minutes && Number(req.body.duration_minutes) > 0
+                ? Number(req.body.duration_minutes)
+                : Math.max(1, calculatedDuration);
 
 
         // =======================================
@@ -137,9 +142,9 @@ const createPomodoroSession = (req, res) => {
             session_status:
                 status,
 
-            started_at,
+            started_at: start,
 
-            ended_at
+            ended_at: end
 
         };
 
@@ -390,18 +395,7 @@ const updatePomodoroSession = (req, res) => {
         }
 
 
-        // =======================================
-        // Calculate duration
-        // =======================================
-
-        const duration_minutes =
-            Math.floor(
-                (end - start) /
-                (1000 * 60)
-            );
-
-
-        if (duration_minutes <= 0) {
+        if (end.getTime() <= start.getTime()) {
 
             return res.status(400).json({
 
@@ -411,6 +405,20 @@ const updatePomodoroSession = (req, res) => {
             });
 
         }
+
+
+        // =======================================
+        // Calculate duration
+        // =======================================
+
+        const calculatedDuration = Math.round(
+            (end.getTime() - start.getTime()) / (1000 * 60)
+        );
+
+        const duration_minutes =
+            req.body.duration_minutes && Number(req.body.duration_minutes) > 0
+                ? Number(req.body.duration_minutes)
+                : Math.max(1, calculatedDuration);
 
 
         // =======================================
@@ -490,9 +498,9 @@ const updatePomodoroSession = (req, res) => {
             session_status:
                 status,
 
-            started_at,
+            started_at: start,
 
-            ended_at
+            ended_at: end
 
         };
 
