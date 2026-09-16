@@ -174,6 +174,11 @@ Explore our comprehensive documentation suite:
 
 SynapseOS is designed as a centralized workspace where academic planning, productivity, study tracking, notes, goals, contests, and analytics work together.
 
+### Login Page
+<p align="center">
+  <img src="docs/screenshots/Login.png" alt="SynapseOS Dashboard" width="900">
+</p>
+
 ### 🏠 Dashboard
 
 <p align="center">
