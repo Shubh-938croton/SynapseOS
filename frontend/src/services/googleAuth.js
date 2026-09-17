@@ -2,6 +2,10 @@ import { googleLogin } from "./authService";
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
+const GOOGLE_UNAVAILABLE_MESSAGE =
+    "Google sign-in is temporarily unavailable. Please try again later or continue with email.";
+const GOOGLE_CANCELLED_MESSAGE = "Google sign-in was cancelled.";
+
 /**
  * Dynamically load Google Identity Services SDK script
  */
@@ -35,8 +39,11 @@ export const loadGoogleScript = () => {
  */
 export const triggerGoogleAuth = async ({ onSuccess, onError, onStart }) => {
     if (!GOOGLE_CLIENT_ID) {
+        console.error(
+            "[Google Auth] Missing configuration: VITE_GOOGLE_CLIENT_ID is not defined in frontend environment variables."
+        );
         if (onError) {
-            onError("Google Client ID is missing. Please set VITE_GOOGLE_CLIENT_ID in your frontend .env file.");
+            onError(GOOGLE_UNAVAILABLE_MESSAGE);
         }
         return;
     }
@@ -54,8 +61,17 @@ export const triggerGoogleAuth = async ({ onSuccess, onError, onStart }) => {
             scope: "openid email profile",
             callback: async (tokenResponse) => {
                 if (tokenResponse.error) {
+                    console.warn("[Google Auth] OAuth token response error:", tokenResponse);
                     if (onError) {
-                        onError(tokenResponse.error_description || "Google sign-in was cancelled or failed.");
+                        if (
+                            tokenResponse.error === "popup_closed_by_user" ||
+                            tokenResponse.error === "access_denied" ||
+                            tokenResponse.error === "user_logged_out"
+                        ) {
+                            onError(GOOGLE_CANCELLED_MESSAGE);
+                        } else {
+                            onError(GOOGLE_UNAVAILABLE_MESSAGE);
+                        }
                     }
                     return;
                 }
@@ -75,19 +91,20 @@ export const triggerGoogleAuth = async ({ onSuccess, onError, onStart }) => {
                         onSuccess(response);
                     }
                 } catch (authErr) {
-                    console.error("Backend Google Auth Error:", authErr);
+                    console.error("[Google Auth] Backend Google Auth Error:", authErr);
                     if (onError) {
-                        onError(
-                            authErr.response?.data?.message ||
-                            "Failed to authenticate with Google on the server."
-                        );
+                        onError(GOOGLE_UNAVAILABLE_MESSAGE);
                     }
                 }
             },
             error_callback: (err) => {
-                console.error("Google Token Client Error:", err);
+                console.error("[Google Auth] Token Client Error:", err);
                 if (onError) {
-                    onError("Google sign-in encountered an error. Please try again.");
+                    if (err?.type === "popup_closed" || err?.message?.includes("closed")) {
+                        onError(GOOGLE_CANCELLED_MESSAGE);
+                    } else {
+                        onError(GOOGLE_UNAVAILABLE_MESSAGE);
+                    }
                 }
             }
         });
@@ -95,9 +112,9 @@ export const triggerGoogleAuth = async ({ onSuccess, onError, onStart }) => {
         tokenClient.requestAccessToken({ prompt: "select_account" });
 
     } catch (err) {
-        console.error("Google Auth Initialization Error:", err);
+        console.error("[Google Auth] Initialization Error:", err);
         if (onError) {
-            onError(err.message || "Failed to initialize Google authentication.");
+            onError(GOOGLE_UNAVAILABLE_MESSAGE);
         }
     }
 };
