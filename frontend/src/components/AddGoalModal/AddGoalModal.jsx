@@ -1,479 +1,211 @@
 import { useEffect, useState } from "react";
-import { FaTimes, FaSave } from "react-icons/fa";
+import { FiX, FiCheck } from "react-icons/fi";
 
 import { createGoal } from "../../services/goalService";
 
 import "./AddGoalModal.css";
-
 
 function AddGoalModal({
     isOpen,
     onClose,
     onGoalCreated
 }) {
-
-    // =========================
-    // FORM STATE
-    // =========================
-
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [targetDate, setTargetDate] = useState("");
-
-    const [progressPercentage, setProgressPercentage] =
-        useState(0);
-
-    const [status, setStatus] =
-        useState("Not Started");
-
-    const [loading, setLoading] =
-        useState(false);
-
-
-    // =========================
-    // RESET FORM
-    // =========================
+    const [progressPercentage, setProgressPercentage] = useState(0);
+    const [status, setStatus] = useState("Not Started");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-
         if (isOpen) {
-
             setTitle("");
             setDescription("");
             setTargetDate("");
-
             setProgressPercentage(0);
-
             setStatus("Not Started");
-
             setLoading(false);
-
         }
-
     }, [isOpen]);
-
-
-    // =========================
-    // DON'T RENDER
-    // =========================
 
     if (!isOpen) {
         return null;
     }
 
-
-    // =========================
-    // HANDLE SUBMIT
-    // =========================
-
     const handleSubmit = async (e) => {
-
         e.preventDefault();
 
-
-        // =========================
-        // VALIDATION
-        // =========================
-
         if (!title.trim()) {
-
-            alert(
-                "Please enter a goal title."
-            );
-
+            alert("Please enter a goal title.");
             return;
-
         }
 
-
-        const progress =
-            Number(progressPercentage);
-
+        const progress = Number(progressPercentage);
 
         if (
             Number.isNaN(progress) ||
             progress < 0 ||
             progress > 100
         ) {
-
-            alert(
-                "Progress must be between 0 and 100."
-            );
-
+            alert("Progress must be between 0 and 100.");
             return;
-
         }
-
-
-        // =========================
-        // AUTO STATUS
-        // =========================
 
         let finalStatus = status;
 
-
         if (progress === 100) {
-
             finalStatus = "Completed";
-
         } else if (progress > 0) {
-
             finalStatus = "In Progress";
-
         } else {
-
             finalStatus = "Not Started";
-
         }
-
 
         try {
-
             setLoading(true);
 
-
-            // =========================
-            // GOAL DATA
-            // =========================
-
             const goalData = {
-
-                title:
-                    title.trim(),
-
-                description:
-                    description.trim() || null,
-
-                target_date:
-                    targetDate || null,
-
-                progress_percentage:
-                    progress,
-
-                status:
-                    finalStatus
-
+                title: title.trim(),
+                description: description.trim() || null,
+                target_date: targetDate || null,
+                progress_percentage: progress,
+                status: finalStatus
             };
 
-
-            console.log(
-                "Creating goal:",
-                goalData
-            );
-
-
-            // =========================
-            // CREATE GOAL
-            // =========================
-
-            await createGoal(
-                goalData
-            );
-
-
-            console.log(
-                "Goal created successfully"
-            );
-
-
-            // =========================
-            // REFRESH GOALS
-            // =========================
+            await createGoal(goalData);
 
             if (onGoalCreated) {
-
                 await onGoalCreated();
-
             }
 
-
-            // =========================
-            // CLOSE MODAL
-            // =========================
-
             onClose();
-
-
         } catch (error) {
-
-            console.error(
-                "Create goal error:",
-                error
-            );
-
-
+            console.error("Create goal error:", error);
             alert(
-
                 error.response?.data?.message ||
-
                 error.response?.data?.error ||
-
                 "Failed to create goal."
-
             );
-
         } finally {
-
             setLoading(false);
-
         }
-
     };
-
-
-    // =========================
-    // HANDLE CLOSE
-    // =========================
 
     const handleClose = () => {
-
-        if (loading) {
-            return;
-        }
-
+        if (loading) return;
         onClose();
-
     };
 
-
-    // =========================
-    // RENDER
-    // =========================
-
     return (
-
-        <div
-            className="goal-modal-overlay"
-            onClick={handleClose}
-        >
-
-            <div
-                className="goal-modal"
-                onClick={(e) =>
-                    e.stopPropagation()
-                }
-            >
-
-                {/* =========================
-                    HEADER
-                ========================= */}
-
+        <div className="goal-modal-overlay" onClick={handleClose}>
+            <div className="goal-modal" onClick={(e) => e.stopPropagation()}>
+                {/* HEADER */}
                 <div className="goal-modal-header">
-
                     <div>
-
-                        <h2>
-                            Create New Goal
-                        </h2>
-
-                        <p>
-                            Set a goal and start
-                            tracking your progress.
-                        </p>
-
+                        <h2>Create Goal</h2>
+                        <p>Set a clear objective and define its target timeline.</p>
                     </div>
-
 
                     <button
                         type="button"
                         className="goal-modal-close"
                         onClick={handleClose}
                         disabled={loading}
-                        title="Close"
+                        aria-label="Close"
                     >
-
-                        <FaTimes />
-
+                        <FiX />
                     </button>
-
                 </div>
 
-
-                {/* =========================
-                    FORM
-                ========================= */}
-
-                <form
-                    className="goal-modal-form"
-                    onSubmit={handleSubmit}
-                >
-
-                    {/* =========================
-                        TITLE
-                    ========================= */}
-
+                {/* FORM */}
+                <form className="goal-modal-form" onSubmit={handleSubmit}>
                     <div className="goal-form-group">
-
-                        <label>
-                            Goal Title
-                        </label>
-
+                        <label>Goal Title <span className="required-star">*</span></label>
                         <input
                             type="text"
-                            placeholder="Enter goal title"
+                            placeholder="e.g. Master Dynamic Programming"
                             value={title}
-                            onChange={(e) =>
-                                setTitle(
-                                    e.target.value
-                                )
-                            }
+                            onChange={(e) => setTitle(e.target.value)}
                             disabled={loading}
                             autoFocus
+                            required
                         />
-
                     </div>
 
-
-                    {/* =========================
-                        DESCRIPTION
-                    ========================= */}
-
                     <div className="goal-form-group">
-
-                        <label>
-                            Description
-                        </label>
-
+                        <label>Description <span className="optional-tag">(Optional)</span></label>
                         <textarea
-                            placeholder="Describe your goal..."
+                            placeholder="Key milestones or resources to finish..."
                             value={description}
-                            onChange={(e) =>
-                                setDescription(
-                                    e.target.value
-                                )
-                            }
+                            onChange={(e) => setDescription(e.target.value)}
                             disabled={loading}
-                            rows="4"
+                            rows="3"
                         />
-
                     </div>
 
+                    <div className="goal-form-row">
+                        <div className="goal-form-group">
+                            <label>Target Date</label>
+                            <input
+                                type="date"
+                                value={targetDate}
+                                onChange={(e) => setTargetDate(e.target.value)}
+                                disabled={loading}
+                            />
+                        </div>
 
-                    {/* =========================
-                        TARGET DATE
-                    ========================= */}
-
-                    <div className="goal-form-group">
-
-                        <label>
-                            Target Date
-                        </label>
-
-                        <input
-                            type="date"
-                            value={targetDate}
-                            onChange={(e) =>
-                                setTargetDate(
-                                    e.target.value
-                                )
-                            }
-                            disabled={loading}
-                        />
-
+                        <div className="goal-form-group">
+                            <label>Initial Status</label>
+                            <select
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                                disabled={loading}
+                            >
+                                <option value="Not Started">Not Started</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
                     </div>
 
-
-                    {/* =========================
-                        PROGRESS
-                    ========================= */}
-
                     <div className="goal-form-group">
-
-                        <label>
-                            Progress (%)
-                        </label>
-
+                        <div className="goal-progress-slider-header">
+                            <label>Progress</label>
+                            <span className="goal-slider-value">{progressPercentage}%</span>
+                        </div>
                         <input
-                            type="number"
+                            type="range"
                             min="0"
                             max="100"
                             value={progressPercentage}
-                            onChange={(e) =>
-                                setProgressPercentage(
-                                    e.target.value
-                                )
-                            }
+                            onChange={(e) => setProgressPercentage(Number(e.target.value))}
                             disabled={loading}
                         />
-
                     </div>
 
-
-                    {/* =========================
-                        STATUS
-                    ========================= */}
-
-                    <div className="goal-form-group">
-
-    <label>Status</label>
-
-    <select
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
-        disabled={loading}
-    >
-
-        <option value="Not Started">
-            Not Started
-        </option>
-
-        <option value="In Progress">
-            In Progress
-        </option>
-
-        <option value="Completed">
-            Completed
-        </option>
-
-    </select>
-
-</div>
-
-
-                    {/* =========================
-                        ACTIONS
-                    ========================= */}
-
                     <div className="goal-modal-actions">
-
                         <button
                             type="button"
                             className="goal-cancel-btn"
                             onClick={handleClose}
                             disabled={loading}
                         >
-
                             Cancel
-
                         </button>
-
 
                         <button
                             type="submit"
                             className="goal-save-btn"
                             disabled={loading}
                         >
-
-                            <FaSave />
-
-                            {loading
-                                ? "Creating..."
-                                : "Create Goal"
-                            }
-
+                            <FiCheck />
+                            <span>{loading ? "Creating..." : "Create Goal"}</span>
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
-
         </div>
-
     );
-
 }
-
 
 export default AddGoalModal;

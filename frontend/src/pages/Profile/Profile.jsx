@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
 
 import DashboardLayout from "../../components/Layout/DashboardLayout";
-
+import {
+    FiUser,
+    FiMail,
+    FiAtSign,
+    FiCalendar,
+    FiEdit2,
+    FiKey,
+    FiLock,
+    FiCheck,
+    FiX,
+    FiAlertCircle,
+    FiCheckCircle
+} from "react-icons/fi";
 import {
     getUserProfile,
     updateUserProfile,
     changePassword
 } from "../../services/profileService";
-
 import "./Profile.css";
 
 
@@ -579,9 +590,8 @@ function Profile() {
                 {successMessage && (
 
                     <div className="profile-success-message">
-
-                        {successMessage}
-
+                        <FiCheckCircle className="profile-msg-icon" />
+                        <span>{successMessage}</span>
                     </div>
 
                 )}
@@ -594,9 +604,8 @@ function Profile() {
                 {error && (
 
                     <div className="profile-error-message">
-
-                        {error}
-
+                        <FiAlertCircle className="profile-msg-icon" />
+                        <span>{error}</span>
                     </div>
 
                 )}
@@ -657,8 +666,8 @@ function Profile() {
 
                                     <div className="profile-info-item">
 
-                                        <span>
-                                            Full Name
+                                        <span className="profile-item-label">
+                                            <FiUser /> Full Name
                                         </span>
 
                                         <strong>
@@ -670,8 +679,8 @@ function Profile() {
 
                                     <div className="profile-info-item">
 
-                                        <span>
-                                            Username
+                                        <span className="profile-item-label">
+                                            <FiAtSign /> Username
                                         </span>
 
                                         <strong>
@@ -683,8 +692,8 @@ function Profile() {
 
                                     <div className="profile-info-item">
 
-                                        <span>
-                                            Email
+                                        <span className="profile-item-label">
+                                            <FiMail /> Email
                                         </span>
 
                                         <strong>
@@ -696,8 +705,8 @@ function Profile() {
 
                                     <div className="profile-info-item">
 
-                                        <span>
-                                            Member Since
+                                        <span className="profile-item-label">
+                                            <FiCalendar /> Member Since
                                         </span>
 
                                         <strong>
@@ -720,6 +729,7 @@ function Profile() {
                                     type="button"
                                     onClick={handleEdit}
                                 >
+                                    <FiEdit2 />
                                     Edit Profile
                                 </button>
 
@@ -731,6 +741,7 @@ function Profile() {
                                         handleChangePasswordClick
                                     }
                                 >
+                                    <FiKey />
                                     Change Password
                                 </button>
 
@@ -838,6 +849,7 @@ function Profile() {
                                     type="submit"
                                     disabled={saving}
                                 >
+                                    <FiCheck />
                                     {saving
                                         ? "Saving..."
                                         : "Save Changes"}
@@ -850,6 +862,7 @@ function Profile() {
                                     onClick={handleCancel}
                                     disabled={saving}
                                 >
+                                    <FiX />
                                     Cancel
                                 </button>
 
@@ -987,7 +1000,7 @@ function Profile() {
                                     type="submit"
                                     disabled={passwordSaving}
                                 >
-
+                                    <FiLock />
                                     {passwordSaving
                                         ? "Changing..."
                                         : "Change Password"}
@@ -1003,7 +1016,7 @@ function Profile() {
                                     }
                                     disabled={passwordSaving}
                                 >
-
+                                    <FiX />
                                     Cancel
 
                                 </button>

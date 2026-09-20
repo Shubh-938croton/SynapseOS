@@ -1,43 +1,18 @@
 /* ==========================================================================
-   POMODORO PAGE - MODERN FOCUS ENVIRONMENT
+   SYNAPSEOS - POMODORO VIEW
    ========================================================================== */
 
 .pomodoro-page {
     width: 100%;
-    min-height: 100%;
-    box-sizing: border-box;
-    animation: pomodoroPageEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes pomodoroPageEnter {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 /* Page Header */
-.pomodoro-page-header {
-    margin-bottom: 30px;
-}
-
-.pomodoro-page-label {
-    display: inline-block;
-    margin-bottom: 6px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent-color);
-}
-
 .pomodoro-page-header h1 {
-    margin: 0 0 6px;
-    font-size: 28px;
+    margin: 0 0 4px;
+    font-size: 24px;
     font-weight: 800;
     letter-spacing: -0.03em;
     color: var(--text-primary);
@@ -46,8 +21,8 @@
 .pomodoro-page-header p {
     margin: 0;
     max-width: 600px;
-    font-size: 14px;
-    line-height: 1.55;
+    font-size: 13.5px;
+    line-height: 1.5;
     color: var(--text-secondary);
 }
 
@@ -57,10 +32,5 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-@media (max-width: 768px) {
-    .pomodoro-page-header h1 {
-        font-size: 26px;
-    }
-}
+    gap: 32px;
+}

@@ -1,18 +1,18 @@
 /* ==========================================================================
-   YOUTUBE WATCH DETAIL - MODERN PLAYER VIEW
+   YOUTUBE WATCH DETAIL - DISTRACTION FREE PLAYER
    ========================================================================== */
 
 .youtube-watch-page {
     width: 100%;
     min-height: 100%;
     box-sizing: border-box;
-    animation: youtubeWatchEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: youtubeWatchEnter 0.25s ease-out both;
 }
 
 @keyframes youtubeWatchEnter {
     from {
         opacity: 0;
-        transform: translateY(12px);
+        transform: translateY(6px);
     }
     to {
         opacity: 1;
@@ -33,6 +33,7 @@
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
+    box-shadow: var(--shadow-sm);
     transition: all var(--transition-fast);
 }
 
@@ -45,11 +46,11 @@
 
 .youtube-player-container {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     background: #000;
     border: 1px solid var(--border-color);
     box-shadow: var(--modal-shadow);
@@ -64,103 +65,96 @@
 
 .youtube-watch-info {
     width: 100%;
-    max-width: 1100px;
-    margin: 24px auto 0;
-    padding: 24px;
+    max-width: 1000px;
+    margin: 20px auto 0;
+    padding: 20px 24px;
     box-sizing: border-box;
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     background: var(--bg-secondary);
-    box-shadow: var(--card-shadow);
+    box-shadow: var(--shadow-sm);
 }
 
 .youtube-watch-title {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
 }
 
-.youtube-watch-title svg {
-    color: #ef4444;
-    font-size: 24px;
+.watch-title-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-md);
+    background: var(--accent-subtle);
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
 }
 
 .youtube-watch-title h1 {
-    margin: 0;
-    font-size: 20px;
+    margin: 0 0 2px;
+    font-size: 18px;
     font-weight: 800;
     letter-spacing: -0.02em;
     color: var(--text-primary);
 }
 
-.youtube-watch-info p {
-    margin: 10px 0 20px;
+.youtube-watch-title p {
+    margin: 0;
     color: var(--text-secondary);
-    font-size: 13.5px;
-    line-height: 1.5;
-}
-
-.youtube-watch-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.youtube-watch-actions button {
-    padding: 9px 16px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
     font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-}
-
-.youtube-watch-actions button:hover {
-    border-color: #ef4444;
-    color: #ef4444;
-    background: var(--bg-elevated);
 }
 
 .youtube-watch-error {
-    min-height: 360px;
+    min-height: 320px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--text-muted);
+    text-align: center;
+    padding: 60px 24px;
+    background: var(--bg-secondary);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    max-width: 500px;
+    margin: 40px auto;
 }
 
-.youtube-watch-error svg {
-    color: #ef4444;
-    font-size: 48px;
-    margin-bottom: 14px;
+.watch-error-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
 }
 
 .youtube-watch-error h2 {
     color: var(--text-primary);
     font-size: 18px;
+    margin: 0 0 16px;
 }
 
 .youtube-watch-error button {
-    margin-top: 14px;
-    padding: 10px 20px;
+    padding: 9px 18px;
     border: none;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, #ef4444, #dc2626);
+    background: var(--accent-color);
     color: white;
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 13.5px;
     cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
 }
 
-@media (max-width: 700px) {
-    .youtube-player-container {
-        border-radius: var(--radius-md);
-    }
-
-    .youtube-watch-info {
-        padding: 18px;
-    }
+.youtube-watch-error button:hover {
+    background: var(--accent-hover);
 }

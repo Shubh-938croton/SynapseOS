@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ADD NOTE MODAL - MODERN DIALOG
+   SYNAPSEOS - NOTE MODAL
    ========================================================================== */
 
 .note-modal-overlay {
@@ -9,101 +9,80 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 1000;
-    animation: noteOverlayFade 0.2s ease;
-}
-
-@keyframes noteOverlayFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    box-sizing: border-box;
 }
 
 .note-modal {
     width: 100%;
-    max-width: 560px;
-    background: var(--bg-secondary);
+    max-width: 540px;
+    background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-xl);
-    box-shadow: var(--modal-shadow);
+    box-shadow: var(--card-shadow);
     overflow: hidden;
-    animation: noteModalAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes noteModalAppear {
-    from {
-        opacity: 0;
-        transform: translateY(-16px) scale(0.96);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+    box-sizing: border-box;
 }
 
 /* Header */
 .note-modal-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 24px 28px 18px;
+    align-items: center;
+    padding: 20px 24px 16px;
     border-bottom: 1px solid var(--border-color);
 }
 
 .note-modal-header h2 {
     margin: 0;
     color: var(--text-primary);
-    font-size: 20px;
-    font-weight: 800;
+    font-size: 18px;
+    font-weight: 700;
     letter-spacing: -0.02em;
 }
 
 .note-modal-header p {
-    margin: 4px 0 0;
+    margin: 3px 0 0;
     color: var(--text-secondary);
-    font-size: 13px;
+    font-size: 12.5px;
 }
 
 .note-modal-close {
-    width: 32px;
-    height: 32px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    background: var(--bg-tertiary);
-    color: var(--text-muted);
-    cursor: pointer;
-    font-size: 16px;
-    transition: all var(--transition-fast);
+    transition: color var(--transition-fast);
 }
 
 .note-modal-close:hover {
-    background: var(--danger-bg);
-    color: var(--danger-color);
-    border-color: var(--danger-border);
+    color: var(--text-primary);
 }
 
 /* Form */
 .note-modal-form {
-    padding: 24px 28px 28px;
+    padding: 20px 24px 24px;
 }
 
 .note-form-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .note-form-group label {
     color: var(--text-secondary);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
 }
 
@@ -111,9 +90,8 @@
 .note-form-group select,
 .note-form-group textarea {
     width: 100%;
-    padding: 11px 14px;
+    padding: 9px 12px;
     box-sizing: border-box;
-
     border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
     background: var(--input-background);
@@ -121,69 +99,81 @@
     font-family: inherit;
     font-size: 13.5px;
     outline: none;
-    transition: all var(--transition-fast);
+    transition: border-color var(--transition-fast);
 }
 
 .note-form-group input:focus,
 .note-form-group select:focus,
 .note-form-group textarea:focus {
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
 .note-form-group textarea {
-    min-height: 140px;
+    min-height: 120px;
     resize: vertical;
-    line-height: 1.6;
+    line-height: 1.55;
+}
+
+.note-pin-option {
+    margin-bottom: 16px;
+}
+
+.note-pin-option label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
 }
 
 /* Actions */
 .note-modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    margin-top: 24px;
-    padding-top: 18px;
+    gap: 10px;
+    margin-top: 8px;
+    padding-top: 16px;
     border-top: 1px solid var(--border-color);
 }
 
 .note-cancel-btn {
-    padding: 10px 18px;
+    padding: 8px 16px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    background: var(--bg-tertiary);
+    background: var(--bg-secondary);
     color: var(--text-secondary);
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .note-cancel-btn:hover {
-    background: var(--bg-elevated);
+    background: var(--bg-tertiary);
     color: var(--text-primary);
+    border-color: var(--border-hover);
 }
 
 .note-save-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 22px;
-    border: none;
+    gap: 6px;
+    padding: 8px 18px;
+    border: 1px solid var(--accent-color);
     border-radius: var(--radius-md);
-    background: var(--accent-gradient);
+    background: var(--accent-color);
     color: #ffffff;
-    font-size: 13.5px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
     transition: all var(--transition-fast);
 }
 
 .note-save-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
 }
 
 .note-save-btn:disabled,
@@ -196,7 +186,7 @@
 @media (max-width: 600px) {
     .note-modal-header,
     .note-modal-form {
-        padding: 20px;
+        padding: 18px;
     }
 
     .note-modal-actions {
@@ -208,52 +198,4 @@
         width: 100%;
         text-align: center;
     }
-}
-
-/* Inline Subject Action */
-.form-group-label-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.required-star {
-    color: var(--danger-color, #ef4444);
-}
-
-.add-subject-inline-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    background: transparent;
-    border: none;
-    color: var(--accent-color);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 2px 4px;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
-}
-
-.add-subject-inline-btn:hover {
-    color: var(--accent-hover);
-    text-decoration: underline;
-}
-
-.subject-empty-hint {
-    margin-top: 4px;
-    font-size: 12px;
-    color: var(--warning-color);
-}
-
-.subject-empty-hint button {
-    background: none;
-    border: none;
-    color: var(--accent-color);
-    font-weight: 700;
-    text-decoration: underline;
-    cursor: pointer;
-    padding: 0;
-    font-size: 12px;
-}
+}

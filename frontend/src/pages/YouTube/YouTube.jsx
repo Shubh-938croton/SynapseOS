@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-    FaYoutube,
-    FaSearch,
-    FaChevronDown
-} from "react-icons/fa";
+    FiSearch,
+    FiChevronDown,
+    FiPlay,
+    FiVideo
+} from "react-icons/fi";
 
-import DashboardLayout
-    from "../../components/Layout/DashboardLayout";
-
+import DashboardLayout from "../../components/Layout/DashboardLayout";
 import {
     searchYouTubeVideos
 } from "../../services/youtubeService";
-
 import "./YouTube.css";
 
 
@@ -134,72 +132,38 @@ const YouTube = () => {
                     HEADER
                 ================================= */}
 
+                {/* HEADER */}
                 <header className="youtube-header">
-
-                    <div className="youtube-title">
-
-                        <div className="youtube-icon">
-
-                            <FaYoutube />
-
-                        </div>
-
-                        <div>
-
-                            <h1>
-                                YouTube Focus
-                            </h1>
-
-                            <p>
-                                Learn without leaving
-                                your productivity workspace.
-                            </p>
-
-                        </div>
-
+                    <div>
+                        <span className="youtube-label">EDUCATIONAL MEDIA</span>
+                        <h1>YouTube Study Hub</h1>
+                        <p>
+                            Search and watch tutorials, lectures, and course material without distractions.
+                        </p>
                     </div>
-
                 </header>
 
-
-                {/* =================================
-                    SEARCH
-                ================================= */}
-
+                {/* SEARCH */}
                 <form
                     className="youtube-search"
                     onSubmit={handleSearch}
                 >
-
                     <div className="youtube-search-box">
-
-                        <FaSearch />
-
+                        <FiSearch />
                         <input
                             type="text"
                             value={query}
-                            onChange={(event) =>
-                                setQuery(
-                                    event.target.value
-                                )
-                            }
+                            onChange={(event) => setQuery(event.target.value)}
                             placeholder="Search lectures, tutorials, courses..."
                         />
-
                     </div>
 
                     <button
                         type="submit"
                         disabled={loading}
                     >
-
-                        {loading
-                            ? "Searching..."
-                            : "Search"
-                        }
-
+                        {loading ? "Searching..." : "Search"}
                     </button>
-
                 </form>
 
 
@@ -319,91 +283,51 @@ const YouTube = () => {
                                 />
 
                                 <div className="youtube-play">
-
-                                    <FaYoutube />
-
+                                    <FiPlay />
                                 </div>
-
                             </div>
 
-
                             <div className="youtube-card-body">
-
                                 <h3>
                                     {video.title}
                                 </h3>
 
                                 <p className="youtube-channel">
-
                                     {video.channelTitle}
-
                                 </p>
 
                                 <p className="youtube-description">
-
                                     {video.description}
-
                                 </p>
-
                             </div>
-
                         </article>
-
                     ))}
-
                 </div>
 
-
-                {/* =================================
-                    LOAD MORE
-                ================================= */}
-
+                {/* LOAD MORE */}
                 {nextPageToken && (
-
                     <div className="youtube-load-more">
-
                         <button
                             onClick={handleLoadMore}
                             disabled={loading}
                         >
-
-                            {loading
-                                ? "Loading..."
-                                : "Load More"
-                            }
-
-                            <FaChevronDown />
-
+                            <span>{loading ? "Loading..." : "Load More"}</span>
+                            <FiChevronDown />
                         </button>
-
                     </div>
-
                 )}
 
-
-                {/* =================================
-                    EMPTY STATE
-                ================================= */}
-
-                {!loading &&
-                    videos.length === 0 && (
-
+                {/* EMPTY STATE */}
+                {!loading && videos.length === 0 && (
                     <div className="youtube-empty">
-
-                        <FaYoutube />
-
-                        <h2>
-                            Find something to learn
-                        </h2>
-
+                        <div className="youtube-empty-icon">
+                            <FiVideo />
+                        </div>
+                        <h2>Find something to learn</h2>
                         <p>
-                            Search for lectures,
-                            tutorials, courses,
-                            and programming content.
+                            Search for lectures, tutorials, courses, and programming guides.
                         </p>
-
                     </div>
-
                 )}
 
             </div>

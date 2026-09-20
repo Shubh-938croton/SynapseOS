@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaTimes, FaSave, FaFolderPlus, FaEdit } from "react-icons/fa";
+import { FiX, FiCheck, FiFolderPlus, FiEdit2 } from "react-icons/fi";
 
 import {
     createSubject,
@@ -116,7 +116,7 @@ function SubjectModal({
                             className="subject-modal-icon"
                             style={{ backgroundColor: `${color}20`, color: color }}
                         >
-                            {subjectToEdit ? <FaEdit /> : <FaFolderPlus />}
+                            {subjectToEdit ? <FiEdit2 /> : <FiFolderPlus />}
                         </div>
                         <div>
                             <h2>{subjectToEdit ? "Edit Subject" : "Create New Subject"}</h2>
@@ -135,7 +135,7 @@ function SubjectModal({
                         disabled={loading}
                         aria-label="Close modal"
                     >
-                        <FaTimes />
+                        <FiX />
                     </button>
                 </div>
 
@@ -216,7 +216,7 @@ function SubjectModal({
                             className="subject-submit-btn"
                             disabled={loading || !subjectName.trim()}
                         >
-                            <FaSave />
+                            <FiCheck />
                             <span>{loading ? "Saving..." : subjectToEdit ? "Update Subject" : "Create Subject"}</span>
                         </button>
                     </div>

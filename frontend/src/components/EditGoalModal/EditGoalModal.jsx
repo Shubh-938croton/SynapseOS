@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaTimes, FaSave } from "react-icons/fa";
+import { FiX, FiCheck } from "react-icons/fi";
 
 import { updateGoal } from "../../services/goalService";
 
@@ -10,471 +10,191 @@ function EditGoalModal({
     onClose,
     onUpdated
 }) {
-
-    // =========================
-    // FORM STATE
-    // =========================
-
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [targetDate, setTargetDate] = useState("");
     const [progressPercentage, setProgressPercentage] = useState(0);
     const [status, setStatus] = useState("Not Started");
-
     const [loading, setLoading] = useState(false);
 
-
-    // =========================
-    // LOAD GOAL DATA
-    // =========================
-
     useEffect(() => {
-
-        if (!goal) {
-            return;
-        }
-
-        console.log("Editing goal:", goal);
+        if (!goal) return;
 
         setTitle(goal.title || "");
-
-        setDescription(
-            goal.description || ""
-        );
-
-        // Keep only YYYY-MM-DD
+        setDescription(goal.description || "");
         setTargetDate(
             goal.target_date
                 ? String(goal.target_date).substring(0, 10)
                 : ""
         );
-
-        setProgressPercentage(
-            goal.progress_percentage ?? 0
-        );
-
-        setStatus(
-            goal.status || "Not Started"
-        );
-
+        setProgressPercentage(goal.progress_percentage ?? 0);
+        setStatus(goal.status || "Not Started");
     }, [goal]);
 
-
-    // =========================
-    // HANDLE CLOSE
-    // =========================
-
     const handleClose = () => {
-
-        if (loading) {
-            return;
-        }
-
+        if (loading) return;
         onClose();
-
     };
-
-
-    // =========================
-    // HANDLE SUBMIT
-    // =========================
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
 
-
-        // =========================
-        // CHECK GOAL
-        // =========================
-
-        if (!goal) {
-
-            alert("No goal selected.");
-
-            return;
-
-        }
-
-
-        // =========================
-        // VALIDATION
-        // =========================
+        if (!goal) return;
 
         if (!title.trim()) {
-
             alert("Please enter a goal title.");
-
             return;
-
         }
 
+        const progress = Number(progressPercentage);
 
-        const progress = Number(
-            progressPercentage
-        );
-
-
-        if (
-            progress < 0 ||
-            progress > 100
-        ) {
-
-            alert(
-                "Progress percentage must be between 0 and 100."
-            );
-
+        if (progress < 0 || progress > 100) {
+            alert("Progress percentage must be between 0 and 100.");
             return;
-
         }
-
 
         try {
-
             setLoading(true);
 
-
-            // =========================
-            // UPDATED GOAL DATA
-            // =========================
-
             const goalData = {
-
-                title:
-                    title.trim(),
-
-                description:
-                    description.trim() || null,
-
-                target_date:
-                    targetDate || null,
-
-                progress_percentage:
-                    progress,
-
-                status:
-                    status
-
+                title: title.trim(),
+                description: description.trim() || null,
+                target_date: targetDate || null,
+                progress_percentage: progress,
+                status: status
             };
 
-
-            console.log(
-                "Updating goal:",
-                goal.goal_id,
-                goalData
-            );
-
-
-            // =========================
-            // UPDATE GOAL
-            // =========================
-
-            await updateGoal(
-                goal.goal_id,
-                goalData
-            );
-
-
-            console.log(
-                "Goal updated successfully"
-            );
-
-
-            // =========================
-            // REFRESH GOALS
-            // =========================
+            await updateGoal(goal.goal_id, goalData);
 
             if (onUpdated) {
-
                 await onUpdated();
-
             }
 
-
-            // =========================
-            // CLOSE MODAL
-            // =========================
-
             onClose();
-
-
         } catch (error) {
-
-            console.error(
-                "Update goal error:",
-                error
-            );
-
-
+            console.error("Update goal error:", error);
             alert(
-
                 error.response?.data?.message ||
-
                 error.response?.data?.error ||
-
                 "Failed to update goal."
-
             );
-
         } finally {
-
             setLoading(false);
-
         }
-
     };
 
-
-    // =========================
-    // DON'T RENDER
-    // =========================
-
-    if (!goal) {
-
-        return null;
-
-    }
-
-
-    // =========================
-    // RENDER
-    // =========================
+    if (!goal) return null;
 
     return (
-
-        <div
-            className="edit-goal-overlay"
-            onClick={handleClose}
-        >
-
-            <div
-                className="edit-goal-modal"
-                onClick={(e) =>
-                    e.stopPropagation()
-                }
-            >
-
-                {/* =========================
-                    HEADER
-                ========================= */}
-
+        <div className="edit-goal-overlay" onClick={handleClose}>
+            <div className="edit-goal-modal" onClick={(e) => e.stopPropagation()}>
+                {/* HEADER */}
                 <div className="edit-goal-header">
-
                     <div>
-
-                        <h2>
-                            Edit Goal
-                        </h2>
-
-                        <p>
-                            Update your goal and
-                            track your progress.
-                        </p>
-
+                        <h2>Edit Goal</h2>
+                        <p>Update objectives and track completion status.</p>
                     </div>
-
 
                     <button
                         type="button"
                         className="edit-goal-close"
                         onClick={handleClose}
                         disabled={loading}
-                        title="Close"
+                        aria-label="Close"
                     >
-
-                        <FaTimes />
-
+                        <FiX />
                     </button>
-
                 </div>
 
-
-                {/* =========================
-                    FORM
-                ========================= */}
-
-                <form
-                    className="edit-goal-form"
-                    onSubmit={handleSubmit}
-                >
-
-                    {/* TITLE */}
-
+                {/* FORM */}
+                <form className="edit-goal-form" onSubmit={handleSubmit}>
                     <div className="edit-goal-form-group">
-
-                        <label>
-                            Goal Title
-                        </label>
-
+                        <label>Goal Title</label>
                         <input
                             type="text"
                             value={title}
-                            onChange={(e) =>
-                                setTitle(
-                                    e.target.value
-                                )
-                            }
+                            onChange={(e) => setTitle(e.target.value)}
                             placeholder="Enter goal title"
                             disabled={loading}
                             autoFocus
+                            required
                         />
-
                     </div>
 
-
-                    {/* DESCRIPTION */}
-
                     <div className="edit-goal-form-group">
-
-                        <label>
-                            Description
-                        </label>
-
+                        <label>Description <span className="optional-tag">(Optional)</span></label>
                         <textarea
                             value={description}
-                            onChange={(e) =>
-                                setDescription(
-                                    e.target.value
-                                )
-                            }
+                            onChange={(e) => setDescription(e.target.value)}
                             placeholder="Describe your goal..."
-                            rows="4"
+                            rows="3"
                             disabled={loading}
                         />
-
                     </div>
 
-
-                    {/* TARGET DATE */}
-
-                    <div className="edit-goal-form-group">
-
-                        <label>
-                            Target Date
-                        </label>
-
-                        <input
-                            type="date"
-                            value={targetDate}
-                            onChange={(e) =>
-                                setTargetDate(
-                                    e.target.value
-                                )
-                            }
-                            disabled={loading}
-                        />
-
-                    </div>
-
-
-                    {/* PROGRESS */}
-
-                    <div className="edit-goal-form-group">
-
-                        <label>
-                            Progress
-                        </label>
-
-                        <div className="progress-input-row">
-
+                    <div className="edit-goal-form-row">
+                        <div className="edit-goal-form-group">
+                            <label>Target Date</label>
                             <input
-                                type="range"
-                                min="0"
-                                max="100"
-                                value={progressPercentage}
-                                onChange={(e) =>
-                                    setProgressPercentage(
-                                        Number(e.target.value)
-                                    )
-                                }
+                                type="date"
+                                value={targetDate}
+                                onChange={(e) => setTargetDate(e.target.value)}
                                 disabled={loading}
                             />
-
-                            <span>
-                                {progressPercentage}%
-                            </span>
-
                         </div>
 
+                        <div className="edit-goal-form-group">
+                            <label>Status</label>
+                            <select
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                                disabled={loading}
+                            >
+                                <option value="Not Started">Not Started</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
                     </div>
-
-
-                    {/* STATUS */}
 
                     <div className="edit-goal-form-group">
-
-                        <label>
-                            Status
-                        </label>
-
-                        <select
-                            value={status}
-                            onChange={(e) =>
-                                setStatus(
-                                    e.target.value
-                                )
-                            }
+                        <div className="edit-goal-slider-header">
+                            <label>Progress</label>
+                            <span className="edit-slider-value">{progressPercentage}%</span>
+                        </div>
+                        <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={progressPercentage}
+                            onChange={(e) => setProgressPercentage(Number(e.target.value))}
                             disabled={loading}
-                        >
-
-                            <option value="Not Started">
-                                Not Started
-                            </option>
-
-                            <option value="In Progress">
-                                In Progress
-                            </option>
-
-                            <option value="Completed">
-                                Completed
-                            </option>
-
-                        </select>
-
+                        />
                     </div>
 
-
-                    {/* ACTIONS */}
-
                     <div className="edit-goal-actions">
-
                         <button
                             type="button"
                             className="edit-goal-cancel-btn"
                             onClick={handleClose}
                             disabled={loading}
                         >
-
                             Cancel
-
                         </button>
-
 
                         <button
                             type="submit"
                             className="edit-goal-save-btn"
                             disabled={loading}
                         >
-
-                            <FaSave />
-
-                            {loading
-                                ? "Saving..."
-                                : "Save Changes"
-                            }
-
+                            <FiCheck />
+                            <span>{loading ? "Saving..." : "Save Changes"}</span>
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default EditGoalModal;

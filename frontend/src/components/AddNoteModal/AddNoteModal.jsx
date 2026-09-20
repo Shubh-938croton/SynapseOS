@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
-import { FaTimes, FaSave, FaPlus } from "react-icons/fa";
-
+import { FiX, FiSave, FiPlus } from "react-icons/fi";
 import {
     createNote,
     updateNote
 } from "../../services/noteService";
-
 import { getAllSubjects } from "../../services/subjectService";
 import SubjectModal from "../SubjectModal/SubjectModal";
-
 import "./AddNoteModal.css";
-
 
 function AddNoteModal({
     isOpen,
@@ -18,7 +14,6 @@ function AddNoteModal({
     onNoteCreated,
     noteToEdit
 }) {
-
     const [title, setTitle] = useState("");
     const [subjectId, setSubjectId] = useState("");
     const [content, setContent] = useState("");
@@ -28,19 +23,14 @@ function AddNoteModal({
     const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
 
     const [loading, setLoading] = useState(false);
-    const [subjectsLoading, setSubjectsLoading] =
-        useState(false);
-
-
-    // =====================================================
-    // LOAD SUBJECTS + SET FORM DATA
-    // =====================================================
+    const [subjectsLoading, setSubjectsLoading] = useState(false);
 
     const loadSubjectsList = async (selectedId = null) => {
         try {
             setSubjectsLoading(true);
-            const subjectList = await getAllSubjects();
-            setSubjects(subjectList || []);
+            const response = await getAllSubjects();
+            const subjectList = response?.subjects ? response.subjects : (Array.isArray(response) ? response : []);
+            setSubjects(subjectList);
             if (selectedId) {
                 setSubjectId(selectedId);
             }
@@ -52,555 +42,219 @@ function AddNoteModal({
     };
 
     useEffect(() => {
-
-        if (!isOpen) {
-            return;
-        }
+        if (!isOpen) return;
 
         const loadModalData = async () => {
-
             try {
-
                 setSubjectsLoading(true);
-
-                // =========================
-                // FETCH SUBJECTS
-                // =========================
-
-                const subjectList =
-                    await getAllSubjects();
-
-                setSubjects(subjectList || []);
-
-
-                // =========================
-                // EDIT MODE
-                // =========================
+                const response = await getAllSubjects();
+                const subjectList = response?.subjects ? response.subjects : (Array.isArray(response) ? response : []);
+                setSubjects(subjectList);
 
                 if (noteToEdit) {
-
-                    setTitle(
-                        noteToEdit.title || ""
-                    );
-
-                    setSubjectId(
-                        noteToEdit.subject_id
-                            ? String(noteToEdit.subject_id)
-                            : ""
-                    );
-
-                    setContent(
-                        noteToEdit.content || ""
-                    );
-
-                    setIsPinned(
-                        Boolean(noteToEdit.is_pinned)
-                    );
-
-                }
-
-
-                // =========================
-                // CREATE MODE
-                // =========================
-
-                else {
-
+                    setTitle(noteToEdit.title || "");
+                    setSubjectId(noteToEdit.subject_id ? String(noteToEdit.subject_id) : "");
+                    setContent(noteToEdit.content || "");
+                    setIsPinned(Boolean(noteToEdit.is_pinned));
+                } else {
                     setTitle("");
                     setSubjectId("");
                     setContent("");
                     setIsPinned(false);
-
                 }
-
             } catch (error) {
-
-                console.error(
-                    "Error loading note modal:",
-                    error
-                );
-
-                alert(
-                    error.response?.data?.message ||
-                    "Failed to load subjects"
-                );
-
+                console.error("Error loading note modal:", error);
             } finally {
-
                 setSubjectsLoading(false);
-
             }
-
         };
 
-
         loadModalData();
-
     }, [isOpen, noteToEdit]);
 
-
-    // =====================================================
-    // DON'T RENDER WHEN CLOSED
-    // =====================================================
-
-    if (!isOpen) {
-        return null;
-    }
-
-
-    // =====================================================
-    // SUBMIT
-    // =====================================================
+    if (!isOpen) return null;
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
 
-
-        // =========================
-        // VALIDATION
-        // =========================
-
         if (!title.trim()) {
-
-            alert(
-                "Please enter a note title."
-            );
-
+            alert("Please enter a note title.");
             return;
-
         }
-
-
-        if (!subjectId) {
-
-            alert(
-                "Please select a subject."
-            );
-
-            return;
-
-        }
-
 
         if (!content.trim()) {
-
-            alert(
-                "Please enter some note content."
-            );
-
+            alert("Please enter some note content.");
             return;
-
         }
-
 
         try {
-
             setLoading(true);
 
-
-            // =================================================
-            // EDIT NOTE
-            // =================================================
-
             if (noteToEdit) {
-
-                await updateNote(
-                    noteToEdit.note_id,
-                    {
-                        subject_id:
-                            Number(subjectId),
-
-                        title:
-                            title.trim(),
-
-                        content:
-                            content.trim(),
-
-                        is_pinned:
-                            isPinned
-                    }
-                );
-
-
-                alert(
-                    "Note updated successfully"
-                );
-
-            }
-
-
-            // =================================================
-            // CREATE NOTE
-            // =================================================
-
-            else {
-
-                await createNote({
-
-                    subject_id:
-                        Number(subjectId),
-
-                    title:
-                        title.trim(),
-
-                    content:
-                        content.trim()
-
+                await updateNote(noteToEdit.note_id, {
+                    subject_id: subjectId ? Number(subjectId) : null,
+                    title: title.trim(),
+                    content: content.trim(),
+                    is_pinned: isPinned
                 });
-
-
-                alert(
-                    "Note created successfully"
-                );
-
+            } else {
+                await createNote({
+                    subject_id: subjectId ? Number(subjectId) : null,
+                    title: title.trim(),
+                    content: content.trim()
+                });
             }
-
-
-            // =================================================
-            // REFRESH NOTES PAGE
-            // =================================================
 
             if (onNoteCreated) {
-
                 await onNoteCreated();
-
             }
 
-
-            // =================================================
-            // CLOSE MODAL
-            // =================================================
-
             onClose();
-
-
         } catch (error) {
-
-            console.error(
-                "Save note error:",
-                error
-            );
-
+            console.error("Save note error:", error);
             alert(
                 error.response?.data?.message ||
-                (
-                    noteToEdit
-                        ? "Failed to update note"
-                        : "Failed to create note"
-                )
+                (noteToEdit ? "Failed to update note" : "Failed to create note")
             );
-
         } finally {
-
             setLoading(false);
-
         }
-
     };
 
-
-    // =====================================================
-    // RENDER
-    // =====================================================
-
     return (
-
-        <div
-            className="note-modal-overlay"
-            onClick={onClose}
-        >
-
-            <div
-                className="note-modal"
-                onClick={(e) =>
-                    e.stopPropagation()
-                }
-            >
-
-
-                {/* =================================================
-                    HEADER
-                ================================================= */}
-
+        <div className="note-modal-overlay" onClick={onClose}>
+            <div className="note-modal" onClick={(e) => e.stopPropagation()}>
+                {/* HEADER */}
                 <div className="note-modal-header">
-
                     <div>
-
-                        <h2>
-
-                            {noteToEdit
-                                ? "Edit Note"
-                                : "Create New Note"
-                            }
-
-                        </h2>
-
-                        <p>
-
-                            {noteToEdit
-                                ? "Update your note details."
-                                : "Save your ideas and study notes."
-                            }
-
-                        </p>
-
+                        <h2>{noteToEdit ? "Edit Note" : "New Note"}</h2>
+                        <p>{noteToEdit ? "Update your note details." : "Capture key insights, formulas, and references."}</p>
                     </div>
-
 
                     <button
                         type="button"
                         className="note-modal-close"
                         onClick={onClose}
                         disabled={loading}
+                        aria-label="Close dialog"
                     >
-
-                        <FaTimes />
-
+                        <FiX />
                     </button>
-
                 </div>
 
-
-                {/* =================================================
-                    FORM
-                ================================================= */}
-
-                <form
-                    className="note-modal-form"
-                    onSubmit={handleSubmit}
-                >
-
-
-                    {/* =================================================
-                        TITLE
-                    ================================================= */}
-
+                {/* FORM */}
+                <form className="note-modal-form" onSubmit={handleSubmit}>
+                    {/* TITLE */}
                     <div className="note-form-group">
-
-                        <label>
-                            Note Title
-                        </label>
-
+                        <label>Note Title <span className="required-star">*</span></label>
                         <input
                             type="text"
-                            placeholder="Enter note title"
+                            placeholder="e.g. Graph Algorithms Overview"
                             value={title}
-                            onChange={(e) =>
-                                setTitle(
-                                    e.target.value
-                                )
-                            }
+                            onChange={(e) => setTitle(e.target.value)}
                             disabled={loading}
                             autoFocus
+                            required
                         />
-
                     </div>
 
-
-                    {/* =================================================
-                        SUBJECT
-                    ================================================= */}
-
+                    {/* SUBJECT */}
                     <div className="note-form-group">
-
                         <div className="form-group-label-row">
-                            <label>
-                                Subject <span className="required-star">*</span>
-                            </label>
+                            <label>Subject</label>
                             <button
                                 type="button"
                                 className="add-subject-inline-btn"
                                 onClick={() => setIsSubjectModalOpen(true)}
                             >
-                                <FaPlus /> New Subject
+                                <FiPlus />
+                                <span>New Subject</span>
                             </button>
                         </div>
 
                         <select
                             value={subjectId}
-                            onChange={(e) =>
-                                setSubjectId(
-                                    e.target.value
-                                )
-                            }
-                            disabled={
-                                loading ||
-                                subjectsLoading
-                            }
+                            onChange={(e) => setSubjectId(e.target.value)}
+                            disabled={loading || subjectsLoading}
                         >
-
                             <option value="">
-
                                 {subjectsLoading
                                     ? "Loading subjects..."
-                                    : (subjects.length === 0 ? "No subjects available" : "Select a subject")
-                                }
-
+                                    : (subjects.length === 0 ? "No subjects created" : "Select a subject (optional)")}
                             </option>
-
-
                             {!subjectsLoading &&
-                                subjects.map(
-                                    (subject) => (
-
-                                        <option
-                                            key={
-                                                subject.subject_id
-                                            }
-                                            value={
-                                                subject.subject_id
-                                            }
-                                        >
-
-                                            {
-                                                subject.subject_name
-                                            }
-
-                                        </option>
-
-                                    )
-                                )
-                            }
-
+                                subjects.map((subject) => (
+                                    <option
+                                        key={subject.subject_id}
+                                        value={subject.subject_id}
+                                    >
+                                        {subject.subject_name}
+                                    </option>
+                                ))}
                         </select>
-
-
-                        {/* NO SUBJECTS */}
-
-                        {!subjectsLoading &&
-                            subjects.length === 0 && (
-
-                                <div className="subject-empty-hint">
-                                    No subjects found. <button type="button" onClick={() => setIsSubjectModalOpen(true)}>Create one</button> to assign to this note.
-                                </div>
-
-                            )
-                        }
-
                     </div>
 
-
-                    {/* =================================================
-                        CONTENT
-                    ================================================= */}
-
+                    {/* CONTENT */}
                     <div className="note-form-group">
-
-                        <label>
-                            Content
-                        </label>
-
+                        <label>Content <span className="required-star">*</span></label>
                         <textarea
-                            placeholder="Write your note here..."
+                            placeholder="Write your study notes, definitions, code snippets, or formulas..."
                             value={content}
-                            onChange={(e) =>
-                                setContent(
-                                    e.target.value
-                                )
-                            }
+                            onChange={(e) => setContent(e.target.value)}
                             disabled={loading}
-                            rows="8"
+                            rows="6"
+                            required
                         />
-
                     </div>
 
-
-                    {/* =================================================
-                        PIN
-                    ================================================= */}
-
+                    {/* PIN */}
                     {noteToEdit && (
-
                         <div className="note-pin-option">
-
                             <label>
-
                                 <input
                                     type="checkbox"
                                     checked={isPinned}
-                                    onChange={(e) =>
-                                        setIsPinned(
-                                            e.target.checked
-                                        )
-                                    }
+                                    onChange={(e) => setIsPinned(e.target.checked)}
                                     disabled={loading}
                                 />
-
-                                Pin this note
-
+                                <span>Pin this note to top</span>
                             </label>
-
                         </div>
-
                     )}
 
-
-                    {/* =================================================
-                        ACTIONS
-                    ================================================= */}
-
+                    {/* ACTIONS */}
                     <div className="note-modal-actions">
-
-
                         <button
                             type="button"
                             className="note-cancel-btn"
                             onClick={onClose}
                             disabled={loading}
                         >
-
                             Cancel
-
                         </button>
-
 
                         <button
                             type="submit"
                             className="note-save-btn"
-                            disabled={
-                                loading ||
-                                subjectsLoading ||
-                                subjects.length === 0
-                            }
+                            disabled={loading}
                         >
-
-                            <FaSave />
-
                             {loading
-                                ? (
-                                    noteToEdit
-                                        ? "Updating..."
-                                        : "Creating..."
-                                )
-                                : (
-                                    noteToEdit
-                                        ? "Update Note"
-                                        : "Create Note"
-                                )
-                            }
-
+                                ? (noteToEdit ? "Updating..." : "Creating...")
+                                : (noteToEdit ? "Save Changes" : "Create Note")}
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
 
             <SubjectModal
                 isOpen={isSubjectModalOpen}
                 onClose={() => setIsSubjectModalOpen(false)}
                 onSubjectCreated={(newSub) => {
-                    loadSubjectsList(newSub.subject_id);
+                    loadSubjectsList(newSub?.subject_id);
                 }}
             />
-
         </div>
-
     );
-
 }
-
 
 export default AddNoteModal;

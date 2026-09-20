@@ -1,48 +1,31 @@
 /* ==========================================================================
-   EDIT EVENT MODAL - MODERN DIALOG
+   EDIT EVENT MODAL
    ========================================================================== */
 
 .edit-event-overlay {
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: 1050;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
-
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    animation: editEventOverlayFade 0.2s ease;
-}
-
-@keyframes editEventOverlayFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: modalOverlayFade 0.15s ease-out;
 }
 
 .edit-event-modal {
     width: 100%;
-    max-width: 520px;
+    max-width: 540px;
     max-height: 90vh;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--modal-shadow);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
     overflow-y: auto;
-    animation: editEventModalAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes editEventModalAppear {
-    from {
-        opacity: 0;
-        transform: translateY(-16px) scale(0.96);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+    animation: modalSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Header */
@@ -50,27 +33,27 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 24px 28px 18px;
+    gap: 16px;
+    padding: 20px 24px 16px;
     border-bottom: 1px solid var(--border-color);
 }
 
 .edit-event-header h2 {
     margin: 0;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-size: 17px;
+    font-weight: 700;
     color: var(--text-primary);
 }
 
 .edit-event-header p {
-    margin: 4px 0 0;
+    margin: 3px 0 0;
     font-size: 13px;
     color: var(--text-secondary);
 }
 
 .edit-event-close {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,15 +61,14 @@
     border-radius: var(--radius-sm);
     background: var(--bg-tertiary);
     color: var(--text-muted);
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .edit-event-close:hover {
-    background: var(--danger-bg);
-    color: var(--danger-color);
-    border-color: var(--danger-border);
+    background: var(--bg-hover);
+    color: var(--text-primary);
 }
 
 .edit-event-close:disabled {
@@ -98,8 +80,14 @@
 .edit-event-form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    padding: 24px 28px 28px;
+    gap: 16px;
+    padding: 20px 24px;
+}
+
+.edit-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
 }
 
 .edit-form-group {
@@ -109,7 +97,7 @@
 }
 
 .edit-form-group label {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: var(--text-secondary);
 }
@@ -119,7 +107,7 @@
 .edit-form-group select {
     width: 100%;
     box-sizing: border-box;
-    padding: 11px 14px;
+    padding: 10px 12px;
     border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
     background: var(--input-background);
@@ -127,11 +115,11 @@
     font-family: inherit;
     font-size: 13.5px;
     outline: none;
-    transition: all var(--transition-fast);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .edit-form-group textarea {
-    min-height: 90px;
+    min-height: 80px;
     resize: vertical;
 }
 
@@ -139,7 +127,7 @@
 .edit-form-group textarea:focus,
 .edit-form-group select:focus {
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px var(--accent-subtle);
+    box-shadow: 0 0 0 2px var(--accent-subtle);
 }
 
 .edit-form-group input:disabled,
@@ -154,26 +142,26 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 12px;
-    margin-top: 10px;
-    padding-top: 18px;
+    gap: 10px;
+    padding-top: 16px;
     border-top: 1px solid var(--border-color);
 }
 
 .edit-cancel-btn {
-    padding: 10px 18px;
+    height: 36px;
+    padding: 0 16px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     background: var(--bg-tertiary);
     color: var(--text-secondary);
-    font-size: 13.5px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .edit-cancel-btn:hover {
-    background: var(--bg-elevated);
+    background: var(--bg-hover);
     color: var(--text-primary);
 }
 
@@ -185,23 +173,21 @@
 .edit-save-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 10px 22px;
+    gap: 6px;
+    height: 36px;
+    padding: 0 18px;
     border: none;
     border-radius: var(--radius-md);
-    background: var(--accent-gradient);
+    background: var(--accent-color);
     color: #ffffff;
-    font-size: 13.5px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
     transition: all var(--transition-fast);
 }
 
 .edit-save-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+    background: var(--accent-hover);
 }
 
 .edit-save-btn:disabled {
@@ -212,7 +198,12 @@
 @media (max-width: 600px) {
     .edit-event-header,
     .edit-event-form {
-        padding: 20px;
+        padding: 18px 20px;
+    }
+
+    .edit-form-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .edit-event-actions {
@@ -223,6 +214,6 @@
     .edit-cancel-btn,
     .edit-save-btn {
         width: 100%;
-        text-align: center;
+        justify-content: center;
     }
 }

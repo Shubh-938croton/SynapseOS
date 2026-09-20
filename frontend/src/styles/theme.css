@@ -1,95 +1,96 @@
 /* ==========================================================================
    SYNAPSEOS DESIGN SYSTEM & THEME TOKENS
-   Inspired by modern developer & productivity SaaS dashboards (Linear / Vercel)
+   A calm, focused, human-designed productivity operating system.
    ========================================================================== */
 
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 /* ==========================================================================
-   1. DARK THEME (DEFAULT / PRIMARY VISUAL DIRECTION)
+   1. DARK THEME (PRIMARY / DEFAULT)
    ========================================================================== */
 :root,
 html[data-theme="dark"] {
     /* Background Hierarchy */
-    --bg-primary: #090d16;        /* Deep obsidian base */
-    --bg-secondary: #111726;      /* Layered card & panel surface */
-    --bg-tertiary: #172033;       /* Elevated element / filter background */
-    --bg-elevated: #1e293b;       /* Dropdown / Modal / Floating surface */
-    --bg-glass: rgba(17, 23, 38, 0.85); /* Frosted glass backdrop */
-    --bg-hover: rgba(255, 255, 255, 0.05);
+    --bg-primary: #0b0f17;          /* Neutral dark slate workspace canvas */
+    --bg-secondary: #111723;        /* Sidebar, cards, panels */
+    --bg-tertiary: #161e2e;         /* Inputs, pill tags, row hovers */
+    --bg-elevated: #1c2538;         /* Modals, menus, dropdowns */
+    --bg-hover: rgba(255, 255, 255, 0.04);
+    --bg-active: rgba(59, 130, 246, 0.1);
 
     /* Typography Colors */
-    --text-primary: #f8fafc;      /* Pure high-contrast white/slate */
-    --text-secondary: #94a3b8;    /* Muted secondary labels */
-    --text-muted: #64748b;        /* Subtle hints / timestamps */
-    --text-inverse: #090d16;      /* Dark text on light accent */
+    --text-primary: #f8fafc;        /* High-contrast crisp text */
+    --text-secondary: #94a3b8;      /* Supporting text / descriptions */
+    --text-muted: #64748b;          /* Metadata / timestamps / placeholders */
+    --text-inverse: #0b0f17;        /* Contrast on light chips */
 
     /* Borders & Dividers */
-    --border-color: rgba(255, 255, 255, 0.08); /* 1px subtle crisp border */
+    --border-color: rgba(255, 255, 255, 0.08);
     --border-subtle: rgba(255, 255, 255, 0.04);
-    --border-hover: rgba(59, 130, 246, 0.4);
+    --border-hover: rgba(255, 255, 255, 0.16);
     --border-focus: #3b82f6;
 
-    /* Primary Accent (Electric Blue) */
-    --accent-color: #3b82f6;      /* Electric Blue core */
-    --accent-hover: #2563eb;      /* Deep Electric Blue hover */
-    --accent-subtle: rgba(59, 130, 246, 0.12); /* Translucent pill background */
-    --accent-glow: 0 0 24px rgba(59, 130, 246, 0.28);
-    --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    /* Primary Accent (Focused Blue) */
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --accent-subtle: rgba(59, 130, 246, 0.12);
+    --accent-border: rgba(59, 130, 246, 0.3);
+    --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 
-    /* Semantic Status Accents */
-    --success-color: #10b981;     /* Emerald green (Completed) */
-    --success-bg: rgba(16, 185, 129, 0.12);
+    /* Semantic Status Colors (Restrained) */
+    --success-color: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.1);
     --success-border: rgba(16, 185, 129, 0.25);
 
-    --warning-color: #f59e0b;     /* Amber gold (In-progress / Medium) */
-    --warning-bg: rgba(245, 158, 11, 0.12);
+    --warning-color: #f59e0b;
+    --warning-bg: rgba(245, 158, 11, 0.1);
     --warning-border: rgba(245, 158, 11, 0.25);
 
-    --danger-color: #ef4444;      /* Crimson red (High priority / Danger) */
-    --danger-bg: rgba(239, 68, 68, 0.12);
+    --danger-color: #ef4444;
+    --danger-bg: rgba(239, 68, 68, 0.1);
     --danger-border: rgba(239, 68, 68, 0.25);
 
-    --info-color: #06b6d4;        /* Cyan highlight (Pomodoro / Focus) */
-    --info-bg: rgba(6, 182, 212, 0.12);
+    --info-color: #0ea5e9;
+    --info-bg: rgba(14, 165, 233, 0.1);
+    --info-border: rgba(14, 165, 233, 0.25);
 
-    --purple-accent: #8b5cf6;     /* Royal violet (Contests / Stats) */
-    --purple-bg: rgba(139, 92, 246, 0.12);
+    --purple-accent: #8b5cf6;
+    --purple-bg: rgba(139, 92, 246, 0.1);
+    --purple-border: rgba(139, 92, 246, 0.25);
 
-    /* Shadows & Elevations */
-    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.3);
-    --card-shadow-hover: 0 12px 32px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(59, 130, 246, 0.25);
-    --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
-    --glow-shadow: 0 0 35px rgba(59, 130, 246, 0.18);
+    /* Shadows & Elevations (Restrained) */
+    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+    --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --modal-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.7);
 
-    /* Surface & Input Elements */
-    --input-background: #0d1322;
+    /* Inputs */
+    --input-background: #0f1521;
     --input-border: rgba(255, 255, 255, 0.1);
     --input-focus-border: #3b82f6;
 
-    /* Radius & Spacing Tokens */
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
+    /* Radius Tokens */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --radius-xl: 12px;
     --radius-full: 9999px;
 
-    /* Micro-interactions */
-    --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-normal: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Transitions */
+    --transition-fast: 0.12s ease;
+    --transition-normal: 0.18s ease;
+    --transition-smooth: 0.25s ease;
 }
 
 /* ==========================================================================
-   2. LIGHT THEME (DAYLIGHT FOCUS MODE)
+   2. LIGHT THEME
    ========================================================================== */
 html[data-theme="light"] {
     --bg-primary: #f8fafc;
     --bg-secondary: #ffffff;
     --bg-tertiary: #f1f5f9;
     --bg-elevated: #ffffff;
-    --bg-glass: rgba(255, 255, 255, 0.9);
-    --bg-hover: rgba(0, 0, 0, 0.04);
+    --bg-hover: rgba(0, 0, 0, 0.03);
+    --bg-active: rgba(37, 99, 235, 0.08);
 
     --text-primary: #0f172a;
     --text-secondary: #475569;
@@ -98,37 +99,38 @@ html[data-theme="light"] {
 
     --border-color: #e2e8f0;
     --border-subtle: #f1f5f9;
-    --border-hover: #93c5fd;
+    --border-hover: #cbd5e1;
     --border-focus: #2563eb;
 
     --accent-color: #2563eb;
     --accent-hover: #1d4ed8;
     --accent-subtle: rgba(37, 99, 235, 0.08);
-    --accent-glow: 0 0 20px rgba(37, 99, 235, 0.15);
-    --accent-gradient: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    --accent-border: rgba(37, 99, 235, 0.2);
+    --accent-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
 
     --success-color: #059669;
-    --success-bg: rgba(5, 150, 105, 0.1);
+    --success-bg: rgba(5, 150, 105, 0.08);
     --success-border: rgba(5, 150, 105, 0.2);
 
     --warning-color: #d97706;
-    --warning-bg: rgba(217, 119, 6, 0.1);
+    --warning-bg: rgba(217, 119, 6, 0.08);
     --warning-border: rgba(217, 119, 6, 0.2);
 
     --danger-color: #dc2626;
-    --danger-bg: rgba(220, 38, 38, 0.1);
+    --danger-bg: rgba(220, 38, 38, 0.08);
     --danger-border: rgba(220, 38, 38, 0.2);
 
-    --info-color: #0891b2;
-    --info-bg: rgba(8, 145, 178, 0.1);
+    --info-color: #0284c7;
+    --info-bg: rgba(2, 132, 199, 0.08);
+    --info-border: rgba(2, 132, 199, 0.2);
 
     --purple-accent: #7c3aed;
-    --purple-bg: rgba(124, 58, 237, 0.1);
+    --purple-bg: rgba(124, 58, 237, 0.08);
+    --purple-border: rgba(124, 58, 237, 0.2);
 
-    --card-shadow: 0 4px 16px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -1px rgba(15, 23, 42, 0.03);
-    --card-shadow-hover: 0 12px 28px -2px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(37, 99, 235, 0.2);
-    --modal-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
-    --glow-shadow: 0 0 30px rgba(37, 99, 235, 0.1);
+    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+    --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --modal-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.15);
 
     --input-background: #ffffff;
     --input-border: #cbd5e1;
@@ -156,7 +158,6 @@ body,
 html {
     background: var(--bg-primary);
     color-scheme: dark;
-    transition: background-color var(--transition-normal);
 }
 
 html[data-theme="light"] {
@@ -172,8 +173,8 @@ body {
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -193,11 +194,13 @@ body {
 h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary);
     font-weight: 700;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
+    margin: 0;
 }
 
 p {
     color: var(--text-secondary);
+    margin: 0;
 }
 
 code, kbd, samp, pre {
@@ -209,12 +212,12 @@ input,
 textarea,
 select {
     font-family: inherit;
-    font-size: 14px;
+    font-size: 13.5px;
     background: var(--input-background);
     color: var(--text-primary);
     border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
-    padding: 10px 14px;
+    padding: 9px 13px;
     outline: none;
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
@@ -222,8 +225,8 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px var(--accent-subtle);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 2px var(--accent-subtle);
 }
 
 input::placeholder,
@@ -234,7 +237,7 @@ textarea::placeholder {
 /* Buttons Base */
 button {
     font-family: inherit;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 600;
     border-radius: var(--radius-md);
     cursor: pointer;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FiX, FiCheck } from "react-icons/fi";
 
 import {
     createContest,
@@ -434,14 +435,12 @@ function AddContestModal({
 
                     <button
                         type="button"
-
                         className="contest-modal-close"
-
                         onClick={onClose}
-
                         disabled={loading}
+                        aria-label="Close modal"
                     >
-                        ×
+                        <FiX />
                     </button>
 
                 </div>
@@ -714,28 +713,24 @@ function AddContestModal({
 
                         <button
                             type="submit"
-
                             className="contest-modal-submit"
-
                             disabled={loading}
                         >
-
-                            {loading
-
-                                ? (
-                                    isEditMode
-                                        ? "Updating..."
-                                        : "Adding..."
-                                )
-
-                                : (
-                                    isEditMode
-                                        ? "Update Contest"
-                                        : "Add Contest"
-                                )
-
-                            }
-
+                            <FiCheck />
+                            <span>
+                                {loading
+                                    ? (
+                                        isEditMode
+                                            ? "Updating..."
+                                            : "Adding..."
+                                    )
+                                    : (
+                                        isEditMode
+                                            ? "Update Contest"
+                                            : "Add Contest"
+                                    )
+                                }
+                            </span>
                         </button>
 
 

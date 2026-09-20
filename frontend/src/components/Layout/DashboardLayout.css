@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DASHBOARD LAYOUT - MODERN SAAS SHELL
+   DASHBOARD LAYOUT - WORKSPACE CONTAINER
    ========================================================================== */
 
 .dashboard-layout {
@@ -8,22 +8,21 @@
     width: 100%;
     background: var(--bg-primary);
     color: var(--text-primary);
-    transition: background-color var(--transition-normal);
 }
 
 .dashboard-main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 0; /* Prevent flex overflow */
+    min-width: 0;
     background: var(--bg-primary);
     overflow-x: hidden;
 }
 
 .dashboard-content {
     flex: 1;
-    padding: 32px;
-    max-width: 1600px;
+    padding: 24px 28px 40px;
+    max-width: 1440px;
     width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
@@ -31,7 +30,7 @@
 
 @media (max-width: 1024px) {
     .dashboard-content {
-        padding: 24px 20px;
+        padding: 20px 18px 32px;
     }
 }
 
@@ -41,6 +40,6 @@
     }
     
     .dashboard-content {
-        padding: 16px 12px;
+        padding: 16px 14px 24px;
     }
 }

@@ -1,77 +1,51 @@
+import { useMemo } from "react";
 import "./Navbar.css";
-
 import NotificationBell from "../Notification/NotificationBell";
 
 function Navbar() {
+    const user = useMemo(() => {
+        try {
+            return JSON.parse(localStorage.getItem("user")) || {};
+        } catch {
+            return {};
+        }
+    }, []);
 
-    const user = JSON.parse(
-        localStorage.getItem("user")
-    );
+    const todayDateFormatted = useMemo(() => {
+        return new Date().toLocaleDateString("en-US", {
+            weekday: "short",
+            month: "short",
+            day: "numeric"
+        });
+    }, []);
 
     return (
-
         <header className="navbar">
-
             <div className="navbar-left">
-
-                <h2>
-                    Welcome back,
-                    <span>
-                        {" "}
-                        {user?.full_name || "User"} 👋
-                    </span>
-                </h2>
-
-                <p>
-                    Stay productive today.
-                </p>
-
+                <span className="navbar-date">{todayDateFormatted}</span>
+                <span className="navbar-divider">•</span>
+                <span className="navbar-greeting">
+                    {user?.full_name ? `Signed in as ${user.full_name}` : "Workspace"}
+                </span>
             </div>
-
 
             <div className="navbar-right">
-
-                {/* =================================
-                    NOTIFICATION BELL
-                ================================= */}
-
                 <NotificationBell />
 
-
-                {/* =================================
-                    PROFILE
-                ================================= */}
-
-                <div className="profile">
-
-                    <div className="avatar">
-
+                <div className="profile-pill">
+                    <div className="profile-avatar">
                         {user?.full_name
-                            ? user.full_name
-                                .charAt(0)
-                                .toUpperCase()
+                            ? user.full_name.charAt(0).toUpperCase()
                             : "U"}
-
                     </div>
-
-                    <div>
-
-                        <h4>
+                    <div className="profile-info">
+                        <span className="profile-name">
                             {user?.full_name || "User"}
-                        </h4>
-
-                        <span>
-                            {user?.email || ""}
                         </span>
-
                     </div>
-
                 </div>
-
             </div>
-
         </header>
-
     );
 }
 

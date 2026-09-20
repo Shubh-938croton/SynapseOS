@@ -8,18 +8,18 @@
 
 .notification-bell {
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     padding: 0;
 
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     background: var(--bg-tertiary);
-    color: var(--text-primary);
+    color: var(--text-secondary);
 
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -28,15 +28,15 @@
 .notification-bell:hover {
     background: var(--bg-elevated);
     border-color: var(--border-hover);
-    transform: translateY(-1px);
+    color: var(--text-primary);
 }
 
 .notification-bell:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
 }
 
 .notification-bell-icon {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1;
 }
 
@@ -50,20 +50,19 @@
     align-items: center;
     justify-content: center;
 
-    min-width: 18px;
-    height: 18px;
+    min-width: 17px;
+    height: 17px;
     padding: 0 4px;
     box-sizing: border-box;
 
     color: #ffffff;
     background: var(--danger-color);
-    border: 2px solid var(--bg-secondary);
+    border: 2px solid var(--bg-primary);
     border-radius: var(--radius-full);
 
-    font-size: 9.5px;
-    font-weight: 800;
+    font-size: 9px;
+    font-weight: 700;
     line-height: 1;
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
 
 /* ==========================================================================
@@ -72,28 +71,28 @@
 
 .notification-dropdown {
     position: absolute;
-    top: calc(100% + 12px);
+    top: calc(100% + 8px);
     right: 0;
     z-index: 1000;
 
-    width: 380px;
+    width: 360px;
     overflow: hidden;
 
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     box-shadow: var(--modal-shadow);
-    animation: dropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: dropdownFadeIn 0.15s ease-out;
 }
 
 @keyframes dropdownFadeIn {
     from {
         opacity: 0;
-        transform: translateY(-8px) scale(0.98);
+        transform: translateY(-4px);
     }
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 }
 
@@ -105,18 +104,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
+    gap: 12px;
 
-    padding: 16px 20px;
-    background: var(--bg-tertiary);
+    padding: 14px 16px;
+    background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
 }
 
 .notification-header h3 {
     margin: 0;
     color: var(--text-primary);
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .notification-header span {
@@ -127,7 +126,10 @@
 }
 
 .mark-all-button {
-    padding: 5px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
     color: var(--accent-color);
     background: var(--accent-subtle);
     border: 1px solid transparent;
@@ -143,26 +145,21 @@
     color: #ffffff;
 }
 
-.mark-all-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
 /* ==========================================================================
    NOTIFICATION LIST & ITEMS
    ========================================================================== */
 
 .notification-list {
-    max-height: 400px;
+    max-height: 380px;
     overflow-y: auto;
 }
 
 .notification-item {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
 
-    padding: 14px 18px;
+    padding: 12px 16px;
     border-bottom: 1px solid var(--border-color);
     transition: background-color var(--transition-fast);
 }
@@ -176,7 +173,7 @@
 }
 
 .notification-unread {
-    background: rgba(59, 130, 246, 0.04);
+    background: rgba(37, 99, 235, 0.03);
 }
 
 .notification-read {
@@ -193,7 +190,7 @@
 .notification-item-title {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .notification-item-title strong {
@@ -206,7 +203,7 @@
 }
 
 .notification-item-content p {
-    margin: 4px 0 6px;
+    margin: 4px 0 4px;
     color: var(--text-secondary);
     font-size: 12px;
     line-height: 1.4;
@@ -215,7 +212,7 @@
 .notification-item-content small {
     color: var(--text-muted);
     font-size: 10.5px;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
 }
 
 /* Unread Dot */
@@ -225,24 +222,23 @@
     flex-shrink: 0;
     background: var(--accent-color);
     border-radius: 50%;
-    box-shadow: 0 0 6px var(--accent-color);
 }
 
 /* Delete Action */
 .notification-delete {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     flex-shrink: 0;
 
     color: var(--text-muted);
     background: transparent;
     border: none;
     border-radius: var(--radius-sm);
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
@@ -259,30 +255,59 @@
     align-items: center;
     justify-content: center;
 
-    min-height: 180px;
+    min-height: 160px;
     padding: 24px;
     color: var(--text-muted);
     text-align: center;
 }
 
 .empty-bell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
     margin-bottom: 8px;
-    font-size: 26px;
-    opacity: 0.5;
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    font-size: 18px;
 }
 
 .notification-empty p {
     margin: 0;
     font-size: 13px;
-    color: var(--text-secondary);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.notification-empty small {
+    margin-top: 2px;
+    font-size: 11.5px;
+    color: var(--text-muted);
+}
+
+.notification-spinner {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 8px;
+    border: 2px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: notif-spin 0.8s linear infinite;
+}
+
+@keyframes notif-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 @media (max-width: 500px) {
     .notification-dropdown {
         position: fixed;
-        top: 74px;
-        left: 16px;
-        right: 16px;
+        top: 64px;
+        left: 12px;
+        right: 12px;
         width: auto;
         max-width: none;
     }

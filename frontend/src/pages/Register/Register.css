@@ -1,38 +1,31 @@
 /* ==========================================================================
-   SYNAPSEOS AUTH - MODERN DARK GLASS REGISTER
+   SYNAPSEOS AUTH - REGISTER VIEW
    ========================================================================== */
 
 @import "../Login/Login.css";
 
 .register-card {
-    width: 480px;
-    max-width: 100%;
-    padding: 38px 40px;
-    background: rgba(17, 24, 39, 0.85);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-xl);
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5), 0 0 40px rgba(59, 130, 246, 0.1);
-    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    width: 100%;
 }
 
 .register-form {
     display: flex;
     flex-direction: column;
+    gap: 16px;
 }
 
 .register-success {
-    padding: 12px 14px;
-    margin-bottom: 17px;
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    margin-bottom: 16px;
     border-radius: var(--radius-md);
     background: var(--success-bg);
     border: 1px solid var(--success-border);
     color: var(--success-color);
     font-size: 13.5px;
     line-height: 1.4;
-    text-align: center;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .form-row {
@@ -42,12 +35,9 @@
 }
 
 @media (max-width: 640px) {
-    .register-card {
-        padding: 24px 18px;
-    }
-
     .form-row {
         grid-template-columns: 1fr;
-        gap: 0;
+        gap: 16px;
     }
 }
+

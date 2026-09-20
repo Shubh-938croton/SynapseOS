@@ -97,121 +97,68 @@ function Login() {
 
     return (
         <div className="login-page">
-
-            {/* =========================
-                AMBIENT LIGHTING & GRID
-            ========================= */}
-            <div className="login-grid-pattern"></div>
-            <div className="background-orb orb-one"></div>
-            <div className="background-orb orb-two"></div>
-            <div className="background-orb orb-three"></div>
-
             <div className="login-container">
-
-                {/* =========================
-                    LEFT SIDE: HERO & BRAND
-                ========================= */}
+                {/* LEFT: BRAND & PRODUCT STATEMENT */}
                 <div className="login-left">
-
-                    <div className="brand-badge">
-                        <span className="badge-dot"></span>
-                        <FiZap className="badge-icon" />
-                        <span>AI-Powered Cognitive OS</span>
+                    <div className="brand-header">
+                        <div className="brand-logo-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M12 3v6m0 6v6M3 12h6m6 0h6"></path>
+                            </svg>
+                        </div>
+                        <span className="brand-name">SynapseOS</span>
                     </div>
 
-                    <div className="brand-content">
-                        <h1 className="logo">SynapseOS</h1>
-                        <h2>Master Your Focus & Studies</h2>
+                    <div className="brand-hero">
+                        <h1>A calm, personal workspace for study and focus.</h1>
                         <p>
-                            The unified cognitive operating system for students and developers.
-                            Track tasks, deep work sessions, habits, and let intelligent analytics guide your journey.
+                            Organize your tasks, manage coursework, track coding milestones,
+                            and run deep focus sessions without unnecessary noise.
                         </p>
                     </div>
 
-                    {/* Brain Visual with Floating Badges */}
-                    <div className="brain-wrapper">
-                        <div className="brain-glow"></div>
-                        <div className="brain-ambient-ring"></div>
-
-                        {/* Floating Metric Chips */}
-                        <div className="floating-chip chip-one">
-                            <FiZap className="chip-icon zap" />
-                            <div className="chip-text">
-                                <strong>Deep Focus</strong>
-                                <span>Pomodoro Engine</span>
+                    <div className="feature-list">
+                        <div className="feature-item">
+                            <FiZap className="feature-icon" />
+                            <div>
+                                <strong>Focused Workflows</strong>
+                                <span>Pomodoro timer and organized study sessions</span>
                             </div>
                         </div>
-
-                        <div className="floating-chip chip-two">
-                            <FiTarget className="chip-icon target" />
-                            <div className="chip-text">
-                                <strong>Smart Goals</strong>
-                                <span>Milestone Tracking</span>
+                        <div className="feature-item">
+                            <FiTarget className="feature-icon" />
+                            <div>
+                                <strong>Clear Milestones</strong>
+                                <span>Track goals, assignments, and contest schedules</span>
                             </div>
                         </div>
-
-                        <div className="floating-chip chip-three">
-                            <FiActivity className="chip-icon stats" />
-                            <div className="chip-text">
-                                <strong>Analytics</strong>
-                                <span>Real-Time Insights</span>
+                        <div className="feature-item">
+                            <FiActivity className="feature-icon" />
+                            <div>
+                                <strong>Daily Progress</strong>
+                                <span>Understand your study rhythm with real data</span>
                             </div>
-                        </div>
-
-                        <img
-                            src={hero}
-                            alt="SynapseOS AI productivity"
-                            className="brain-image"
-                        />
-                    </div>
-
-                    <div className="product-tagline">
-                        <div className="tagline-item">
-                            <span className="dot"></span>
-                            <span>Plan</span>
-                        </div>
-                        <div className="tagline-item">
-                            <span className="dot"></span>
-                            <span>Focus</span>
-                        </div>
-                        <div className="tagline-item">
-                            <span className="dot"></span>
-                            <span>Analyze</span>
-                        </div>
-                        <div className="tagline-item">
-                            <span className="dot"></span>
-                            <span>Excel</span>
                         </div>
                     </div>
-
                 </div>
 
-                {/* =========================
-                    RIGHT SIDE: AUTH CARD
-                ========================= */}
+                {/* RIGHT: AUTH CARD */}
                 <div className="login-right">
-
                     <div className="login-card">
-                        <div className="card-glass-highlight"></div>
-
-                        {/* Heading */}
                         <div className="login-heading">
-                            <div className="welcome-tag">
-                                <span>👋 Welcome Back</span>
-                            </div>
-                            <h2>Sign In to SynapseOS</h2>
-                            <p>Enter your credentials to access your productivity workspace</p>
+                            <h2>Sign In</h2>
+                            <p>Enter your credentials to access your workspace</p>
                         </div>
 
                         {/* Error Alert */}
                         {errorMessage && (
                             <div className="login-error" role="alert">
-                                <span className="error-icon">⚠️</span>
                                 <span>{errorMessage}</span>
                             </div>
                         )}
 
-                        {/* Google Quick Sign-In */}
+                        {/* Google Sign-In */}
                         <button
                             type="button"
                             className="google-btn"
@@ -235,19 +182,16 @@ function Login() {
                             )}
                         </button>
 
-                        {/* Divider */}
                         <div className="divider">
                             <span></span>
-                            <p>Or continue with email</p>
+                            <p>or sign in with email</p>
                             <span></span>
                         </div>
 
                         {/* Form */}
                         <form onSubmit={handleLogin} className="login-form">
-
-                            {/* Email */}
                             <div className="input-group">
-                                <label htmlFor="email">Email Address</label>
+                                <label htmlFor="email">Email address</label>
                                 <div className="input-wrapper">
                                     <FiMail className="field-icon" />
                                     <input
@@ -266,7 +210,6 @@ function Login() {
                                 </div>
                             </div>
 
-                            {/* Password */}
                             <div className="input-group">
                                 <div className="label-row">
                                     <label htmlFor="password">Password</label>
@@ -276,7 +219,7 @@ function Login() {
                                         className="forgot-link"
                                         tabIndex={0}
                                     >
-                                        Forgot Password?
+                                        Forgot password?
                                     </a>
                                 </div>
                                 <div className="input-wrapper password-wrapper">
@@ -306,7 +249,6 @@ function Login() {
                                 </div>
                             </div>
 
-                            {/* Remember Me */}
                             <div className="login-options">
                                 <label className="remember-label">
                                     <input
@@ -315,12 +257,10 @@ function Login() {
                                         onChange={(e) => setRememberMe(e.target.checked)}
                                         disabled={loading || googleLoading}
                                     />
-                                    <span className="checkbox-custom"></span>
                                     <span className="remember-text">Remember me for 30 days</span>
                                 </label>
                             </div>
 
-                            {/* Submit Button */}
                             <button
                                 type="submit"
                                 className="login-btn"
@@ -329,18 +269,17 @@ function Login() {
                                 {loading ? (
                                     <>
                                         <span className="loading-spinner"></span>
-                                        <span>Signing In...</span>
+                                        <span>Signing in...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <span>Sign In to Workspace</span>
+                                        <span>Sign in</span>
                                         <FiArrowRight className="btn-arrow" />
                                     </>
                                 )}
                             </button>
                         </form>
 
-                        {/* Sign Up Link */}
                         <div className="signup-link">
                             <span>Don't have an account?</span>
                             <button
@@ -348,22 +287,12 @@ function Login() {
                                 onClick={() => navigate("/register")}
                                 disabled={loading || googleLoading}
                             >
-                                Create an Account
+                                Create an account
                             </button>
                         </div>
-
-                        {/* Security Badge */}
-                        <div className="security-message">
-                            <FiShield className="security-icon" />
-                            <span>256-Bit Encrypted &amp; Secure JWT Authentication</span>
-                        </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaTimes, FaSave, FaPlus } from "react-icons/fa";
+import { FiX, FiCheck, FiPlus } from "react-icons/fi";
 
 import { createStudySession } from "../../services/studySessionService";
 import { getAllSubjects } from "../../services/subjectService";
@@ -363,27 +363,19 @@ function AddStudySessionModal({
                         onClick={handleClose}
                         disabled={loading}
                     >
-
-                        <FaTimes />
-
+                        <FiX />
                     </button>
-
                 </div>
-
 
                 {/* =================================
                     FORM
                 ================================= */}
-
                 <form
                     className="study-session-modal-form"
                     onSubmit={handleSubmit}
                 >
-
                     {/* SUBJECT */}
-
                     <div className="study-session-form-group">
-
                         <div className="form-group-label-row">
                             <label>
                                 Subject <span className="required-star">*</span>
@@ -393,7 +385,7 @@ function AddStudySessionModal({
                                 className="add-subject-inline-btn"
                                 onClick={() => setIsSubjectModalOpen(true)}
                             >
-                                <FaPlus /> New Subject
+                                <FiPlus /> New Subject
                             </button>
                         </div>
 
@@ -556,14 +548,11 @@ function AddStudySessionModal({
                             className="study-session-save-btn"
                             disabled={loading}
                         >
-
-                            <FaSave />
-
+                            <FiCheck />
                             {loading
                                 ? "Creating..."
                                 : "Create Session"
                             }
-
                         </button>
 
                     </div>

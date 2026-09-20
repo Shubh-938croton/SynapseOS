@@ -1,520 +1,259 @@
 import { useEffect, useMemo, useState } from "react";
-
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import AddTaskModal from "../../components/AddTaskModal/AddTaskModal";
-
 import { getAllTasks } from "../../services/taskService";
-
+import { FiPlus, FiSearch, FiList, FiClock, FiCheckCircle, FiCheckSquare, FiFilter } from "react-icons/fi";
 import "./Tasks.css";
 
 function Tasks() {
-
     // =========================
     // STATE
     // =========================
-
     const [tasks, setTasks] = useState([]);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const [taskToEdit, setTaskToEdit] = useState(null);
-
     const [searchTerm, setSearchTerm] = useState("");
-
     const [priorityFilter, setPriorityFilter] = useState("All");
-
     const [statusFilter, setStatusFilter] = useState("All");
-
 
     // =========================
     // FETCH TASKS
     // =========================
-
     const fetchTasks = async () => {
-
         try {
-
             const data = await getAllTasks();
-
-            setTasks(data);
-
+            setTasks(data || []);
         } catch (error) {
-
-            console.error(
-                "Error fetching tasks:",
-                error
-            );
-
+            console.error("Error fetching tasks:", error);
         }
-
     };
-
 
     // =========================
     // INITIAL LOAD
     // =========================
-
     useEffect(() => {
-
         fetchTasks();
-
     }, []);
-
 
     // =========================
     // FILTER TASKS
     // =========================
-
     const filteredTasks = useMemo(() => {
-
         return tasks.filter((task) => {
-
-            // Search
             const search = searchTerm.toLowerCase();
-
             const matchesSearch =
                 task.title?.toLowerCase().includes(search) ||
                 task.description?.toLowerCase().includes(search);
 
-
-            // Priority
             const matchesPriority =
                 priorityFilter === "All" ||
-                task.priority === priorityFilter;
+                task.priority?.toLowerCase() === priorityFilter.toLowerCase();
 
-
-            // Status
             const matchesStatus =
                 statusFilter === "All" ||
-                task.status === statusFilter;
+                task.status?.toLowerCase() === statusFilter.toLowerCase();
 
-
-            return (
-                matchesSearch &&
-                matchesPriority &&
-                matchesStatus
-            );
-
+            return matchesSearch && matchesPriority && matchesStatus;
         });
-
-    }, [
-        tasks,
-        searchTerm,
-        priorityFilter,
-        statusFilter
-    ]);
-
+    }, [tasks, searchTerm, priorityFilter, statusFilter]);
 
     // =========================
     // STATISTICS
     // =========================
-
     const totalTasks = tasks.length;
-
     const completedTasks = tasks.filter(
-        (task) =>
-            task.status?.toLowerCase() === "completed"
+        (task) => task.status?.toLowerCase() === "completed"
     ).length;
-
     const pendingTasks = tasks.filter(
-        (task) =>
-            task.status?.toLowerCase() === "pending"
+        (task) => task.status?.toLowerCase() !== "completed"
     ).length;
-
 
     // =========================
     // CLEAR FILTERS
     // =========================
-
     const clearFilters = () => {
-
         setSearchTerm("");
-
         setPriorityFilter("All");
-
         setStatusFilter("All");
-
     };
 
-
     // =========================
-    // OPEN CREATE MODAL
+    // MODAL HANDLERS
     // =========================
-
     const handleAddTask = () => {
-
         setTaskToEdit(null);
-
         setIsModalOpen(true);
-
     };
-
-
-    // =========================
-    // OPEN EDIT MODAL
-    // =========================
 
     const handleEditTask = (task) => {
-
         setTaskToEdit(task);
-
         setIsModalOpen(true);
-
     };
-
-
-    // =========================
-    // CLOSE MODAL
-    // =========================
 
     const handleCloseModal = () => {
-
         setIsModalOpen(false);
-
         setTaskToEdit(null);
-
     };
 
-
-    // =========================
-    // RENDER
-    // =========================
-
     return (
-
         <DashboardLayout>
-
             <div className="tasks-page">
-
-
-                {/* =================================
-                    PAGE HEADER
-                ================================= */}
-
+                {/* PAGE HEADER */}
                 <div className="tasks-header">
-
                     <div>
-
-                        <h1>
-                            My Tasks
-                        </h1>
-
-                        <p>
-                            Organize your work and stay
-                            on top of your productivity.
-                        </p>
-
+                        <h1>Tasks</h1>
+                        <p>Track your assignments, study milestones, and deliverables.</p>
                     </div>
-
 
                     <button
                         className="add-task-btn"
                         onClick={handleAddTask}
                     >
-
-                        + Add Task
-
+                        <FiPlus />
+                        <span>Add Task</span>
                     </button>
-
                 </div>
 
-
-                {/* =================================
-                    TASK STATISTICS
-                ================================= */}
-
+                {/* TASK STATISTICS */}
                 <div className="task-stats">
-
-    <div className="stat-card">
-
-        <div className="stat-icon">
-            📋
-        </div>
-
-        <div className="stat-info">
-
-            <span className="stat-label">
-                Total Tasks
-            </span>
-
-            <span className="stat-value">
-                {tasks.length}
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <div className="stat-card">
-
-        <div className="stat-icon">
-            ⏳
-        </div>
-
-        <div className="stat-info">
-
-            <span className="stat-label">
-                Pending
-            </span>
-
-            <span className="stat-value">
-                {
-                    tasks.filter(
-                        task => task.status !== "Completed"
-                    ).length
-                }
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <div className="stat-card">
-
-        <div className="stat-icon">
-            ✅
-        </div>
-
-        <div className="stat-info">
-
-            <span className="stat-label">
-                Completed
-            </span>
-
-            <span className="stat-value">
-                {
-                    tasks.filter(
-                        task => task.status === "Completed"
-                    ).length
-                }
-            </span>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-                {/* =================================
-                    TOOLBAR
-                ================================= */}
-
-                <div className="task-toolbar">
-
-
-                    {/* Search */}
-
-                    <div className="search-wrapper">
-
-                        <span className="search-icon">
-                            🔍
-                        </span>
-
-                        <input
-                            type="text"
-                            placeholder="Search tasks..."
-                            className="search-box"
-                            value={searchTerm}
-                            onChange={(e) =>
-                                setSearchTerm(e.target.value)
-                            }
-                        />
-
+                    <div className="stat-card">
+                        <div className="stat-icon">
+                            <FiList />
+                        </div>
+                        <div className="stat-info">
+                            <span className="stat-label">Total Tasks</span>
+                            <span className="stat-value">{totalTasks}</span>
+                        </div>
                     </div>
 
+                    <div className="stat-card">
+                        <div className="stat-icon pending-icon">
+                            <FiClock />
+                        </div>
+                        <div className="stat-info">
+                            <span className="stat-label">Incomplete</span>
+                            <span className="stat-value">{pendingTasks}</span>
+                        </div>
+                    </div>
 
-                    {/* Priority */}
+                    <div className="stat-card">
+                        <div className="stat-icon completed-icon">
+                            <FiCheckCircle />
+                        </div>
+                        <div className="stat-info">
+                            <span className="stat-label">Completed</span>
+                            <span className="stat-value">{completedTasks}</span>
+                        </div>
+                    </div>
+                </div>
 
-                    <select
-                        className="filter"
-                        value={priorityFilter}
-                        onChange={(e) =>
-                            setPriorityFilter(e.target.value)
-                        }
-                    >
+                {/* TOOLBAR */}
+                <div className="task-toolbar">
+                    <div className="search-wrapper">
+                        <FiSearch className="search-icon" />
+                        <input
+                            type="text"
+                            placeholder="Search tasks by title or description..."
+                            className="search-box"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
 
-                        <option value="All">
-                            All Priorities
-                        </option>
-
-                        <option value="High">
-                            High
-                        </option>
-
-                        <option value="Medium">
-                            Medium
-                        </option>
-
-                        <option value="Low">
-                            Low
-                        </option>
-
-                    </select>
-
-
-                    {/* Status */}
-
-                    <select
-                        className="filter"
-                        value={statusFilter}
-                        onChange={(e) =>
-                            setStatusFilter(e.target.value)
-                        }
-                    >
-
-                        <option value="All">
-                            All Status
-                        </option>
-
-                        <option value="Pending">
-                            Pending
-                        </option>
-
-                        <option value="Completed">
-                            Completed
-                        </option>
-
-                    </select>
-
-
-                    {/* Clear */}
-
-                    {(searchTerm ||
-                        priorityFilter !== "All" ||
-                        statusFilter !== "All") && (
-
-                        <button
-                            className="clear-filter-btn"
-                            onClick={clearFilters}
+                    <div className="filters-group">
+                        <select
+                            className="filter"
+                            value={priorityFilter}
+                            onChange={(e) => setPriorityFilter(e.target.value)}
                         >
-                            Clear
-                        </button>
+                            <option value="All">All Priorities</option>
+                            <option value="High">High Priority</option>
+                            <option value="Medium">Medium Priority</option>
+                            <option value="Low">Low Priority</option>
+                        </select>
 
-                    )}
+                        <select
+                            className="filter"
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                        >
+                            <option value="All">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                        </select>
 
+                        {(searchTerm || priorityFilter !== "All" || statusFilter !== "All") && (
+                            <button
+                                className="clear-filter-btn"
+                                onClick={clearFilters}
+                            >
+                                Reset Filters
+                            </button>
+                        )}
+                    </div>
                 </div>
 
-
-                {/* =================================
-                    RESULTS INFO
-                ================================= */}
-
+                {/* RESULTS INFO */}
                 <div className="task-results">
-
                     <span>
-
-                        Showing{" "}
-                        <strong>
-                            {filteredTasks.length}
-                        </strong>{" "}
-                        of{" "}
-                        <strong>
-                            {totalTasks}
-                        </strong>{" "}
-                        tasks
-
+                        Showing <strong>{filteredTasks.length}</strong> of <strong>{totalTasks}</strong> tasks
                     </span>
-
                 </div>
 
-
-                {/* =================================
-                    TASK LIST
-                ================================= */}
-
+                {/* TASK LIST */}
                 <div className="tasks-list">
-
-
                     {filteredTasks.length === 0 ? (
-
                         <div className="empty-tasks">
-
                             <div className="empty-icon">
-                                📝
+                                <FiCheckSquare />
                             </div>
-
-                            <h3>
-                                No tasks found
-                            </h3>
-
+                            <h3>No tasks match your criteria</h3>
                             <p>
-
                                 {tasks.length === 0
-                                    ? "You haven't created any tasks yet."
-                                    : "Try changing your search or filters."
-                                }
-
+                                    ? "You don't have any active tasks yet. Create one to organize your work."
+                                    : "No tasks matched your search or filters. Try adjusting your criteria."}
                             </p>
 
-
                             {tasks.length === 0 ? (
-
                                 <button
                                     className="empty-add-btn"
                                     onClick={handleAddTask}
                                 >
-                                    + Create Your First Task
+                                    <FiPlus />
+                                    <span>Create First Task</span>
                                 </button>
-
                             ) : (
-
                                 <button
                                     className="empty-add-btn"
                                     onClick={clearFilters}
                                 >
-                                    Clear Filters
+                                    Reset Filters
                                 </button>
-
                             )}
-
                         </div>
-
                     ) : (
-
                         filteredTasks.map((task) => (
-
                             <TaskCard
-    key={task.task_id}
-    task={task}
-    onEdit={handleEditTask}
-    onTaskChanged={fetchTasks}
-/>
-
+                                key={task.task_id}
+                                task={task}
+                                onEdit={handleEditTask}
+                                onTaskChanged={fetchTasks}
+                            />
                         ))
-
                     )}
-
                 </div>
-
-
             </div>
 
-
-            {/* =================================
-                ADD / EDIT TASK MODAL
-            ================================= */}
-
+            {/* ADD / EDIT TASK MODAL */}
             <AddTaskModal
-
                 isOpen={isModalOpen}
-
                 onClose={handleCloseModal}
-
                 taskToEdit={taskToEdit}
-
                 onTaskCreated={fetchTasks}
-
             />
-
-
         </DashboardLayout>
-
     );
-
 }
 
 export default Tasks;

@@ -1,14 +1,17 @@
 import { useState } from "react";
 
 import {
-    FaCog,
-    FaMoon,
-    FaBell,
-    FaClock,
-    FaBullseye,
-    FaSave,
-    FaUndo
-} from "react-icons/fa";
+    FiSliders,
+    FiMoon,
+    FiSun,
+    FiBell,
+    FiClock,
+    FiTarget,
+    FiSave,
+    FiRotateCcw,
+    FiCheckCircle,
+    FiAlertCircle
+} from "react-icons/fi";
 
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import { useSettings } from "../../context/SettingsContext";
@@ -137,7 +140,7 @@ function Settings() {
 
                     <div className="settings-loading">
 
-                        <FaCog className="settings-loading-icon" />
+                        <div className="settings-spinner" />
 
                         <p>
                             Loading settings...
@@ -170,16 +173,11 @@ function Settings() {
                 <div className="settings-header">
 
                     <div>
-
-                        <h1>
-                            <FaCog />
-                            Settings
-                        </h1>
-
+                        <span className="settings-eyebrow">PREFERENCES</span>
+                        <h1>Settings</h1>
                         <p>
-                            Customize your SynapseOS experience.
+                            Customize your workspace appearance, notifications, and focus goals.
                         </p>
-
                     </div>
 
                 </div>
@@ -192,9 +190,8 @@ function Settings() {
                 {message && (
 
                     <div className="settings-message success">
-
-                        {message}
-
+                        <FiCheckCircle className="settings-msg-icon" />
+                        <span>{message}</span>
                     </div>
 
                 )}
@@ -207,9 +204,8 @@ function Settings() {
                 {error && (
 
                     <div className="settings-message error">
-
-                        {error}
-
+                        <FiAlertCircle className="settings-msg-icon" />
+                        <span>{error}</span>
                     </div>
 
                 )}
@@ -228,7 +224,7 @@ function Settings() {
 
                             <div className="settings-card-icon">
 
-                                <FaMoon />
+                                <FiMoon />
 
                             </div>
 
@@ -278,7 +274,7 @@ function Settings() {
                                         )
                                     }
                                 >
-                                    ☀️
+                                    <FiSun />
                                     <span>
                                         Light
                                     </span>
@@ -299,7 +295,7 @@ function Settings() {
                                         )
                                     }
                                 >
-                                    🌙
+                                    <FiMoon />
                                     <span>
                                         Dark
                                     </span>
@@ -322,7 +318,7 @@ function Settings() {
 
                             <div className="settings-card-icon">
 
-                                <FaBell />
+                                <FiBell />
 
                             </div>
 
@@ -392,7 +388,7 @@ function Settings() {
 
                             <div className="settings-card-icon">
 
-                                <FaBullseye />
+                                <FiTarget />
 
                             </div>
 
@@ -487,7 +483,7 @@ function Settings() {
 
                             <div className="settings-card-icon">
 
-                                <FaClock />
+                                <FiClock />
 
                             </div>
 
@@ -683,7 +679,7 @@ function Settings() {
                         disabled={saving}
                     >
 
-                        <FaUndo />
+                        <FiRotateCcw />
 
                         Reset Defaults
 
@@ -697,7 +693,7 @@ function Settings() {
                         disabled={saving}
                     >
 
-                        <FaSave />
+                        <FiSave />
 
                         {saving
                             ? "Saving..."

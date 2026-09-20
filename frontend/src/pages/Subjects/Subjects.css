@@ -60,21 +60,22 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 11px 22px;
+    padding: 9px 18px;
     border: none;
     border-radius: var(--radius-md);
-    background: var(--accent-gradient);
+    background: var(--accent-color);
     color: #ffffff;
     font-size: 13.5px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.35);
+    box-shadow: var(--shadow-sm);
     transition: all var(--transition-fast);
 }
 
 .subjects-add-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
 /* Toolbar */
@@ -207,21 +208,22 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 11px 24px;
+    padding: 10px 20px;
     border: none;
     border-radius: var(--radius-md);
-    background: var(--accent-gradient);
+    background: var(--accent-color);
     color: #ffffff;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.35);
+    box-shadow: var(--shadow-sm);
     transition: all var(--transition-fast);
 }
 
 .subjects-empty-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
 /* No Search Results */

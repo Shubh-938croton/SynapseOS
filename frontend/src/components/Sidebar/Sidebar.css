@@ -1,31 +1,27 @@
 /* ==========================================================================
-   SYNAPSEOS - MODERN SAAS SIDEBAR
+   SYNAPSEOS SIDEBAR - CALM PRODUCTIVITY NAVIGATION
    ========================================================================== */
 
 .sidebar {
-    width: 260px;
+    width: 236px;
     height: 100vh;
     min-height: 100vh;
     box-sizing: border-box;
 
     background: var(--bg-secondary);
     color: var(--text-primary);
-
     border-right: 1px solid var(--border-color);
 
     display: flex;
     flex-direction: column;
-
-    padding: 24px 14px 20px;
+    padding: 16px 12px 14px;
 
     position: sticky;
     top: 0;
     left: 0;
     z-index: 100;
-
     flex-shrink: 0;
     overflow-y: auto;
-    transition: background-color var(--transition-normal), border-color var(--transition-normal);
 }
 
 /* ==========================================================================
@@ -36,135 +32,147 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0 10px 20px;
-    margin-bottom: 12px;
-
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: var(--text-primary);
-
+    padding: 6px 8px 16px;
+    margin-bottom: 8px;
     border-bottom: 1px solid var(--border-color);
-    white-space: nowrap;
+}
+
+.logo-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-md);
+    background: var(--accent-subtle);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.logo-text {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
 }
 
 /* ==========================================================================
-   MENU NAVIGATION
+   NAVIGATION MENU
    ========================================================================== */
 
 .sidebar-menu {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 16px;
     flex: 1;
+}
+
+.menu-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.menu-group-title {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    padding: 4px 8px 6px;
 }
 
 /* Navigation Links */
 .sidebar-menu a {
-    position: relative;
     text-decoration: none;
-
     color: var(--text-secondary);
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 500;
 
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 
-    padding: 10px 14px;
+    padding: 7px 10px;
     border-radius: var(--radius-md);
-
-    transition: all var(--transition-fast);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .sidebar-menu a svg {
-    font-size: 16px;
+    font-size: 14px;
     color: var(--text-muted);
-    transition: color var(--transition-fast), transform var(--transition-fast);
     flex-shrink: 0;
+    transition: color var(--transition-fast);
 }
 
 /* Hover State */
 .sidebar-menu a:hover {
-    background: var(--bg-tertiary);
+    background: var(--bg-hover);
     color: var(--text-primary);
-    transform: translateX(3px);
 }
 
 .sidebar-menu a:hover svg {
-    color: var(--accent-color);
-    transform: scale(1.1);
+    color: var(--text-secondary);
 }
 
-/* Active Route State (Electric Blue Glow Pill) */
+/* Active Route State */
 .sidebar-menu a.active {
-    background: var(--accent-color);
-    color: #ffffff;
+    background: var(--bg-active);
+    color: var(--accent-color);
     font-weight: 600;
-    box-shadow: 0 4px 16px -2px rgba(59, 130, 246, 0.4), var(--accent-glow);
 }
 
 .sidebar-menu a.active svg {
-    color: #ffffff;
-    transform: scale(1.05);
+    color: var(--accent-color);
 }
 
 /* ==========================================================================
-   FOOTER & LOGOUT
+   FOOTER & SIGN OUT
    ========================================================================== */
 
 .sidebar-footer {
     margin-top: auto;
-    padding-top: 16px;
+    padding-top: 12px;
     border-top: 1px solid var(--border-color);
 }
 
 .logout-btn {
     width: 100%;
-    border: 1px solid var(--danger-border);
-    background: var(--danger-bg);
-    color: var(--danger-color);
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-muted);
 
-    padding: 10px 14px;
+    padding: 8px 10px;
     border-radius: var(--radius-md);
 
     cursor: pointer;
-
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 10px;
 
-    font-size: 13.5px;
-    font-weight: 600;
-
-    transition: all var(--transition-fast);
+    font-size: 12.5px;
+    font-weight: 500;
+    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .logout-btn:hover {
-    background: var(--danger-color);
-    color: #ffffff;
-    border-color: var(--danger-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
-}
-
-.logout-btn:active {
-    transform: translateY(0);
+    background: var(--danger-bg);
+    color: var(--danger-color);
+    border-color: var(--danger-border);
 }
 
 /* ==========================================================================
    RESPONSIVE
    ========================================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .sidebar {
         width: 100%;
         height: auto;
         min-height: auto;
         position: relative;
-        padding: 16px;
+        padding: 12px;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
     }
@@ -172,16 +180,28 @@
     .sidebar-menu {
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 12px;
+    }
+
+    .menu-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .menu-group-title {
+        width: 100%;
+        padding: 2px 4px;
     }
 
     .sidebar-menu a {
-        padding: 8px 12px;
+        padding: 6px 10px;
         font-size: 12px;
     }
 
     .sidebar-footer {
-        padding-top: 12px;
-        margin-top: 12px;
+        padding-top: 8px;
+        margin-top: 8px;
     }
 }

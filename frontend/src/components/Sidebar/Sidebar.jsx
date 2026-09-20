@@ -1,20 +1,20 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import {
-    FaHome,
-    FaFolder,
-    FaTasks,
-    FaStickyNote,
-    FaBullseye,
-    FaCalendarAlt,
-    FaBookOpen,
-    FaClock,
-    FaChartBar,
-    FaTrophy,
-    FaYoutube,
-    FaUser,
-    FaCog,
-    FaSignOutAlt
-} from "react-icons/fa";
+    FiHome,
+    FiCheckSquare,
+    FiFileText,
+    FiTarget,
+    FiCalendar,
+    FiClock,
+    FiBookOpen,
+    FiFolder,
+    FiAward,
+    FiPlayCircle,
+    FiBarChart2,
+    FiUser,
+    FiSettings,
+    FiLogOut
+} from "react-icons/fi";
 
 import "./Sidebar.css";
 
@@ -29,109 +29,95 @@ function Sidebar() {
 
     return (
         <aside className="sidebar">
-
-            {/* LOGO */}
+            {/* BRAND LOGO */}
             <div className="sidebar-logo">
-                🧠 SynapseOS
+                <div className="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 3v6m0 6v6M3 12h6m6 0h6"></path>
+                    </svg>
+                </div>
+                <span className="logo-text">SynapseOS</span>
             </div>
 
-            {/* MENU */}
+            {/* NAVIGATION MENU */}
             <nav className="sidebar-menu">
+                <div className="menu-group">
+                    <span className="menu-group-title">Workspace</span>
+                    <NavLink to="/dashboard" end>
+                        <FiHome />
+                        <span>Dashboard</span>
+                    </NavLink>
+                    <NavLink to="/tasks">
+                        <FiCheckSquare />
+                        <span>Tasks</span>
+                    </NavLink>
+                    <NavLink to="/notes">
+                        <FiFileText />
+                        <span>Notes</span>
+                    </NavLink>
+                    <NavLink to="/goals">
+                        <FiTarget />
+                        <span>Goals</span>
+                    </NavLink>
+                    <NavLink to="/calendar">
+                        <FiCalendar />
+                        <span>Calendar</span>
+                    </NavLink>
+                </div>
 
-                {/* DASHBOARD */}
-                <NavLink to="/dashboard">
-                    <FaHome />
-                    <span>Dashboard</span>
-                </NavLink>
+                <div className="menu-group">
+                    <span className="menu-group-title">Focus &amp; Learning</span>
+                    <NavLink to="/pomodoro">
+                        <FiClock />
+                        <span>Pomodoro</span>
+                    </NavLink>
+                    <NavLink to="/study-sessions">
+                        <FiBookOpen />
+                        <span>Study Sessions</span>
+                    </NavLink>
+                    <NavLink to="/subjects">
+                        <FiFolder />
+                        <span>Subjects</span>
+                    </NavLink>
+                    <NavLink to="/contests">
+                        <FiAward />
+                        <span>Contests</span>
+                    </NavLink>
+                    <NavLink to="/youtube">
+                        <FiPlayCircle />
+                        <span>YouTube</span>
+                    </NavLink>
+                </div>
 
-                {/* SUBJECTS */}
-                <NavLink to="/subjects">
-                    <FaFolder />
-                    <span>Subjects</span>
-                </NavLink>
-
-                {/* TASKS */}
-                <NavLink to="/tasks">
-                    <FaTasks />
-                    <span>Tasks</span>
-                </NavLink>
-
-                {/* NOTES */}
-                <NavLink to="/notes">
-                    <FaStickyNote />
-                    <span>Notes</span>
-                </NavLink>
-
-                {/* GOALS */}
-                <NavLink to="/goals">
-                    <FaBullseye />
-                    <span>Goals</span>
-                </NavLink>
-
-                {/* CALENDAR */}
-                <NavLink to="/calendar">
-                    <FaCalendarAlt />
-                    <span>Calendar</span>
-                </NavLink>
-                
-
-                {/* STUDY SESSIONS */}
-                <NavLink to="/study-sessions">
-                    <FaBookOpen />
-                    <span>Study Sessions</span>
-                </NavLink>
-
-                {/* POMODORO */}
-                <NavLink to="/pomodoro">
-                    <FaClock />
-                    <span>Pomodoro</span>
-                </NavLink>
-
-                {/* CONTESTS */}
-                <NavLink to="/contests">
-                    <FaTrophy />
-                    <span>Contests</span>
-                </NavLink>
-
-                {/* YOUTUBE */}
-                <NavLink to="/youtube">
-                    <FaYoutube />
-                    <span>YouTube</span>
-                </NavLink>
-
-                {/* ANALYTICS */}
-                <NavLink to="/analytics">
-                    <FaChartBar />
-                    <span>Analytics</span>
-                </NavLink>
-
-                {/* PROFILE */}
-                <NavLink to="/profile">
-                    <FaUser />
-                    <span>Profile</span>
-                </NavLink>
-
-                {/* SETTINGS */}
-                <NavLink to="/settings">
-                    <FaCog />
-                    <span>Settings</span>
-                </NavLink>
-
+                <div className="menu-group">
+                    <span className="menu-group-title">System</span>
+                    <NavLink to="/analytics">
+                        <FiBarChart2 />
+                        <span>Analytics</span>
+                    </NavLink>
+                    <NavLink to="/profile">
+                        <FiUser />
+                        <span>Profile</span>
+                    </NavLink>
+                    <NavLink to="/settings">
+                        <FiSettings />
+                        <span>Settings</span>
+                    </NavLink>
+                </div>
             </nav>
 
-            {/* LOGOUT */}
+            {/* FOOTER */}
             <div className="sidebar-footer">
-
                 <button
                     className="logout-btn"
                     onClick={handleLogout}
+                    title="Sign out of SynapseOS"
                 >
-                    <FaSignOutAlt />
-                    <span>Logout</span>
+                    <FiLogOut />
+                    <span>Sign Out</span>
                 </button>
-
             </div>
-
         </aside>
     );
 }

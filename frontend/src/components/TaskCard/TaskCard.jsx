@@ -1,17 +1,14 @@
 import "./TaskCard.css";
-
 import {
-    FaCalendarAlt,
-    FaEdit,
-    FaTrash,
-    FaCheckCircle,
-    FaClock
-} from "react-icons/fa";
-
+    FiCalendar,
+    FiEdit2,
+    FiTrash2,
+    FiCheckCircle,
+    FiClock
+} from "react-icons/fi";
 import { deleteTask, updateTask } from "../../services/taskService";
 
 function TaskCard({ task, onEdit, onTaskChanged }) {
-
     const formattedDate = task.due_date
         ? new Date(task.due_date).toLocaleDateString("en-IN", {
             day: "numeric",
@@ -22,205 +19,113 @@ function TaskCard({ task, onEdit, onTaskChanged }) {
 
     const priority = task.priority?.toLowerCase() || "medium";
     const status = task.status?.toLowerCase() || "pending";
+    const isCompleted = status === "completed";
 
     // =========================
     // DELETE TASK
     // =========================
-
     const handleDelete = async () => {
-
         const confirmDelete = window.confirm(
             `Are you sure you want to delete "${task.title}"?`
         );
 
-        if (!confirmDelete) {
-            return;
-        }
+        if (!confirmDelete) return;
 
         try {
-
             await deleteTask(task.task_id);
-
-            alert("Task deleted successfully");
-
             if (onTaskChanged) {
                 onTaskChanged();
             }
-
         } catch (error) {
-
             console.error("Delete task error:", error);
-
             alert(
                 error.response?.data?.message ||
                 "Failed to delete task"
             );
-
         }
-
     };
-
 
     // =========================
     // COMPLETE TASK
     // =========================
+    const handleToggleComplete = async () => {
+        try {
+            const nextStatus = isCompleted ? "Pending" : "Completed";
+            await updateTask(task.task_id, {
+                status: nextStatus
+            });
 
-const handleComplete = async () => {
-
-    try {
-
-        await updateTask(task.task_id, {
-            status: "Completed"
-        });
-
-        alert("Task completed successfully");
-
-        if (onTaskChanged) {
-            onTaskChanged();
+            if (onTaskChanged) {
+                onTaskChanged();
+            }
+        } catch (error) {
+            console.error("Toggle complete task error:", error);
+            alert(
+                error.response?.data?.message ||
+                "Failed to update task status"
+            );
         }
-
-    } catch (error) {
-
-        console.error("Complete task error:", error);
-
-        alert(
-            error.response?.data?.message ||
-            "Failed to complete task"
-        );
-
-    }
-
-};
-
+    };
 
     return (
+        <div className={`task-card ${isCompleted ? "is-completed" : ""}`}>
+            {/* CHECKBOX / COMPLETION BUTTON */}
+            <button
+                type="button"
+                className={`task-checkbox ${isCompleted ? "checked" : ""}`}
+                onClick={handleToggleComplete}
+                aria-label={isCompleted ? "Mark as pending" : "Mark as completed"}
+            >
+                <FiCheckCircle />
+            </button>
 
-        <div className="task-card">
-
-            {/* =========================
-                HEADER
-            ========================= */}
-
-            <div className="task-header">
-
-                <div className="task-title-section">
-
-                    <h2>
-                        {task.title}
-                    </h2>
-
-                    <p>
-                        {task.description || "No description provided."}
-                    </p>
-
+            {/* MAIN CONTENT */}
+            <div className="task-content">
+                <div className="task-main-row">
+                    <h3 className="task-title">{task.title}</h3>
+                    <span className={`priority-tag ${priority}`}>
+                        {task.priority || "Medium"}
+                    </span>
                 </div>
 
+                {task.description && (
+                    <p className="task-description">{task.description}</p>
+                )}
 
-                <span className={`priority ${priority}`}>
+                <div className="task-meta">
+                    <div className="meta-item due-date">
+                        <FiCalendar />
+                        <span>{formattedDate}</span>
+                    </div>
 
-                    {task.priority}
-
-                </span>
-
+                    <div className={`meta-item status-pill ${status}`}>
+                        <FiClock />
+                        <span>{task.status || "Pending"}</span>
+                    </div>
+                </div>
             </div>
 
-
-            {/* =========================
-                META
-            ========================= */}
-
-            <div className="task-meta">
-
-                <div className="due-date">
-
-                    <FaCalendarAlt />
-
-                    <span>
-                        {formattedDate}
-                    </span>
-
-                </div>
-
-
-                <div className="task-status">
-
-                    <FaClock />
-
-                    <span className={`status ${status}`}>
-
-                        {task.status}
-
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            {/* =========================
-                ACTIONS
-            ========================= */}
-
+            {/* ACTIONS */}
             <div className="task-actions">
-
-                {/* EDIT */}
-
                 <button
                     type="button"
-                    className="task-action edit-btn"
+                    className="task-action-btn edit-btn"
                     onClick={() => onEdit(task)}
+                    title="Edit Task"
                 >
-
-                    <FaEdit />
-
-                    <span>
-                        Edit
-                    </span>
-
+                    <FiEdit2 />
                 </button>
-
-
-                {/* DELETE */}
-
                 <button
                     type="button"
-                    className="task-action delete-btn"
+                    className="task-action-btn delete-btn"
                     onClick={handleDelete}
+                    title="Delete Task"
                 >
-
-                    <FaTrash />
-
-                    <span>
-                        Delete
-                    </span>
-
+                    <FiTrash2 />
                 </button>
-
-
-                {/* COMPLETE */}
-
-                <button
-    type="button"
-    className="task-action complete-btn"
-    disabled={task.status === "Completed"}
-    onClick={handleComplete}
->
-    <FaCheckCircle />
-
-    <span>
-        {task.status === "Completed"
-            ? "Completed"
-            : "Complete"
-        }
-    </span>
-</button>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default TaskCard;

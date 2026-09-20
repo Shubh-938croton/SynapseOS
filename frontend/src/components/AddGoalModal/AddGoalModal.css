@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ADD GOAL MODAL - MODERN DIALOG
+   ADD GOAL MODAL
    ========================================================================== */
 
 .goal-modal-overlay {
@@ -7,41 +7,38 @@
     inset: 0;
     width: 100%;
     height: 100%;
-
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    z-index: 1000;
-    animation: goalOverlayFade 0.2s ease;
+    z-index: 1050;
+    animation: modalOverlayFade 0.15s ease-out;
 }
 
-@keyframes goalOverlayFade {
+@keyframes modalOverlayFade {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
 .goal-modal {
     width: 100%;
-    max-width: 560px;
+    max-width: 520px;
     max-height: 90vh;
-
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--modal-shadow);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
     overflow-y: auto;
-    animation: goalModalAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: modalSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes goalModalAppear {
+@keyframes modalSlideIn {
     from {
         opacity: 0;
-        transform: translateY(-16px) scale(0.96);
+        transform: translateY(-8px) scale(0.98);
     }
     to {
         opacity: 1;
@@ -54,47 +51,43 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 20px;
-    padding: 24px 28px 18px;
+    gap: 16px;
+    padding: 20px 24px 16px;
     border-bottom: 1px solid var(--border-color);
 }
 
 .goal-modal-header h2 {
     margin: 0;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-size: 17px;
+    font-weight: 700;
     color: var(--text-primary);
 }
 
 .goal-modal-header p {
-    margin: 4px 0 0;
+    margin: 3px 0 0;
     font-size: 13px;
     color: var(--text-secondary);
 }
 
 .goal-modal-close {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     flex-shrink: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     background: var(--bg-tertiary);
     color: var(--text-muted);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
     transition: all var(--transition-fast);
 }
 
 .goal-modal-close:hover {
-    background: var(--danger-bg);
-    color: var(--danger-color);
-    border-color: var(--danger-border);
+    background: var(--bg-hover);
+    color: var(--text-primary);
 }
 
 .goal-modal-close:disabled {
@@ -104,29 +97,47 @@
 
 /* Form */
 .goal-modal-form {
-    padding: 24px 28px 28px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.goal-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
 }
 
 .goal-form-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-bottom: 18px;
 }
 
 .goal-form-group label {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: var(--text-secondary);
 }
 
-.goal-form-group input,
+.required-star {
+    color: var(--danger-color, #ef4444);
+}
+
+.optional-tag {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.goal-form-group input[type="text"],
+.goal-form-group input[type="date"],
 .goal-form-group textarea,
 .goal-form-group select {
     width: 100%;
     box-sizing: border-box;
-    padding: 11px 14px;
-
+    padding: 10px 12px;
     border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
     background: var(--input-background);
@@ -134,91 +145,91 @@
     font-family: inherit;
     font-size: 13.5px;
     outline: none;
-    transition: all var(--transition-fast);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .goal-form-group textarea {
-    min-height: 100px;
+    min-height: 80px;
     resize: vertical;
-    line-height: 1.55;
+    line-height: 1.5;
 }
 
 .goal-form-group input:focus,
 .goal-form-group textarea:focus,
 .goal-form-group select:focus {
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px var(--accent-subtle);
+    box-shadow: 0 0 0 2px var(--accent-subtle);
 }
 
-.goal-form-group input:disabled,
-.goal-form-group textarea:disabled,
-.goal-form-group select:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+.goal-progress-slider-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.goal-slider-value {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--accent-color);
+    font-family: "JetBrains Mono", monospace;
+}
+
+.goal-form-group input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+    margin: 4px 0;
 }
 
 /* Actions */
 .goal-modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    margin-top: 24px;
-    padding-top: 18px;
+    gap: 10px;
+    padding-top: 16px;
     border-top: 1px solid var(--border-color);
 }
 
 .goal-cancel-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 90px;
-    padding: 10px 18px;
-
+    height: 36px;
+    padding: 0 16px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     background: var(--bg-tertiary);
     color: var(--text-secondary);
-    font-size: 13.5px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .goal-cancel-btn:hover {
-    background: var(--bg-elevated);
+    background: var(--bg-hover);
     color: var(--text-primary);
-}
-
-.goal-cancel-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
 }
 
 .goal-save-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-width: 120px;
-    padding: 10px 22px;
-
+    gap: 6px;
+    height: 36px;
+    padding: 0 18px;
     border: none;
     border-radius: var(--radius-md);
-    background: var(--accent-gradient);
+    background: var(--accent-color);
     color: #ffffff;
-    font-size: 13.5px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
     transition: all var(--transition-fast);
 }
 
 .goal-save-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+    background: var(--accent-hover);
 }
 
-.goal-save-btn:disabled {
+.goal-save-btn:disabled,
+.goal-cancel-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -226,7 +237,12 @@
 @media (max-width: 600px) {
     .goal-modal-header,
     .goal-modal-form {
-        padding: 20px;
+        padding: 18px 20px;
+    }
+
+    .goal-form-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .goal-modal-actions {
@@ -236,6 +252,6 @@
     .goal-cancel-btn,
     .goal-save-btn {
         width: 100%;
-        text-align: center;
+        justify-content: center;
     }
 }

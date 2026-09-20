@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { FiBell, FiX, FiCheck, FiInbox } from "react-icons/fi";
 import {
     getNotifications,
     getUnreadCount,
@@ -329,10 +330,7 @@ function NotificationBell() {
                 aria-label="Notifications"
             >
 
-                <span className="notification-bell-icon">
-                    🔔
-                </span>
-
+                <FiBell className="notification-bell-icon" />
 
                 {unreadCount > 0 && (
 
@@ -366,24 +364,23 @@ function NotificationBell() {
                             </h3>
 
                             <span>
-                                {unreadCount} unread
+                                {unreadCount === 0 ? "All caught up" : `${unreadCount} unread`}
                             </span>
 
                         </div>
 
 
-                        <button
-                            type="button"
-                            className="mark-all-button"
-                            onClick={
-                                handleMarkAllAsRead
-                            }
-                            disabled={
-                                unreadCount === 0
-                            }
-                        >
-                            Mark all as read
-                        </button>
+                        {unreadCount > 0 && (
+                            <button
+                                type="button"
+                                className="mark-all-button"
+                                onClick={
+                                    handleMarkAllAsRead
+                                }
+                            >
+                                <FiCheck /> Mark all read
+                            </button>
+                        )}
 
                     </div>
 
@@ -395,7 +392,8 @@ function NotificationBell() {
                         {loading ? (
 
                             <div className="notification-empty">
-                                Loading notifications...
+                                <div className="notification-spinner" />
+                                <p>Loading notifications...</p>
                             </div>
 
                         ) : notifications.length === 0 ? (
@@ -403,12 +401,13 @@ function NotificationBell() {
                             <div className="notification-empty">
 
                                 <div className="empty-bell">
-                                    🔔
+                                    <FiInbox />
                                 </div>
 
                                 <p>
                                     No notifications
                                 </p>
+                                <small>You are completely up to date.</small>
 
                             </div>
 
@@ -480,7 +479,7 @@ function NotificationBell() {
                                             }
                                             aria-label="Delete notification"
                                         >
-                                            ×
+                                            <FiX />
                                         </button>
 
                                     </div>

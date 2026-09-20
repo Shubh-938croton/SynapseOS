@@ -1,47 +1,31 @@
 /* ==========================================================================
-   NOTE CARD - MODERN KNOWLEDGE CARD
+   SYNAPSEOS - NOTE CARD ITEM
    ========================================================================== */
 
 .note-card {
     position: relative;
     width: 100%;
-    background: var(--bg-secondary);
+    background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    padding: 20px 22px;
+    padding: 16px 18px;
     box-sizing: border-box;
-    box-shadow: var(--card-shadow);
-
-    transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
-    animation: noteCardEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes noteCardEnter {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    transition: all var(--transition-fast);
 }
 
 .note-card:hover {
-    transform: translateY(-3px);
+    background: var(--bg-card-hover);
     border-color: var(--border-hover);
-    box-shadow: var(--card-shadow-hover);
 }
 
 /* Pinned Note Styling */
 .note-card.pinned {
-    border-color: rgba(59, 130, 246, 0.4);
-    background: linear-gradient(145deg, var(--bg-secondary) 0%, rgba(59, 130, 246, 0.04) 100%);
-    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.12);
-}
-
-.note-card.pinned:hover {
-    border-color: var(--accent-color);
+    border-color: var(--accent-border);
+    background: var(--accent-subtle);
 }
 
 /* Header */
@@ -49,29 +33,33 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 14px;
+    gap: 12px;
 }
 
 .note-title-section {
     min-width: 0;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.note-title-section h2 {
-    margin: 0 0 6px;
+.note-title {
+    margin: 0;
     color: var(--text-primary);
-    font-size: 16.5px;
-    font-weight: 700;
+    font-size: 14.5px;
+    font-weight: 600;
     line-height: 1.35;
     word-break: break-word;
 }
 
 /* Subject Tag */
-.note-subject {
+.note-subject-tag {
     display: inline-block;
-    padding: 3px 8px;
-    border-radius: var(--radius-full);
-    background: var(--bg-tertiary);
+    align-self: flex-start;
+    padding: 2px 7px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
     font-size: 11px;
@@ -81,17 +69,15 @@
 
 /* Pin Toggle Button */
 .pin-btn {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     flex-shrink: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border: 1px solid var(--border-color);
+    border: 1px solid transparent;
     border-radius: var(--radius-sm);
-    background: var(--bg-tertiary);
+    background: transparent;
     color: var(--text-muted);
     cursor: pointer;
     font-size: 13px;
@@ -99,36 +85,33 @@
 }
 
 .pin-btn:hover {
-    background: var(--bg-elevated);
+    background: var(--bg-secondary);
     color: var(--accent-color);
-    border-color: var(--border-hover);
-    transform: rotate(-10deg);
+    border-color: var(--border-color);
 }
 
 .pin-btn.active {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-    color: #ffffff;
-    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+    color: var(--accent-color);
+    background: var(--bg-card);
+    border-color: var(--accent-border);
 }
 
 /* Content Body */
 .note-content {
-    margin-top: 14px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border-color);
+    flex: 1;
 }
 
 .note-content p {
     margin: 0;
     color: var(--text-secondary);
-    font-size: 13.5px;
-    line-height: 1.6;
+    font-size: 13px;
+    line-height: 1.55;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     white-space: pre-wrap;
+    word-break: break-word;
 }
 
 /* Footer */
@@ -137,17 +120,16 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-top: 16px;
-    padding-top: 14px;
+    padding-top: 10px;
     border-top: 1px solid var(--border-color);
 }
 
 .note-date {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size: 11.5px;
     font-family: "JetBrains Mono", monospace;
 }
 
@@ -155,63 +137,38 @@
 .note-actions {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
 }
 
-.note-action {
-    display: inline-flex;
+.note-action-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    padding: 6px 11px;
-    border-radius: var(--radius-sm);
     font-size: 12px;
-    font-weight: 600;
     cursor: pointer;
-    border: 1px solid transparent;
     transition: all var(--transition-fast);
 }
 
-.edit-note-btn {
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
+.note-action-btn:hover {
+    background: var(--bg-secondary);
     border-color: var(--border-color);
+    color: var(--text-primary);
 }
 
-.edit-note-btn:hover {
-    background: var(--bg-elevated);
-    border-color: var(--border-hover);
-    color: var(--accent-color);
-}
-
-.delete-note-btn {
+.note-action-btn.delete-btn:hover {
     background: var(--danger-bg);
-    color: var(--danger-color);
     border-color: var(--danger-border);
+    color: var(--danger-color);
 }
 
-.delete-note-btn:hover {
-    background: var(--danger-color);
-    color: #ffffff;
-}
-
-/* Responsive */
 @media (max-width: 600px) {
     .note-card {
-        padding: 16px;
+        padding: 14px 16px;
     }
-
-    .note-card-footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .note-actions {
-        width: 100%;
-    }
-
-    .note-action {
-        flex: 1;
-    }
-}
+}

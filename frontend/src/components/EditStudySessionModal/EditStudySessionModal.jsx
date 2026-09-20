@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-
-import {
-    FaTimes,
-    FaSave,
-    FaPlus
-} from "react-icons/fa";
+import { FiX, FiCheck, FiPlus } from "react-icons/fi";
 
 import {
     updateStudySession
@@ -399,25 +394,17 @@ function EditStudySessionModal({
                         onClick={handleClose}
                         disabled={loading}
                     >
-
-                        <FaTimes />
-
+                        <FiX />
                     </button>
-
                 </div>
 
-
                 {/* FORM */}
-
                 <form
                     className="study-session-modal-form"
                     onSubmit={handleSubmit}
                 >
-
                     {/* SUBJECT */}
-
                     <div className="study-session-form-group">
-
                         <div className="form-group-label-row">
                             <label>
                                 Subject <span className="required-star">*</span>
@@ -427,7 +414,7 @@ function EditStudySessionModal({
                                 className="add-subject-inline-btn"
                                 onClick={() => setIsSubjectModalOpen(true)}
                             >
-                                <FaPlus /> New Subject
+                                <FiPlus /> New Subject
                             </button>
                         </div>
 
@@ -588,14 +575,11 @@ function EditStudySessionModal({
                             className="study-session-save-btn"
                             disabled={loading}
                         >
-
-                            <FaSave />
-
+                            <FiCheck />
                             {loading
                                 ? "Updating..."
                                 : "Update Session"
                             }
-
                         </button>
 
                     </div>

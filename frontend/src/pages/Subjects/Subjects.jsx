@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-    FaFolder,
-    FaPlus,
-    FaSearch,
-    FaEdit,
-    FaTrash,
-    FaFolderOpen,
-    FaCalendarAlt
-} from "react-icons/fa";
+    FiFolder,
+    FiPlus,
+    FiSearch,
+    FiEdit2,
+    FiTrash2,
+    FiCalendar
+} from "react-icons/fi";
 
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import SubjectModal from "../../components/SubjectModal/SubjectModal";
@@ -27,9 +26,6 @@ function Subjects() {
     const [subjectToEdit, setSubjectToEdit] = useState(null);
     const [actionLoadingId, setActionLoadingId] = useState(null);
 
-    // =======================================
-    // FETCH SUBJECTS
-    // =======================================
     const fetchSubjects = async () => {
         try {
             setLoading(true);
@@ -46,9 +42,6 @@ function Subjects() {
         fetchSubjects();
     }, []);
 
-    // =======================================
-    // FILTER SUBJECTS
-    // =======================================
     const filteredSubjects = useMemo(() => {
         if (!searchTerm.trim()) return subjects;
         const q = searchTerm.toLowerCase();
@@ -59,9 +52,6 @@ function Subjects() {
         );
     }, [subjects, searchTerm]);
 
-    // =======================================
-    // CREATE / EDIT HANDLERS
-    // =======================================
     const handleOpenCreate = () => {
         setSubjectToEdit(null);
         setIsModalOpen(true);
@@ -76,9 +66,6 @@ function Subjects() {
         fetchSubjects();
     };
 
-    // =======================================
-    // DELETE HANDLER
-    // =======================================
     const handleDelete = async (subjectId, subjectName) => {
         const confirmed = window.confirm(
             `Are you sure you want to delete "${subjectName}"? Any tasks, notes, or sessions linked to this subject will also be removed.`
@@ -103,8 +90,8 @@ function Subjects() {
     const formatDate = (dateStr) => {
         if (!dateStr) return "--";
         const d = new Date(dateStr);
-        if (isNaN(d.getTime())) return "--";
-        return d.toLocaleDateString("en-US", {
+        if (Number.isNaN(d.getTime())) return "--";
+        return d.toLocaleDateString("en-IN", {
             month: "short",
             day: "numeric",
             year: "numeric"
@@ -120,7 +107,7 @@ function Subjects() {
                         <span className="subjects-label">ACADEMIC MANAGEMENT</span>
                         <h1>Subjects & Courses</h1>
                         <p>
-                            Organize your coursework, curriculum modules, and focus topics across SynapseOS.
+                            Organize your coursework, curriculum modules, and focus topics.
                         </p>
                     </div>
 
@@ -129,15 +116,15 @@ function Subjects() {
                         className="subjects-add-btn"
                         onClick={handleOpenCreate}
                     >
-                        <FaPlus />
-                        <span>New Subject</span>
+                        <FiPlus />
+                        <span>Add Subject</span>
                     </button>
                 </div>
 
                 {/* SEARCH & FILTERS BAR */}
                 <div className="subjects-toolbar">
                     <div className="subjects-search-box">
-                        <FaSearch />
+                        <FiSearch />
                         <input
                             type="text"
                             value={searchTerm}
@@ -155,7 +142,7 @@ function Subjects() {
                 {loading && (
                     <div className="subjects-loading">
                         <div className="subjects-spinner" />
-                        <p>Loading your subjects...</p>
+                        <p>Loading subjects...</p>
                     </div>
                 )}
 
@@ -163,19 +150,18 @@ function Subjects() {
                 {!loading && subjects.length === 0 && (
                     <div className="subjects-empty-state">
                         <div className="subjects-empty-icon">
-                            <FaFolderOpen />
+                            <FiFolder />
                         </div>
                         <h2>No subjects created yet</h2>
                         <p>
                             Subjects help you categorize notes, tasks, study sessions, and track learning progress.
-                            Create your first subject to get started.
                         </p>
                         <button
                             type="button"
                             className="subjects-empty-btn"
                             onClick={handleOpenCreate}
                         >
-                            <FaPlus />
+                            <FiPlus />
                             <span>Create Your First Subject</span>
                         </button>
                     </div>
@@ -203,20 +189,17 @@ function Subjects() {
                                 <div
                                     key={subject.subject_id}
                                     className="subject-card"
-                                    style={{
-                                        "--subject-accent": accentColor
-                                    }}
                                 >
                                     <div className="subject-card-top">
                                         <div
                                             className="subject-card-icon"
                                             style={{
-                                                backgroundColor: `${accentColor}18`,
+                                                backgroundColor: `${accentColor}15`,
                                                 color: accentColor,
-                                                borderColor: `${accentColor}40`
+                                                borderColor: `${accentColor}30`
                                             }}
                                         >
-                                            <FaFolder />
+                                            <FiFolder />
                                         </div>
 
                                         <div className="subject-card-actions">
@@ -227,7 +210,7 @@ function Subjects() {
                                                 title="Edit subject"
                                                 disabled={actionLoadingId === subject.subject_id}
                                             >
-                                                <FaEdit />
+                                                <FiEdit2 />
                                             </button>
                                             <button
                                                 type="button"
@@ -241,7 +224,7 @@ function Subjects() {
                                                 title="Delete subject"
                                                 disabled={actionLoadingId === subject.subject_id}
                                             >
-                                                <FaTrash />
+                                                <FiTrash2 />
                                             </button>
                                         </div>
                                     </div>
@@ -266,7 +249,7 @@ function Subjects() {
                                         </div>
 
                                         <div className="subject-date">
-                                            <FaCalendarAlt />
+                                            <FiCalendar />
                                             <span>{formatDate(subject.created_at)}</span>
                                         </div>
                                     </div>

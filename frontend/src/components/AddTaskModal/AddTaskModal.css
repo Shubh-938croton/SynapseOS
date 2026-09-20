@@ -1,47 +1,30 @@
 /* ==========================================================================
-   ADD TASK MODAL - MODERN DIALOG
+   SYNAPSEOS - MODAL DIALOGS
    ========================================================================== */
 
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
     padding: 20px;
-    animation: overlayFadeIn 0.2s ease;
-}
-
-@keyframes overlayFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    box-sizing: border-box;
 }
 
 .modal {
     width: 100%;
-    max-width: 600px;
-    background: var(--bg-secondary);
+    max-width: 540px;
+    background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-xl);
-    padding: 32px;
-    box-shadow: var(--modal-shadow);
-    animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 24px 28px;
+    box-shadow: var(--card-shadow);
     box-sizing: border-box;
-}
-
-@keyframes modalPop {
-    from {
-        opacity: 0;
-        transform: translateY(-16px) scale(0.96);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
 }
 
 /* Header */
@@ -49,41 +32,42 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
     border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h2 {
     margin: 0;
-    font-size: 22px;
+    font-size: 18px;
     color: var(--text-primary);
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: -0.02em;
 }
 
-.modal-header button {
+.modal-close-btn {
     background: transparent;
     border: none;
-    font-size: 24px;
-    line-height: 1;
+    font-size: 18px;
     cursor: pointer;
     color: var(--text-muted);
-    transition: all var(--transition-fast);
     padding: 4px;
     border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
 }
 
-.modal-header button:hover {
-    color: var(--danger-color);
-    transform: rotate(90deg);
+.modal-close-btn:hover {
+    color: var(--text-primary);
 }
 
 /* Form */
 .task-form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
 }
 
 .form-group {
@@ -93,9 +77,13 @@
 }
 
 .form-group label {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: var(--text-secondary);
+}
+
+.required-star {
+    color: var(--danger-color);
 }
 
 .form-group input,
@@ -103,98 +91,76 @@
 .form-group select {
     width: 100%;
     box-sizing: border-box;
-    padding: 11px 14px;
+    padding: 9px 12px;
     border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
-    font-size: 14px;
+    font-size: 13.5px;
     outline: none;
     background: var(--input-background);
     color: var(--text-primary);
-    transition: all var(--transition-fast);
+    transition: border-color var(--transition-fast);
 }
 
 .form-group textarea {
     resize: vertical;
-    min-height: 110px;
+    min-height: 80px;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 12px;
 }
 
 /* Modal Actions */
 .modal-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    margin-top: 12px;
+    gap: 10px;
+    margin-top: 8px;
     padding-top: 16px;
     border-top: 1px solid var(--border-color);
 }
 
 .cancel-btn {
-    background: var(--bg-tertiary);
+    background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: var(--radius-md);
     cursor: pointer;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 600;
     transition: all var(--transition-fast);
 }
 
 .cancel-btn:hover {
-    background: var(--bg-elevated);
+    background: var(--bg-tertiary);
     color: var(--text-primary);
+    border-color: var(--border-hover);
 }
 
 .create-btn {
-    background: var(--accent-gradient);
+    background: var(--accent-color);
     color: #ffffff;
-    border: none;
-    padding: 10px 22px;
+    border: 1px solid var(--accent-color);
+    padding: 8px 18px;
     border-radius: var(--radius-md);
     cursor: pointer;
-    font-size: 13.5px;
-    font-weight: 700;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+    font-size: 13px;
+    font-weight: 600;
     transition: all var(--transition-fast);
 }
 
 .create-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
-    filter: brightness(1.05);
-}
-
-@media (max-width: 768px) {
-    .modal {
-        padding: 24px 20px;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .modal-buttons {
-        flex-direction: column-reverse;
-    }
-
-    .cancel-btn,
-    .create-btn {
-        width: 100%;
-        text-align: center;
-    }
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
 }
 
 /* Inline Subject Action */
@@ -214,9 +180,8 @@
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
-    padding: 2px 4px;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
+    padding: 0;
+    transition: color var(--transition-fast);
 }
 
 .add-subject-inline-btn:hover {
@@ -224,19 +189,22 @@
     text-decoration: underline;
 }
 
-.subject-empty-hint {
-    margin-top: 4px;
-    font-size: 12px;
-    color: var(--warning-color);
-}
+@media (max-width: 600px) {
+    .modal {
+        padding: 20px 16px;
+    }
 
-.subject-empty-hint button {
-    background: none;
-    border: none;
-    color: var(--accent-color);
-    font-weight: 700;
-    text-decoration: underline;
-    cursor: pointer;
-    padding: 0;
-    font-size: 12px;
-}
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-buttons {
+        flex-direction: column-reverse;
+    }
+
+    .cancel-btn,
+    .create-btn {
+        width: 100%;
+        text-align: center;
+    }
+}

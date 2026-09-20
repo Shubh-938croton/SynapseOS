@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
+import {
+    FiClock,
+    FiCheckCircle,
+    FiFileText,
+    FiTarget,
+    FiActivity,
+    FiAward,
+    FiCalendar
+} from "react-icons/fi";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import { getAnalytics } from "../../services/analyticsService";
-
 import "./Stats.css";
 
 function Stats() {
@@ -306,95 +314,55 @@ function Stats() {
                     <div className="stats-cards">
 
                         {/* STUDY TIME */}
-
                         <div className="stats-card">
-
                             <div className="stats-card-icon study-icon">
-                                ⏱
+                                <FiClock />
                             </div>
-
                             <div className="stats-card-content">
-
-                                <span>
-                                    Study Time
-                                </span>
-
+                                <span>Study Time</span>
                                 <strong>
-                                    {studyHours}h{" "}
-                                    {remainingMinutes}m
+                                    {studyHours}h {remainingMinutes}m
                                 </strong>
-
                             </div>
-
                         </div>
 
-
                         {/* TASKS */}
-
                         <div className="stats-card">
-
                             <div className="stats-card-icon task-icon">
-                                ✓
+                                <FiCheckCircle />
                             </div>
-
                             <div className="stats-card-content">
-
-                                <span>
-                                    Tasks Completed
-                                </span>
-
+                                <span>Tasks Completed</span>
                                 <strong>
                                     {tasksCompleted}
                                 </strong>
-
                             </div>
-
                         </div>
 
-
                         {/* NOTES */}
-
                         <div className="stats-card">
-
                             <div className="stats-card-icon note-icon">
-                                📝
+                                <FiFileText />
                             </div>
-
                             <div className="stats-card-content">
-
-                                <span>
-                                    Notes Created
-                                </span>
-
+                                <span>Notes Created</span>
                                 <strong>
                                     {notesCreated}
                                 </strong>
-
                             </div>
-
                         </div>
 
-
                         {/* POMODORO */}
-
                         <div className="stats-card">
-
                             <div className="stats-card-icon pomodoro-icon">
-                                🍅
+                                <FiTarget />
                             </div>
-
                             <div className="stats-card-content">
-
-                                <span>
-                                    Pomodoro Sessions
-                                </span>
-
+                                <span>Pomodoro Focus</span>
                                 <strong>
                                     {pomodoroSessions}
                                 </strong>
-
                             </div>
-
                         </div>
 
                     </div>
