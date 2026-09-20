@@ -89,7 +89,7 @@ const getAllNotes = (userId, callback) => {
         n.updated_at,
         s.subject_name
     FROM notes n
-    INNER JOIN subjects s
+    LEFT JOIN subjects s
         ON n.subject_id = s.subject_id
     WHERE n.user_id = ?
     ORDER BY n.is_pinned DESC, n.created_at DESC

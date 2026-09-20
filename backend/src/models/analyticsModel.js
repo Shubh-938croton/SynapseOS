@@ -391,11 +391,11 @@ const getStudyTimeBySubject = (userId, callback) => {
 
     const query = `
         SELECT
-            s.subject_name,
+            COALESCE(s.subject_name, 'Uncategorized') AS subject_name,
             COUNT(ss.session_id) AS session_count,
             COALESCE(SUM(ss.duration_minutes), 0) AS study_minutes
         FROM study_sessions ss
-        INNER JOIN subjects s
+        LEFT JOIN subjects s
             ON ss.subject_id = s.subject_id
         WHERE ss.user_id = ?
         GROUP BY s.subject_id, s.subject_name
@@ -599,10 +599,10 @@ const getNotesBySubject = (userId, callback) => {
 
     const query = `
         SELECT
-            s.subject_name,
+            COALESCE(s.subject_name, 'Uncategorized') AS subject_name,
             COUNT(n.note_id) AS note_count
         FROM notes n
-        INNER JOIN subjects s
+        LEFT JOIN subjects s
             ON n.subject_id = s.subject_id
         WHERE n.user_id = ?
         GROUP BY s.subject_id, s.subject_name
