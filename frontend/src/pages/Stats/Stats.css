@@ -23,7 +23,12 @@
 
 /* Header */
 .stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
 .stats-eyebrow {
@@ -50,6 +55,36 @@
     color: var(--text-secondary);
     font-size: 14px;
     line-height: 1.5;
+}
+
+.stats-period-selector {
+    display: flex;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 3px;
+    gap: 4px;
+}
+
+.stats-period-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stats-period-btn:hover {
+    color: var(--text-primary);
+}
+
+.stats-period-btn.active {
+    color: #ffffff;
+    background: var(--accent-color);
 }
 
 /* Sections */

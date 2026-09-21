@@ -14,6 +14,7 @@ import "./Stats.css";
 
 function Stats() {
     const [analytics, setAnalytics] = useState(null);
+    const [period, setPeriod] = useState("7d");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -23,15 +24,13 @@ function Stats() {
 
     useEffect(() => {
         const fetchAnalytics = async () => {
+            setLoading(true);
             try {
-                const response = await getAnalytics();
-
-                console.log("Analytics API Response:", response);
-
+                const response = await getAnalytics(period);
                 setAnalytics(response);
+                setError("");
             } catch (err) {
                 console.error("Analytics Error:", err);
-
                 setError(
                     err.message || "Failed to load analytics"
                 );
@@ -41,7 +40,7 @@ function Stats() {
         };
 
         fetchAnalytics();
-    }, []);
+    }, [period]);
 
     // =======================================
     // LOADING
@@ -298,6 +297,30 @@ function Stats() {
 
                     </div>
 
+                    <div className="stats-period-selector">
+                        <button
+                            type="button"
+                            className={`stats-period-btn ${period === "1d" ? "active" : ""}`}
+                            onClick={() => setPeriod("1d")}
+                        >
+                            Today
+                        </button>
+                        <button
+                            type="button"
+                            className={`stats-period-btn ${period === "7d" ? "active" : ""}`}
+                            onClick={() => setPeriod("7d")}
+                        >
+                            7 Days
+                        </button>
+                        <button
+                            type="button"
+                            className={`stats-period-btn ${period === "30d" ? "active" : ""}`}
+                            onClick={() => setPeriod("30d")}
+                        >
+                            30 Days
+                        </button>
+                    </div>
+
                 </div>
 
 
@@ -361,6 +384,19 @@ function Stats() {
                                 <span>Pomodoro Focus</span>
                                 <strong>
                                     {pomodoroSessions}
+                                </strong>
+                            </div>
+                        </div>
+
+                        {/* ACTIVITY EVENTS */}
+                        <div className="stats-card">
+                            <div className="stats-card-icon activity-icon">
+                                <FiActivity />
+                            </div>
+                            <div className="stats-card-content">
+                                <span>Activity Events</span>
+                                <strong>
+                                    {Number(overview.totalActivityEvents) || 0}
                                 </strong>
                             </div>
                         </div>
