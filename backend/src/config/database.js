@@ -1,27 +1,37 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../../.env") });
 
 const fs = require("fs");
 const mysql = require("mysql2");
 
-const sslCa = process.env.DB_SSL_CA
-    ? process.env.DB_SSL_CA
-    : fs.readFileSync(process.env.DB_SSL_CA_PATH, "utf8");
+let sslCa = process.env.DB_SSL_CA;
+if (!sslCa && process.env.DB_SSL_CA_PATH && fs.existsSync(process.env.DB_SSL_CA_PATH)) {
+    try {
+        sslCa = fs.readFileSync(process.env.DB_SSL_CA_PATH, "utf8");
+    } catch {
+        sslCa = undefined;
+    }
+}
 
-const pool = mysql.createPool({
+const poolConfig = {
     host: process.env.DB_HOST || "localhost",
     port: process.env.DB_PORT || 3306,
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME || "synapseos",
-
-    ssl: {
-    ca: sslCa,
-    rejectUnauthorized: true
-},
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
-});
+};
+
+if (sslCa) {
+    poolConfig.ssl = {
+        ca: sslCa,
+        rejectUnauthorized: true
+    };
+}
+
+const pool = mysql.createPool(poolConfig);
 
 // Test initial connectivity
 pool.getConnection((err, connection) => {

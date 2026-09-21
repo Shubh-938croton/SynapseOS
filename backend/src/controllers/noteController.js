@@ -1,4 +1,5 @@
 const noteModel = require("../models/noteModel");
+const { recordEvent, EVENT_TYPES, ENTITY_TYPES } = require("../services/activityEventService");
 
 
 // =========================
@@ -118,6 +119,19 @@ const createNote = (req, res) => {
 
                         }
 
+
+                        // Record NOTE_CREATED event
+                        recordEvent({
+                            userId: userId,
+                            eventType: EVENT_TYPES.NOTE_CREATED,
+                            entityType: ENTITY_TYPES.NOTE,
+                            entityId: result.insertId,
+                            metadata: {
+                                title: note.title,
+                                subject_id: note.subject_id,
+                                is_pinned: note.is_pinned
+                            }
+                        });
 
                         return res.status(201).json({
 
@@ -442,6 +456,19 @@ const updateNote = (req, res) => {
                         }
 
 
+                        // Record NOTE_UPDATED event
+                        recordEvent({
+                            userId: userId,
+                            eventType: EVENT_TYPES.NOTE_UPDATED,
+                            entityType: ENTITY_TYPES.NOTE,
+                            entityId: Number(noteId),
+                            metadata: {
+                                title: note.title,
+                                subject_id: note.subject_id,
+                                is_pinned: note.is_pinned
+                            }
+                        });
+
                         return res.status(200).json({
 
                             message:
@@ -526,11 +553,16 @@ const deleteNote = (req, res) => {
                 }
 
 
+                // Record NOTE_DELETED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.NOTE_DELETED,
+                    entityType: ENTITY_TYPES.NOTE,
+                    entityId: Number(noteId)
+                });
+
                 return res.status(200).json({
-
-                    message:
-                        "Note deleted successfully"
-
+                    message: "Note deleted successfully"
                 });
 
             }

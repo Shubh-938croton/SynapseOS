@@ -1,4 +1,5 @@
 const taskModel = require("../models/taskModel");
+const { recordEvent, EVENT_TYPES, ENTITY_TYPES } = require("../services/activityEventService");
 
 // Get all tasks
 const getAllTasks = (req, res) => {
@@ -62,6 +63,21 @@ const createTask = (req, res) => {
                 });
             }
 
+            // Record TASK_CREATED event
+            recordEvent({
+                userId: user_id,
+                eventType: EVENT_TYPES.TASK_CREATED,
+                entityType: ENTITY_TYPES.TASK,
+                entityId: result.insertId,
+                metadata: {
+                    title: task.title,
+                    priority: task.priority,
+                    status: task.status,
+                    due_date: task.due_date,
+                    subject_id: task.subject_id
+                }
+            });
+
             return res.status(201).json({
                 message: "Task created successfully",
                 taskId: result.insertId
@@ -124,6 +140,40 @@ const updateTask = (req, res) => {
                 });
             }
 
+            // Record events based on update specifics
+            if (task.status === "Completed") {
+                recordEvent({
+                    userId: user_id,
+                    eventType: EVENT_TYPES.TASK_COMPLETED,
+                    entityType: ENTITY_TYPES.TASK,
+                    entityId: Number(id),
+                    metadata: {
+                        status: "Completed",
+                        completed_at: new Date().toISOString()
+                    }
+                });
+            } else if (task.due_date !== undefined) {
+                recordEvent({
+                    userId: user_id,
+                    eventType: EVENT_TYPES.TASK_RESCHEDULED,
+                    entityType: ENTITY_TYPES.TASK,
+                    entityId: Number(id),
+                    metadata: {
+                        due_date: task.due_date
+                    }
+                });
+            }
+
+            recordEvent({
+                userId: user_id,
+                eventType: EVENT_TYPES.TASK_UPDATED,
+                entityType: ENTITY_TYPES.TASK,
+                entityId: Number(id),
+                metadata: {
+                    updated_fields: Object.keys(task)
+                }
+            });
+
             return res.status(200).json({
                 message: "Task updated successfully"
             });
@@ -154,6 +204,14 @@ const deleteTask = (req, res) => {
                     message: "Task not found"
                 });
             }
+
+            // Record TASK_DELETED event
+            recordEvent({
+                userId: user_id,
+                eventType: EVENT_TYPES.TASK_DELETED,
+                entityType: ENTITY_TYPES.TASK,
+                entityId: Number(id)
+            });
 
             return res.status(200).json({
                 message: "Task deleted successfully"

@@ -1,4 +1,5 @@
 const studySessionModel = require("../models/studySessionModel");
+const { recordEvent, EVENT_TYPES, ENTITY_TYPES } = require("../services/activityEventService");
 
 // =======================================
 // Create Study Session
@@ -58,6 +59,21 @@ const createStudySession = (req, res) => {
                     message: "Failed to create study session"
                 });
             }
+
+            // Record STUDY_SESSION_COMPLETED event
+            recordEvent({
+                userId: user_id,
+                eventType: EVENT_TYPES.STUDY_SESSION_COMPLETED,
+                entityType: ENTITY_TYPES.STUDY_SESSION,
+                entityId: result.insertId,
+                metadata: {
+                    subject_id: session.subject_id,
+                    topic: session.topic,
+                    duration_minutes: session.duration_minutes,
+                    start_time: session.start_time,
+                    end_time: session.end_time
+                }
+            });
 
             return res.status(201).json({
                 message: "Study session created successfully",
@@ -300,6 +316,14 @@ const deleteStudySession = (req, res) => {
                     message: "Study session not found"
                 });
             }
+
+            // Record STUDY_SESSION_DELETED event
+            recordEvent({
+                userId: userId,
+                eventType: EVENT_TYPES.STUDY_SESSION_DELETED,
+                entityType: ENTITY_TYPES.STUDY_SESSION,
+                entityId: Number(sessionId)
+            });
 
             return res.status(200).json({
                 message: "Study session deleted successfully"

@@ -2,6 +2,10 @@ backend/
 │
 ├── src/
 │   ├── config/
+│   │     database.js
+│   │
+│   ├── constants/
+│   │     eventTypes.js
 │   │
 │   ├── controllers/
 │   │     authController.js
@@ -9,48 +13,72 @@ backend/
 │   │     userController.js
 │   │     subjectController.js
 │   │     noteController.js
+│   │     goalController.js
+│   │     calendarController.js
+│   │     studySessionController.js
+│   │     pomodoroController.js
+│   │     contestController.js
+│   │     dashboardController.js
+│   │     analyticsController.js
+│   │     notificationController.js
+│   │     settingsController.js
+│   │     youtubeController.js
 │   │
 │   ├── middleware/
 │   │     authMiddleware.js
+│   │     rateLimiter.js
+│   │     errorHandler.js
 │   │
 │   ├── models/
-│   │     authModel.js
+│   │     activityEventModel.js
 │   │     taskModel.js
-│   │     userModel.js
-│   │     subjectModel.js
 │   │     noteModel.js
+│   │     goalModel.js
+│   │     calendarModel.js
+│   │     studySessionModel.js
+│   │     pomodoroModel.js
+│   │     subjectModel.js
+│   │     contestModel.js
+│   │     userModel.js
+│   │     authModel.js
+│   │     settingsModel.js
+│   │     notificationModel.js
+│   │     dashboardModel.js
+│   │     analyticsModel.js
 │   │
 │   ├── routes/
-│   │     authRoutes.js
-│   │     taskRoutes.js
-│   │     userRoutes.js
-│   │     subjectRoutes.js
-│   │     noteRoutes.js
+│   │     ...
+│   │
+│   ├── services/
+│   │     activityEventService.js
+│   │     youtubeService.js
 │   │
 │   ├── app.js
 │   └── server.js
 
-# Current Backend Status — August 2026
+# Current Backend Status — September 2026
 
 ## Implemented Layers
 
 ```text
-React
+React (Vite)
   ↓
-REST API
+REST API (Express Routes)
   ↓
-Express Routes
+Rate Limiting & Security Headers (Helmet, express-rate-limit)
   ↓
-JWT Middleware
+JWT Auth Middleware (req.user.user_id)
   ↓
 Controllers
   ↓
-Models
-  ↓
-MySQL
+Models (MySQL Database Pool)
+  ├──→ Primary Entity Mutation (tasks, notes, goals, etc.)
+  └──→ Activity Event Service (activityEventService.js)
+            ↓
+       activity_events (Append-Only Immutable Event Stream)
 ```
 
-Implemented backend modules include authentication, users/profile, subjects, tasks, notes, calendar, goals, study sessions, Pomodoro, dashboard/analytics, and notifications.
+Implemented backend modules include authentication, users/profile, subjects, tasks, notes, calendar, goals, study sessions, Pomodoro, contests, dashboard, analytics, notifications, and the activity event tracking subsystem.
 
 ## YouTube Integration
 

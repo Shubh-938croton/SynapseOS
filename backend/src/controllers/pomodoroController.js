@@ -1,4 +1,5 @@
 const pomodoroModel = require("../models/pomodoroModel");
+const { recordEvent, EVENT_TYPES, ENTITY_TYPES } = require("../services/activityEventService");
 
 // =======================================
 // Create Pomodoro Session
@@ -170,6 +171,36 @@ const createPomodoroSession = (req, res) => {
 
                 }
 
+
+                // Record Pomodoro activity event
+                if (session.session_status === "Completed") {
+                    recordEvent({
+                        userId: user_id,
+                        eventType: EVENT_TYPES.POMODORO_COMPLETED,
+                        entityType: ENTITY_TYPES.POMODORO_SESSION,
+                        entityId: result.insertId,
+                        metadata: {
+                            duration_minutes: session.duration_minutes,
+                            break_minutes: session.break_minutes,
+                            subject_id: session.subject_id,
+                            task_id: session.task_id
+                        }
+                    });
+                } else if (session.session_status === "Interrupted") {
+                    recordEvent({
+                        userId: user_id,
+                        eventType: EVENT_TYPES.POMODORO_ABANDONED,
+                        entityType: ENTITY_TYPES.POMODORO_SESSION,
+                        entityId: result.insertId,
+                        metadata: {
+                            duration_minutes: session.duration_minutes,
+                            break_minutes: session.break_minutes,
+                            session_status: "Interrupted",
+                            subject_id: session.subject_id,
+                            task_id: session.task_id
+                        }
+                    });
+                }
 
                 return res.status(201).json({
 
@@ -614,6 +645,14 @@ const deletePomodoroSession = (req, res) => {
 
                 }
 
+
+                // Record POMODORO_DELETED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.POMODORO_DELETED,
+                    entityType: ENTITY_TYPES.POMODORO_SESSION,
+                    entityId: Number(sessionId)
+                });
 
                 return res.status(200).json({
 

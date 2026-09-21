@@ -1,4 +1,5 @@
 const calendarModel = require("../models/calendarModel");
+const { recordEvent, EVENT_TYPES, ENTITY_TYPES } = require("../services/activityEventService");
 
 
 // =====================================================
@@ -98,6 +99,21 @@ const createEvent = (req, res) => {
 
                 }
 
+
+                // Record CALENDAR_EVENT_CREATED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.CALENDAR_EVENT_CREATED,
+                    entityType: ENTITY_TYPES.CALENDAR_EVENT,
+                    entityId: result.insertId,
+                    metadata: {
+                        title: event.title,
+                        event_date: event.event_date,
+                        start_time: event.start_time,
+                        end_time: event.end_time,
+                        status: event.status
+                    }
+                });
 
                 return res.status(201).json({
 
@@ -353,6 +369,19 @@ const updateEvent = (req, res) => {
                 }
 
 
+                // Record CALENDAR_EVENT_UPDATED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.CALENDAR_EVENT_UPDATED,
+                    entityType: ENTITY_TYPES.CALENDAR_EVENT,
+                    entityId: Number(eventId),
+                    metadata: {
+                        title: event.title,
+                        event_date: event.event_date,
+                        status: event.status
+                    }
+                });
+
                 return res.status(200).json({
 
                     message:
@@ -417,6 +446,14 @@ const deleteEvent = (req, res) => {
 
                 }
 
+
+                // Record CALENDAR_EVENT_DELETED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.CALENDAR_EVENT_DELETED,
+                    entityType: ENTITY_TYPES.CALENDAR_EVENT,
+                    entityId: Number(eventId)
+                });
 
                 return res.status(200).json({
 

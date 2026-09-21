@@ -1,4 +1,5 @@
 const subjectModel = require("../models/subjectModel");
+const { recordEvent, EVENT_TYPES, ENTITY_TYPES } = require("../services/activityEventService");
 
 // Create Subject
 const createSubject = (req, res) => {
@@ -36,6 +37,18 @@ const createSubject = (req, res) => {
                     message: "Failed to create subject"
                 });
             }
+
+            // Record SUBJECT_CREATED event
+            recordEvent({
+                userId: user_id,
+                eventType: EVENT_TYPES.SUBJECT_CREATED,
+                entityType: ENTITY_TYPES.SUBJECT,
+                entityId: result.insertId,
+                metadata: {
+                    subject_name: subject.subject_name,
+                    color: subject.color
+                }
+            });
 
             return res.status(201).json({
                 message: "Subject created successfully",
@@ -179,6 +192,18 @@ const updateSubject = (req, res) => {
                     });
                 }
 
+                // Record SUBJECT_UPDATED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.SUBJECT_UPDATED,
+                    entityType: ENTITY_TYPES.SUBJECT,
+                    entityId: Number(subjectId),
+                    metadata: {
+                        subject_name: subject.subject_name,
+                        color: subject.color
+                    }
+                });
+
                 return res.status(200).json({
                     message: "Subject updated successfully"
                 });
@@ -219,6 +244,14 @@ const deleteSubject = (req, res) => {
                     message: "Subject not found"
                 });
             }
+
+            // Record SUBJECT_DELETED event
+            recordEvent({
+                userId: userId,
+                eventType: EVENT_TYPES.SUBJECT_DELETED,
+                entityType: ENTITY_TYPES.SUBJECT,
+                entityId: Number(subjectId)
+            });
 
             return res.status(200).json({
                 message: "Subject deleted successfully"

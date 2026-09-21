@@ -1,4 +1,5 @@
 const contestModel = require("../models/contestModel");
+const { recordEvent, EVENT_TYPES, ENTITY_TYPES } = require("../services/activityEventService");
 
 
 // =========================
@@ -182,6 +183,20 @@ const createContest = (req, res) => {
 
                 }
 
+
+                // Record CONTEST_CREATED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.CONTEST_CREATED,
+                    entityType: ENTITY_TYPES.CONTEST,
+                    entityId: result.insertId,
+                    metadata: {
+                        platform: contest.platform,
+                        contest_name: contest.contest_name,
+                        contest_date: contest.contest_date,
+                        participation_status: contest.participation_status
+                    }
+                });
 
                 return res.status(201).json({
 
@@ -515,6 +530,19 @@ const updateContest = (req, res) => {
                 }
 
 
+                // Record CONTEST_UPDATED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.CONTEST_UPDATED,
+                    entityType: ENTITY_TYPES.CONTEST,
+                    entityId: Number(contestId),
+                    metadata: {
+                        platform: contest.platform,
+                        contest_name: contest.contest_name,
+                        participation_status: contest.participation_status
+                    }
+                });
+
                 return res.status(200).json({
 
                     message:
@@ -584,6 +612,14 @@ const deleteContest = (req, res) => {
 
                 }
 
+
+                // Record CONTEST_DELETED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.CONTEST_DELETED,
+                    entityType: ENTITY_TYPES.CONTEST,
+                    entityId: Number(contestId)
+                });
 
                 return res.status(200).json({
 

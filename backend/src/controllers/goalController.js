@@ -1,4 +1,5 @@
 const goalModel = require("../models/goalModel");
+const { recordEvent, EVENT_TYPES, ENTITY_TYPES } = require("../services/activityEventService");
 
 // =====================================================
 // CREATE GOAL
@@ -143,6 +144,20 @@ const createGoal = (req, res) => {
 
                 }
 
+
+                // Record GOAL_CREATED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.GOAL_CREATED,
+                    entityType: ENTITY_TYPES.GOAL,
+                    entityId: result.insertId,
+                    metadata: {
+                        title: goal.title,
+                        target_date: goal.target_date,
+                        progress_percentage: goal.progress_percentage,
+                        status: goal.status
+                    }
+                });
 
                 return res.status(201).json({
 
@@ -486,6 +501,32 @@ const updateGoal = (req, res) => {
                 }
 
 
+                if (goal.status === "Completed" || goal.progress_percentage === 100) {
+                    recordEvent({
+                        userId: userId,
+                        eventType: EVENT_TYPES.GOAL_COMPLETED,
+                        entityType: ENTITY_TYPES.GOAL,
+                        entityId: Number(goalId),
+                        metadata: {
+                            progress_percentage: goal.progress_percentage,
+                            status: goal.status
+                        }
+                    });
+                }
+
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.GOAL_UPDATED,
+                    entityType: ENTITY_TYPES.GOAL,
+                    entityId: Number(goalId),
+                    metadata: {
+                        title: goal.title,
+                        target_date: goal.target_date,
+                        progress_percentage: goal.progress_percentage,
+                        status: goal.status
+                    }
+                });
+
                 return res.status(200).json({
 
                     message:
@@ -559,6 +600,14 @@ const deleteGoal = (req, res) => {
 
                 }
 
+
+                // Record GOAL_DELETED event
+                recordEvent({
+                    userId: userId,
+                    eventType: EVENT_TYPES.GOAL_DELETED,
+                    entityType: ENTITY_TYPES.GOAL,
+                    entityId: Number(goalId)
+                });
 
                 return res.status(200).json({
 
