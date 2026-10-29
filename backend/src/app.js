@@ -60,6 +60,8 @@ const analyticsRoutes = require("./routes/analyticsRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
 const youtubeRoutes = require("./routes/youtubeRoutes");
+const summaryRoutes = require("./routes/summaryRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 const errorHandler = require("./middleware/errorHandler");
 
 app.use(express.json());
@@ -80,10 +82,12 @@ app.use("/api/pomodoro", pomodoroRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/contests", contestRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/summaries", summaryRoutes);
+app.use("/api/ai", aiRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/settings", settingsRoutes);
 
 // Global Error Handler
 app.use(errorHandler);
 
-module.exports = app;
+module.exports = app;

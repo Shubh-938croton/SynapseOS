@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "job:daily": "node src/scripts/runJob.js --job=daily",
+    "job:weekly": "node src/scripts/runJob.js --job=weekly",
+    "job:overdue": "node src/scripts/runJob.js --job=overdue",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -23,6 +26,7 @@
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.23.2",
+    "node-cron": "^4.6.0",
     "nodemon": "^3.1.14"
   }
 }

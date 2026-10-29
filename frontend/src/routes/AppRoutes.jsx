@@ -16,6 +16,7 @@ import Pomodoro from "../pages/Pomodoro/Pomodoro";
 import Analytics from "../pages/Stats/Stats";
 import Settings from "../pages/Settings/Settings";
 import Profile from "../pages/Profile/Profile";
+import AIHub from "../pages/AIHub/AIHub";
 
 // Contest
 import Contests from "../pages/Contests/Contests";
@@ -184,6 +185,20 @@ function AppRoutes() {
                     element={
                         <ProtectedRoute>
                             <Analytics />
+                        </ProtectedRoute>
+                    }
+                />
+
+
+                {/* =======================================
+                    AI HUB & INTELLIGENCE
+                ======================================= */}
+
+                <Route
+                    path="/ai"
+                    element={
+                        <ProtectedRoute>
+                            <AIHub />
                         </ProtectedRoute>
                     }
                 />

@@ -11,6 +11,7 @@ import {
     FiAward,
     FiPlayCircle,
     FiBarChart2,
+    FiCpu,
     FiUser,
     FiSettings,
     FiLogOut
@@ -91,7 +92,11 @@ function Sidebar() {
                 </div>
 
                 <div className="menu-group">
-                    <span className="menu-group-title">System</span>
+                    <span className="menu-group-title">Intelligence &amp; System</span>
+                    <NavLink to="/ai">
+                        <FiCpu />
+                        <span>AI Hub</span>
+                    </NavLink>
                     <NavLink to="/analytics">
                         <FiBarChart2 />
                         <span>Analytics</span>

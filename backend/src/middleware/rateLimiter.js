@@ -43,7 +43,29 @@ const youtubeLimiter = rateLimit({
     }
 });
 
+/**
+ * Rate limiter for AI Intelligence endpoints:
+ * - /api/ai/*
+ *
+ * Limit: 30 requests per 10 minutes per IP
+ */
+const aiLimiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 30, // limit each IP to 30 requests per windowMs
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        success: false,
+        message: "Too many AI intelligence requests. Please slow down and try again after a few minutes."
+    },
+    handler: (req, res, next, options) => {
+        res.status(429).json(options.message);
+    }
+});
+
 module.exports = {
     authLimiter,
-    youtubeLimiter
+    youtubeLimiter,
+    aiLimiter
 };
+

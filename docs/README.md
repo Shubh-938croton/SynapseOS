@@ -2,18 +2,30 @@
 
 Welcome to the official developer and contributor documentation for **SynapseOS** — a full-stack, cognitive productivity platform engineered specifically for students, self-directed learners, and competitive programmers.
 
-Whether you are a new open-source contributor, an architect reviewing system design, or a developer setting up a local development environment, this documentation provides a comprehensive guide to understanding, developing, and deploying SynapseOS.
+Whether you are a new open-source contributor, an architect reviewing system design, an engineering hiring manager, or a developer setting up a local environment, this documentation provides a comprehensive guide to understanding, developing, and deploying SynapseOS.
 
 ---
 
 ## 🧭 Documentation Map
 
-### 1. 🏛️ Architecture & System Design
+### 1. 💼 Portfolio & Technical Evaluation
+For hiring managers, technical interviewers, and system evaluators:
+- **[Portfolio & Engineering Summary](./portfolio/portfolio-summary.md)** — Executive pitch, key engineering highlights, system metrics, and resume bullets.
+- **[Technical Architecture & Interview Deep-Dive](./interview/interview-prep.md)** — 21 in-depth architectural questions and answers covering event streams, optimistic concurrency, AI safety invariants, token caching, and scalability.
+
+---
+
+### 2. 🏛️ Architecture & System Design
 Learn how SynapseOS is architected across client, server, and cloud infrastructure:
-- **[System Architecture Overview](./architecture/overview.md)** — High-level system topology, 3-tier communication, and hosting infrastructure.
-- **[Backend Architecture](./architecture/backend.md)** — Express 5 MVC framework, 15 route mounts, authentication middleware, controllers, and models.
+- **[System Architecture Overview](./architecture/overview.md)** — High-level system topology, 3-tier communication, the 6-layer Closed Feedback Loop, and safety invariants.
+- **[Activity Events System](./architecture/activity-events.md)** — Event bus, event schema, and real-time activity logging.
+- **[Multi-Dimensional Analytics Engine](./architecture/analytics.md)** — Metrics calculation algorithms, daily rollups, and time-series aggregation.
+- **[Automation & Scheduled Intelligence](./architecture/automation.md)** — Rule evaluator, scheduled background workers, and proactive triggers.
+- **[AI Intelligence Layer](./architecture/ai-intelligence.md)** — Grounded prompt engineering, validation pipelines, and rate limiting.
+- **[Personalization & AI Actions](./architecture/personalization-and-actions.md)** — Proposal generation, approval flow, and stale proposal conflict resolution.
+- **[Backend Architecture](./architecture/backend.md)** — Express 5 MVC framework, 17 route mounts, authentication middleware, controllers, and connection pooling.
 - **[Frontend Architecture](./architecture/frontend.md)** — React 19 SPA, Vite build pipeline, React Router v7, centralized Axios interceptors, and state patterns.
-- **[Database Schema & Design](./architecture/database.md)** — Relational MySQL schema (14 tables), ER diagram, foreign keys, cascading rules, and indexing strategy.
+- **[Database Schema & Design](./architecture/database.md)** — Relational MySQL schema (15 tables), ER diagram, foreign keys, cascading rules, and indexing strategy.
 - **[Authentication & Security Architecture](./architecture/authentication.md)** — Dual authentication engine (Email/Password + Google OAuth 2.0), JWT lifecycle, bcrypt hashing, and multi-tenant data isolation.
 - **[Subject Subsystem & Dependency Lifecycle](./architecture/subjects.md)** — Subject hierarchy, modal inline creation lifecycle, and cascading integrity across tasks, notes, and study sessions.
 - **[Contests & Calendar Integration](./architecture/contests-calendar.md)** — Competitive programming tracker, platform badging, single source of truth, and dynamic calendar aggregation.
@@ -21,13 +33,14 @@ Learn how SynapseOS is architected across client, server, and cloud infrastructu
 
 ---
 
-### 2. 📡 API Reference
-- **[REST API Reference](./api.md)** — Complete, exhaustive specification of all 15 backend API modules, endpoints, HTTP methods, request bodies, query parameters, authorization headers, and response formats.
+### 3. 📡 API Reference
+- **[REST API Reference](./api.md)** — Complete, exhaustive specification of all 18 backend API modules (including Analytics, Periodic Summaries, and AI Intelligence), endpoints, HTTP methods, request bodies, query parameters, authorization headers, and response formats.
 
 ---
 
-### 3. 🛠️ Development & Operations
+### 4. 🛠️ Development & Operations
 - **[Local Development Setup](./development/setup.md)** — Step-by-step instructions to clone, configure environment variables, initialize MySQL schemas, and run frontend and backend servers locally.
+- **[Production Deployment Runbook](./deployment/production-guide.md)** — Turnkey production deployment guide for Aiven MySQL, Render Backend, and Vercel Frontend.
 - **[Developer Workflow & Contribution Standards](./development/workflow.md)** — How to safely add features, modify database models, write endpoints, and maintain coding consistency.
 - **[Deployment & Production Operations](./development/deployment.md)** — Deploying the frontend to Vercel, backend to Render, configuring Aiven Cloud MySQL with TLS/SSL, and managing CORS.
 - **[Troubleshooting Guide](./development/troubleshooting.md)** — Real-world solutions for CORS mismatches, Aiven SSL connection errors, port conflicts, date timezone offsets, and token expiration.
@@ -35,7 +48,7 @@ Learn how SynapseOS is architected across client, server, and cloud infrastructu
 
 ---
 
-### 4. 🗺️ Project Evolution & Roadmap
+### 5. 🗺️ Project Evolution & Roadmap
 - **[Feature Catalog & Status](./features.md)** — Detailed breakdown of every feature, implementation status, and UI capabilities.
 - **[Product Vision & Mission](./vision.md)** — Core mission, target audience, cognitive pillars, and design philosophy.
 - **[Project Roadmap](./roadmap.md)** — Completed v1.2.0 milestone, active in-development modules, planned roadmap, and future AI vision.
@@ -45,7 +58,7 @@ Learn how SynapseOS is architected across client, server, and cloud infrastructu
 
 ---
 
-### 5. 📜 Engineering History & Journals
+### 6. 📜 Engineering History & Journals
 - **[Developer Journal](./development/developer-journal.md)** — Comprehensive chronological engineering journal and learning log by project creator.
 - **[Milestone Checklist](./development/milestone.md)** — Granular feature milestone checklist from initial foundation to v1.2.x.
 - **[Bug Fix Log](./development/bug-fixed.md)** — Historical diagnostic and bug resolution log across all development phases.
@@ -68,7 +81,7 @@ Learn how SynapseOS is architected across client, server, and cloud infrastructu
                             ▼
 ┌─────────────────────────────────────────────────────────┐
 │                   Express 5 Backend                     │
-│    (Node.js • MVC Architecture • Google Auth Library)   │
+│    (Node.js • MVC Architecture • Google GenAI SDK)      │
 │                 Hosted on Render Cloud                  │
 └───────────────────────────┬─────────────────────────────┘
                             │
@@ -77,7 +90,7 @@ Learn how SynapseOS is architected across client, server, and cloud infrastructu
                             ▼
 ┌─────────────────────────────────────────────────────────┐
 │                 Aiven Cloud MySQL 8                     │
-│    (14 Relational Tables • Foreign Keys • Cascades)     │
+│    (15 Relational Tables • Foreign Keys • Cascades)     │
 └─────────────────────────────────────────────────────────┘
 ```
 

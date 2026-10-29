@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import AddTaskModal from "../../components/AddTaskModal/AddTaskModal";
 import { getAllTasks } from "../../services/taskService";
-import { FiPlus, FiSearch, FiList, FiClock, FiCheckCircle, FiCheckSquare, FiFilter } from "react-icons/fi";
+import { FiPlus, FiSearch, FiList, FiClock, FiCheckCircle, FiCheckSquare, FiFilter, FiCpu } from "react-icons/fi";
 import "./Tasks.css";
 
 function Tasks() {
@@ -106,13 +107,23 @@ function Tasks() {
                         <p>Track your assignments, study milestones, and deliverables.</p>
                     </div>
 
-                    <button
-                        className="add-task-btn"
-                        onClick={handleAddTask}
-                    >
-                        <FiPlus />
-                        <span>Add Task</span>
-                    </button>
+                    <div className="tasks-header-actions" style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                        <Link
+                            to="/ai"
+                            className="add-task-btn"
+                            style={{ background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border-color)", textDecoration: "none" }}
+                        >
+                            <FiCpu style={{ color: "var(--accent-color)" }} />
+                            <span>AI Assistant</span>
+                        </Link>
+                        <button
+                            className="add-task-btn"
+                            onClick={handleAddTask}
+                        >
+                            <FiPlus />
+                            <span>Add Task</span>
+                        </button>
+                    </div>
                 </div>
 
                 {/* TASK STATISTICS */}

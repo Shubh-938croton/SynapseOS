@@ -5,7 +5,10 @@ const fs = require("fs");
 const mysql = require("mysql2");
 
 let sslCa = process.env.DB_SSL_CA;
-if (!sslCa && process.env.DB_SSL_CA_PATH && fs.existsSync(process.env.DB_SSL_CA_PATH)) {
+if (sslCa && typeof sslCa === "string") {
+    // Unescape literal \n if passed as a single-line environment variable string
+    sslCa = sslCa.replace(/\\n/g, "\n").trim();
+} else if (!sslCa && process.env.DB_SSL_CA_PATH && fs.existsSync(process.env.DB_SSL_CA_PATH)) {
     try {
         sslCa = fs.readFileSync(process.env.DB_SSL_CA_PATH, "utf8");
     } catch {
@@ -15,13 +18,16 @@ if (!sslCa && process.env.DB_SSL_CA_PATH && fs.existsSync(process.env.DB_SSL_CA_
 
 const poolConfig = {
     host: process.env.DB_HOST || "localhost",
-    port: process.env.DB_PORT || 3306,
+    port: Number(process.env.DB_PORT) || 3306,
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME || "synapseos",
     waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+    connectionLimit: Number(process.env.DB_CONNECTION_LIMIT) || 10,
+    queueLimit: 0,
+    connectTimeout: 10000,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 10000
 };
 
 if (sslCa) {

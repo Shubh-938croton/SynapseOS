@@ -438,7 +438,7 @@
 
 ---
 
-## 12. Dashboard & Analytics Engine (`/api/dashboard` & `/api/analytics`)
+## 12. Dashboard (`/api/dashboard`)
 
 - `GET /api/dashboard/summary` — Returns user-scoped task counters, total study hours, Pomodoro blocks, and active goals.
 - `GET /api/dashboard/subject-analysis` — Computes study hours and session counts broken down by subject.
@@ -446,7 +446,6 @@
 - `GET /api/dashboard/goals` — Aggregated goal completion rate and average progress.
 - `GET /api/dashboard/pomodoro` — Pomodoro completion ratios and total focus time.
 - `GET /api/dashboard/productivity` — Multi-factor productivity score (0-100), calculated grade, and recommendations.
-- `GET /api/analytics` — Consolidated analytics payload for the graphical stats view.
 
 ---
 
@@ -469,3 +468,287 @@
 
 - `GET /api/youtube/search?query=react+tutorial&maxResults=12` — Queries YouTube Data API v3 securely using the backend server's `YOUTUBE_API_KEY` and returns sanitized video metadata.
 - `GET /api/youtube/video/:videoId` — Fetches specific video metadata and player configuration.
+
+---
+
+## 16. Multi-Dimensional Analytics Engine (`/api/analytics`)
+
+Unified analytics engine computing deterministic metrics from raw activity logs and domain entities.
+
+### Full Consolidated Analytics
+- **Method:** `GET`
+- **Endpoint:** `/api/analytics`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK`
+  ```json
+  {
+    "overview": {
+      "totalStudyMinutes": 720,
+      "completedTasks": 14,
+      "activeGoals": 3,
+      "currentStreak": 5
+    },
+    "productivity": {
+      "productivityScore": 86,
+      "hourlyDistribution": [ ... ]
+    },
+    "focus": {
+      "completedPomodoros": 12,
+      "deepWorkMinutes": 300
+    },
+    "learning": {
+      "subjectBreakdown": [ ... ]
+    },
+    "goals": {
+      "completionRate": 66.7,
+      "avgProgress": 72.0
+    },
+    "activity": {
+      "recentEvents": [ ... ],
+      "dailyTimeline": [ ... ]
+    }
+  }
+  ```
+
+### Overview Metrics
+- **Method:** `GET`
+- **Endpoint:** `/api/analytics/overview`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK` — Summary counters of study time, tasks, pomodoros, and streaks.
+
+### Productivity Analytics
+- **Method:** `GET`
+- **Endpoint:** `/api/analytics/productivity`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK` — Productivity score (0–100), completion ratios, and hourly activity heatmaps.
+
+### Focus & Pomodoro Metrics
+- **Method:** `GET`
+- **Endpoint:** `/api/analytics/focus`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK` — Focus session durations, break intervals, and completion percentages.
+
+### Learning & Subject Distribution
+- **Method:** `GET`
+- **Endpoint:** `/api/analytics/learning`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK` — Time spent per subject, subject task counts, and learning distribution.
+
+### Goal Velocity & Completion
+- **Method:** `GET`
+- **Endpoint:** `/api/analytics/goals`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK` — Goal progress velocity, completion rate, and target deadlines.
+
+### Activity Timeline & Events
+- **Method:** `GET`
+- **Endpoint:** `/api/analytics/activity`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK` — Chronological event stream and daily activity distribution.
+
+### Daily Normalized Time-Series
+- **Method:** `GET`
+- **Endpoint:** `/api/analytics/daily`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK` — Time-series study minutes and task completion for trend charts.
+
+---
+
+## 17. Automated Periodic Summaries (`/api/summaries`)
+
+Aggregated daily and weekly rollups computed automatically by scheduled workers and on-demand queries.
+
+### Get Daily Summary
+- **Method:** `GET`
+- **Endpoint:** `/api/summaries/daily?date=2026-09-20`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK`
+  ```json
+  {
+    "summary_id": 14,
+    "user_id": 1,
+    "summary_date": "2026-09-20",
+    "study_minutes": 180,
+    "tasks_completed": 5,
+    "pomodoro_count": 6,
+    "score": 88,
+    "notes_created": 2,
+    "created_at": "2026-09-20T23:59:00.000Z"
+  }
+  ```
+
+### Get Weekly Summary
+- **Method:** `GET`
+- **Endpoint:** `/api/summaries/weekly?week_start=2026-09-14`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK` — Aggregated weekly metrics, day-by-day distribution, and trend comparison.
+
+### Get User Streak
+- **Method:** `GET`
+- **Endpoint:** `/api/summaries/streak`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK`
+  ```json
+  {
+    "currentStreak": 5,
+    "longestStreak": 14,
+    "lastActiveDate": "2026-09-20"
+  }
+  ```
+
+### Get Historical Summary Snapshots
+- **Method:** `GET`
+- **Endpoint:** `/api/summaries/history?limit=30`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK` — Array of historical daily summary records for trend analysis.
+
+---
+
+## 18. AI Intelligence & Personalization Layer (`/api/ai`)
+
+*Advisory-Only Invariant: The AI Layer NEVER mutates database state directly. It generates structured action proposals that require explicit user approval.*
+
+### AI Provider Status
+- **Method:** `GET`
+- **Endpoint:** `/api/ai/status`
+- **Auth Required:** Yes
+- **Success Response:** `200 OK`
+  ```json
+  {
+    "provider": "gemini",
+    "model": "gemini-1.5-flash",
+    "ready": true,
+    "features": ["daily-brief", "planner", "task-breakdown", "weak-areas", "weekly-review", "action-proposals"]
+  }
+  ```
+
+### Personalized Daily Brief
+- **Method:** `GET` or `POST`
+- **Endpoint:** `/api/ai/daily-brief`
+- **Auth Required:** Yes (AI Rate Limiter: 10 req/min)
+- **Caching:** 15-minute TTL per user to optimize token usage.
+- **Success Response:** `200 OK`
+  ```json
+  {
+    "greeting": "Good morning, Jane!",
+    "summary": "You have 3 high-priority tasks due today and an Operating Systems exam in 2 days.",
+    "topPriorities": [
+      "Implement Red-Black Tree in C++",
+      "Review Virtual Memory slides"
+    ],
+    "proposals": [
+      {
+        "actionType": "RESCHEDULE_TASK",
+        "actionPayload": {
+          "taskId": 4,
+          "taskTitle": "Implement Red-Black Tree in C++",
+          "currentDueDate": "2026-09-20",
+          "suggestedDueDate": "2026-09-18",
+          "reason": "Clear dependency before Friday's lab submission"
+        },
+        "expectedCurrentValue": {
+          "due_date": "2026-09-20"
+        }
+      }
+    ]
+  }
+  ```
+
+### Approve Action Proposal
+- **Method:** `POST`
+- **Endpoint:** `/api/ai/actions/approve`
+- **Auth Required:** Yes
+- **Request Body:**
+  ```json
+  {
+    "actionType": "RESCHEDULE_TASK",
+    "actionPayload": {
+      "taskId": 4,
+      "suggestedDueDate": "2026-09-18"
+    },
+    "expectedCurrentValue": {
+      "due_date": "2026-09-20"
+    }
+  }
+  ```
+- **Success Response:** `200 OK`
+  ```json
+  {
+    "success": true,
+    "actionType": "RESCHEDULE_TASK",
+    "message": "Task rescheduled successfully",
+    "updatedEntity": { ... }
+  }
+  ```
+- **Error Responses:**
+  - `400 Bad Request` — Unsupported action type or missing parameters.
+  - `409 Conflict` (`code: "STALE_PROPOSAL"`) — The target entity was modified by the user or another process after the AI generated the proposal.
+
+### Batch Approve Action Proposals
+- **Method:** `POST`
+- **Endpoint:** `/api/ai/actions/batch-approve`
+- **Auth Required:** Yes
+- **Request Body:**
+  ```json
+  {
+    "proposals": [
+      {
+        "actionType": "PRIORITIZE_TASK",
+        "actionPayload": { "taskId": 4, "suggestedPriority": "High" },
+        "expectedCurrentValue": { "priority": "Medium" }
+      },
+      {
+        "actionType": "RESCHEDULE_TASK",
+        "actionPayload": { "taskId": 7, "suggestedDueDate": "2026-09-22" },
+        "expectedCurrentValue": { "due_date": "2026-09-25" }
+      }
+    ]
+  }
+  ```
+- **Success Response:** `200 OK`
+  ```json
+  {
+    "success": true,
+    "executedCount": 2,
+    "results": [ ... ]
+  }
+  ```
+
+### Contextual Productivity Insights
+- **Method:** `POST`
+- **Endpoint:** `/api/ai/insights`
+- **Auth Required:** Yes (AI Rate Limiter)
+- **Success Response:** `200 OK` — Personalized productivity insights grounded in recent activity history.
+
+### AI Daily Schedule Planner
+- **Method:** `POST`
+- **Endpoint:** `/api/ai/planner`
+- **Auth Required:** Yes (AI Rate Limiter)
+- **Request Body:** `{ "availableHours": 4, "targetDate": "2026-09-20" }`
+- **Success Response:** `200 OK` — Structured time-blocked study schedule with optional task proposals.
+
+### AI Task Breakdown
+- **Method:** `POST`
+- **Endpoint:** `/api/ai/task-breakdown`
+- **Auth Required:** Yes (AI Rate Limiter)
+- **Request Body:** `{ "taskId": 4, "depth": "detailed" }`
+- **Success Response:** `200 OK` — Actionable subtasks with estimated durations and execution sequence.
+
+### AI Subject Weak-Area Detection
+- **Method:** `POST`
+- **Endpoint:** `/api/ai/weak-areas`
+- **Auth Required:** Yes (AI Rate Limiter)
+- **Success Response:** `200 OK` — Identifies neglected subjects or overdue task patterns with remediation steps.
+
+### AI Weekly Retrospective Review
+- **Method:** `POST`
+- **Endpoint:** `/api/ai/weekly-review`
+- **Auth Required:** Yes (AI Rate Limiter)
+- **Success Response:** `200 OK` — Weekly performance synthesis, consistency ratings, and recommendations for the upcoming week.
+
+### AI Natural Language Task Parser
+- **Method:** `POST`
+- **Endpoint:** `/api/ai/parse-task`
+- **Auth Required:** Yes (AI Rate Limiter)
+- **Request Body:** `{ "prompt": "Read chapter 4 of OS by tomorrow 5pm high priority" }`
+- **Success Response:** `200 OK` — Parsed structured task JSON (`{ title, due_date, priority, subject_id }`).
