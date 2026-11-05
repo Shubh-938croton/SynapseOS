@@ -7,6 +7,7 @@ import {
     FiCalendar,
     FiClock,
     FiBookOpen,
+    FiCompass,
     FiFolder,
     FiAward,
     FiPlayCircle,
@@ -80,6 +81,10 @@ function Sidebar() {
                     <NavLink to="/subjects">
                         <FiFolder />
                         <span>Subjects</span>
+                    </NavLink>
+                    <NavLink to="/syllabus">
+                        <FiCompass />
+                        <span>Syllabus</span>
                     </NavLink>
                     <NavLink to="/contests">
                         <FiAward />

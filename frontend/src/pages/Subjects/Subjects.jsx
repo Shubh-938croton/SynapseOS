@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     FiFolder,
     FiPlus,
     FiSearch,
     FiEdit2,
     FiTrash2,
-    FiCalendar
+    FiCalendar,
+    FiCompass
 } from "react-icons/fi";
 
 import DashboardLayout from "../../components/Layout/DashboardLayout";
@@ -19,6 +21,7 @@ import {
 import "./Subjects.css";
 
 function Subjects() {
+    const navigate = useNavigate();
     const [subjects, setSubjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
@@ -203,6 +206,14 @@ function Subjects() {
                                         </div>
 
                                         <div className="subject-card-actions">
+                                            <button
+                                                type="button"
+                                                className="subject-action-btn syllabus-btn"
+                                                onClick={() => navigate(`/syllabus?subject_id=${subject.subject_id}`)}
+                                                title="Open Syllabus"
+                                            >
+                                                <FiCompass />
+                                            </button>
                                             <button
                                                 type="button"
                                                 className="subject-action-btn edit-btn"

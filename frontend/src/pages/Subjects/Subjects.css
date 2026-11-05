@@ -329,6 +329,12 @@
     transition: all var(--transition-fast);
 }
 
+.subject-action-btn:hover.syllabus-btn {
+    color: #10b981;
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
 .subject-action-btn:hover.edit-btn {
     color: var(--accent-color);
     border-color: var(--accent-color);

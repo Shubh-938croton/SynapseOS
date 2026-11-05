@@ -7,6 +7,7 @@ import Register from "../pages/Register/Register";
 // Main pages
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Subjects from "../pages/Subjects/Subjects";
+import Syllabus from "../pages/Syllabus/Syllabus";
 import Tasks from "../pages/Tasks/Tasks";
 import Notes from "../pages/Notes/Notes";
 import Calendar from "../pages/Calendar/Calendar";
@@ -27,47 +28,24 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import YouTube from "../pages/YouTube/YouTube";
 import YouTubeWatch from "../pages/YouTube/YouTubeWatch";
 
-
-
-
-
 function AppRoutes() {
-
     return (
-
         <BrowserRouter>
-
             <Routes>
-
                 {/* =======================================
                     LOGIN
                 ======================================= */}
-
-                <Route
-                    path="/"
-                    element={<Login />}
-                />
-
-                <Route
-                    path="/login"
-                    element={<Login />}
-                />
-
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
 
                 {/* =======================================
                     REGISTER
                 ======================================= */}
-
-                <Route
-                    path="/register"
-                    element={<Register />}
-                />
-
+                <Route path="/register" element={<Register />} />
 
                 {/* =======================================
                     DASHBOARD
                 ======================================= */}
-
                 <Route
                     path="/dashboard"
                     element={
@@ -77,11 +55,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     SUBJECTS
                 ======================================= */}
-
                 <Route
                     path="/subjects"
                     element={
@@ -91,11 +67,21 @@ function AppRoutes() {
                     }
                 />
 
+                {/* =======================================
+                    SYLLABUS (CALM PROGRESS TRACKER)
+                ======================================= */}
+                <Route
+                    path="/syllabus"
+                    element={
+                        <ProtectedRoute>
+                            <Syllabus />
+                        </ProtectedRoute>
+                    }
+                />
 
                 {/* =======================================
                     TASKS
                 ======================================= */}
-
                 <Route
                     path="/tasks"
                     element={
@@ -105,11 +91,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     NOTES
                 ======================================= */}
-
                 <Route
                     path="/notes"
                     element={
@@ -119,11 +103,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     GOALS
                 ======================================= */}
-
                 <Route
                     path="/goals"
                     element={
@@ -133,11 +115,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     CALENDAR
                 ======================================= */}
-
                 <Route
                     path="/calendar"
                     element={
@@ -147,11 +127,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     STUDY SESSIONS
                 ======================================= */}
-
                 <Route
                     path="/study-sessions"
                     element={
@@ -161,11 +139,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     POMODORO
                 ======================================= */}
-
                 <Route
                     path="/pomodoro"
                     element={
@@ -175,11 +151,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     ANALYTICS
                 ======================================= */}
-
                 <Route
                     path="/analytics"
                     element={
@@ -189,11 +163,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     AI HUB & INTELLIGENCE
                 ======================================= */}
-
                 <Route
                     path="/ai"
                     element={
@@ -203,11 +175,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     PROFILE
                 ======================================= */}
-
                 <Route
                     path="/profile"
                     element={
@@ -217,11 +187,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     SETTINGS
                 ======================================= */}
-
                 <Route
                     path="/settings"
                     element={
@@ -231,11 +199,9 @@ function AppRoutes() {
                     }
                 />
 
-
                 {/* =======================================
                     CODING CONTESTS
                 ======================================= */}
-
                 <Route
                     path="/contests"
                     element={
@@ -248,7 +214,6 @@ function AppRoutes() {
                 {/* =======================================
                     YOUTUBE
                 ======================================= */}
-
                 <Route
                     path="/youtube"
                     element={
@@ -266,14 +231,9 @@ function AppRoutes() {
                         </ProtectedRoute>
                     }
                 />
-
             </Routes>
-
         </BrowserRouter>
-
     );
-
 }
-
 
 export default AppRoutes;

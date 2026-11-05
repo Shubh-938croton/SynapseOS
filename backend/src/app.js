@@ -62,6 +62,7 @@ const settingsRoutes = require("./routes/settingsRoutes");
 const youtubeRoutes = require("./routes/youtubeRoutes");
 const summaryRoutes = require("./routes/summaryRoutes");
 const aiRoutes = require("./routes/aiRoutes");
+const syllabusRoutes = require("./routes/syllabusRoutes");
 const errorHandler = require("./middleware/errorHandler");
 
 app.use(express.json());
@@ -84,6 +85,7 @@ app.use("/api/contests", contestRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/summaries", summaryRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/syllabus", syllabusRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/settings", settingsRoutes);
 
